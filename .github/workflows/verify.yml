@@ -1,0 +1,19 @@
+name: Verify RTL
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  verification:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Icarus Verilog
+        run: sudo apt-get update && sudo apt-get install -y iverilog
+
+      - name: Verify RTL
+        run: make test

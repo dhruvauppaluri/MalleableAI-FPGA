@@ -1,0 +1,28 @@
+# RTL simulation outputs
+build/
+work/
+transcript
+vsim.wlf
+*.wlf
+*.vcd
+*.out
+*.log
+
+# Quartus generated files
+db/
+incremental_db/
+output_files/
+*.qws
+*.smsg
+c5_pin_model_dump.txt
+
+# Editor and backup files
+.DS_Store
+.sigasi/
+project.sigasi
+*.bak
+*~
+
+# Local research artifacts
+results/*
+!results/.gitkeep

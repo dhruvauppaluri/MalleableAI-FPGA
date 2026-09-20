@@ -1,0 +1,18 @@
+set_global_assignment -name FAMILY "Cyclone V"
+set_global_assignment -name DEVICE 5CSEMA5F31C6
+set_global_assignment -name TOP_LEVEL_ENTITY int8_dot_product
+set_global_assignment -name SYSTEMVERILOG_FILE ../../rtl/int8_dot_product.sv
+set_global_assignment -name SDC_FILE int8_dot_product.sdc
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name NUM_PARALLEL_PROCESSORS 4
+
+set_instance_assignment -name VIRTUAL_PIN ON -to reset
+set_instance_assignment -name VIRTUAL_PIN ON -to valid_in
+set_instance_assignment -name VIRTUAL_PIN ON -to activations[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to weights[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to accumulator_in[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to result[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to valid_out
+set_instance_assignment -name VIRTUAL_PIN ON -to overflow
+
+set_global_assignment -name LAST_QUARTUS_VERSION "25.1std.0 Lite Edition"
