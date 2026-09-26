@@ -32,6 +32,39 @@ precompiled partial bitstream.
 The FPGA will not synthesize RTL by itself. It will select from hardware designs
 that were generated and compiled ahead of time.
 
+## Three-stage research roadmap
+
+The project will be developed and evaluated in three stages. **Stage 1 is the
+original project and remains unchanged.** The GPU and hybrid work are later
+extensions, not requirements or design constraints for the current FPGA
+accelerator.
+
+```mermaid
+flowchart LR
+    S1[Stage 1<br/>Standalone malleable FPGA accelerator] --> R1[FPGA-only results]
+    R1 --> S2[Stage 2<br/>Independent GPU implementation]
+    S2 --> R2[FPGA versus GPU results]
+    R1 --> S3[Stage 3<br/>FPGA and GPU hybrid]
+    R2 --> S3
+    S3 --> R3[Hybrid versus both standalone systems]
+```
+
+1. **Original FPGA project:** finish the standalone, model-adaptive FPGA
+   inference platform described in this repository. It must operate and produce
+   complete FPGA-only results without a GPU. Its longer-term FPGA-only scope
+   includes a decoder-only language model and standalone token generation.
+2. **Independent GPU extension:** run a comparable model and workload entirely
+   on a GPU, producing a separate GPU-only baseline. The FPGA is not involved
+   in this result.
+3. **Hybrid extension:** connect the two already-working systems. The intended
+   first experiment uses the FPGA for candidate-token generation and the GPU
+   for verification, then compares the hybrid against both standalone results.
+
+The hybrid is considered an improvement only if measured end-to-end results
+show that its benefits exceed verification and communication overhead. See
+[`docs/research-roadmap.md`](docs/research-roadmap.md) for scope boundaries,
+completion criteria, and comparison rules.
+
 ## System architecture
 
 ```mermaid
@@ -143,7 +176,7 @@ quartus_sh --flow compile quartus/int8_dot_product/int8_dot_product
 rtl/        SystemVerilog compute blocks
 sim/        Paired self-checking RTL testbenches
 quartus/    Cyclone V projects and timing constraints
-docs/       Architecture, contributor plans, and numeric specifications
+docs/       Architecture, research roadmap, contributor plans, and specifications
 ```
 
 The layout follows the same small-module, paired-testbench style used in the
@@ -158,6 +191,8 @@ contributor owns their design and implementation from first principles. See
 acceptance criteria.
 
 ## Future goals
+
+### Stage 1: original standalone FPGA project
 
 - [x] Verify signed INT8 multiply-accumulate arithmetic
 - [x] Build a parameterized parallel dot product
@@ -176,6 +211,23 @@ acceptance criteria.
 - [ ] Port to a Kria or Zynq UltraScale+ platform
 - [ ] Use partial reconfiguration to swap accelerator personalities while the
   surrounding system continues running
+- [ ] Extend the standalone accelerator to a small decoder-only language model
+- [ ] Generate tokens using FPGA inference without GPU computation
+
+### Stage 2: independent GPU extension
+
+- [ ] Define a controlled FPGA-versus-GPU benchmark workload
+- [ ] Run the comparable model independently on a GPU
+- [ ] Record GPU-only latency, throughput, memory, energy, and output quality
+- [ ] Compare the standalone FPGA and GPU results
+
+### Stage 3: FPGA and GPU hybrid extension
+
+- [ ] Define the FPGA-to-GPU token and state-transfer interface
+- [ ] Use the completed FPGA system for candidate-token generation
+- [ ] Use the completed GPU system for verification
+- [ ] Measure acceptance rate and communication and verification overhead
+- [ ] Compare the hybrid against both standalone systems end to end
 
 ## Project status
 

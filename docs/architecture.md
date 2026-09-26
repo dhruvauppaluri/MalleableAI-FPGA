@@ -12,6 +12,12 @@ It adopts that project's useful development conventions—small SystemVerilog
 modules, paired self-checking testbenches, reproducible Quartus projects, and
 simulation in CI—without sharing RTL or combining the two architectures.
 
+The architecture in this document is Stage 1 of the research roadmap and
+remains a standalone FPGA system. A later independent GPU implementation and a
+later FPGA-GPU hybrid experiment must not change the purpose or completion
+criteria of this architecture. See `docs/research-roadmap.md` for the boundaries
+between those stages.
+
 ## Incremental hardware architecture
 
 ```mermaid
