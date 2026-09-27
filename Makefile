@@ -54,7 +54,7 @@ lint:
 
 synth: | $(BUILD_DIR)
 	$(YOSYS) -q -l $(BUILD_DIR)/synthesis.log -p \
-		'read_verilog -sv $(ACCELERATOR_RTL); synth -top malleable_accelerator_top -run begin:fine -latches error; check; stat'
+		'read_verilog -sv $(ACCELERATOR_RTL); synth -top malleable_accelerator_top -run begin:fine; select -assert-none t:$$dlatch; check; stat'
 
 verify: test lint synth
 
