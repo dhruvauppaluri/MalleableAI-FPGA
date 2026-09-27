@@ -127,7 +127,9 @@ of the research result.
 
 ## Current priority
 
-Only Stage 1 is currently in implementation. Its next RTL milestone is a tiled
-dense-layer path that adds bias, requantization, and activation above the
-verified dot-product foundation. Stage 2 and Stage 3 remain documented future
-extensions until the standalone FPGA system produces an end-to-end result.
+Only Stage 1 is currently in implementation. The tiled dense-network MVP now
+adds autonomous multilayer execution, bias, per-output requantization,
+saturation, activation, and internal memories above the verified dot-product
+foundation. The next milestone is host-artifact integration and measured
+Cyclone V execution. Stage 2 and Stage 3 remain documented future extensions
+until the standalone FPGA system produces an end-to-end board result.

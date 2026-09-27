@@ -12,8 +12,8 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v7
 
-      - name: Install Icarus Verilog
-        run: sudo apt-get update && sudo apt-get install -y iverilog
+      - name: Install RTL toolchain
+        run: sudo apt-get update && sudo apt-get install -y iverilog verilator yosys
 
       - name: Verify RTL
-        run: make test
+        run: make verify

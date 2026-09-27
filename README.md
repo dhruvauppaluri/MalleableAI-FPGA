@@ -124,15 +124,24 @@ to compute while the next tile is transferred.
 - A parameterized signed INT8 MAC with signed INT32 accumulation
 - Explicit accumulator-overflow reporting
 - A parameterized parallel INT8 dot-product block
+- Multi-tile accumulation for reductions larger than the lane count
+- Per-output bias, integer requantization, INT8 saturation, and optional ReLU
+- Descriptor-driven execution of up to four dense layers
+- Ping-pong activation buffers and internal weight/parameter memories
+- A board-independent configuration, control, status, and result interface
 - Self-checking SystemVerilog tests
 - 10,000 seeded randomized MAC cases
 - 2,500 seeded randomized dot-product cases
+- 10,000 seeded post-processing cases
+- 1,000 seeded tiled reductions
+- 1,000 randomized dense layers and 100 complete 7-to-5-to-3 networks
 - Cyclone V Quartus project files and 100 MHz timing constraints
-- Automated RTL verification through GitHub Actions
+- Automated simulation, Verilator lint, and Yosys synthesis through GitHub Actions
 
-The arithmetic has been simulated and linted. The Quartus projects still need
-to be compiled on a machine with Quartus Prime Lite to record real FPGA resource
-and timing results.
+The complete dense-network MVP has been simulated, linted, and checked with
+coarse Yosys synthesis. The Quartus projects still need to be extended to the
+integrated top level and compiled on a machine with Quartus Prime Lite to record
+real FPGA resource and timing results.
 
 ## Numeric contract
 
@@ -155,12 +164,20 @@ See `docs/numeric-contract.md` for the complete bit-level rules.
 Requirements:
 
 - Icarus Verilog
+- Verilator
+- Yosys
 - Make
 
-Run all current verification:
+Run simulation only:
 
 ```sh
 make test
+```
+
+Run simulation, lint, and synthesis:
+
+```sh
+make verify
 ```
 
 With Quartus Prime Lite 25.1 installed, compile the Cyclone V projects with:
@@ -199,14 +216,14 @@ acceptance criteria.
 - [ ] Build an independent bit-accurate golden model
 - [ ] Define the model descriptor and exported artifact formats
 - [ ] Build the hardware-configuration analyzer
-- [ ] Add tiled accumulation and bias handling
-- [ ] Implement precisely matched requantization and ReLU stages
-- [ ] Run a complete tiny neural network in RTL simulation
-- [ ] Add on-chip activation and weight buffers
+- [x] Add tiled accumulation and bias handling
+- [x] Implement precisely matched requantization and ReLU stages
+- [x] Run a complete tiny neural network in RTL simulation
+- [x] Add on-chip activation and weight buffers
 - [ ] Overlap memory transfers and computation with double buffering
 - [ ] Run the accelerator on the Cyclone V board
 - [ ] Benchmark multiple lane, buffer, tile, precision, and dataflow choices
-- [ ] Add runtime-configurable control registers
+- [x] Add runtime-configurable control registers
 - [ ] Generate several precompiled hardware personalities
 - [ ] Port to a Kria or Zynq UltraScale+ platform
 - [ ] Use partial reconfiguration to swap accelerator personalities while the
@@ -231,9 +248,10 @@ acceptance criteria.
 
 ## Project status
 
-This is early-stage research. The verified MAC and dot-product blocks form the
-arithmetic foundation; the next milestone is a tiled dense layer with bias,
-requantization, and activation.
+This is early-stage research. The autonomous dense-network MVP now exercises
+the complete integer inference path in RTL simulation. The next milestone is a
+software artifact exporter and a board-specific Cyclone V host interface,
+followed by Quartus timing and resource measurements.
 
 ## License
 

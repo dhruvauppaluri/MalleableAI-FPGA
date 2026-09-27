@@ -62,7 +62,41 @@ The first software implementation should use symmetric signed INT8 values with
 real_value ~= integer_value * scale
 ```
 
-Requantization is deliberately not part of version 0.1. Before adding it, the
-project will specify the integer multiplier representation, shift direction,
-rounding tie rule, saturation, bias scale, and activation order before either
-the software or RTL implementation is accepted.
+Version 0.1 deliberately excludes requantization. Version 0.2 below fixes that
+boundary for the dense-network RTL.
+
+## Version 0.2: dense-layer output processing
+
+The autonomous dense-layer engine retains the version 0.1 dot-product behavior
+and applies these steps to every output:
+
+```text
+biased  = signed_int32_accumulator + signed_int32_bias
+product = biased * unsigned_positive_31_bit_multiplier
+scaled  = round_ties_away_from_zero(product / 2^right_shift)
+output  = saturate_to_signed_int8(scaled)
+output  = max(output, 0) when ReLU is enabled
+```
+
+- Bias addition uses a signed 33-bit intermediate.
+- Multiplication and rounding use a signed 65-bit intermediate.
+- The multiplier range is 1 through `2^31 - 1`.
+- The right-shift range is 0 through 62.
+- A zero shift performs no division or rounding.
+- For a nonzero shift, exactly-halfway positive and negative magnitudes round
+  away from zero.
+- Saturation occurs before ReLU and clamps to `-128` through `127`.
+- Bias, multiplier, and shift are independently programmable per output.
+
+The multiplier and shift describe an exact integer operation, not a floating-
+point approximation hidden in the RTL. Exporting software must choose values
+that reproduce the intended real-valued scale and must use these same rounding
+and saturation rules.
+
+## Tiled reductions
+
+Reductions longer than the configured lane count are split into consecutive
+tiles. Missing lanes in the final tile are zero-filled. Each tile consumes the
+wrapped INT32 result from the preceding tile. Any tile overflow sets a sticky
+error for the network run, while execution continues with the documented
+wrapped result so mismatches remain reproducible.

@@ -64,6 +64,6 @@ fixed choices are harder to generalize into a malleable architecture.
 1. [x] Implement and verify the signed INT8 MAC.
 2. [x] Implement and verify a parameterized parallel dot product.
 3. [ ] Define and implement the independent golden-model toolchain.
-4. [ ] Define the first model descriptor and exported artifact formats.
-5. [ ] Implement tiled accumulation, bias, requantization, and ReLU.
+4. [ ] Define the first software model descriptor and exported artifact formats.
+5. [x] Implement tiled accumulation, bias, requantization, and ReLU.
 6. [ ] Add a host-to-Cyclone-V transport and benchmark harness.

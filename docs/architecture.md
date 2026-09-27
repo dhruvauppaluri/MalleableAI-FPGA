@@ -41,8 +41,8 @@ flowchart LR
     classDef verified fill:#d1fae5,stroke:#047857,color:#064e3b;
     classDef active fill:#fef3c7,stroke:#b45309,color:#78350f;
     classDef planned fill:#e5e7eb,stroke:#4b5563,color:#111827;
-    class Dot,Acc verified;
-    class Model,Analyzer,Host,Control,Buffers,Req,Act planned;
+    class Dot,Acc,Control,Buffers,Req,Act verified;
+    class Model,Analyzer,Host planned;
 ```
 
 The verified dot-product block accepts several independent INT8 activation and
@@ -73,10 +73,41 @@ The model descriptor and software artifact formats are intentionally left for
 the ML contributor to design. Their implementation must conform to the numeric
 contract and RTL interfaces above.
 
+## Autonomous dense-network MVP
+
+`malleable_accelerator_top` is the first complete inference datapath. Its
+default personality supports four dense layers, dimensions up to 64 by 64, and
+four parallel INT8 lanes. The host or testbench preloads descriptors, inputs,
+weights, biases, multipliers, and shifts through a board-independent 32-bit
+configuration port. One `start` pulse then executes every layer without host
+intervention.
+
+Each output is evaluated by feeding consecutive tiles into the verified dot-
+product block. Results pass through bias addition, per-output integer
+requantization, signed INT8 saturation, and optional ReLU. Two activation banks
+alternate between layers, so an output layer becomes the next layer's input
+without a host copy.
+
+The top-level status contract is:
+
+- `cfg_valid` and `cfg_ready` accept configuration writes only while idle.
+- `start` begins a structurally valid, fully parameterized network.
+- `busy` remains asserted for the complete network.
+- `done` pulses for one cycle after the final output is stored.
+- `overflow_error` records arithmetic overflow without hiding the wrapped
+  result.
+- `config_error` records invalid descriptors, parameters, or control requests.
+- Result reads are synchronous and return one final activation per address.
+
+The generic configuration port is intentionally not AXI or Avalon. A future
+board shell will adapt it to the selected host transport without changing the
+compute or numeric contracts. The caller must write every input and weight
+address consumed by the descriptors before asserting `start`; descriptor and
+per-output parameter completeness are checked directly by the RTL.
+
 ## Planned growth
 
-The next hardware layer will repeatedly feed dot-product tiles into an
-accumulator, add a bias, then pass the result to an independently verified
-requantization/activation stage. Memory interfaces and board-specific shells
-remain outside the arithmetic modules so the same compute blocks can move from
-Cyclone V to a future Zynq UltraScale+ or Kria platform.
+The next hardware work is a board-specific host adapter and measured Cyclone V
+implementation. The compute blocks and generic configuration interface remain
+independent of the board shell so they can later move to Zynq UltraScale+ or
+Kria platforms.
