@@ -258,12 +258,12 @@ begin
         final_bank        <= 1'b0;
         layer_count_valid <= 1'b0;
         for (reset_index = 0; reset_index < MAX_LAYERS; reset_index = reset_index + 1)
-            descriptor_valid[reset_index] <= 5'b00000;
+            descriptor_valid[reset_index] = 5'b00000;
         for (reset_index = 0; reset_index < PARAM_DEPTH; reset_index = reset_index + 1)
         begin
-            bias_valid[reset_index]       <= 1'b0;
-            multiplier_valid[reset_index] <= 1'b0;
-            shift_valid[reset_index]      <= 1'b0;
+            bias_valid[reset_index]       = 1'b0;
+            multiplier_valid[reset_index] = 1'b0;
+            shift_valid[reset_index]      = 1'b0;
         end
     end
     else
