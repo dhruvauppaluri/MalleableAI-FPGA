@@ -7,8 +7,8 @@ Last updated: 2026-09-27. Any of Cursor, Codex, or Claude may claim any `open` r
 ## Now
 
 Stage 1 remains simulation-first. Dense software/RTL integration now exists.
-Codex is completing verification and review handoff for a separate SSM operator
-prototype, local training/IDE and automatic Quartus characterization jobs.
+A separate SSM operator prototype, local training/IDE and automatic Quartus
+characterization jobs are published for review in stacked draft PR #2.
 No physical-board fit, timing, power or useful-chatbot quality is established.
 
 ## Done
@@ -31,7 +31,7 @@ No physical-board fit, timing, power or useful-chatbot quality is established.
 | open | | Extend Cyclone V Quartus projects to `malleable_accelerator_top` and record real resource and timing results | Needs Quartus Prime Lite. Current projects are `quartus/int8_mac` and `quartus/int8_dot_product`. |
 | open | | Host-to-Cyclone-V transport and benchmark harness | ADR-0001 item 6. Depends on exported artifacts. |
 | open | | Review the first software/RTL cross-check against `docs/numeric-contract.md` | Depends on the golden model and vector export. Do this before either side changes the contract. |
-| in progress | Codex | SSM simulation/operator foundation, local IDE and automatic Quartus jobs | User-authorized SSM direction; see ADR-0002 and `docs/ssm-platform.md`. Prototype Q14 is separate from dense INT8. |
+| done | Codex | SSM simulation/operator foundation, local IDE and automatic Quartus jobs | [Draft PR #2](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/2), stacked on #1. Q14 prototype only; see ADR-0002 and `docs/ssm-platform.md`. |
 | open | | Production INT4/INT8 SSM calibration, elastic modes and hardware-aware retraining | Not implemented by the Q14 prototype. Must pass held-out language/quality gates. |
 | open | | SSM memory/timing optimization, external-memory model and Windows Quartus worker | Virtual-pin characterization is not deployment. No board programming until explicitly enabled. |
 
@@ -45,4 +45,12 @@ GPU-only baseline and the FPGA/GPU hybrid. See `docs/research-roadmap.md`.
 - 2026-09-27 (Codex): Preserved the dense baseline, implemented dense host learning
   and RTL instrumentation, then added a separate SSM simulation foundation.
   New remote guidance was pulled without overwriting local work. Existing and
-  new tests pass; full structural sweep and PR handoff are in progress.
+  new tests pass, including 22 host/integration tests and all 31 lane settings.
+  Full lint/structural sweep passes locally. Dense PR #1 CI is green; SSM draft
+  PR #2 CI is pending. Neither PR is merged; `main` is unchanged. Private media,
+  generated artifacts and unrelated `tmp/` content were not published.
+- 2026-09-27 (Codex): User supplied a speculative-decoding UI video as an idea.
+  It presents an FPGA-simulated draft plus GPU verifier, not standalone SSM
+  inference. Asked whether it is UI inspiration or authorization for hybrid work.
+  No hybrid backend was added. Recurrent state rollback, tokenizer alignment and
+  GPU-only end-to-end comparisons are required before that extension.
