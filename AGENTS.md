@@ -15,9 +15,11 @@ host. Stage 1 is a standalone FPGA accelerator. Stage 2 (GPU) and Stage 3
 (hybrid) stay out of scope until Stage 1 meets the criteria in
 `docs/research-roadmap.md`.
 
-The verified RTL foundation is in this repo. The software and ML toolchain is
-greenfield: no golden model, training pipeline, quantizer, model descriptor,
-exporter, or hardware analyzer has been implemented.
+The verified dense RTL foundation and independently implemented model-aware
+software baseline are in this repo. The SSM simulation prototype has its own
+numeric contract (ADR-0002). See `docs/STATUS.md` and `docs/ssm-platform.md` for
+implemented capabilities and production milestones; do not equate simulation
+with trained chatbot quality or physical-board fit.
 
 Do not search repository history or external branches for a software
 implementation. Design it from `docs/ml-contributor-roadmap.md`,

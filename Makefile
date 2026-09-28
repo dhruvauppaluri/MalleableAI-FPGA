@@ -11,7 +11,7 @@ ACCELERATOR_RTL := \
 	rtl/int8_postprocess.sv \
 	rtl/malleable_accelerator_top.sv
 
-.PHONY: all test test-rtl test-host lint synth verify clean
+.PHONY: all test test-rtl test-host lint synth verify verify-ssm clean
 
 all: verify
 
@@ -25,12 +25,14 @@ test-rtl: \
 	$(BUILD_DIR)/int8_dot_product_tb.out \
 	$(BUILD_DIR)/int8_tiled_accumulator_tb.out \
 	$(BUILD_DIR)/int8_postprocess_tb.out \
-	$(BUILD_DIR)/malleable_accelerator_top_tb.out
+	$(BUILD_DIR)/malleable_accelerator_top_tb.out \
+	$(BUILD_DIR)/ssm_operator_engine_tb.out
 	$(VVP) $(BUILD_DIR)/int8_mac_tb.out
 	$(VVP) $(BUILD_DIR)/int8_dot_product_tb.out
 	$(VVP) $(BUILD_DIR)/int8_tiled_accumulator_tb.out
 	$(VVP) $(BUILD_DIR)/int8_postprocess_tb.out
 	$(VVP) $(BUILD_DIR)/malleable_accelerator_top_tb.out
+	$(VVP) $(BUILD_DIR)/ssm_operator_engine_tb.out
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
@@ -50,6 +52,8 @@ $(BUILD_DIR)/int8_postprocess_tb.out: rtl/int8_postprocess.sv sim/int8_postproce
 $(BUILD_DIR)/malleable_accelerator_top_tb.out: $(ACCELERATOR_RTL) sim/malleable_accelerator_top_tb.sv | $(BUILD_DIR)
 	$(IVERILOG) -g2012 -Wall -s malleable_accelerator_top_tb -o $@ $^
 
+$(BUILD_DIR)/ssm_operator_engine_tb.out: rtl/ssm_operator_engine.sv sim/ssm_operator_engine_tb.sv | $(BUILD_DIR)
+	$(IVERILOG) -g2012 -Wall -s ssm_operator_engine_tb -o $@ $^
 
 lint:
 	$(VERILATOR) --lint-only --Wall -Wno-fatal --top-module int8_mac rtl/int8_mac.sv
@@ -58,15 +62,26 @@ lint:
 		-Wno-WIDTH -Wno-BLKSEQ -Wno-UNUSEDSIGNAL -GLANES=$$lanes \
 		--top-module malleable_accelerator_top $(ACCELERATOR_RTL) || exit 1; \
 	done
+	@for lanes in 1 2 4 8 16; do \
+		$(VERILATOR) --lint-only --Wall -Wno-fatal -Wno-WIDTH -Wno-BLKSEQ \
+		-Wno-UNUSEDSIGNAL -GLANES=$$lanes --top-module ssm_operator_engine rtl/ssm_operator_engine.sv || exit 1; \
+	done
 
 synth: | $(BUILD_DIR)
 	@for lanes in 1 2 4 8; do \
 		$(YOSYS) -q -l $(BUILD_DIR)/synthesis-$$lanes.log -p \
 		"read_verilog -sv $(ACCELERATOR_RTL); chparam -set LANES $$lanes malleable_accelerator_top; synth -top malleable_accelerator_top -run begin:fine; select -assert-none t:\$$dlatch p:*; check -assert; stat" || exit 1; \
 	done
+	@for lanes in 1 2 4 8 16; do \
+		$(YOSYS) -q -l $(BUILD_DIR)/ssm-synthesis-$$lanes.log -p \
+		"read_verilog -sv rtl/ssm_operator_engine.sv; chparam -set LANES $$lanes ssm_operator_engine; synth -top ssm_operator_engine -noshare -run begin:fine; select -assert-none t:\$$dlatch p:*; check -assert; stat" || exit 1; \
+	done
 
 verify: test lint synth
 
+verify-ssm:
+	$(PYTHON) -c "import torch, safetensors, fastapi, httpx"
+	$(MAKE) verify PYTHON=$(PYTHON)
 
 clean:
 	rm -rf $(BUILD_DIR)
