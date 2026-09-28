@@ -1,6 +1,6 @@
 # ADR-0002: separate fixed-point SSM simulation boundary
 
-Status: accepted for the simulation prototype; production quantization deferred.
+Status: superseded by ADR-0003. Historical prototype contract, not active LLM RTL.
 
 The user requested generic SSM language inference, simulation first, automatic
 Quartus compilation and physical deployment later. Preserve the existing dense

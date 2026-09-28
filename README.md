@@ -121,12 +121,12 @@ to compute while the next tile is transferred.
 
 ## What works today
 
-The new [simulation-first SSM platform](docs/ssm-platform.md) adds diagonal gated
-SSMs and Mamba-1 token programs, prompt-level RTL checking, local training,
-an experimental learning controller, an offline web IDE, and automatic Quartus
-characterization jobs. It is a fixed-point research prototype, **not yet a
-trained chatbot or a board-ready accelerator**. The existing INT8 dense path
-below remains unchanged.
+The active [local LLM workbench](docs/local-llm-platform.md) integrates pinned
+OpenTPU, safe local Safetensors import, full-RTL/ISA backends, ordered live job
+events, Lens trace replay and quality-constrained optimization interfaces.
+The custom SSM path is retired (ADR-0003). Real-model acceptance and CUDA/hybrid
+deployment are separately gated; no physical FPGA speed or AWS integration is
+claimed. The existing INT8 dense path below remains unchanged.
 
 - A parameterized signed INT8 MAC with signed INT32 accumulation
 - Explicit accumulator-overflow reporting
@@ -171,23 +171,21 @@ See `docs/numeric-contract.md` for the complete bit-level rules.
 
 ## Run the project
 
-For SSM simulation and the local IDE:
+For local LLM simulation and the workbench (Node 22+, Verilator and a source checkout):
 
 ```sh
 python3 -m venv .venv
-.venv/bin/pip install -e '.[ssm,ide,test]'
-make verify-ssm PYTHON=.venv/bin/python
-.venv/bin/python -m malleable.ssm.cli init
-.venv/bin/python -m malleable.ssm.cli export
-.venv/bin/python -m malleable.ssm.cli generate --prompt 'Hello' --max-new 8
-.venv/bin/python -m malleable.ide --model-root build
+.venv/bin/pip install -e '.[llm,ide,test]'
+make ui
+make verify-llm PYTHON=.venv/bin/python
+.venv/bin/python -m malleable.ide --model-root build/models
 ```
 
-Open `http://127.0.0.1:8765`. Initialized fixture weights are random; train or
-import a compatible model before expecting useful text. Quartus builds run
-automatically when available; this Mac records `pending-tool` requests. No
-physical board programming is enabled. See the SSM guide for exact numeric
-limits and outstanding production milestones.
+Open `http://127.0.0.1:8765`. Place supported checkpoint folders inside the model
+root. If you explicitly want downloads, run
+`.venv/bin/python tools/download_llm_models.py --destination build/models`.
+Inference itself is offline. Full RTL is slow; compilation, host execution and
+RTL cycles are reported separately. See the guide for release and quality gates.
 
 For the dependency-free dense baseline:
 
@@ -254,52 +252,39 @@ board integration remain contributor opportunities. The older
 `docs/ml-contributor-roadmap.md` is historical; the model-aware system guide
 describes the current software interfaces.
 
-## Future goals
+## Local LLM release gates
 
-### Stage 1: original standalone FPGA project
+The active release preserves the verified dense RTL baseline and uses pinned
+OpenTPU as a separate local LLM execution backend. The service, live workbench,
+fixed-tape benchmark schedule, quality approvals, optimization sessions, and
+explicitly gated CUDA/hybrid commands are implemented in the current review
+branch. Their presence is not a release pass.
 
-- [x] Verify signed INT8 multiply-accumulate arithmetic
-- [x] Build a parameterized parallel dot product
-- [x] Build an independent bit-accurate golden model
-- [x] Define the model descriptor and exported artifact formats
-- [x] Build the hardware-configuration analyzer (dense simulation backend)
-- [x] Add tiled accumulation and bias handling
-- [x] Implement precisely matched requantization and ReLU stages
-- [x] Run a complete tiny neural network in RTL simulation
-- [x] Add on-chip activation and weight buffers
-- [ ] Overlap memory transfers and computation with double buffering
-- [ ] Run the accelerator on the Cyclone V board
-- [ ] Benchmark multiple lane, buffer, tile, precision, and dataflow choices
-- [x] Add runtime-configurable control registers
-- [ ] Generate several precompiled hardware personalities
-- [ ] Port to a Kria or Zynq UltraScale+ platform
-- [ ] Use partial reconfiguration to swap accelerator personalities while the
-  surrounding system continues running
-- [ ] Extend the standalone accelerator to a small decoder-only language model
-- [ ] Generate tokens using FPGA inference without GPU computation
+- [ ] Complete full-RTL short-prompt + eight-token acceptance for all three
+  official checkpoints and attach bit-exact state/logit evidence.
+- [ ] Pass held-out quality for each selectable model/variant using frozen,
+  disjoint suites with at least 1,024 validation and held-out targets.
+- [ ] Complete the staged ten-run performance suite per model and base-model-
+  disjoint predictor/RL evaluations with five seeds and leakage checks.
+- [ ] On the Zephyrus in WSL2, capture a local Qwen3-1.7B CUDA greedy baseline,
+  then a tokenizer-validated full-RTL Qwen3-0.6B draft / CUDA verifier run.
+- [ ] Run strict standalone and full-release checks, finish review, and publish a
+  draft PR. No automatic merge to `main`.
 
-### Stage 2: independent GPU extension
-
-- [ ] Define a controlled FPGA-versus-GPU benchmark workload
-- [ ] Run the comparable model independently on a GPU
-- [ ] Record GPU-only latency, throughput, memory, energy, and output quality
-- [ ] Compare the standalone FPGA and GPU results
-
-### Stage 3: FPGA and GPU hybrid extension
-
-- [ ] Define the FPGA-to-GPU token and state-transfer interface
-- [ ] Use the completed FPGA system for candidate-token generation
-- [ ] Use the completed GPU system for verification
-- [ ] Measure acceptance rate and communication and verification overhead
-- [ ] Compare the hybrid against both standalone systems end to end
+CUDA supports only the specified local Qwen3 verifier path; the hybrid remains
+greedy-only and must match GPU-only output. These tests establish neither
+physical FPGA timing/resource fit/power nor a guaranteed speedup. AWS, board
+programming, partial reconfiguration, runtime personality controls, additional
+architectures, model retraining and contextual-bandit extensions are excluded
+from this release.
 
 ## Project status
 
-This is early-stage research. The dense-network inference and host optimization
-paths run in RTL simulation. Learned policies are candidates until they pass
-explicit evaluation gates; RL superiority is not assumed. Framework exporters,
-board transport, Quartus timing/resource results, and measured power remain later
-milestones.
+This is early-stage research. Dense arithmetic is verified; local LLM simulations
+and optimizers remain subject to the explicit acceptance gates above. Learned
+policies are candidates until held-out evaluation and promotion; RL superiority
+is not assumed. Physical-board timing, resource occupancy and power are not
+available from simulation.
 
 ## License
 

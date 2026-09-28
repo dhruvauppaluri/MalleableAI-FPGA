@@ -2,14 +2,60 @@
 
 Handoff for Cursor, Codex, and Claude. Update this before ending a session.
 
-Last updated: 2026-09-27. Any of Cursor, Codex, or Claude may claim any `open` row.
+Last updated: 2026-09-28. Any of Cursor, Codex, or Claude may claim any `open` row.
 
 ## Now
 
-Stage 1 remains simulation-first. Dense software/RTL integration now exists.
-A separate SSM operator prototype, local training/IDE and automatic Quartus
-characterization jobs are published for review in stacked draft PR #2.
-No physical-board fit, timing, power or useful-chatbot quality is established.
+The active release is the local pretrained-LLM platform (ADR-0003). The dense
+numeric contract and RTL are preserved. The approved completion plan includes
+standalone RTL acceptance, workbench/learning evaluation, then gated Zephyrus
+CUDA and greedy-hybrid evidence. AWS and physical FPGA deployment are excluded.
+Custom SSM product commands/RTL are retired in the working branch; historical
+SSM PR #2 and user data remain intact. OpenTPU revision
+`15754e971b55591b91048c4c636023fe59b343e7` is vendored as a distinct execution
+backend. Full RTL is the default, with an explicitly selected ISA alternative.
+
+Implementation is **uncommitted** on `codex/local-llm-platform`; no new PR or
+main merge has occurred. Local checkpoint downloads were explicitly authorized
+and completed for Qwen3-0.6B, Qwen3.5-0.8B and LFM2.5-230M. Pinned official
+revisions/file hashes are recorded; weights stay ignored under `build/models`.
+The React/TypeScript workbench is served at loopback `127.0.0.1:8765` with durable
+jobs, SSE progress, recorded Lens replay, report views, fixed-tape benchmarks,
+and recommendation-first optimization with explicit opt-in automatic application.
+CUDA/hybrid commands are wired but require passing standalone evidence. No AWS
+integration/resource creation, physical fit/timing/power, or Zephyrus CUDA
+performance is established on this Mac.
+
+The latest `make verify-llm PYTHON=.venv/bin/python` passed: dense
+simulation/lint/Yosys, 108 upstream core tests, 28 model-family tests, 13 LLM
+RTL tests (12 personality/format combinations plus 100-token tiny-model
+sequence), 28 host tests, four UI event tests, and the frontend production
+build. Durable tiny evidence is at ignored
+`build/release-evidence/tiny/tiny-release.json` (100/100 RTL steps bit-exact,
+SHA-256 `cdc7194c3c1cac9b15c7433db2e93662bef468e9195ef38484894d6f79df407d`).
+The complete local verification gate has passed for this working tree; a
+checkpoint-free release-evidence bundle still needs a post-commit run.
+All three original real-model acceptance jobs were canceled in the workbench;
+partial bit-exact steps do not count as release acceptance. The user's explicit
+instruction is to leave the original Qwen3 job canceled, not requeue it.
+One real Qwen3-0.6B INT8/balanced chat completed through the explicitly selected
+ISA backend (22 prompt tokens, 16 generated tokens); it is not full-RTL or
+quality approval. The central experiment database currently has one completed
+LLM generation and no quality, decision, policy or policy-evaluation records.
+No workbench jobs were running/queued at this status check. Earlier prompt jobs
+failed on chat-template token mapping; its code fix has host-test coverage but
+still needs end-to-end real-model retesting.
+Fresh Qwen3-0.6B INT8/balanced held-out and validation suites both completed.
+Held-out NLL degradation is 0.95% (passes 5%), but next-token agreement is
+83.50%; validation agreement is 84.67%. Both fail the 90% threshold and remain
+not selectable. A separate fresh Qwen3 full-RTL run completed all 7 raw prompt
+tokens and 8 generated tokens in 14 steps, with exact DRAM/TMEM agreement on
+every step. It recorded 86,022,637 RTL cycles and 0.00364 host-simulated tokens/s
+(not FPGA performance). The run is valid execution evidence but does not pass
+quality approval. Neither fresh run resumes a canceled workbench job. Qwen3.5/LFM
+quality and full-RTL acceptance, 30 staged performance runs, predictor/RL held-out
+evaluations, strict standalone release manifest, review/publication, and
+Zephyrus CUDA/hybrid evidence remain unfinished.
 
 ## Done
 
@@ -32,15 +78,65 @@ No physical-board fit, timing, power or useful-chatbot quality is established.
 | open | | Host-to-Cyclone-V transport and benchmark harness | ADR-0001 item 6. Depends on exported artifacts. |
 | open | | Review the first software/RTL cross-check against `docs/numeric-contract.md` | Depends on the golden model and vector export. Do this before either side changes the contract. |
 | done | Codex | SSM simulation/operator foundation, local IDE and automatic Quartus jobs | [Draft PR #2](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/2), stacked on #1. Q14 prototype only; see ADR-0002 and `docs/ssm-platform.md`. |
-| open | | Production INT4/INT8 SSM calibration, elastic modes and hardware-aware retraining | Not implemented by the Q14 prototype. Must pass held-out language/quality gates. |
-| open | | SSM memory/timing optimization, external-memory model and Windows Quartus worker | Virtual-pin characterization is not deployment. No board programming until explicitly enabled. |
+| retired | | Production INT4/INT8 SSM calibration, elastic modes and hardware-aware retraining | User retired the custom SSM direction on 2026-09-27. Preserve prototype history; do not resume this task. |
+| retired | | SSM memory/timing optimization, external-memory model and Windows Quartus worker | Superseded by the requested pretrained-LLM/F2 direction. Existing prototype is not a deployable board design. |
+| in progress | Codex | Implement the local pretrained-LLM pivot | Approved local plan: retire SSM product, pinned OpenTPU backend, full RTL default, live UI, quantization/learning, then gated greedy hybrid. AWS integration excluded. |
+| in progress | Codex | Retirement, pinned integration and safe model import | Implemented locally; three official checkpoints downloaded and hash-verified. Final review and publication pending. |
+| in progress | Codex | Standalone full-RTL acceptance | Completion plan now authorizes fresh acceptance jobs, not resuming historical canceled jobs. Tightening quality, durable evidence and release lineage checks first. |
+| in progress | Codex | Live UI and profiling | Durable jobs/SSE, cancellation, history, report views, bounded trace/instruction inspection, and CUDA/hybrid controls are implemented. Full browser-level accessibility/reconnect/cancel test coverage remains. |
+| in progress | Codex | Overhead-aware optimization and learning | CLI/controller, predictor and masked Double DQN primitives implemented. Review fixes preserve parent training lineage. Real measured-data evaluations and full UI/service integration remain. |
+| in progress | Codex | CUDA baseline and greedy hybrid deployment | Strict standalone-gated CLI/API, WSL2 instructions, opt-in Qwen3-1.7B download and full-RTL draft path are implemented. Mac has no CUDA and verifier is not downloaded; actual Zephyrus evidence remains. |
+| proposed | | LLM fast runtime adaptation within a personality | Genuine transcript addition: expose only existing or newly verified compiler/RTL controls; current compiled personalities are not resident runtime modes. Requires explicit scope acceptance. |
+| proposed | | Phase/operator-aware experience retrieval | Extend existing persistent storage with reusable shape/context/prefill/decode/scenario signatures and confidence/staleness checks. Do not reuse incomparable evidence. |
+| proposed | | Contextual-bandit comparison and complete adaptation overhead | Compare bandit/cost model/heuristic/RL; measure controller, exploration, reload and switching costs. Current RL implementation is not evidence of a performance win. |
+| proposed | | Physical static-shell/reconfigurable-region architecture | Later platform-specific extension, not part of the current local release. Validate support, stable interfaces, draining/decoupling, state and real reconfiguration costs; AWS stays last. |
 
-## Out of scope until Stage 1 is complete
+## Explicit release exclusions
 
-GPU-only baseline and the FPGA/GPU hybrid. See `docs/research-roadmap.md`.
+AWS provisioning/uploads/HBM/AFIs, board programming, physical reconfiguration,
+new model architectures, additional runtime modes, contextual bandits, phase or
+operator retrieval, retraining/distillation, and universal compatibility are
+excluded. CUDA and greedy hybrid are in scope but hard-gated on standalone
+acceptance.
 
 ## Session log
 
+- 2026-09-27 (Codex): Audited current build status at the user's request, without
+  implementing transcript suggestions or requeueing canceled jobs. Re-ran 24
+  host tests, three UI event tests and Python compilation successfully. Confirmed
+  one completed real Qwen3 ISA generation, no central quality/policy evidence,
+  no queued/running jobs, and uncommitted implementation on the review branch.
+  Listed genuine transcript additions as proposed rather than accepted tasks.
+  Immediate priority remains standalone real-model correctness/quality gates,
+  followed by complete UI/learning integration and review publication; CUDA,
+  physical reconfiguration and AWS are later stages.
+- 2026-09-27 (Codex): Read the entire user-supplied local conversation export
+  and compared its three-timescale adaptive design with current code. The
+  model/workload analyzer, persistent experiment database, cost-aware selection
+  and offline policy framework align with that vision. Critical distinction:
+  the four OpenTPU personalities are separate compiled simulator designs, not
+  four register-selectable modes resident in one LLM design. Dense runtime lane
+  control does not establish the latter. LLM runtime mapping controls,
+  phase/operator-specific experience retrieval, a contextual-bandit comparator,
+  automatic validated deployment and physical partial reconfiguration remain
+  extensions, not implemented capabilities. Controller learning is separate
+  from retraining Qwen. Transcript suggestions did not authorize new scope;
+  AWS remains excluded and the original canceled acceptance jobs stay canceled.
+- 2026-09-27 (Codex): Implemented the local pivot in a review branch without
+  merging to main. Recorded ADR-0003 before integration; kept dense arithmetic
+  unchanged. Added isolated OpenTPU harness patches for streaming, bounded build
+  parallelism, space-safe caching and timeouts. Downloaded only the three
+  authorized official Safetensors checkpoints, retaining licenses/manifests.
+  Passed the local verification suite described above. Review found and fixed
+  Qwen3.5 BatchEncoding handling, text-only floating reference loading,
+  auxiliary tokenizer path validation, worker cleanup, searchable benchmark
+  records and continued-policy training lineage. Latest queue-cost/predictor
+  edits need another check. User is testing the workbench; do not restart it
+  while their jobs run or silently requeue canceled acceptance jobs. All three
+  original real-model acceptance runs are canceled, and quality gates have not
+  passed. Implementation was interrupted by a request to compare another shared
+  chat; that link could not be read, so its contents must be supplied before
+  claiming an alignment comparison.
 - 2026-09-27: Added shared agent instructions. No implementation change.
 - 2026-09-27 (Codex): Preserved the dense baseline, implemented dense host learning
   and RTL instrumentation, then added a separate SSM simulation foundation.
@@ -54,3 +150,43 @@ GPU-only baseline and the FPGA/GPU hybrid. See `docs/research-roadmap.md`.
   inference. Asked whether it is UI inspiration or authorization for hybrid work.
   No hybrid backend was added. Recurrent state rollback, tokenizer alignment and
   GPU-only end-to-end comparisons are required before that extension.
+- 2026-09-27 (Codex): Reviewed the supplied cross-agent conversation and discussed
+  OpenTPU reuse and an AWS EC2 F2 target; neither integration nor cloud resources
+  were implemented/provisioned. Source inspection confirms OpenTPU is programmable
+  and parameterized, not intrinsically rigid. Reusing it would preserve the
+  malleability goal only with validated personality variants, compatible compiler
+  mappings, instrumentation and overhead-aware selection. Current runtime lane
+  controls do not reallocate physical FPGA resources; physical personality swaps
+  and partial reconfiguration remain unimplemented. UI adoption is a requested
+  direction, not a completed change. Both SSM PR #2 verification checks passed
+  after the earlier publication log recorded them as pending.
+- 2026-09-27 (Codex): User explicitly requested scrapping the custom SSM direction.
+  Recorded retirement of its open development tasks and the new pretrained-LLM/F2
+  direction; no source, artifacts, PRs or history were deleted. Proposed first
+  milestone is an OpenTPU-backed simulator/correctness baseline plus extensible
+  model compatibility reports and Lens UI integration. F2 needs Vivado/HDK/AFIs,
+  new host-transfer and HBM integration, and measured image/state reload costs;
+  it is not a Quartus retarget. Current AWS Small Shell has no built-in DMA
+  engine, so host-transfer integration must explicitly supply one or use SDE.
+  No AWS resources were provisioned or model data uploaded. Cloud execution
+  needs confirmed region/quota, budget, data permissions and stop controls.
+- 2026-09-28 (Codex): Tightened selectable quality evidence to require a frozen
+  held-out split of at least 1,024 targets and exact model/tokenizer/variant/
+  personality/configuration lineage; added strict standalone and full-release
+  manifest checks. The fresh Qwen3 INT8 result is not selectable: NLL degradation
+  is 0.95%, but next-token agreement is 83.5%. Preserved that negative result.
+  Added the explicit opt-in verifier downloader, fail-closed CUDA/hybrid runners,
+  fixed-tape 30-run schedule validation, durable synthetic 100-token RTL evidence,
+  and workbench reports/optimization controls. `make verify-llm` now passes in
+  the local venv. The current host is Mac/CPU, so real CUDA/hybrid acceptance
+  remains unavailable until Zephyrus WSL2; no verifier was downloaded and no
+  canceled acceptance job was resumed. GitHub API access was unavailable during
+  the status check; no commit, push, or PR has been made.
+  The frozen Qwen3 validation run also completed (0.78% NLL degradation,
+  84.67% agreement, not selectable). A fresh Qwen3 full-RTL run completed
+  7 prompt + 8 generated tokens in 14 bit-exact DRAM/TMEM steps; 86,022,637
+  simulated cycles, host 0.00364 tokens/s. Code review found the prior
+  bottleneck field mislabeled OpenTPU's numeric DRAM cycle bound as a category.
+  Added a conservative categorized simulation-only diagnosis, preserved raw
+  bounds separately, bounded event evidence to five largest gaps, and added
+  regression coverage. Full verify must be rerun after that final fix.

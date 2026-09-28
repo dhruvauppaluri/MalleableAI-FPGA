@@ -1,5 +1,9 @@
 # Simulation-first SSM platform
 
+> Superseded by ADR-0003 on 2026-09-27. This is historical documentation;
+> commands and SSM RTL below are retired and no longer available. User data and
+> checkpoints are preserved. Use `docs/local-llm-platform.md` for the active path.
+
 This implementation is a **research prototype**, not a trained general chatbot
 or a board-ready deployment. It adds an end-to-end language-token simulation path
 alongside the existing INT8 dense accelerator. The dense numeric contract is

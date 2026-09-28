@@ -11,15 +11,16 @@ you stop.
 
 MalleableAI-FPGA is a model-aware FPGA AI accelerator. The FPGA runs inference.
 Training, quantization, hardware selection, and FPGA compilation happen on the
-host. Stage 1 is a standalone FPGA accelerator. Stage 2 (GPU) and Stage 3
-(hybrid) stay out of scope until Stage 1 meets the criteria in
-`docs/research-roadmap.md`.
+host. The active product is the local pretrained-LLM platform (ADR-0003).
+Standalone full-RTL acceptance precedes enabling CUDA and greedy hybrid runs.
+AWS provisioning, uploads, AFIs, HBM and physical programming remain excluded.
 
 The verified dense RTL foundation and independently implemented model-aware
-software baseline are in this repo. The SSM simulation prototype has its own
-numeric contract (ADR-0002). See `docs/STATUS.md` and `docs/ssm-platform.md` for
-implemented capabilities and production milestones; do not equate simulation
-with trained chatbot quality or physical-board fit.
+software baseline are in this repo. Pinned OpenTPU is a separate execution and
+numeric boundary; do not reinterpret the dense contract. ADR-0002 and the SSM
+guide are superseded historical documents. See `docs/local-llm-platform.md` and
+`docs/STATUS.md` for implemented capabilities and gates; simulation is not
+physical-board fit or CUDA performance evidence.
 
 Do not search repository history or external branches for a software
 implementation. Design it from `docs/ml-contributor-roadmap.md`,
@@ -63,6 +64,7 @@ The next agent starts from `docs/STATUS.md`, not from your chat.
 ```sh
 make test      # Icarus Verilog self-checking simulations
 make verify    # simulation, Verilator lint, and Yosys synthesis
+make verify-llm PYTHON=.venv/bin/python # local + upstream + synthetic RTL + UI
 ```
 
 Quartus Prime Lite 25.1, when installed:
@@ -74,3 +76,10 @@ quartus_sh --flow compile quartus/int8_dot_product/int8_dot_product
 
 The Quartus projects still cover the MAC and dot-product blocks. They do not
 yet compile `malleable_accelerator_top`.
+
+Keep user checkpoints/datasets, private media and unrelated `tmp/` files out of
+commits. Local model execution must not download files or run remote Python.
+The explicit checkpoint-download tool is opt-in only. Full-RTL prefill must not
+be replaced with ISA work. Record measured/estimated/unavailable provenance.
+Quality search uses validation; held-out promotion groups by base-model identity.
+No automatic merge to `main`; deliver reviewed milestones.
