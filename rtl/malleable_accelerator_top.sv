@@ -13,6 +13,7 @@
 //   3: bias (signed INT32)
 //   4: positive multiplier (cfg_data[30:0], cfg_data[31] must be zero)
 //   5: right shift (0..62)
+//   6: address 0 sets active lane count (1..LANES)
 // Every input and weight address consumed by the descriptors must be loaded
 // before start. Descriptor fields and per-output parameters carry explicit
 // validity tracking and are rejected when incomplete.
@@ -42,7 +43,14 @@ module malleable_accelerator_top #(
     input  wire [15:0]        result_read_addr,
     output reg  signed [7:0]  result_read_data,
     output reg                result_read_valid,
-    output reg  [15:0]        result_count
+    output reg  [15:0]        result_count,
+    output reg [63:0] cycles,
+    output reg [63:0] tiles,
+    output reg [63:0] useful_macs,
+    output reg [63:0] compute_cycles,
+    output wire [63:0] controller_cycles,
+    output reg [63:0] configuration_writes,
+    output reg [63:0] result_reads
 );
 
 localparam [2:0] CFG_DESCRIPTOR = 3'd0;
@@ -76,6 +84,9 @@ reg        descriptor_relu         [0:MAX_LAYERS-1];
 reg [4:0]  descriptor_valid         [0:MAX_LAYERS-1];
 reg [15:0] layer_count;
 reg        layer_count_valid;
+// Kind 6/address 0: active lanes. Reset preserves historical all-lane behavior.
+reg [15:0] active_lanes;
+assign controller_cycles = cycles - compute_cycles;
 
 reg [2:0] state;
 reg [15:0] layer_index;
@@ -160,12 +171,12 @@ begin
     if (state == STATE_SEND_TILE)
     begin
         tiled_tile_valid = 1'b1;
-        tiled_tile_last = (tile_base + LANES >= descriptor_input_count[layer_index]);
+        tiled_tile_last = (tile_base + active_lanes >= descriptor_input_count[layer_index]);
 
         for (lane = 0; lane < LANES; lane = lane + 1)
         begin
             input_offset = tile_base + lane;
-            if (input_offset < descriptor_input_count[layer_index])
+            if ((lane < active_lanes) && (input_offset < descriptor_input_count[layer_index]))
             begin
                 if (source_bank == 1'b0)
                     tiled_activations[lane*8 +: 8] = activation_bank_a[input_offset];
@@ -189,7 +200,8 @@ begin
     check_layer         = 0;
     check_output        = 0;
 
-    if (!layer_count_valid || (layer_count == 0) || (layer_count > MAX_LAYERS))
+    if (!layer_count_valid || (layer_count == 0) || (layer_count > MAX_LAYERS) ||
+        active_lanes == 0 || active_lanes > LANES)
         configuration_valid = 1'b0;
 
     for (check_layer = 0; check_layer < MAX_LAYERS; check_layer = check_layer + 1)
@@ -216,9 +228,9 @@ begin
             checked_param_end = descriptor_param_base[check_layer]
                               + descriptor_output_count[check_layer];
 
-            if (checked_weight_end > WEIGHT_DEPTH)
+            if (descriptor_weight_base[check_layer] >= WEIGHT_DEPTH || checked_weight_end > WEIGHT_DEPTH)
                 configuration_valid = 1'b0;
-            if (checked_param_end > PARAM_DEPTH)
+            if (descriptor_param_base[check_layer] >= PARAM_DEPTH || checked_param_end > PARAM_DEPTH)
                 configuration_valid = 1'b0;
 
             for (check_output = 0; check_output < PARAM_DEPTH; check_output = check_output + 1)
@@ -257,6 +269,13 @@ begin
         source_bank       <= 1'b0;
         final_bank        <= 1'b0;
         layer_count_valid <= 1'b0;
+        active_lanes <= LANES;
+        cycles <= 0;
+        tiles <= 0;
+        useful_macs <= 0;
+        compute_cycles <= 0;
+        configuration_writes <= 0;
+        result_reads <= 0;
         for (reset_index = 0; reset_index < MAX_LAYERS; reset_index = reset_index + 1)
             descriptor_valid[reset_index] = 5'b00000;
         for (reset_index = 0; reset_index < PARAM_DEPTH; reset_index = reset_index + 1)
@@ -271,18 +290,36 @@ begin
         done              <= 1'b0;
         result_read_valid <= 1'b0;
 
-        if (start && busy)
+        if (busy) cycles <= cycles + 1'b1;
+        if (tiled_tile_valid && tiled_tile_ready) begin
+            tiles <= tiles + 1'b1;
+            compute_cycles <= compute_cycles + 1'b1;
+            useful_macs <= useful_macs + ((descriptor_input_count[layer_index] - tile_base < active_lanes)
+                ? descriptor_input_count[layer_index] - tile_base : active_lanes);
+        end
+
+        if (start && (busy || cfg_valid))
             config_error <= 1'b1;
 
         if (cfg_valid && cfg_ready)
         begin
+            configuration_writes <= configuration_writes + 1'b1;
             case (cfg_kind)
+                3'd6: begin
+                    if (cfg_addr == 0 && cfg_data > 0 && cfg_data <= LANES)
+                        active_lanes <= cfg_data[15:0];
+                    else begin
+                        active_lanes <= 0;
+                        config_error <= 1'b1;
+                    end
+                end
                 CFG_DESCRIPTOR:
                 begin
                     if (cfg_addr == 0)
                     begin
                         layer_count <= cfg_data[15:0];
-                        layer_count_valid <= 1'b1;
+                        layer_count_valid <= cfg_data > 0 && cfg_data <= MAX_LAYERS;
+                        if (cfg_data == 0 || cfg_data > MAX_LAYERS) config_error <= 1'b1;
                     end
                     else
                     begin
@@ -292,12 +329,14 @@ begin
                                 0:
                                 begin
                                     descriptor_input_count[descriptor_write_layer] <= cfg_data[15:0];
-                                    descriptor_valid[descriptor_write_layer][0] <= 1'b1;
+                                    descriptor_valid[descriptor_write_layer][0] <= cfg_data > 0 && cfg_data <= MAX_DIM;
+                                    if (cfg_data == 0 || cfg_data > MAX_DIM) config_error <= 1'b1;
                                 end
                                 1:
                                 begin
                                     descriptor_output_count[descriptor_write_layer] <= cfg_data[15:0];
-                                    descriptor_valid[descriptor_write_layer][1] <= 1'b1;
+                                    descriptor_valid[descriptor_write_layer][1] <= cfg_data > 0 && cfg_data <= MAX_DIM;
+                                    if (cfg_data == 0 || cfg_data > MAX_DIM) config_error <= 1'b1;
                                 end
                                 2:
                                 begin
@@ -312,7 +351,8 @@ begin
                                 4:
                                 begin
                                     descriptor_relu[descriptor_write_layer] <= cfg_data[0];
-                                    descriptor_valid[descriptor_write_layer][4] <= 1'b1;
+                                    descriptor_valid[descriptor_write_layer][4] <= cfg_data <= 1;
+                                    if (cfg_data > 1) config_error <= 1'b1;
                                 end
                                 default: config_error <= 1'b1;
                             endcase
@@ -386,6 +426,7 @@ begin
 
         if (result_read_en && !busy && (result_read_addr < result_count))
         begin
+            result_reads <= result_reads + 1'b1;
             if (final_bank == 1'b0)
                 result_read_data <= activation_bank_a[result_read_addr];
             else
@@ -396,11 +437,15 @@ begin
         case (state)
             STATE_IDLE:
             begin
-                if (start && !busy)
+                if (start && !busy && !cfg_valid)
                 begin
                     if (configuration_valid)
                     begin
                         busy           <= 1'b1;
+                        cycles <= 0;
+                        tiles <= 0;
+                        useful_macs <= 0;
+                        compute_cycles <= 0;
                         overflow_error <= 1'b0;
                         config_error   <= 1'b0;
                         result_count   <= 16'd0;
@@ -428,7 +473,7 @@ begin
                     if (tiled_tile_last)
                         state <= STATE_WAIT_ACC;
                     else
-                        tile_base <= tile_base + LANES;
+                        tile_base <= tile_base + active_lanes;
                 end
             end
 

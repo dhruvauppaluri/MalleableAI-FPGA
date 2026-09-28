@@ -137,6 +137,9 @@ to compute while the next tile is transferred.
 - 1,000 randomized dense layers and 100 complete 7-to-5-to-3 networks
 - Cyclone V Quartus project files and 100 MHz timing constraints
 - Automated simulation, Verilator lint, and Yosys synthesis through GitHub Actions
+- A dependency-free Python model analyzer, integer reference, SQLite experiment
+  store, RTL runner, overhead-aware selector, and experimental Double DQN learner
+- Separately synthesized 1/2/4/8-lane personalities, runtime active lanes, and counters
 
 The complete dense-network MVP has been simulated, linted, and checked with
 coarse Yosys synthesis. The Quartus projects still need to be extended to the
@@ -154,12 +157,13 @@ signed INT8 input x signed INT8 weight
 ```
 
 The multiplication is exact. Scaling, rounding, saturation, bias, and activation
-are not hidden inside the MAC. They will be implemented as separate stages with
+are not hidden inside the MAC. They are implemented as separate stages with
 matching RTL and software behavior.
 
 See `docs/numeric-contract.md` for the complete bit-level rules.
 
 ## Run the project
+
 
 Requirements:
 
@@ -167,6 +171,7 @@ Requirements:
 - Verilator
 - Yosys
 - Make
+- Python 3.10 or newer (standard library only)
 
 Run simulation only:
 
@@ -179,6 +184,19 @@ Run simulation, lint, and synthesis:
 ```sh
 make verify
 ```
+
+Run a model-aware experiment from the repository root:
+
+```sh
+python3 -m malleable analyze --size light
+python3 -m malleable benchmark --size light --requests 4
+python3 -m malleable optimize --size heavy --lanes 1 --active-lanes 1 --switch-cycles 10000
+python3 -m malleable train --episodes 20 --switch-cycles 10000
+```
+
+See [the model-aware system guide](docs/model-aware-system.md) for artifact
+schemas, evaluation/promotion, counter definitions, and measurement limitations.
+This is a simulation research system, not a physical-board deployment runtime.
 
 With Quartus Prime Lite 25.1 installed, compile the Cyclone V projects with:
 
@@ -194,6 +212,8 @@ rtl/        SystemVerilog compute blocks
 sim/        Paired self-checking RTL testbenches
 quartus/    Cyclone V projects and timing constraints
 docs/       Architecture, research roadmap, contributor plans, and specifications
+malleable/  Python reference, host runtime, experiment storage, and learning
+tests/      Host and Python-to-RTL integration regressions
 ```
 
 The layout follows the same small-module, paired-testbench style used in the
@@ -202,10 +222,11 @@ RTL and have different architectures and goals.
 
 ## ML and software contribution
 
-The golden model and software toolchain are intentionally unimplemented. The ML
-contributor owns their design and implementation from first principles. See
-`docs/ml-contributor-roadmap.md` for the required milestones, interfaces, and
-acceptance criteria.
+The independent integer reference and versioned dense artifacts now live in
+`malleable/`. Framework exporters, labeled task-accuracy evaluation, and physical
+board integration remain contributor opportunities. The older
+`docs/ml-contributor-roadmap.md` is historical; the model-aware system guide
+describes the current software interfaces.
 
 ## Future goals
 
@@ -213,9 +234,9 @@ acceptance criteria.
 
 - [x] Verify signed INT8 multiply-accumulate arithmetic
 - [x] Build a parameterized parallel dot product
-- [ ] Build an independent bit-accurate golden model
-- [ ] Define the model descriptor and exported artifact formats
-- [ ] Build the hardware-configuration analyzer
+- [x] Build an independent bit-accurate golden model
+- [x] Define the model descriptor and exported artifact formats
+- [x] Build the hardware-configuration analyzer (dense simulation backend)
 - [x] Add tiled accumulation and bias handling
 - [x] Implement precisely matched requantization and ReLU stages
 - [x] Run a complete tiny neural network in RTL simulation
@@ -248,10 +269,11 @@ acceptance criteria.
 
 ## Project status
 
-This is early-stage research. The autonomous dense-network MVP now exercises
-the complete integer inference path in RTL simulation. The next milestone is a
-software artifact exporter and a board-specific Cyclone V host interface,
-followed by Quartus timing and resource measurements.
+This is early-stage research. The dense-network inference and host optimization
+paths run in RTL simulation. Learned policies are candidates until they pass
+explicit evaluation gates; RL superiority is not assumed. Framework exporters,
+board transport, Quartus timing/resource results, and measured power remain later
+milestones.
 
 ## License
 

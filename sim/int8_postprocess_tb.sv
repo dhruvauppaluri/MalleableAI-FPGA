@@ -136,7 +136,7 @@ begin
     if (errors == 0)
         $display("PASS: bias, requantization, saturation, and ReLU verified");
     else
-        $display("FAIL: postprocess errors=%0d", errors);
+        $fatal(1, "FAIL: postprocess errors=%0d", errors);
 
     $finish;
 end

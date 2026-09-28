@@ -150,7 +150,7 @@ begin
     if (errors == 0)
         $display("PASS: 4-lane signed INT8 dot product verified");
     else
-        $display("FAIL: signed INT8 dot product errors=%0d", errors);
+        $fatal(1, "FAIL: signed INT8 dot product errors=%0d", errors);
 
     $finish;
 end
