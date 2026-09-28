@@ -1,4 +1,4 @@
-name: Verify RTL
+name: Verify RTL and model-aware host
 
 on:
   push:
@@ -15,5 +15,5 @@ jobs:
       - name: Install RTL toolchain
         run: sudo apt-get update && sudo apt-get install -y iverilog verilator yosys
 
-      - name: Verify RTL
+      - name: Verify RTL and host integration
         run: make verify
