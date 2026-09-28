@@ -15,5 +15,11 @@ jobs:
       - name: Install RTL toolchain
         run: sudo apt-get update && sudo apt-get install -y iverilog verilator yosys
 
+      - name: Install local SSM and IDE dependencies
+        run: |
+          python3 -m venv .venv
+          .venv/bin/pip install torch --index-url https://download.pytorch.org/whl/cpu
+          .venv/bin/pip install -e '.[ssm,ide,test]'
+
       - name: Verify RTL and host integration
-        run: make verify
+        run: make verify-ssm PYTHON=.venv/bin/python

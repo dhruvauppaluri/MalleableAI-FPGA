@@ -121,6 +121,13 @@ to compute while the next tile is transferred.
 
 ## What works today
 
+The new [simulation-first SSM platform](docs/ssm-platform.md) adds diagonal gated
+SSMs and Mamba-1 token programs, prompt-level RTL checking, local training,
+an experimental learning controller, an offline web IDE, and automatic Quartus
+characterization jobs. It is a fixed-point research prototype, **not yet a
+trained chatbot or a board-ready accelerator**. The existing INT8 dense path
+below remains unchanged.
+
 - A parameterized signed INT8 MAC with signed INT32 accumulation
 - Explicit accumulator-overflow reporting
 - A parameterized parallel INT8 dot-product block
@@ -164,6 +171,25 @@ See `docs/numeric-contract.md` for the complete bit-level rules.
 
 ## Run the project
 
+For SSM simulation and the local IDE:
+
+```sh
+python3 -m venv .venv
+.venv/bin/pip install -e '.[ssm,ide,test]'
+make verify-ssm PYTHON=.venv/bin/python
+.venv/bin/python -m malleable.ssm.cli init
+.venv/bin/python -m malleable.ssm.cli export
+.venv/bin/python -m malleable.ssm.cli generate --prompt 'Hello' --max-new 8
+.venv/bin/python -m malleable.ide --model-root build
+```
+
+Open `http://127.0.0.1:8765`. Initialized fixture weights are random; train or
+import a compatible model before expecting useful text. Quartus builds run
+automatically when available; this Mac records `pending-tool` requests. No
+physical board programming is enabled. See the SSM guide for exact numeric
+limits and outstanding production milestones.
+
+For the dependency-free dense baseline:
 
 Requirements:
 
