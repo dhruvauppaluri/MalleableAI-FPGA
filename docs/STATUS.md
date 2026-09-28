@@ -15,9 +15,11 @@ SSM PR #2 and user data remain intact. OpenTPU revision
 `15754e971b55591b91048c4c636023fe59b343e7` is vendored as a distinct execution
 backend. Full RTL is the default, with an explicitly selected ISA alternative.
 
-Implementation is **uncommitted** on `codex/local-llm-platform`; no new PR or
-main merge has occurred. Local checkpoint downloads were explicitly authorized
-and completed for Qwen3-0.6B, Qwen3.5-0.8B and LFM2.5-230M. Pinned official
+Implementation is committed on `codex/local-llm-platform` (`0a4455e` plus the
+release-evidence path fix `0242e06`) and pushed. Draft PR #3 targets
+`codex/model-aware-baseline`; no merge to `main` has occurred. Local checkpoint
+downloads were explicitly authorized and completed for Qwen3-0.6B,
+Qwen3.5-0.8B and LFM2.5-230M. Pinned official
 revisions/file hashes are recorded; weights stay ignored under `build/models`.
 The React/TypeScript workbench is served at loopback `127.0.0.1:8765` with durable
 jobs, SSE progress, recorded Lens replay, report views, fixed-tape benchmarks,
@@ -26,25 +28,30 @@ CUDA/hybrid commands are wired but require passing standalone evidence. No AWS
 integration/resource creation, physical fit/timing/power, or Zephyrus CUDA
 performance is established on this Mac.
 
-The latest `make verify-llm PYTHON=.venv/bin/python` passed: dense
+The latest checkpoint-free `make verify-llm` passed: dense
 simulation/lint/Yosys, 108 upstream core tests, 28 model-family tests, 13 LLM
 RTL tests (12 personality/format combinations plus 100-token tiny-model
-sequence), 28 host tests, four UI event tests, and the frontend production
-build. Durable tiny evidence is at ignored
+sequence), 29 host tests, four UI event tests, and the frontend production
+build. Its immutable report is at ignored
+`build/release-evidence/verification-v3/verification.json` (SHA-256
+`4d9609253a07a4aa735e92c252523336459abca48c5dfa867c582475c75a7409`, commit
+`0242e06518e55db2334d8d95ec801e2a26c9d967`). Durable tiny evidence is at ignored
 `build/release-evidence/tiny/tiny-release.json` (100/100 RTL steps bit-exact,
 SHA-256 `cdc7194c3c1cac9b15c7433db2e93662bef468e9195ef38484894d6f79df407d`).
-The complete local verification gate has passed for this working tree; a
-checkpoint-free release-evidence bundle still needs a post-commit run.
+Two earlier failed evidence attempts are retained in separate ignored
+directories: one exposed path quoting, the next selected system Python by
+resolving the venv symlink. Neither ran the suite; verification-v3 passed.
 All three original real-model acceptance jobs were canceled in the workbench;
 partial bit-exact steps do not count as release acceptance. The user's explicit
 instruction is to leave the original Qwen3 job canceled, not requeue it.
 One real Qwen3-0.6B INT8/balanced chat completed through the explicitly selected
 ISA backend (22 prompt tokens, 16 generated tokens); it is not full-RTL or
-quality approval. The central experiment database currently has one completed
-LLM generation and no quality, decision, policy or policy-evaluation records.
-No workbench jobs were running/queued at this status check. Earlier prompt jobs
-failed on chat-template token mapping; its code fix has host-test coverage but
-still needs end-to-end real-model retesting.
+quality approval. The CLI research store now has the earlier generation plus two
+Qwen3 quality records; the full-RTL acceptance run is in its separate store.
+No decision, policy, or policy-evaluation records have been generated.
+At the time of the earlier workbench check, no jobs were running or queued.
+Earlier prompt jobs failed on chat-template token mapping; its code fix has
+host-test coverage but still needs end-to-end real-model retesting.
 Fresh Qwen3-0.6B INT8/balanced held-out and validation suites both completed.
 Held-out NLL degradation is 0.95% (passes 5%), but next-token agreement is
 83.50%; validation agreement is 84.67%. Both fail the 90% threshold and remain
@@ -52,10 +59,13 @@ not selectable. A separate fresh Qwen3 full-RTL run completed all 7 raw prompt
 tokens and 8 generated tokens in 14 steps, with exact DRAM/TMEM agreement on
 every step. It recorded 86,022,637 RTL cycles and 0.00364 host-simulated tokens/s
 (not FPGA performance). The run is valid execution evidence but does not pass
-quality approval. Neither fresh run resumes a canceled workbench job. Qwen3.5/LFM
-quality and full-RTL acceptance, 30 staged performance runs, predictor/RL held-out
-evaluations, strict standalone release manifest, review/publication, and
-Zephyrus CUDA/hybrid evidence remain unfinished.
+quality approval. This completed run predates the bounded bottleneck-summary fix;
+its raw counter payload labels the numeric DRAM bound incorrectly, while future
+runs use the corrected categorical diagnosis. Neither fresh run resumes a
+canceled workbench job. Qwen3.5/LFM quality and full-RTL acceptance, 30 staged
+performance runs, predictor/RL held-out evaluations, strict standalone release
+manifest, PR review/CI completion, and Zephyrus CUDA/hybrid evidence remain
+unfinished.
 
 ## Done
 
@@ -81,8 +91,8 @@ Zephyrus CUDA/hybrid evidence remain unfinished.
 | retired | | Production INT4/INT8 SSM calibration, elastic modes and hardware-aware retraining | User retired the custom SSM direction on 2026-09-27. Preserve prototype history; do not resume this task. |
 | retired | | SSM memory/timing optimization, external-memory model and Windows Quartus worker | Superseded by the requested pretrained-LLM/F2 direction. Existing prototype is not a deployable board design. |
 | in progress | Codex | Implement the local pretrained-LLM pivot | Approved local plan: retire SSM product, pinned OpenTPU backend, full RTL default, live UI, quantization/learning, then gated greedy hybrid. AWS integration excluded. |
-| in progress | Codex | Retirement, pinned integration and safe model import | Implemented locally; three official checkpoints downloaded and hash-verified. Final review and publication pending. |
-| in progress | Codex | Standalone full-RTL acceptance | Completion plan now authorizes fresh acceptance jobs, not resuming historical canceled jobs. Tightening quality, durable evidence and release lineage checks first. |
+| in progress | Codex | Retirement, pinned integration and safe model import | Implemented and committed; three official checkpoints downloaded and hash-verified. Draft [PR #3](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/3) is open; CI is in progress. |
+| in progress | Codex | Standalone full-RTL acceptance | Tiny 100-token and Qwen3 short-prompt + 8-token evidence pass bit-exactness. Qwen3 quality fails the 90% agreement gate; Qwen3.5/LFM evidence remains outstanding. |
 | in progress | Codex | Live UI and profiling | Durable jobs/SSE, cancellation, history, report views, bounded trace/instruction inspection, and CUDA/hybrid controls are implemented. Full browser-level accessibility/reconnect/cancel test coverage remains. |
 | in progress | Codex | Overhead-aware optimization and learning | CLI/controller, predictor and masked Double DQN primitives implemented. Review fixes preserve parent training lineage. Real measured-data evaluations and full UI/service integration remain. |
 | in progress | Codex | CUDA baseline and greedy hybrid deployment | Strict standalone-gated CLI/API, WSL2 instructions, opt-in Qwen3-1.7B download and full-RTL draft path are implemented. Mac has no CUDA and verifier is not downloaded; actual Zephyrus evidence remains. |
@@ -180,8 +190,10 @@ acceptance.
   and workbench reports/optimization controls. `make verify-llm` now passes in
   the local venv. The current host is Mac/CPU, so real CUDA/hybrid acceptance
   remains unavailable until Zephyrus WSL2; no verifier was downloaded and no
-  canceled acceptance job was resumed. GitHub API access was unavailable during
-  the status check; no commit, push, or PR has been made.
+  canceled acceptance job was resumed. Committed (`0a4455e`, `0242e06`), pushed
+  the branch, and opened draft [PR #3](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/3)
+  against `codex/model-aware-baseline`. CI runs
+  `36394586263` and `36394629378` are in progress.
   The frozen Qwen3 validation run also completed (0.78% NLL degradation,
   84.67% agreement, not selectable). A fresh Qwen3 full-RTL run completed
   7 prompt + 8 generated tokens in 14 bit-exact DRAM/TMEM steps; 86,022,637
@@ -189,4 +201,8 @@ acceptance.
   bottleneck field mislabeled OpenTPU's numeric DRAM cycle bound as a category.
   Added a conservative categorized simulation-only diagnosis, preserved raw
   bounds separately, bounded event evidence to five largest gaps, and added
-  regression coverage. Full verify must be rerun after that final fix.
+  regression coverage. Checkpoint-free full verify passed afterward; immutable
+  report `build/release-evidence/verification-v3/verification.json` records
+  commit `0242e06`, exit code 0, and no checkpoint downloads. An earlier
+  in-flight Qwen3 run retains the pre-fix oversized raw counter summary; future
+  runs use the bounded categorical diagnosis.
