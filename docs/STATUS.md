@@ -9,6 +9,10 @@ Last updated: 2026-09-28. Any of Cursor, Codex, or Claude may claim any `open` r
 The [Zephyrus handoff guide](zephyrus-handoff.md) covers WSL2 installation,
 transferring ignored models and complete stores, rebuilding Linux tools,
 CUDA preflight, verification, and the continuation prompt for the next agent.
+The local transfer folder is `build/Zephyrus-Transfer`; its `START-HERE.md`
+describes offline source restoration, data snapshots, checksum verification,
+and a fresh Zephyrus job directory. Preserve historical queues and absolute
+Mac paths as provenance rather than dispatching them after migration.
 
 The active release is the local pretrained-LLM platform (ADR-0003). The dense
 numeric contract and RTL are preserved. The approved completion plan includes

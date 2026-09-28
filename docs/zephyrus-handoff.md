@@ -62,6 +62,12 @@ updates. Preserve local edits; do not replace the folder with another copy.
 
 ## 3. Carry over models and experiment history
 
+If the Mac already has `build/Zephyrus-Transfer`, copy that entire prepared
+folder and follow its `START-HERE.md`. It includes an offline Git bundle,
+local data snapshots and checksums. The folder is ignored local data and is
+not downloaded by cloning GitHub. Use its fresh-job-directory instructions
+to avoid dispatching historical queued jobs on the new machine.
+
 Git transfers code and documentation. It does **not** transfer ignored local
 models, databases, traces, or release evidence.
 
