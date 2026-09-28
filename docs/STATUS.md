@@ -91,7 +91,7 @@ unfinished.
 | retired | | Production INT4/INT8 SSM calibration, elastic modes and hardware-aware retraining | User retired the custom SSM direction on 2026-09-27. Preserve prototype history; do not resume this task. |
 | retired | | SSM memory/timing optimization, external-memory model and Windows Quartus worker | Superseded by the requested pretrained-LLM/F2 direction. Existing prototype is not a deployable board design. |
 | in progress | Codex | Implement the local pretrained-LLM pivot | Approved local plan: retire SSM product, pinned OpenTPU backend, full RTL default, live UI, quantization/learning, then gated greedy hybrid. AWS integration excluded. |
-| in progress | Codex | Retirement, pinned integration and safe model import | Implemented and committed; three official checkpoints downloaded and hash-verified. Draft [PR #3](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/3) is open; CI is in progress. |
+| in progress | Codex | Retirement, pinned integration and safe model import | Implemented and committed; three official checkpoints downloaded and hash-verified. Draft [PR #3](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/3) is open; CI is in progress after fixing the missing Verilator lexer-header dependency. |
 | in progress | Codex | Standalone full-RTL acceptance | Tiny 100-token and Qwen3 short-prompt + 8-token evidence pass bit-exactness. Qwen3 quality fails the 90% agreement gate; Qwen3.5/LFM evidence remains outstanding. |
 | in progress | Codex | Live UI and profiling | Durable jobs/SSE, cancellation, history, report views, bounded trace/instruction inspection, and CUDA/hybrid controls are implemented. Full browser-level accessibility/reconnect/cancel test coverage remains. |
 | in progress | Codex | Overhead-aware optimization and learning | CLI/controller, predictor and masked Double DQN primitives implemented. Review fixes preserve parent training lineage. Real measured-data evaluations and full UI/service integration remain. |
@@ -192,8 +192,10 @@ acceptance.
   remains unavailable until Zephyrus WSL2; no verifier was downloaded and no
   canceled acceptance job was resumed. Committed (`0a4455e`, `0242e06`), pushed
   the branch, and opened draft [PR #3](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/3)
-  against `codex/model-aware-baseline`. CI runs
-  `36394586263` and `36394629378` are in progress.
+  against `codex/model-aware-baseline`. Initial CI runs failed because the
+  workflow omitted `libfl-dev` (`FlexLexer.h`); fixed and pushed as `1ddf980`.
+  Corrected CI run `36395473732` successfully built Verilator and is running
+  full verification; paired PR-triggered run `36395479523` is also queued/running.
   The frozen Qwen3 validation run also completed (0.78% NLL degradation,
   84.67% agreement, not selectable). A fresh Qwen3 full-RTL run completed
   7 prompt + 8 generated tokens in 14 bit-exact DRAM/TMEM steps; 86,022,637
