@@ -171,6 +171,9 @@ See `docs/numeric-contract.md` for the complete bit-level rules.
 
 ## Run the project
 
+Moving from the Mac to the Zephyrus? Follow the
+[WSL2 setup and continuation guide](docs/zephyrus-handoff.md).
+
 For local LLM simulation and the workbench (Node 22+, Verilator and a source checkout):
 
 ```sh

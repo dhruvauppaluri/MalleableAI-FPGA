@@ -6,6 +6,10 @@ Last updated: 2026-09-28. Any of Cursor, Codex, or Claude may claim any `open` r
 
 ## Now
 
+The [Zephyrus handoff guide](zephyrus-handoff.md) covers WSL2 installation,
+transferring ignored models and complete stores, rebuilding Linux tools,
+CUDA preflight, verification, and the continuation prompt for the next agent.
+
 The active release is the local pretrained-LLM platform (ADR-0003). The dense
 numeric contract and RTL are preserved. The approved completion plan includes
 standalone RTL acceptance, workbench/learning evaluation, then gated Zephyrus
