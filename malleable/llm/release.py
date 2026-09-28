@@ -35,6 +35,9 @@ def check(path):
             or not run.get('toolchain',{}).get('build_id')
             or any(s.get('validation')!='bit-exact-dram-and-tmem' or not s.get('trace_sha256') for s in run['counters'])):
             raise ValueError('short-prompt + eight-token full-RTL agreement required: '+name)
+        if (run.get('workload',{}).get('context')!=128 or run.get('personality')!='balanced'
+            or run.get('workload',{}).get('wformat')!='int8' or quality.get('head_format')!='int8'):
+            raise ValueError('primary acceptance requires context 128, balanced INT8 matrices and INT8 head: '+name)
         suite=artifact(entry['quality_suite'])
         from .quality import suites
         suite_path=(root/entry['quality_suite']['path']).resolve()
@@ -42,7 +45,7 @@ def check(path):
         expected_counts={s:sum(len(row)-1 for row in suite[s]) for s in suite_hashes}
         expected_freeze={'split_hashes':suite_hashes,'target_counts':expected_counts}
         if (suite.get('base_model_id')!=run['base_model_id'] or suite.get('tokenizer_id')!=run['tokenizer_id']
-            or suite.get('freeze')!=expected_freeze or expected_counts.get('held-out',0)<MIN_RELEASE_TARGETS
+            or suite.get('freeze')!=expected_freeze or any(expected_counts.get(s,0)<MIN_RELEASE_TARGETS for s in ('validation','held-out'))
             or quality.get('suite_file_hash')!=entry['quality_suite']['sha256']):
             raise ValueError('frozen held-out suite lineage/count mismatch: '+name)
         if (quality.get('base_model_id')!=run['base_model_id'] or quality.get('variant_id')!=run['variant_id']

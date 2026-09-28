@@ -84,6 +84,8 @@ def generate(model, workload, root, emit=lambda *_: None):
         variant_id=identity({'base':info['base_model_id'],'format':workload.wformat,'head':'int8'}),
         workload_id=workload.workload_id,workload=asdict(workload),config=cfg.__dict__,previous_config=None,
         configuration_id=identity({'config':cfg.__dict__,'uarch':PERSONALITIES[workload.personality].uarch}),
+        microarchitecture={'schema_version':1,'parameters':PERSONALITIES[workload.personality].uarch,
+            'provenance':'declared simulator build parameters'},
         input_token_hash=identity(tokens),status='completed',
         generation_mode='greedy' if workload.input_tokens is None else 'fixed-token-tape',
         workload_identity_v2=identity({'input':tokens,'seed':workload.seed,'context':workload.context,

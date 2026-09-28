@@ -90,6 +90,7 @@ unfinished.
 
 | Status | Owner | Item | Notes |
 | --- | --- | --- | --- |
+| open | Codex | Zephyrus release completion implementation | Approved plan: bounded quality diagnostics, indexed evidence, predictor v2, strict lineage, browser and CUDA acceptance. Batch mode selected in chat; numeric redesign excluded. |
 | done | Codex | Bit-accurate dense golden model and tiny-network cross-check | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/model.py`. Framework calibration remains separate. |
 | done | Codex | Versioned dense model descriptor and exported test vectors | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/records.py` and generated RTL benches. |
 | open | | Extend Cyclone V Quartus projects to `malleable_accelerator_top` and record real resource and timing results | Needs Quartus Prime Lite. Current projects are `quartus/int8_mac` and `quartus/int8_dot_product`. |
@@ -216,3 +217,25 @@ acceptance.
   commit `0242e06`, exit code 0, and no checkpoint downloads. An earlier
   in-flight Qwen3 run retains the pre-fix oversized raw counter summary; future
   runs use the bounded categorical diagnosis.
+
+- 2026-09-28 (Codex, Zephyrus setup): Restored transfer bundle `a960dd3`
+  into `/home/dhruv/projects/MalleableAI-FPGA` in Ubuntu 24.04 WSL2 as
+  user `dhruv`; origin points to the project GitHub URL. All 3,555 manifest
+  data files passed destination SHA-256 verification. All three transferred
+  checkpoints passed local adapter inspection. Installed Verilator 5.050,
+  Icarus 12.0, Yosys 0.33, Node 22.23.3, Python 3.12.3 and a project venv.
+  PyTorch 2.11.0+cu128 passed actual CUDA matrix multiplication on the RTX
+  5070 Ti Laptop GPU (compute capability 12.0). `pip check` passed.
+  Full checkpoint-free `make verify-llm` passed on this laptop; immutable
+  evidence is `build/release-evidence/zephyrus-setup-verification/verification.json`.
+  Environment/freeze/checkpoint reports are in `build/release-evidence/zephyrus-environment`.
+  The loopback workbench runs through user systemd service
+  `malleable-workbench.service` using fresh `build/zephyrus-jobs`; Windows
+  launcher `Start-Workbench.cmd` in the setup workspace keeps a WSL client
+  attached and opens http://127.0.0.1:8765. Stop with
+  `systemctl --user stop malleable-workbench.service`. Original Mac data and
+  queues remain preserved; no historical jobs were resumed. This establishes
+  environment readiness, not standalone/full-release model acceptance.
+  Existing quality failures and CUDA/hybrid release gates remain applicable.
+
+- 2026-09-28 (Codex, release implementation): Added bounded validation diagnostics, indexed resumable benchmarks, predictor v2, exact quality/configuration matching, controller partition/coverage checks, supported driver metadata, synchronized GPU/hybrid timing, and workbench conversation recovery. The 16-target Qwen3 pilot found 81.25% agreement and 1.01% NLL degradation; all 311 tensors match, both float references agree, and ISA/independent quantized top tokens agree. Acceptance remains blocked for a separate precision investigation. NVIDIA access was restored with G-Helper Eco to Standard and a fresh CUDA computation passed. See docs/zephyrus-release-progress.md for evidence identities and remaining work. Final-source interactive verification records are under build/zephyrus-jobs/release/20260928T223413Z-b463e746/final-verification. PR #3 remains draft; no merge or verifier download is authorized before standalone acceptance.
