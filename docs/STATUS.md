@@ -218,6 +218,25 @@ performance runs, predictor/RL held-out evaluations, strict standalone release
 manifest, PR review/CI completion, and Zephyrus CUDA/hybrid evidence remain
 unfinished.
 
+### Full ISA validation of candidate a0.5-cnone (2026-09-29, Cursor local)
+
+Overnight mode was selected by `cursor-quality-continuation.md`. First dispatch
+2026-09-29T17:03:40Z; shared dispatch deadline (job.json `dispatch_deadline_unix`
+1790730220) = 2026-09-30T01:03:40Z. Unit `malleable-qwen3-full-validation-01`
+(launcher PID 27447, worker PID 27458, exit 0) on clean source
+`26279df0fd4abcb0bfbcf136ced3f9cb1724a880`, attempt
+`build/zephyrus-jobs/release/20260928T223413Z-b463e746/candidate-isa-validation-01/`.
+Result: **PASS**, 963/1024 = 94.04297% agreement, original FP32 NLL 4.70241488,
+ISA candidate NLL 4.70262040, degradation +0.004370%, 2733.4s. Gates independently
+recomputed (agreement >= 0.90; NLL <= 1.05x). result.json SHA-256
+`c8c29777249ac9ac6ba7d47b304e03cb4ce23dfae75ec630a3c2fd892f82806d`; record
+`e24ba1b7ad7ddd03bd47dad256deeb746336b56ec913b15c0ecc10cb4224d7b0`; variant
+`16e8f30ea0f88024a7dc3e0ece6f61b4569acd605cd755b3cb0c444a44f21b19`; configuration
+`224a2edbf7462eae26e3527b8f0e554e5b13b06987bd557a9a4f983370d559dd`; derived ID
+`3129232e...cd163da`. Validation evidence only: held-out, full-RTL and release NOT
+done. The four ten-case precision fallbacks were correctly NOT run. Local commit
+`26279df` (task claim) could not be pushed: this machine has no GitHub credentials.
+
 ## Done
 
 - Signed INT8 MAC with signed INT32 accumulation and explicit overflow
@@ -233,7 +252,7 @@ unfinished.
 
 | Status | Owner | Item | Notes |
 | --- | --- | --- | --- |
-| in progress | Cursor (local, Zephyrus) | Qwen3 quality recovery and precision attribution | 2026-09-29: Overnight mode authorized by docs/cursor-quality-continuation.md. Dispatching `candidate-isa-validation-01` (user unit `malleable-qwen3-full-validation-01`) of candidate a0.5-cnone from a clean commit; see the attempt's job.json for the shared eight-hour dispatch deadline. Do not edit source or duplicate the job while it runs; a handoff is saved in the attempt directory. |
+| in progress | Cursor (local, Zephyrus) | Qwen3 quality recovery and precision attribution | Full ACTUAL-ISA validation of a0.5-cnone PASSED (963/1024 = 94.04%, NLL +0.0044%). Remaining: production integration/identity plumbing, freeze, ONE held-out run, RTL, release checks. Shared dispatch deadline 2026-09-30T01:03:40Z. |
 | open | Codex | Zephyrus release completion implementation | Infrastructure verified at b1f2d3f; measured model release remains blocked. Resume after quality recovery. |
 | done | Codex | Bit-accurate dense golden model and tiny-network cross-check | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/model.py`. Framework calibration remains separate. |
 | done | Codex | Versioned dense model descriptor and exported test vectors | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/records.py` and generated RTL benches. |
