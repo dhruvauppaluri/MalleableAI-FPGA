@@ -294,6 +294,18 @@ raw Qwen3.5. INT8 candidate search (`candidates.py`) and precision attribution a
 raise for other families); Qwen3.5 (gated DeltaNet/conv layers) needs new site definitions and
 emulation, hence an ADR first. Not started.
 
+### LFM2.5-230M raw INT8 validation (2026-09-29, Cursor local)
+
+Unit `malleable-lfm2-validation-01` (exit 0, ~17 min, `release/lfm2-raw-int8-validation-01/`):
+**PASS** 960/1024 = 93.75%, original FP32 NLL 6.78683040, ISA NLL 6.79066570 (+0.0565%), variant
+`17c66490b0ddfeb6a9889fed14e18368d8274042abd5fdcfa05ad60dd82d7e63`, configuration
+`78a135a7b46ac35b70089341e13593ecf58a67606c959f6f2a14ea1faf4001d3`, record
+`fa4dd3b1cf27b2077c237201461bf6f790bcfada9cc15f2dbabeb448f2704e5f`, result.json sha256
+`72654c029728190ac27accc55b234d4aab4b01345714765c99ac1c15d1a00483`. Validation only (search evidence,
+selectable=false). Raw baseline, no candidate. Commits are now PUSHED (branch head matches origin at
+`b0df2fc`; push worked via the Windows Git Credential Manager helper for that one command).
+Next: single raw held-out run (`release/lfm2-raw-int8-heldout-01/`), then 8-token full RTL.
+
 ## Done
 
 - Signed INT8 MAC with signed INT32 accumulation and explicit overflow
