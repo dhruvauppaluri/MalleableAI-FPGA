@@ -233,7 +233,7 @@ unfinished.
 
 | Status | Owner | Item | Notes |
 | --- | --- | --- | --- |
-| open | Any agent | Qwen3 quality recovery and precision attribution | Actual ISA 16-target pilot passed 93.75%/+0.63% NLL in 86.54s. Select next mode for full 1,024-target validation, estimated 90–150 minutes. |
+| in progress | Cursor (local, Zephyrus) | Qwen3 quality recovery and precision attribution | 2026-09-29: Overnight mode authorized by docs/cursor-quality-continuation.md. Dispatching `candidate-isa-validation-01` (user unit `malleable-qwen3-full-validation-01`) of candidate a0.5-cnone from a clean commit; see the attempt's job.json for the shared eight-hour dispatch deadline. Do not edit source or duplicate the job while it runs; a handoff is saved in the attempt directory. |
 | open | Codex | Zephyrus release completion implementation | Infrastructure verified at b1f2d3f; measured model release remains blocked. Resume after quality recovery. |
 | done | Codex | Bit-accurate dense golden model and tiny-network cross-check | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/model.py`. Framework calibration remains separate. |
 | done | Codex | Versioned dense model descriptor and exported test vectors | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/records.py` and generated RTL benches. |
