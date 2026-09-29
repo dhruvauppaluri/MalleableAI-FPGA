@@ -21,6 +21,21 @@ def selection_approval(split,is_frozen,target_count,passed):
     return bool(split=='held-out' and is_frozen and type(target_count) is int
                 and target_count>=MIN_RELEASE_TARGETS and passed)
 
+
+def quality_matches(quality,result,split='validation',frozen_reference=None):
+    """Recompute approval and bind it to the exact model/tokenizer/configuration."""
+    fields=('base_model_id','tokenizer_id','variant_id','personality','configuration_id')
+    if any(not quality.get(k) or quality.get(k)!=result.get(k) for k in fields): return False
+    if (quality.get('split')!=split or quality.get('suite_frozen') is not True
+        or type(quality.get('target_count')) is not int or quality['target_count']<MIN_RELEASE_TARGETS
+        or quality.get('samples')!=quality['target_count'] or not quality.get('suite_file_hash')
+        or set(quality.get('suite_hashes',{}))!={'calibration','validation','held-out'}): return False
+    if frozen_reference and any(quality.get(k)!=frozen_reference.get(k) for k in ('suite_file_hash','suite_hashes')):
+        return False
+    try: passed=gate(quality['float_nll'],quality['candidate_nll'],quality['agreement'])['passed']
+    except (KeyError,ValueError,TypeError): return False
+    return passed and (split!='held-out' or quality.get('selectable') is True)
+
 def suites(path):
     data=json.loads(Path(path).read_text())
     if data.get('schema_version')!=1: raise ValueError('unsupported quality suite version')
@@ -143,6 +158,7 @@ def evaluate(model,path,wformat='int8',split='validation',personality='balanced'
         wformat=wformat,head_format='int8',personality=personality,split=split,suite_hashes=hashes,suite_file_hash=digest(path),
         samples=count,float_nll=fnll/count,candidate_nll=qnll/count,agreement=agree/count,
         configuration_id=identity({'config':cfg.__dict__,'uarch':PERSONALITIES[personality].uarch}),
+        context=context,config=cfg.__dict__,microarchitecture={'schema_version':1,'parameters':PERSONALITIES[personality].uarch},
         suite_frozen=is_frozen, target_count=target_count,
         floating_reference_id=reference_id,floating_reference_record=reference_record,toolchain=provenance,
         **checks,provenance='measured-isa-versus-original-float',selectable=selectable,

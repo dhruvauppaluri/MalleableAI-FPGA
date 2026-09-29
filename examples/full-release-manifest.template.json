@@ -1,5 +1,6 @@
 {
   "schema_version": 2,
+  "source_commit": "REPLACE_WITH_FINAL_CLEAN_SOURCE_COMMIT",
   "standalone_manifest": {"path": "standalone/RELEASE.json", "sha256": "REPLACE_WITH_SHA256"},
   "performance_suites": [
     {"model": "Qwen3-0.6B", "manifest": {"path": "benchmarks/Qwen3-0.6B-manifest.json", "sha256": "REPLACE_WITH_SHA256"}, "report": {"path": "benchmarks/Qwen3-0.6B-report.json", "sha256": "REPLACE_WITH_SHA256"}},
@@ -7,10 +8,14 @@
     {"model": "LFM2.5-230M", "manifest": {"path": "benchmarks/LFM2.5-230M-manifest.json", "sha256": "REPLACE_WITH_SHA256"}, "report": {"path": "benchmarks/LFM2.5-230M-report.json", "sha256": "REPLACE_WITH_SHA256"}}
   ],
   "policy_checkpoint": {"path": "learning/policy.json", "sha256": "REPLACE_WITH_SHA256"},
+  "predictor_checkpoint": {"path": "learning/predictor-v2.json", "sha256": "REPLACE_WITH_SHA256"},
+  "predictor_evaluation": {"path": "learning/predictor-held-out.json", "sha256": "REPLACE_WITH_SHA256"},
+  "cuda_cache_verification": {"path": "verification/cuda-cache-verification.json", "sha256": "REPLACE_WITH_SHA256"},
   "policy_evaluation": {"path": "learning/held-out-evaluation.json", "sha256": "REPLACE_WITH_SHA256"},
   "controller_disposition": "validated-deterministic-retained",
   "policy_deployment": {"path": "learning/policy-deployment.json", "sha256": "REPLACE_WITH_SHA256"},
   "ui_verification": {"path": "verification/local-verify-llm.json", "sha256": "REPLACE_WITH_SHA256"},
+  "browser_acceptance": {"path": "verification/browser-acceptance.json", "sha256": "REPLACE_WITH_SHA256"},
   "gpu_baseline": {"path": "zephyrus/Qwen3-1.7B-gpu-baseline.json", "sha256": "REPLACE_WITH_SHA256"},
   "hybrid": {"path": "zephyrus/Qwen3-0.6B-rtl-draft-hybrid.json", "sha256": "REPLACE_WITH_SHA256"}
 }

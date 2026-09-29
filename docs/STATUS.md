@@ -10,7 +10,63 @@ README refresh completed by Codex on 2026-09-29: the entry point now describes
 the approved local LLM release, its five completion milestones, actual
 acceptance/quality evidence, compiled simulation personalities, Zephyrus
 handoff, and gated CUDA/hybrid scope. No new execution or release evidence was
-produced by this documentation-only change.
+produced by this documentation-only change. Integrated newer remote quality
+recovery work without overwriting its handoff; README links that approved scope.
+
+### Current Zephyrus quality recovery (2026-09-28)
+
+User approved [staged Qwen3 quality recovery](qwen3-quality-recovery.md), including
+targeted LLM precision/ISA/RTL redesign after compatible INT8 experiments and
+acceptance of a measured slowdown. The dense numeric contract remains unchanged.
+This supersedes the earlier numeric-redesign exclusion for this specific scope.
+Baseline `b1f2d3f` passed final-source `make verify-llm`, actual CUDA cache tests,
+browser acceptance and CI. Evidence is under
+`build/zephyrus-jobs/release/20260928T223413Z-b463e746/`.
+Qwen3 remains blocked (16-target agreement 81.25%; NLL degradation 1.01%).
+Latest outcome: all ten authorized cases completed in 225.07 seconds on clean
+source `7118e064e08dae35b58746ef5048f0657284020c` (pushed). Baseline 81.25%;
+all-floating 100%; best targeted bypasses 87.50%. The combined key-cache and
+transformer-weight bypass fixed the three original mismatches but introduced two
+others. No targeted case met 90%; release remains blocked. See
+[the complete results and interpretation](qwen3-precision-attribution-results.md).
+All ten result hashes verified; focused CPU tests: 31 passed in 10.44 seconds.
+The user then authorized the recommended single Interactive 128-target baseline
+pilot. It completed on clean source `c352607e3c9394231491fa1c4a30e9d098f3b04f`:
+107/128 matches (83.59375%), +0.622021% NLL, 281.44 seconds wall time,
+256.52 seconds candidate time, 996 executed context tokens across eight sequences.
+Both floating references agree on all 128 targets. Evidence:
+`build/zephyrus-jobs/release/20260928T223413Z-b463e746/precision-128-pilot-01/`.
+Result SHA-256: `994db61a623d52ce3a3ddf6cf792c38ead207ebf2bc93764bdfe24e2c557d454`.
+Runner, frozen panel/policy, events, canonical record, summary and source identity
+are retained there; Windows evidence copy is in `setup-evidence/precision-128-pilot-01`.
+No batch worker remains active. PIDs 2021 and 3215 are historical.
+Next: choose the next batch mode for the remaining nine 128-target cases
+(all-floating, seven single-group bypasses, fixed key-cache + transformer-weight
+bypass), estimated 35–45 minutes serialized using this completed pilot. Reuse the
+frozen panel and compatible baseline/reference evidence; preserve each attempt.
+The user has now authorized these remaining nine cases, serialized, then report.
+Active attempt will be `precision-128-remaining-01/` in the same release root;
+inspect its `batch.json` PID, per-case logs/summaries, and final report/failure
+before resuming. Runner is snapshotted as `runner.py` inside the attempt and
+reuses a copied floating-reference store from the verified pilot. Cases 1–9 use
+the exact earlier policies, including the fixed combined bypass. No held-out or
+subsequent calibration batch is authorized by this dispatch.
+
+Batch record: the shared handoff was committed/pushed as `9617f82`. Bounded
+precision attribution is implemented with exact baseline-preservation, seven
+independent group controls, causal-prefix panels and CPU regressions. The user
+selected ten DIFFERENT serialized 16-target cases, then report: baseline,
+all-floating, seven single-group bypasses and an adaptive top-two combined bypass.
+This is the complete current batch authorization; it does not authorize later
+128-target or held-out jobs. Completed attempt folder:
+`build/zephyrus-jobs/release/20260928T223413Z-b463e746/precision-attribution-01/`.
+Historical run command (completed; do not rerun into this folder):
+`HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 OMP_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 PYTHONPATH=. .venv/bin/python -u tools/run_precision_attribution.py --root build/zephyrus-jobs/release/20260928T223413Z-b463e746/precision-attribution-01`.
+Before resuming inspect `batch.json` (PID/source), `case-*/summary.json`, worker
+logs and `report.json`/`failure.json`; never redispatch an active batch or overwrite
+an attempt. The runner freezes both 16-target and 128-target panels but executes
+only the authorized 16-target panel. Read the recovery plan before the older status
+paragraphs below, which preserve the historical Mac milestones.
 
 The [Zephyrus handoff guide](zephyrus-handoff.md) covers WSL2 installation,
 transferring ignored models and complete stores, rebuilding Linux tools,
@@ -96,6 +152,8 @@ unfinished.
 
 | Status | Owner | Item | Notes |
 | --- | --- | --- | --- |
+| in progress | Codex | Qwen3 quality recovery and precision attribution | User authorized nine remaining 128-target cases; inspect precision-128-remaining-01 before dispatch. Estimated 35–45 minutes. |
+| open | Codex | Zephyrus release completion implementation | Infrastructure verified at b1f2d3f; measured model release remains blocked. Resume after quality recovery. |
 | done | Codex | Bit-accurate dense golden model and tiny-network cross-check | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/model.py`. Framework calibration remains separate. |
 | done | Codex | Versioned dense model descriptor and exported test vectors | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/records.py` and generated RTL benches. |
 | open | | Extend Cyclone V Quartus projects to `malleable_accelerator_top` and record real resource and timing results | Needs Quartus Prime Lite. Current projects are `quartus/int8_mac` and `quartus/int8_dot_product`. |
@@ -222,3 +280,25 @@ acceptance.
   commit `0242e06`, exit code 0, and no checkpoint downloads. An earlier
   in-flight Qwen3 run retains the pre-fix oversized raw counter summary; future
   runs use the bounded categorical diagnosis.
+
+- 2026-09-28 (Codex, Zephyrus setup): Restored transfer bundle `a960dd3`
+  into `/home/dhruv/projects/MalleableAI-FPGA` in Ubuntu 24.04 WSL2 as
+  user `dhruv`; origin points to the project GitHub URL. All 3,555 manifest
+  data files passed destination SHA-256 verification. All three transferred
+  checkpoints passed local adapter inspection. Installed Verilator 5.050,
+  Icarus 12.0, Yosys 0.33, Node 22.23.3, Python 3.12.3 and a project venv.
+  PyTorch 2.11.0+cu128 passed actual CUDA matrix multiplication on the RTX
+  5070 Ti Laptop GPU (compute capability 12.0). `pip check` passed.
+  Full checkpoint-free `make verify-llm` passed on this laptop; immutable
+  evidence is `build/release-evidence/zephyrus-setup-verification/verification.json`.
+  Environment/freeze/checkpoint reports are in `build/release-evidence/zephyrus-environment`.
+  The loopback workbench runs through user systemd service
+  `malleable-workbench.service` using fresh `build/zephyrus-jobs`; Windows
+  launcher `Start-Workbench.cmd` in the setup workspace keeps a WSL client
+  attached and opens http://127.0.0.1:8765. Stop with
+  `systemctl --user stop malleable-workbench.service`. Original Mac data and
+  queues remain preserved; no historical jobs were resumed. This establishes
+  environment readiness, not standalone/full-release model acceptance.
+  Existing quality failures and CUDA/hybrid release gates remain applicable.
+
+- 2026-09-28 (Codex, release implementation): Added bounded validation diagnostics, indexed resumable benchmarks, predictor v2, exact quality/configuration matching, controller partition/coverage checks, supported driver metadata, synchronized GPU/hybrid timing, and workbench conversation recovery. The 16-target Qwen3 pilot found 81.25% agreement and 1.01% NLL degradation; all 311 tensors match, both float references agree, and ISA/independent quantized top tokens agree. Acceptance remains blocked for a separate precision investigation. NVIDIA access was restored with G-Helper Eco to Standard and a fresh CUDA computation passed. See docs/zephyrus-release-progress.md for evidence identities and remaining work. Final-source interactive verification records are under build/zephyrus-jobs/release/20260928T223413Z-b463e746/final-verification. PR #3 remains draft; no merge or verifier download is authorized before standalone acceptance.

@@ -15,6 +15,20 @@ from .records import PERSONALITIES
 ACTIONS=[p+'/'+fmt for p in PERSONALITIES for fmt in ('int8','int4','fp4')]
 SIZE=10+len(ACTIONS)*2
 
+def validate_release_episodes(episodes,split):
+    from .optimization import PREDICTOR_TRAINING_MODELS,PREDICTOR_HELD_OUT_MODEL
+    validate(episodes)
+    models={w['base_model_id'] for ep in episodes for w in ep}
+    expected=PREDICTOR_TRAINING_MODELS if split=='training' else {PREDICTOR_HELD_OUT_MODEL}
+    if models!=expected: raise ValueError('frozen controller train/evaluation model partition mismatch')
+    actions={p+'/int8' for p in PERSONALITIES}
+    if any(set(w['service_cycles'])!=actions for ep in episodes for w in ep):
+        raise ValueError('primary controller evaluation requires four INT8 personalities')
+    coverage={(w.get('window',{}).get('objective','latency'),w.get('window',{}).get('remaining_requests',1))
+              for ep in episodes for w in ep}
+    if not {(o,h) for o in ('latency','throughput') for h in (1,8,32,128)}<=coverage:
+        raise ValueError('latency/throughput horizons 1, 8, 32 and 128 required')
+
 def validate(episodes):
     if not isinstance(episodes,list) or not episodes: raise ValueError('nonempty sequential episodes required')
     for ep in episodes:
@@ -171,10 +185,11 @@ def evaluate(checkpoint,episodes,seeds=range(100,105),split='held-out',leave_fam
     net=Network(random.Random(0)); net.w1,net.w2=checkpoint['w1'],checkpoint['w2']
     if any(set(w.get('predictor_training_models',[])) & ids for ep in episodes for w in ep):
         raise ValueError('predictor base-model training/evaluation leakage')
-    totals={k:[] for k in ('rl','fixed','heuristic','predictor','random','exhaustive')}
+    totals={k:[] for k in ('rl','fixed','heuristic','predictor','random','exhaustive')}; cases=[]
     for seed in seeds:
         rng=random.Random(seed); scores=dict.fromkeys(totals,0.)
-        for ep in episodes:
+        for episode_index,ep in enumerate(episodes):
+            before=dict(scores)
             if 'balanced/int8' not in ep[0]['service_cycles']: raise ValueError('fixed balanced INT8 baseline required')
             scores['exhaustive']+=exhaustive_episode(ep)
             currents=dict.fromkeys(totals,'balanced/int8'); residence=dict.fromkeys(totals,1)
@@ -206,10 +221,21 @@ def evaluate(checkpoint,episodes,seeds=range(100,105),split='held-out',leave_fam
                     else: scores[method]+=cost(w,cur,choice)
                     currents[method]=choice
                     residence[method]=residence[method]+1 if choice==cur else 0
+            case={'seed':seed,'episode_index':episode_index,'episode_hash':identity(ep),
+                'base_models':sorted({w['base_model_id'] for w in ep}),
+                'evidence_ids':sorted({key for w in ep for key in w['evidence_ids']}),
+                'cost':{method:scores[method]-before[method] for method in scores},
+                'windows':[w.get('window',{}) for w in ep],
+                'switching_cost_provenance':'assumed scenarios; not physical reconfiguration measurements'}
+            cases.append(case)
         for method in totals: totals[method].append(scores[method])
     return dict(schema_version=2,observation_schema=checkpoint['observation_schema'],split=split,seeds=seeds,base_models=sorted(ids),families=sorted(families),
         leave_family_out=leave_family_out,policy_id=identity(checkpoint),episode_hash=identity(episodes),
         totals=totals,mean_cost={k:sum(v)/len(v) for k,v in totals.items()},random_budget=budget,
+        cases=cases,per_case_regressions=[c for c in cases if c['cost']['rl']>c['cost']['fixed'] or c['cost']['rl']>c['cost']['heuristic']],
+        action_coverage=sorted({a for ep in episodes for w in ep for a in w['service_cycles']}),
+        horizon_coverage=sorted({w.get('window',{}).get('remaining_requests',1) for ep in episodes for w in ep}),
+        objective_coverage=sorted({w.get('window',{}).get('objective','latency') for ep in episodes for w in ep}),
         reward_provenance='estimated-window-from-measured-rtl',negative_results_included=True,
         random_exploration_cost='sum of tried service cycles charged as setup overhead',
         oracle_scope='covered quality-legal measured configurations only')

@@ -13,6 +13,7 @@ import threading
 import time
 import uuid
 from .llm.records import GenerationWorkload
+from .records import identity
 
 KINDS={'generate':'rtl','benchmark':'rtl','analyze':'cpu','quality':'rtl',
     'gpu-generate':'cuda','hybrid-generate':'hybrid','llm-performance-suite':'rtl'}
@@ -32,14 +33,24 @@ class Jobs:
             db.execute('CREATE TABLE IF NOT EXISTS jobs (id TEXT PRIMARY KEY,kind TEXT,payload TEXT,status TEXT,created REAL,returncode INTEGER)')
             db.execute('CREATE TABLE IF NOT EXISTS events (id INTEGER PRIMARY KEY AUTOINCREMENT, run_id TEXT, kind TEXT, payload TEXT, created REAL)')
             db.execute('CREATE INDEX IF NOT EXISTS event_run ON events(run_id,id)')
+            running=list(db.execute("SELECT id FROM jobs WHERE status='running'"))
             db.execute("UPDATE jobs SET status='interrupted' WHERE status='running'")
+            for row in running:
+                db.execute('INSERT INTO events(run_id,kind,payload,created) VALUES (?,?,?,?)',
+                    (row['id'],'status',json.dumps({'status':'interrupted','reason':'worker restart'}),time.time()))
             # Old SSM records stay readable, but are never dispatched/resumed.
             for kind in RETIRED:
+                retiring=list(db.execute("SELECT id FROM jobs WHERE kind=? AND status IN ('queued','interrupted')",(kind,)))
                 db.execute("UPDATE jobs SET status='retired' WHERE kind=? AND status IN ('queued','interrupted')",(kind,))
+                for row in retiring:
+                    db.execute('INSERT INTO events(run_id,kind,payload,created) VALUES (?,?,?,?)',
+                        (row['id'],'status',json.dumps({'status':'retired'}),time.time()))
             for row in db.execute("SELECT id,payload FROM jobs WHERE status IN ('queued','interrupted')"):
                 payload=json.loads(row['payload'])
                 if 'artifact' in payload or any(isinstance(v,str) and v.endswith('.mssm') for v in payload.values()):
                     db.execute("UPDATE jobs SET status='retired' WHERE id=?",(row['id'],))
+                    db.execute('INSERT INTO events(run_id,kind,payload,created) VALUES (?,?,?,?)',
+                        (row['id'],'status',json.dumps({'status':'retired'}),time.time()))
         self.threads=[]
         if autostart:
             for resource in ('rtl','cuda','hybrid','cpu'):
@@ -105,7 +116,9 @@ class Jobs:
             if kind=='hybrid-generate' and payload.get('depth',4) not in (1,2,4,8): raise ValueError('invalid draft depth')
             return self.enqueue(kind,payload)
         if kind=='llm-performance-suite':
-            if set(payload)!={'manifest'}: raise ValueError('manifest path required')
+            if 'manifest' not in payload or set(payload)-{'manifest','run_index'}: raise ValueError('manifest path required; optional run_index')
+            if 'run_index' in payload and (type(payload['run_index']) is not int or not 0<=payload['run_index']<10):
+                raise ValueError('benchmark run index must be 0..9')
             manifest=self.path(payload['manifest'],'.json')
             data=json.loads(manifest.read_text())
             model=Path(data.get('model_path','')).resolve()
@@ -114,7 +127,12 @@ class Jobs:
             from .llm.models import inspect
             from .llm.experiments import validate_performance_manifest
             validate_performance_manifest(data,inspect(model))
-            return self.enqueue(kind,{'manifest':str(manifest)})
+            frozen=self.root/'performance-manifests'/(identity(data)+'.json')
+            frozen.parent.mkdir(parents=True,exist_ok=True)
+            if frozen.exists():
+                if identity(json.loads(frozen.read_text()))!=identity(data): raise ValueError('frozen manifest changed')
+            else: frozen.write_text(json.dumps(data,allow_nan=False))
+            return self.enqueue(kind,{**payload,'manifest':str(frozen)})
         common={'model','context'}
         allowed=common | (set(GenerationWorkload.__dataclass_fields__)-{'schema_version'} |
                           {'previous_config','optimization_session_id'} if kind in ('generate','benchmark')
@@ -147,8 +165,11 @@ class Jobs:
     def argv(self,kind,payload,identifier):
         if kind not in KINDS: raise ValueError('retired jobs cannot resume')
         command=LEARNING.get(kind,'performance-suite' if kind=='llm-performance-suite' else kind)
+        destination=self.root/'research' if kind in LEARNING else self.root/identifier
+        if kind=='llm-performance-suite':
+            destination=self.root/'performance'/identity(json.loads(Path(payload['manifest']).read_text()))
         argv=[sys.executable,'-u','-m','malleable.llm.cli',command,'--store',
-            str(self.root/'research' if kind in LEARNING else self.root/identifier)]
+            str(destination)]
         for key,value in payload.items():
             if key in ('previous_config','optimization_session_id'): continue
             if key in ('messages','input_tokens'): value=json.dumps(value,allow_nan=False)
@@ -272,7 +293,7 @@ class Jobs:
         from .store import Store
         payload=event['payload']; event_kind=event['kind']
         if not isinstance(payload,dict): raise ValueError('record payload must be an object')
-        if event_kind=='candidate' and payload.get('valid') is not False: return None
+        if event_kind=='candidate' and payload.get('valid') is not False and not (payload.get('valid') is True and 'tokens' in payload): return None
         if event_kind=='model': kind='llm-model'
         elif event_kind=='candidate' or (job_kind in ('benchmark','llm-performance-suite') and 'tokens' in payload): kind='llm-generation'
         else: kind={'generate':'llm-generation','benchmark':'llm-benchmark','quality':'llm-quality','analyze':'llm-model',
@@ -281,6 +302,7 @@ class Jobs:
             'llm-optimize':'llm-decision','llm-train':'llm-policy','llm-evaluate':'llm-policy-evaluation',
             'llm-predictor-train':'llm-predictor','llm-predictor-evaluate':'llm-predictor-evaluation',
             'llm-promote':'llm-policy-deployment','llm-rollback':'llm-policy-deployment'}[job_kind]
+        if job_kind=='llm-performance-suite' and payload.get('status')=='incomplete': kind='llm-benchmark-progress'
         store=Store(self.root/'research')
         try:
             # Transport/job metadata is not part of model or policy identity.
@@ -291,6 +313,22 @@ class Jobs:
                 'artifact_kind':kind,'event_kind':event_kind})
             return key
         finally: store.close()
+
+    def trace_directory(self,identifier,step):
+        self.get(identifier)
+        if not 0<=step<2048: raise ValueError('invalid step')
+        for event in reversed(self.events_for_trace(identifier)):
+            payload=event['payload']
+            if event['kind']=='counters' and payload.get('step')==step and payload.get('profile_path'):
+                path=Path(payload['profile_path']).resolve().parent
+                if not path.is_relative_to(self.root): raise ValueError('trace evidence outside job root')
+                return path
+        return self.root/identifier/'traces'/f'step-{step:05d}'
+
+    def events_for_trace(self,identifier):
+        with self.connect() as db:
+            return [dict(row,payload=json.loads(row['payload'])) for row in db.execute(
+                "SELECT * FROM events WHERE run_id=? AND kind='counters' ORDER BY id",(identifier,))]
 
     def artifact_metadata(self,identifier):
         try: payload=json.loads(self.get(identifier)['payload'])
@@ -401,12 +439,12 @@ def create_app(model_root='build/models',job_root='build/ide-jobs',start_worker=
                         and r.get('personality')+'/'+r.get('workload',{}).get('wformat')==chosen
                         and r.get('workload_identity_v2')==current.get('workload_identity_v2')),None)
                     if not candidate: raise ValueError('automatic application requires a measured, matched RTL candidate')
-                    approval=next((q for q in reversed(qualities) if q.get('base_model_id')==current['base_model_id']
-                        and q.get('variant_id')==candidate.get('variant_id') and q.get('personality')==candidate.get('personality')
-                        and q.get('split')=='held-out' and q.get('selectable') is True),None)
+                    from .llm.quality import quality_matches
+                    validation=next((q for q in reversed(qualities) if quality_matches(q,candidate)),None)
+                    approval=next((q for q in reversed(qualities) if validation and quality_matches(q,candidate,'held-out',validation)),None)
                     if not approval: raise ValueError('automatic application requires held-out-approved candidate quality')
                     with jobs.connect() as db:
-                        active=db.execute("SELECT 1 FROM jobs WHERE status IN ('queued','running') AND kind IN ('generate','benchmark','quality') LIMIT 1").fetchone()
+                        active=db.execute("SELECT 1 FROM jobs WHERE status IN ('queued','running') AND kind IN ('generate','benchmark','quality','llm-performance-suite','hybrid-generate','gpu-generate') LIMIT 1").fetchone()
                     if active: raise ValueError('automatic changes apply only between RTL decision windows')
                     model=store.load(generation['model_record'])
                     model_path=Path(model['path']).resolve()
@@ -471,7 +509,8 @@ def create_app(model_root='build/models',job_root='build/ide-jobs',start_worker=
         try: jobs.get(identifier)
         except ValueError as e: raise HTTPException(400,str(e))
         if not 0<=step<2048: raise HTTPException(400,'invalid step')
-        path=jobs.root/identifier/'traces'/f'step-{step:05d}'/'profile.json'
+        try: path=jobs.trace_directory(identifier,step)/'profile.json'
+        except ValueError as e: raise HTTPException(400,str(e))
         if not path.is_file(): raise HTTPException(404,'awaiting trace')
         return FileResponse(path,media_type='application/json')
     @app.get('/api/job/{identifier}/trace/{step}')
@@ -479,7 +518,8 @@ def create_app(model_root='build/models',job_root='build/ide-jobs',start_worker=
         try: jobs.get(identifier)
         except ValueError as e: raise HTTPException(400,str(e))
         if not 0<=step<2048 or not 0<=offset<=100000000 or not 1<=limit<=500: raise HTTPException(400,'invalid trace segment')
-        path=jobs.root/identifier/'traces'/f'step-{step:05d}'/'trace.txt'
+        try: path=jobs.trace_directory(identifier,step)/'trace.txt'
+        except ValueError as e: raise HTTPException(400,str(e))
         if not path.is_file(): raise HTTPException(404,'awaiting trace')
         # Byte offsets avoid rereading the whole trace for late segments. Only
         # complete bounded lines enter the browser; full evidence stays on disk.
@@ -496,7 +536,8 @@ def create_app(model_root='build/models',job_root='build/ide-jobs',start_worker=
         try: jobs.get(identifier)
         except ValueError as e: raise HTTPException(400,str(e))
         if not 0<=step<2048: raise HTTPException(400,'invalid step')
-        path=jobs.root/identifier/'traces'/f'step-{step:05d}'/'prog_0.hex'
+        try: path=jobs.trace_directory(identifier,step)/'prog_0.hex'
+        except ValueError as e: raise HTTPException(400,str(e))
         if not path.is_file(): raise HTTPException(404,'awaiting compiled instructions')
         from .llm import upstream
         from opentpu import isa

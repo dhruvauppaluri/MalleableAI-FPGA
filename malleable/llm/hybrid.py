@@ -20,6 +20,7 @@ def greedy(draft,verifier,prompt,max_new=16,depth=4,eos=None,cancel=lambda:False
     accepted=list(prompt); output=[]; proposed=accepted_count=0; started=time.monotonic()
     timings={'draft_seconds':0.,'verify_seconds':0.,'rollback_seconds':0.}
     draft.reset(accepted); verifier.reset(accepted)
+    prefill_seconds=time.monotonic()-started; decode_started=time.monotonic()
     def is_eos(token):
         return token in eos if isinstance(eos,(set,tuple,list)) else token==eos
     while len(output)<max_new:
@@ -51,9 +52,10 @@ def greedy(draft,verifier,prompt,max_new=16,depth=4,eos=None,cancel=lambda:False
             start=time.monotonic(); draft.reset(accepted)
             timings['rollback_seconds']+=time.monotonic()-start
         if ended: break
-    elapsed=time.monotonic()-started
+    decode_seconds=time.monotonic()-decode_started; elapsed=prefill_seconds+decode_seconds
     return {'tokens':output,'proposed_tokens':proposed,'accepted_tokens':accepted_count,
         'acceptance_rate':accepted_count/max(1,proposed),'host_end_to_end_seconds':elapsed,
+        'prefill_seconds':prefill_seconds,'decode_seconds':decode_seconds,
         'verified_tokens_per_second':len(output)/max(elapsed,1e-12),'timings':timings,
         'speedup_established':False,'projection':'simulation is not physical FPGA timing'}
 

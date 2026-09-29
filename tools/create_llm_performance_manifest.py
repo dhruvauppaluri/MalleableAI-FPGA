@@ -24,7 +24,7 @@ def main():
     store=Store(a.store)
     try:
         quality=store.records('llm-quality')
-        approved=validated_variants(quality,info['base_model_id'])
+        approved=validated_variants(quality,info['base_model_id'],info['tokenizer_id'],128)
         evidence=[{'id':identity(q),'record':q} for q in quality if q.get('base_model_id')==info['base_model_id']
             and q.get('personality')=='balanced' and q.get('split')=='validation'
             and q.get('suite_frozen') is True and q.get('target_count',0)>=1024

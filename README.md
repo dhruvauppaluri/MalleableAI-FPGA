@@ -17,7 +17,7 @@ path is retired; historical records and user data are preserved.
 ## Where we are
 
 The release is **incomplete**. Implemented interfaces are not completed
-acceptance evidence. Latest recorded local results (September 28, 2026):
+acceptance evidence. Recorded Mac baseline results (September 28, 2026):
 
 | Area | Current evidence |
 | --- | --- |
@@ -34,6 +34,17 @@ acceptance evidence. Latest recorded local results (September 28, 2026):
 caveats, and open tasks. Work is on `codex/local-llm-platform` in
 [draft PR #3](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/3), targeting
 the dense-baseline branch. No automatic merge to `main`.
+
+Newer Zephyrus work passed checkpoint-free verification, browser checks, CUDA
+cache tests, and CI; this is not official CUDA/hybrid release acceptance.
+Qwen3 quality recovery is now active: the frozen 128-target baseline pilot
+achieved 83.59% agreement and 0.62% NLL degradation. It remains below the quality
+gate and is diagnostic evidence, not the required 1,024-target held-out approval.
+See [the approved recovery plan](docs/qwen3-quality-recovery.md) and
+[precision attribution findings](docs/qwen3-precision-attribution-results.md).
+The user-approved recovery scope permits targeted LLM precision and matching
+ISA/RTL redesign after compatible INT8 experiments, accepting measured slowdown.
+It does not change the independent dense contract or quality thresholds.
 
 ## What we are building
 

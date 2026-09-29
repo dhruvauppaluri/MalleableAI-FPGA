@@ -10,7 +10,7 @@ def emit(kind,payload):
 
 def main():
     p=argparse.ArgumentParser()
-    p.add_argument('command',choices=['analyze','generate','benchmark','quality','optimize',
+    p.add_argument('command',choices=['analyze','generate','benchmark','quality','quality-diagnose','quality-precision-diagnose','optimize',
         'train','evaluate','promote','rollback','predictor-train','predictor-evaluate',
         'release-check','full-release-check','gpu-generate','hybrid-generate','performance-suite'])
     p.add_argument('--model'); p.add_argument('--verifier'); p.add_argument('--store',default='build/llm-runs')
@@ -21,6 +21,9 @@ def main():
     p.add_argument('--current'); p.add_argument('--window'); p.add_argument('--episodes')
     p.add_argument('--checkpoint'); p.add_argument('--report'); p.add_argument('--previous')
     p.add_argument('--passes',type=int,default=20)
+    p.add_argument('--limit-targets',type=int,default=16)
+    p.add_argument('--run-index',type=int)
+    p.add_argument('--precision-policy'); p.add_argument('--diagnostic-panel')
     p.add_argument('--depth',type=int,default=4); p.add_argument('--dtype',choices=['float16','float32'],default='float16')
     for name,default,typ in [('prompt','Hello',str),('prompt_format','chat',str),('max_new',16,int),('context',2048,int),
         ('seed',0,int),('backend','rtl',str),('personality','balanced',str),('wformat','int8',str),
@@ -58,7 +61,7 @@ def main():
         if a.command=='performance-suite':
             from .experiments import run_performance_manifest
             if not a.manifest: raise ValueError('--manifest is required for performance-suite')
-            run_performance_manifest(a.manifest,a.store,emit); return
+            run_performance_manifest(a.manifest,a.store,emit,a.run_index); return
         if a.command in ('optimize','train','evaluate','promote','rollback','predictor-train','predictor-evaluate'):
             from ..store import Store
             from .optimization import decide,DecisionWindow
@@ -74,17 +77,16 @@ def main():
                     predictor=Predictor()
                     if a.command=='predictor-train':
                         predictor.fit(rows)
-                        result={'schema_version':1,'algorithm':'ridge-regression','coefficients':predictor.coefficients,
-                            'training_models':predictor.training_models,'training_rmse_cycles':predictor.rmse,
-                            'evidence_ids':requests,'provenance':'measured-rtl-training'}
+                        result=predictor.checkpoint(requests)
                         kind='llm-predictor'
                     else:
                         checkpoint=store.load(a.checkpoint)
-                        if checkpoint.get('algorithm')!='ridge-regression' or checkpoint.get('schema_version')!=1:
-                            raise ValueError('invalid predictor checkpoint')
+                        predictor=Predictor.from_checkpoint(checkpoint)
                         if set(checkpoint['training_models']) & {r['base_model_id'] for r in rows}:
                             raise ValueError('predictor base-model train/evaluation leakage')
-                        predictor.coefficients=checkpoint['coefficients']; predictor.rmse=checkpoint['training_rmse_cycles']
+                        from .optimization import PREDICTOR_HELD_OUT_MODEL
+                        if {r['base_model_id'] for r in rows}!={PREDICTOR_HELD_OUT_MODEL}:
+                            raise ValueError('frozen predictor held-out partition requires LFM2.5 only')
                         predictions=[]
                         for row in rows:
                             if not row.get('valid') or row.get('backend')!='rtl' or not row.get('counters') or any(
@@ -92,7 +94,9 @@ def main():
                                 raise ValueError('predictor evaluation requires validated RTL evidence')
                             measured=sum(s['cycles'] for s in row['counters']); prediction=predictor.predict(row)
                             predictions.append(dict(prediction,measured_cycles=measured,error_cycles=prediction['cycles']-measured))
-                        result={'schema_version':1,'checkpoint':a.checkpoint,'evidence_ids':requests,'predictions':predictions,
+                        result={'schema_version':2,'feature_schema':checkpoint['feature_schema'],
+                            'checkpoint':a.checkpoint,'evidence_ids':requests,'predictions':predictions,
+                            'base_models':sorted({r['base_model_id'] for r in rows}),
                             'split':a.split,'provenance':'estimated-predictions-versus-measured-rtl'}
                         kind='llm-predictor-evaluation'
                 elif a.command=='optimize':
@@ -101,6 +105,7 @@ def main():
                     kind='llm-decision'
                 elif a.command in ('train','evaluate'):
                     episodes=episodes_from_store(store,json.loads(Path(a.episodes).read_text()))
+                    learning.validate_release_episodes(episodes,'training' if a.command=='train' else a.split)
                     if a.command=='train':
                         result=learning.train(episodes,a.seed,a.passes,store.load(a.checkpoint) if a.checkpoint else None)
                         kind='llm-policy'
@@ -120,12 +125,29 @@ def main():
                 key=store.save(kind,result); emit('result',dict(result,record_id=key)); return
             finally: store.close()
         if not a.model: raise ValueError('--model is required')
-        if a.command=='quality':
-            from .quality import evaluate
+        if a.command in ('quality','quality-diagnose','quality-precision-diagnose'):
             from ..store import Store
-            result=evaluate(a.model,a.suite,a.wformat,a.split,a.personality,a.max_host_gib,emit=emit,context=a.context)
+            if a.command=='quality':
+                from .quality import evaluate
+                result=evaluate(a.model,a.suite,a.wformat,a.split,a.personality,a.max_host_gib,emit=emit,context=a.context)
+                kind='llm-quality'
+            elif a.command=='quality-diagnose':
+                from .diagnostics import diagnose
+                result=diagnose(a.model,a.suite,a.limit_targets,a.personality,a.wformat,a.context,
+                    a.split,a.max_host_gib,emit=emit)
+                kind='llm-quality-diagnostic'
+            else:
+                if a.split!='validation' or a.context!=128 or a.personality!='balanced' or a.wformat!='int8':
+                    raise ValueError('precision attribution requires validation/context128/balanced/INT8 baseline')
+                if not a.precision_policy or not a.diagnostic_panel:
+                    raise ValueError('frozen --precision-policy and --diagnostic-panel are required')
+                from .precision import diagnose_precision
+                result=diagnose_precision(a.model,a.suite,json.loads(Path(a.precision_policy).read_text()),
+                    json.loads(Path(a.diagnostic_panel).read_text()),Path(a.store)/'floating-references',
+                    a.max_host_gib,emit=emit)
+                kind='llm-precision-diagnostic'
             store=Store(Path(a.store)/'research')
-            try: result['record_id']=store.save('llm-quality',result)
+            try: result['record_id']=store.save(kind,result)
             finally: store.close()
             emit('result',result)
         elif a.command=='analyze':

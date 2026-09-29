@@ -162,6 +162,8 @@ class LlmTests(unittest.TestCase):
         quality=[]
         for wformat in ('int4','fp4'):
             row={'base_model_id':'base','variant_id':identity({'base':'base','format':wformat,'head':'int8'}),
+                'tokenizer_id':'tok','context':128,'wformat':wformat,'head_format':'int8','configuration_id':'cfg',
+                'suite_file_hash':'frozen','suite_hashes':dict(calibration='c',validation='v',**{'held-out':'h'}),
                 'personality':'balanced','split':'validation','samples':1024,'target_count':1024,
                 'suite_frozen':True,'float_nll':2.,'candidate_nll':2.,'agreement':1.}
             quality.append({'id':identity(row),'record':row})
@@ -196,10 +198,14 @@ class LlmTests(unittest.TestCase):
                 store.save('llm-generation',candidate)
                 for personality in ('compact','compute'):
                     q={'base_model_id':'base','variant_id':'variant','personality':personality,
+                       'tokenizer_id':'tok','configuration_id':'config' if personality=='compact' else 'other',
+                       'suite_file_hash':'frozen','suite_hashes':dict(calibration='c',validation='v',**{'held-out':'h'}),
                        'samples':1024,'target_count':1024,'suite_frozen':True,
                        'split':'validation','float_nll':2.,'candidate_nll':2.,'agreement':1.}
                     store.save('llm-quality',q)
                 store.save('llm-quality',{'base_model_id':'base','variant_id':'variant','personality':'compute',
+                    'tokenizer_id':'tok','configuration_id':'other','suite_frozen':True,'suite_file_hash':'frozen',
+                    'suite_hashes':dict(calibration='c',validation='v',**{'held-out':'h'}),
                     'samples':1024,'target_count':1024,'split':'held-out','float_nll':2.,'candidate_nll':2.,
                     'agreement':1.,'selectable':True})
             finally: store.close()
@@ -222,9 +228,12 @@ class LlmTests(unittest.TestCase):
     def test_switching_break_even(self):
         from malleable.llm.optimization import decide,DecisionWindow
         current={'base_model_id':'base','valid':True,'backend':'rtl','personality':'compact','variant_id':'v',
+                 'tokenizer_id':'tok','configuration_id':'cfg','input_token_hash':'tape',
                  'workload':{'wformat':'int8','prompt':'fixed'},'counters':[{'cycles':1000,'validation':'bit-exact-dram-and-tmem'}]}
         fast=dict(current,personality='compute',counters=[{'cycles':100,'validation':'bit-exact-dram-and-tmem'}])
         q={'base_model_id':'base','variant_id':'v','samples':1024,'target_count':1024,'suite_frozen':True,
+           'tokenizer_id':'tok','configuration_id':'cfg','suite_file_hash':'frozen',
+           'suite_hashes':dict(calibration='c',validation='v',**{'held-out':'h'}),
            'split':'validation','float_nll':2,'candidate_nll':2,'agreement':1.}
         quality=[dict(q,personality=p) for p in ('compact','compute')]
         costs={'compact/int8->compute/int8':{'drain':0,'program':10000,'reload':0,'warmup':0,'reprefill':0}}

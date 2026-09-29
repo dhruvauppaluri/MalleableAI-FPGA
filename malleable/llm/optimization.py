@@ -3,7 +3,16 @@ from dataclasses import dataclass,asdict
 import math
 import statistics
 from ..records import identity
-from .quality import gate
+from .quality import gate,quality_matches
+
+PREDICTOR_FEATURES = ('bias', 'input_tokens_div_2048', 'generated_tokens_div_256',
+    'matrix_columns_div_8', 'vector_lanes_div_16', 'axi_latency_div_100',
+    'axi_stall_percent_div_100', 'dram_gib', 'weight_format', 'fifo_depth_div_1024',
+    'axi_bandwidth_percent_div_100')
+PREDICTOR_TRAINING_MODELS = {
+    '7ab1181d3a2b04ce889880dfc3b94933574441e9c221e950622c39a3ce79a59d',
+    '96c8847b78593ff15008955c68e384f5ff40895e425e487aec30b8173542a857'}
+PREDICTOR_HELD_OUT_MODEL = '8d6ac525c1b135ad360d0f9f5a822698bbb257b7408f791e2ca695ae473798b3'
 
 @dataclass(frozen=True)
 class DecisionWindow:
@@ -46,11 +55,14 @@ def objective_cost(service,window,overhead=0):
         end=max(overhead+n*service,(n-1)*interval+service)
     return latency if window.objective=='latency' else end/n
 
-def validated_variants(qualities,base_model_id):
+def validated_variants(qualities,base_model_id,tokenizer_id=None,context=128):
     valid=set()
     for q in qualities:
         if q.get('base_model_id')!=base_model_id or q.get('split')!='validation' \
             or q.get('samples',0)<1024 or q.get('target_count',0)<1024 or q.get('suite_frozen') is not True: continue
+        if q.get('context')!=context or not q.get('configuration_id') or not q.get('tokenizer_id') \
+            or not q.get('suite_file_hash') or set(q.get('suite_hashes',{}))!={'calibration','validation','held-out'} \
+            or (tokenizer_id is not None and q['tokenizer_id']!=tokenizer_id): continue
         if not gate(q['float_nll'],q['candidate_nll'],q['agreement'])['passed']: continue
         # Validation makes a candidate searchable. Held-out is reserved for promotion.
         valid.add((q['variant_id'],q.get('personality')))
@@ -69,17 +81,19 @@ def observations(results,base_model_id,workload_id=None):
     return grouped
 
 def decide(results,qualities,current,window):
-    base=current['base_model_id']; variant_ids=validated_variants(qualities,base)
+    base=current['base_model_id']
+    reference=next((q for q in reversed(qualities) if quality_matches(q,current)),None)
     # Match prompt/context/token count/seed/memory scenario, ignoring only execution settings.
     def comparison(r):
         return identity({k:v for k,v in r['workload'].items() if k not in ('personality','wformat','backend','clock_hz')})
-    matches=[r for r in results if r.get('workload') and comparison(r)==comparison(current)]
+    matches=[r for r in results if r.get('workload') and comparison(r)==comparison(current)
+        and r.get('tokenizer_id')==current.get('tokenizer_id') and r.get('input_token_hash')==current.get('input_token_hash')]
     groups=observations(matches,base); cur=config_key(current)
     if cur not in groups: raise ValueError('current configuration requires measured RTL correctness evidence')
     candidates={}; excluded={}
     for key,samples in groups.items():
-        if (samples[-1][1]['variant_id'],samples[-1][1]['personality']) not in variant_ids:
-            excluded[key]='missing or failed validation quality evidence for this personality'; continue
+        if not reference or not all(any(quality_matches(q,r,frozen_reference=reference) for q in qualities) for _,r in samples):
+            excluded[key]='missing or failed matched frozen validation quality evidence'; continue
         change=key!=cur
         costs=(window.switching_costs or {}).get(cur+'->'+key)
         if change and window.residence_windows<1: excluded[key]='minimum residence'; continue
@@ -122,24 +136,48 @@ class Predictor:
     def __init__(self): self.coefficients=None; self.rmse=None; self.training_models=[]
     @classmethod
     def from_checkpoint(cls,data):
-        if data.get('schema_version')!=1 or data.get('algorithm')!='ridge-regression': raise ValueError('invalid predictor checkpoint')
+        if data.get('schema_version')!=2 or data.get('algorithm')!='ridge-regression' \
+            or data.get('feature_schema')!=list(PREDICTOR_FEATURES):
+            raise ValueError('predictor schema v2 with the ordered feature definition required; v1 is inspectable only')
         coefficients=data.get('coefficients')
-        if not isinstance(coefficients,list) or len(coefficients)!=9 or any(type(v) not in (int,float)
+        if not isinstance(coefficients,list) or len(coefficients)!=len(PREDICTOR_FEATURES) or any(type(v) not in (int,float)
             or not math.isfinite(v) for v in coefficients): raise ValueError('invalid predictor coefficients')
         rmse=data.get('training_rmse_cycles')
         if type(rmse) not in (int,float) or not math.isfinite(rmse) or rmse<0 or not data.get('training_models'):
             raise ValueError('invalid predictor uncertainty/lineage')
+        if set(data['training_models'])!=PREDICTOR_TRAINING_MODELS or data.get('held_out_model')!=PREDICTOR_HELD_OUT_MODEL:
+            raise ValueError('predictor checkpoint frozen partition mismatch')
         value=cls(); value.coefficients=coefficients; value.rmse=rmse; value.training_models=data['training_models']; return value
+    @staticmethod
+    def inspect_checkpoint(data):
+        return {'schema_version':data.get('schema_version'),'algorithm':data.get('algorithm'),
+            'feature_schema':data.get('feature_schema'),'training_models':data.get('training_models'),
+            'coefficients':data.get('coefficients'),'runnable':data.get('schema_version')==2}
+    def checkpoint(self,evidence_ids):
+        if self.coefficients is None: raise ValueError('predictor not fitted')
+        return {'schema_version':2,'algorithm':'ridge-regression','feature_schema':list(PREDICTOR_FEATURES),
+            'coefficients':self.coefficients,'training_models':self.training_models,
+            'training_rmse_cycles':self.rmse,'evidence_ids':evidence_ids,
+            'held_out_model':PREDICTOR_HELD_OUT_MODEL,'provenance':'measured-rtl-training'}
     @staticmethod
     def features(row):
         cfg=row['config']; w=row['workload']
-        return [1.,row.get('prompt_tokens',1)/2048,w['max_new']/256,cfg['MCOLS']/8,
+        metadata=row.get('microarchitecture',{})
+        uarch=metadata.get('parameters')
+        if metadata.get('schema_version')!=1 or not isinstance(uarch,dict) or 'FIFO_DEPTH' not in uarch:
+            raise ValueError('explicit versioned microarchitecture metadata required for predictor v2')
+        generated=0 if row.get('generation_mode')=='fixed-token-tape' else w['max_new']
+        return [1.,row.get('prompt_tokens',1)/2048,generated/256,cfg['MCOLS']/8,
                 cfg['LANES']/16,w['latency']/100,w['stall_percent']/100,
-                cfg['DRAM_BYTES']/2**30,{'int8':1.,'int4':.5,'fp4':.25}[w['wformat']]]
+                cfg['DRAM_BYTES']/2**30,{'int8':1.,'int4':.5,'fp4':.25}[w['wformat']],
+                uarch['FIFO_DEPTH']/1024,w['bandwidth_percent']/100]
     def fit(self,rows):
         import numpy as np
-        rows=[r for r in rows if r.get('valid') and r.get('backend')=='rtl' and r.get('counters')
-              and all(s.get('validation')=='bit-exact-dram-and-tmem' for s in r['counters'])]
+        if {r.get('base_model_id') for r in rows}!=PREDICTOR_TRAINING_MODELS:
+            raise ValueError('predictor partition is frozen: Qwen3/Qwen3.5 train; LFM2.5 held-out')
+        if any(not r.get('valid') or r.get('backend')!='rtl' or not r.get('counters')
+              or any(s.get('validation')!='bit-exact-dram-and-tmem' for s in r['counters']) for r in rows):
+            raise ValueError('predictor fitting requires validated measured RTL rows')
         if len(rows)<10: raise ValueError('at least ten measured training observations required')
         x=np.array([self.features(r) for r in rows]); y=np.array([sum(s['cycles'] for s in r['counters']) for r in rows])
         beta=np.linalg.solve(x.T@x+np.eye(x.shape[1])*.001,x.T@y)
@@ -147,5 +185,6 @@ class Predictor:
         self.training_models=sorted({r['base_model_id'] for r in rows}); return self
     def predict(self,row):
         if self.coefficients is None: raise ValueError('predictor not fitted')
+        if len(self.coefficients)!=len(PREDICTOR_FEATURES): raise ValueError('predictor coefficient schema mismatch')
         return {'cycles':max(1.,sum(a*b for a,b in zip(self.features(row),self.coefficients))),
                 'rmse':self.rmse,'provenance':'estimated-measured-data-regression'}
