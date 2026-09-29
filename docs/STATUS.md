@@ -16,15 +16,27 @@ Baseline `b1f2d3f` passed final-source `make verify-llm`, actual CUDA cache test
 browser acceptance and CI. Evidence is under
 `build/zephyrus-jobs/release/20260928T223413Z-b463e746/`.
 Qwen3 remains blocked (16-target agreement 81.25%; NLL degradation 1.01%).
-Current action: the shared handoff was committed/pushed as `9617f82`. Bounded
+Latest outcome: all ten authorized cases completed in 225.07 seconds on clean
+source `7118e064e08dae35b58746ef5048f0657284020c` (pushed). Baseline 81.25%;
+all-floating 100%; best targeted bypasses 87.50%. The combined key-cache and
+transformer-weight bypass fixed the three original mismatches but introduced two
+others. No targeted case met 90%; release remains blocked. See
+[the complete results and interpretation](qwen3-precision-attribution-results.md).
+All ten result hashes verified; focused CPU tests: 31 passed in 10.44 seconds.
+No worker remains active from this batch. PID 2021 is historical, not a resume
+instruction. The next action is to select the next run mode in chat for a
+128-target baseline timing pilot before broader screening; no further checkpoint
+batch is authorized. The already frozen 128-target panel must be reused.
+
+Batch record: the shared handoff was committed/pushed as `9617f82`. Bounded
 precision attribution is implemented with exact baseline-preservation, seven
 independent group controls, causal-prefix panels and CPU regressions. The user
 selected ten DIFFERENT serialized 16-target cases, then report: baseline,
 all-floating, seven single-group bypasses and an adaptive top-two combined bypass.
 This is the complete current batch authorization; it does not authorize later
-128-target or held-out jobs. Expected attempt folder:
+128-target or held-out jobs. Completed attempt folder:
 `build/zephyrus-jobs/release/20260928T223413Z-b463e746/precision-attribution-01/`.
-Run command (from the Linux repo, after a clean commit):
+Historical run command (completed; do not rerun into this folder):
 `HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 OMP_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 PYTHONPATH=. .venv/bin/python -u tools/run_precision_attribution.py --root build/zephyrus-jobs/release/20260928T223413Z-b463e746/precision-attribution-01`.
 Before resuming inspect `batch.json` (PID/source), `case-*/summary.json`, worker
 logs and `report.json`/`failure.json`; never redispatch an active batch or overwrite
@@ -116,7 +128,7 @@ unfinished.
 
 | Status | Owner | Item | Notes |
 | --- | --- | --- | --- |
-| in progress | Codex | Qwen3 quality recovery and precision attribution | Handoff saved; user selected ten distinct serialized 16-target diagnostics then report. See current attempt/command above and qwen3-quality-recovery.md. |
+| open | Any agent | Qwen3 quality recovery and precision attribution | Ten-case batch complete; best targeted result 87.50%. Select next batch mode before the frozen 128-target pilot. See qwen3-precision-attribution-results.md and the recovery plan. |
 | open | Codex | Zephyrus release completion implementation | Infrastructure verified at b1f2d3f; measured model release remains blocked. Resume after quality recovery. |
 | done | Codex | Bit-accurate dense golden model and tiny-network cross-check | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/model.py`. Framework calibration remains separate. |
 | done | Codex | Versioned dense model descriptor and exported test vectors | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/records.py` and generated RTL benches. |
