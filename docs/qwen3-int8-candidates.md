@@ -123,3 +123,14 @@ output of the checked loader against directly loaded persisted tensors. It does
 not treat float64 emulation as an exact ISA oracle: a synthetic outlier fixture
 showed differing top tokens at the third step, which reinforces the need for
 actual ISA quality evaluation before any release claim.
+
+The actual Zephyrus ISA pilot has now completed on clean source
+`c4e87cd3532833899b86fbf3d3ceabe2ea6c6988`: 15/16 = 93.75%, NLL degradation
++0.634761%, 86.54 seconds wall time. All 311 source tensors match; both floating
+references agree; ISA and derived quantized emulation agree on 15/16 targets.
+Evidence: `candidate-isa-pilot-01/` in the same release root. Result SHA-256:
+`03adbf677fe1b67ce0b274f384a8fcded41dc7849e87baaf84f0c4774b6ba7d3`.
+It passes the bounded diagnostic gates and supports proceeding to actual ISA
+full validation. It cannot substitute for >=1,024 validation and held-out targets.
+Linear extrapolation gives 92 minutes for 1,024 targets; plan 90–150 minutes
+as an estimate accounting for longer-prefix attention and different overhead.

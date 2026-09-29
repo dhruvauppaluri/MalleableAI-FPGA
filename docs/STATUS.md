@@ -91,12 +91,23 @@ emulation and actual ISA (13,13,35 versus 13,13,34). Do not assume emulation is
 an exact ISA oracle; reason was not localized by that test. Production arithmetic
 and quality thresholds remain unchanged.
 
-Current batch authorization: user said "execute then" to the recommended
-Interactive 16-target actual-ISA diagnostic and timing pilot, then report.
-Attempt will be `candidate-isa-pilot-01/` in the same release root. Inspect its
-`job.json` PID/source/command, `worker.log`, result/summary or failure before
-resuming; runner is saved there. Estimated 1–3 minutes from the historical pilot.
-Full-validation scheduling will use its measured result and timing afterward.
+The authorized Interactive actual-ISA pilot COMPLETED in 86.54 seconds on clean
+source `c4e87cd3532833899b86fbf3d3ceabe2ea6c6988`: 15/16 = 93.75% agreement,
+FP32 NLL 6.24092541, ISA NLL 6.28054038, degradation +0.634761%.
+Both diagnostic gates passed. All 311 original source tensors match the original
+FP32 checkpoint; floating references agree 16/16; ISA/emulation agree 15/16.
+Candidate/parameter/calibration identities match the passing rescaling-only case.
+Attempt: `candidate-isa-pilot-01/` in the same release root; saved runner,
+job/source/command, worker log, canonical record, result and summary.
+Result SHA-256: `03adbf677fe1b67ce0b274f384a8fcded41dc7849e87baaf84f0c4774b6ba7d3`.
+Canonical record: `f512c4d0365ceccf9089a1a34945458cafc852419e81f676cb3bfc3dcbdb61ed`.
+No pilot worker remains active; PID 24214 is historical. This is a 16-target
+validation diagnosis, not full validation/held-out or full-RTL acceptance.
+Next: actual ISA validation of this same saved candidate on all 1,024 frozen
+validation targets. A linear extrapolation of 86.54s/16 is 92 minutes; allow
+roughly 90–150 minutes because the longer causal prefixes increase attention
+work and startup/reference overhead differs. Select Overnight for the complete
+validation job, or Interactive for a bounded 128-target timing check first.
 Prepared commands are in docs/qwen3-int8-candidates.md; select `int8/case-00` in
 the completed pilot. Memory preflight for the diagnostic is 13.04 GiB, within
 the configured 16 GiB budget. No full-validation or held-out job is dispatched.
@@ -210,7 +221,7 @@ unfinished.
 
 | Status | Owner | Item | Notes |
 | --- | --- | --- | --- |
-| in progress | Codex | Qwen3 quality recovery and precision attribution | User authorized the Interactive 16-target ISA pilot; inspect candidate-isa-pilot-01 before duplicate dispatch. |
+| open | Any agent | Qwen3 quality recovery and precision attribution | Actual ISA 16-target pilot passed 93.75%/+0.63% NLL in 86.54s. Select next mode for full 1,024-target validation, estimated 90–150 minutes. |
 | open | Codex | Zephyrus release completion implementation | Infrastructure verified at b1f2d3f; measured model release remains blocked. Resume after quality recovery. |
 | done | Codex | Bit-accurate dense golden model and tiny-network cross-check | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/model.py`. Framework calibration remains separate. |
 | done | Codex | Versioned dense model descriptor and exported test vectors | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/records.py` and generated RTL benches. |
