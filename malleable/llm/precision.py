@@ -152,8 +152,12 @@ def token_summary(logits,target):
         'target_nll':float(peak+np.log(np.exp(x-peak).sum())-x[target])}
 
 
-def diagnose_precision(model,suite,policy,panel,reference_root,max_host_gib=16,emit=lambda *_:None):
-    """One policy per job. Reuse only a matching original-FP32 reference record."""
+def diagnose_precision(model,suite,policy,panel,reference_root,max_host_gib=16,emit=lambda *_:None,
+                       candidate_weights=None):
+    """One policy per job. Reuse only a matching original-FP32 reference record.
+
+    candidate_weights replaces only the quantized candidate's tensors; the floating
+    reference is always bound to the unmodified source checkpoint."""
     import numpy as np
     import torch
     import transformers
@@ -199,7 +203,8 @@ def diagnose_precision(model,suite,policy,panel,reference_root,max_host_gib=16,e
     stats=OperatorStats(); forward,reference_source=controlled_reference(policy,stats); tokens=[]
     candidate_started=time.monotonic()
     for row in panel['rows']:
-        logits=forward(spec,weights,row['tokens'][:-1],D=policy['group_size'],wformat='int8',head_format='int8')
+        logits=forward(spec,weights if candidate_weights is None else candidate_weights,
+            row['tokens'][:-1],D=policy['group_size'],wformat='int8',head_format='int8')
         for position in row['positions']:
             reference=lookup[row['sequence'],position]
             candidate=token_summary(logits[position],row['tokens'][position+1])

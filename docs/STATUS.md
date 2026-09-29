@@ -145,7 +145,7 @@ unfinished.
 
 | Status | Owner | Item | Notes |
 | --- | --- | --- | --- |
-| in progress | Codex | Qwen3 quality recovery and precision attribution | User authorized nine remaining 128-target cases; inspect precision-128-remaining-01 before dispatch. Estimated 35–45 minutes. |
+| in progress | Codex | Qwen3 quality recovery and precision attribution | User authorized nine remaining 128-target cases; inspect precision-128-remaining-01 before dispatch. Estimated 35–45 minutes. Note (Cursor, 2026-09-29): recovery step 2 code landed on a separate draft PR; it ran no checkpoint job. |
 | open | Codex | Zephyrus release completion implementation | Infrastructure verified at b1f2d3f; measured model release remains blocked. Resume after quality recovery. |
 | done | Codex | Bit-accurate dense golden model and tiny-network cross-check | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/model.py`. Framework calibration remains separate. |
 | done | Codex | Versioned dense model descriptor and exported test vectors | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/records.py` and generated RTL benches. |
@@ -295,3 +295,33 @@ acceptance.
   Existing quality failures and CUDA/hybrid release gates remain applicable.
 
 - 2026-09-28 (Codex, release implementation): Added bounded validation diagnostics, indexed resumable benchmarks, predictor v2, exact quality/configuration matching, controller partition/coverage checks, supported driver metadata, synchronized GPU/hybrid timing, and workbench conversation recovery. The 16-target Qwen3 pilot found 81.25% agreement and 1.01% NLL degradation; all 311 tensors match, both float references agree, and ISA/independent quantized top tokens agree. Acceptance remains blocked for a separate precision investigation. NVIDIA access was restored with G-Helper Eco to Standard and a fresh CUDA computation passed. See docs/zephyrus-release-progress.md for evidence identities and remaining work. Final-source interactive verification records are under build/zephyrus-jobs/release/20260928T223413Z-b463e746/final-verification. PR #3 remains draft; no merge or verifier download is authorized before standalone acceptance.
+
+- 2026-09-29 (Cursor, CPU-only): Implemented recovery-plan step 2 on branch
+  `cursor/qwen3-int8-candidates-d195` from `6975b1c` (code commit `9e6fe27`; draft PR
+  targets `codex/local-llm-platform`, not merged). Adds `malleable/llm/candidates.py`,
+  `tools/run_int8_candidates.py`, `tests/test_int8_candidates.py`,
+  [`docs/qwen3-int8-candidates.md`](qwen3-int8-candidates.md) and
+  [ADR-0005 draft](adr/0005-draft-untied-head-int8-candidates.md) (untying the shared head is a
+  storage change, so head rescaling/clipping is refused while `Spec.tied`, not implemented).
+  Twelve candidates (strength baseline/0.25/0.5/0.75 x clip none/99.99/99.9); rescaling folds
+  into norms/producers so the unquantized network is unchanged; calibration statistics,
+  parameters and derived-tensor manifests are separate content-hashed artifacts. The only shared
+  change is an optional `candidate_weights` argument on `diagnose_precision` (default behavior
+  identical). Dense contract, RTL, frozen suites and thresholds untouched. No checkpoint, GPU or
+  model download was used. Tests (CPU, tiny synthetic models): `PYTHONPATH=. python3 -m pytest -q
+  tests/test_int8_candidates.py tests/test_precision.py tests/test_diagnostics.py tests/test_llm.py`
+  -> 46 passed (the new file has 15); `tests/test_release_implementation.py` also passes. The new
+  file is added to `make verify-llm`. Not run here: `make verify`/`verify-llm` (no RTL toolchain,
+  frontend).
+  Next action for the Zephyrus run: do nothing heavy until the user selects Interactive or
+  Overnight. Check no heavy worker is active (`precision-128-remaining-01/batch.json` PID) and
+  that the in-progress Codex batch is finished. Check out this branch's merged tip, commit clean,
+  run the CPU check
+  `PYTHONPATH=. .venv/bin/python -m pytest -q tests/test_int8_candidates.py tests/test_precision.py`,
+  then run the command in `docs/qwen3-int8-candidates.md`. Interactive: add
+  `--candidates a0.5-cnone,a0.5-c99.9` (two candidates, about 5 min calibration plus 9 min) then
+  report. Overnight: default `all-but-baseline` (11 candidates, about 50-60 min), stop dispatching
+  after eight hours. Each writes a fresh `int8-candidates-NN/` folder; never reuse one. Still to
+  build after screening: a way to feed the top-three derived tensors (regenerated from the
+  hashed parameters) through the actual ISA `evaluate` path, which currently loads only the raw
+  checkpoint.
