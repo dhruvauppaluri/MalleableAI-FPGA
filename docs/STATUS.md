@@ -237,6 +237,29 @@ recomputed (agreement >= 0.90; NLL <= 1.05x). result.json SHA-256
 done. The four ten-case precision fallbacks were correctly NOT run. Local commit
 `26279df` (task claim) could not be pushed: this machine has no GitHub credentials.
 
+### Qwen3 candidate a0.5-cnone: integration, freeze and held-out (2026-09-29, Cursor local)
+
+Source commit `0df744eb8f7dd906c434b6f5340dcd39ee000e16` (LOCAL; this machine has
+no GitHub credentials, so `26279df`, `9b8215d`, `0df744e` and this update are not
+pushed). ADR-0007 and `tests/test_candidate_integration.py` (12 tests, in
+`make verify-llm`) bind derived candidates to generation (`candidate_case`),
+benchmarks/performance manifests, hybrid draft, workbench jobs (job-root confined),
+quality variant identity, the release check (`candidate_freeze` artifact) and a
+single frozen held-out evaluation. Focused suites: 91 passed/12 skipped plus 52 passed.
+Freeze: `candidate-heldout-freeze-01/freeze.json`, freeze_id
+`e4def86bac90fe30ae318776115ee7c48b7c4e3f1098218915970c969a513b84`
+(sha256 `664dbd8006271b21058fd9e13330e42bce47c4abba6743e531ceab51af53b957`).
+Held-out (unit `malleable-qwen3-heldout-01`, exit 0, 2618.6s, ONE evaluation,
+`heldout-claim.json` consumed): **PASS** 964/1024 = 94.14063%, original FP32 NLL
+4.43603006, candidate NLL 4.42686625 (-0.2066%), selectable=true. result.json
+SHA-256 `b513e1adb0e25e0b22f23eefadbf8b36441aebcee13e000061cd559e6a2197d9`,
+record `a51c08844625e716a071d5663b91e5d58276d1c48281fa6891587cb105734a3b`.
+Standalone Qwen3 QUALITY gates are now met by the calibrated candidate.
+NOT done: Qwen3 eight-token full-RTL run of the candidate, fresh 100-token tiny RTL,
+Qwen3.5-0.8B and LFM2.5-230M candidates/quality/RTL, 30 performance runs,
+controller/predictor, browser/final verification, CUDA/hybrid. Release remains open.
+Do not rerun the held-out evaluation or tune against it.
+
 ## Done
 
 - Signed INT8 MAC with signed INT32 accumulation and explicit overflow
@@ -252,7 +275,7 @@ done. The four ten-case precision fallbacks were correctly NOT run. Local commit
 
 | Status | Owner | Item | Notes |
 | --- | --- | --- | --- |
-| in progress | Cursor (local, Zephyrus) | Qwen3 quality recovery and precision attribution | Full ACTUAL-ISA validation of a0.5-cnone PASSED (963/1024 = 94.04%, NLL +0.0044%). Remaining: production integration/identity plumbing, freeze, ONE held-out run, RTL, release checks. Shared dispatch deadline 2026-09-30T01:03:40Z. |
+| in progress | Cursor (local, Zephyrus) | Qwen3 quality recovery and precision attribution | Qwen3 a0.5-cnone PASSED full ISA validation (94.04%) and its single frozen held-out (94.14%, NLL -0.21%); integration done (ADR-0007). Remaining: full-RTL acceptance, Qwen3.5/LFM candidates, performance/controller/workbench/CUDA/final release checks. Shared dispatch deadline 2026-09-30T01:03:40Z. |
 | open | Codex | Zephyrus release completion implementation | Infrastructure verified at b1f2d3f; measured model release remains blocked. Resume after quality recovery. |
 | done | Codex | Bit-accurate dense golden model and tiny-network cross-check | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/model.py`. Framework calibration remains separate. |
 | done | Codex | Versioned dense model descriptor and exported test vectors | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/records.py` and generated RTL benches. |
