@@ -83,3 +83,38 @@ The explicit checkpoint-download tool is opt-in only. Full-RTL prefill must not
 be replaced with ISA work. Record measured/estimated/unavailable provenance.
 Quality search uses validation; held-out promotion groups by base-model identity.
 No automatic merge to `main`; deliver reviewed milestones.
+
+## Approved quality recovery and continuation prompt (2026-09-28)
+
+The active task is [Qwen3 quality recovery](docs/qwen3-quality-recovery.md).
+The user approved staged LLM precision redesign: compatible INT8 improvements
+first, then targeted higher precision and matching ISA/RTL changes if needed.
+Prefer the smallest passing change and accept measured slowdown. This supersedes
+the previous exclusion of LLM numeric redesign for this task; the independent
+dense numeric contract, >=90% agreement and <=5% NLL gates remain unchanged.
+
+Baseline source `b1f2d3fa41ede030681ece3f520e7ca104317ca5` passed checkpoint-free
+verification, browser checks, actual CUDA cache tests and CI. Qwen3's 16-target
+diagnostic reached 81.25% agreement/1.01% NLL degradation. All 311 tensors match
+FP32; the floating references agree; independent quantized emulation reproduces
+the ISA flips. Full release is blocked. Evidence root:
+`build/zephyrus-jobs/release/20260928T223413Z-b463e746/`.
+Original checkpoints and frozen suites remain in ignored `build/models`.
+
+### Copy-ready prompt for Claude Code, Cursor or Codex
+
+Continue the Qwen3 quality recovery in `/home/dhruv/projects/MalleableAI-FPGA`
+on `codex/local-llm-platform`. Read AGENTS.md, docs/STATUS.md and
+docs/qwen3-quality-recovery.md first. Inspect source, active processes and saved
+attempts before repeating work. Target >=90% held-out next-token agreement and
+<=5% NLL degradation. Start with quantization attribution, then calibration-only
+INT8 improvements, then targeted precision redesign justified by measurements.
+Preserve frozen suites, original checkpoints, historical failures/canceled jobs
+and the independent dense numeric contract. Use calibration for fitting and
+validation for selection; freeze the candidate before held-out evaluation.
+Choose run mode with the user before each heavy batch and serialize jobs.
+Keep exact commands, attempt paths/PIDs, source identity, tests, outcomes and the
+next action in docs/STATUS.md so another agent can resume without chat history.
+Never duplicate an active job, automatically merge, lower thresholds, or enable
+official CUDA/hybrid acceptance before standalone passes. A diagnostic precision
+bypass is not executable release evidence until actual ISA/RTL supports it.

@@ -6,6 +6,21 @@ Last updated: 2026-09-28. Any of Cursor, Codex, or Claude may claim any `open` r
 
 ## Now
 
+### Current Zephyrus quality recovery (2026-09-28)
+
+User approved [staged Qwen3 quality recovery](qwen3-quality-recovery.md), including
+targeted LLM precision/ISA/RTL redesign after compatible INT8 experiments and
+acceptance of a measured slowdown. The dense numeric contract remains unchanged.
+This supersedes the earlier numeric-redesign exclusion for this specific scope.
+Baseline `b1f2d3f` passed final-source `make verify-llm`, actual CUDA cache tests,
+browser acceptance and CI. Evidence is under
+`build/zephyrus-jobs/release/20260928T223413Z-b463e746/`.
+Qwen3 remains blocked (16-target agreement 81.25%; NLL degradation 1.01%).
+Current action: Codex is saving the cross-agent handoff before implementing bounded
+precision attribution. No new checkpoint job has been dispatched; the next batch
+needs its mode selected in chat. Read the recovery plan before the older status
+paragraphs below, which preserve the historical Mac milestones.
+
 The [Zephyrus handoff guide](zephyrus-handoff.md) covers WSL2 installation,
 transferring ignored models and complete stores, rebuilding Linux tools,
 CUDA preflight, verification, and the continuation prompt for the next agent.
@@ -90,7 +105,8 @@ unfinished.
 
 | Status | Owner | Item | Notes |
 | --- | --- | --- | --- |
-| open | Codex | Zephyrus release completion implementation | Approved plan: bounded quality diagnostics, indexed evidence, predictor v2, strict lineage, browser and CUDA acceptance. Batch mode selected in chat; numeric redesign excluded. |
+| in progress | Codex | Qwen3 quality recovery and precision attribution | User-approved staged redesign; see qwen3-quality-recovery.md. Save handoff first, then bounded diagnostics. New batch mode pending. |
+| open | Codex | Zephyrus release completion implementation | Infrastructure verified at b1f2d3f; measured model release remains blocked. Resume after quality recovery. |
 | done | Codex | Bit-accurate dense golden model and tiny-network cross-check | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/model.py`. Framework calibration remains separate. |
 | done | Codex | Versioned dense model descriptor and exported test vectors | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/records.py` and generated RTL benches. |
 | open | | Extend Cyclone V Quartus projects to `malleable_accelerator_top` and record real resource and timing results | Needs Quartus Prime Lite. Current projects are `quartus/int8_mac` and `quartus/int8_dot_product`. |
