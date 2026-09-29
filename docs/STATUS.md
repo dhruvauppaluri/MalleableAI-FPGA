@@ -6,6 +6,18 @@ Last updated: 2026-09-29. Any of Cursor, Codex, or Claude may claim any `open` r
 
 ## Now
 
+Latest continuation handoff (2026-09-29): user is moving execution to Cursor
+because Codex credits may run out. Use
+[the complete local Cursor prompt](cursor-quality-continuation.md), which selects
+Overnight mode on receipt, supplies exact source/candidate/commands, a durable
+full-validation launcher, eight-hour dispatch deadline, conditional ten-case
+schedule and the remaining quality/release gates. No long validation job was
+started while preparing this handoff. Local Cursor must use the Zephyrus WSL
+checkout; a cloud-only Cursor session cannot access the ignored artifacts.
+`tools/run_candidate_full_validation.py` is ready for the first full validation
+attempt, protects the shared lock, refuses overwrite and records source/PIDs/
+logs/results/failures. Run it via the documented user systemd command.
+
 README refresh completed by Codex on 2026-09-29: the entry point now describes
 the approved local LLM release, its five completion milestones, actual
 acceptance/quality evidence, compiled simulation personalities, Zephyrus

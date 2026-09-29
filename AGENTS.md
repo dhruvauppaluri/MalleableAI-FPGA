@@ -118,3 +118,30 @@ next action in docs/STATUS.md so another agent can resume without chat history.
 Never duplicate an active job, automatically merge, lower thresholds, or enable
 official CUDA/hybrid acceptance before standalone passes. A diagnostic precision
 bypass is not executable release evidence until actual ISA/RTL supports it.
+
+## Latest local Cursor continuation (2026-09-29)
+
+Use [the complete Cursor continuation prompt](docs/cursor-quality-continuation.md)
+for the current handoff. It supersedes the older copy-ready prompt above when the
+user submits it: that prompt explicitly selects Overnight mode for one eight-hour
+dispatch window, including its prescribed follow-ups, so do not repeat mode or
+candidate approval questions. It does not authorize automatic extension of the
+window, threshold/suite changes, or merging PRs.
+
+Latest actual ISA diagnostic: `candidate-isa-pilot-01`, 15/16 = 93.75% agreement,
+NLL +0.634761%. This is a small validation diagnostic, not held-out acceptance.
+The passing compatible INT8 candidate is
+`build/zephyrus-jobs/release/20260928T223413Z-b463e746/quality-recovery-pilot-01/int8/case-00`;
+use the original Linux checkpoint, tokenizer and frozen suite. Full validation
+was not started while preparing this handoff. Inspect existing jobs first and
+never duplicate or overwrite an attempt.
+
+Run the durable `tools/run_candidate_full_validation.py` launcher through the
+documented user systemd command. Preserve the first dispatch deadline for all
+follow-ups. Keep tracked source/docs unchanged while its source-bound worker
+runs; save an early handoff as a new timestamped file inside the ignored attempt
+directory, then update `docs/STATUS.md` after completion. Follow the detailed
+prompt's pass/fail branches, including the conditional ten distinct precision
+cases, production identity integration, frozen held-out evaluation and release
+checks. Use LOCAL Cursor with WSL access on Zephyrus; a cloud prompt alone cannot
+access the ignored checkpoints and evidence.
