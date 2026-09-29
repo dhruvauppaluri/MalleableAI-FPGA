@@ -11,7 +11,7 @@ ACCELERATOR_RTL := \
 	rtl/int8_postprocess.sv \
 	rtl/malleable_accelerator_top.sv
 
-.PHONY: all test test-rtl test-host lint synth verify verify-llm test-upstream ui clean release-tiny release-check full-release-check verify-evidence test-f2 lint-f2 synth-f2 verify-f2 replay-f2
+.PHONY: all test test-rtl test-host lint synth verify verify-llm test-upstream ui clean release-tiny release-check full-release-check verify-evidence test-f2 lint-f2 synth-f2 verify-f2 replay-f2 lint-f2-hdk check-f2-scripts synth-f2-xilinx
 
 all: verify
 
@@ -98,7 +98,29 @@ synth-f2: | $(BUILD_DIR)
 test-f2:
 	PYTHONPATH=. $(PYTHON) -m pytest -q tests/test_f2_placement.py tests/test_f2_host.py tests/test_f2_rtl.py tests/test_f2_replay.py
 
-verify-f2: lint-f2 synth-f2 test-f2
+verify-f2: lint-f2 synth-f2 test-f2 check-f2-scripts
+
+# Yosys cell counts (generic UltraScale+ mapping, not Vivado) for the F2 wrapper blocks.
+synth-f2-xilinx:
+	$(PYTHON) f2/tools/yosys_resources.py --json $(BUILD_DIR)/f2/yosys-resources.json
+
+# Vivado/HDK scripts are UNTESTED (no Vivado here): only shell syntax and Tcl bracket balance.
+check-f2-scripts:
+	bash -n f2/vivado/setup_cl.sh
+	bash -n f2/vivado/run_ooc.sh
+	@for f in f2/vivado/ooc_synth.tcl f2/vivado/synth_cl_otpu.tcl; do \
+		printf 'set fh [open %s]; set c [read $$fh]; close $$fh; if {![info complete $$c]} {puts "unbalanced: %s"; exit 1}\n' $$f $$f | tclsh || exit 1; \
+	done
+
+# Port-connection lint of the HDK-facing top against cl_ports.vh, with stub HDK modules.
+# Needs a clone of aws/aws-fpga: make lint-f2-hdk AWS_FPGA_REPO_DIR=/path/to/aws-fpga
+lint-f2-hdk:
+	@test -n "$(AWS_FPGA_REPO_DIR)" || (echo 'Set AWS_FPGA_REPO_DIR=/path/to/aws-fpga (only cl_ports.vh and cl_id_defines.vh are read)' && exit 2)
+	PYTHONPATH=. $(PYTHON) -m malleable.f2.sim --sources --rtl-only | xargs $(VERILATOR) --lint-only -Wno-fatal \
+		-Wno-WIDTHEXPAND -Wno-WIDTHTRUNC -Wno-UNUSEDSIGNAL -Wno-UNUSEDPARAM -Wno-DECLFILENAME -Wno-TIMESCALEMOD \
+		-Wno-PINCONNECTEMPTY -Wno-MULTIDRIVEN -Wno-UNDRIVEN -Wno-UNOPTFLAT \
+		-I$(AWS_FPGA_REPO_DIR)/hdk/common/shell_stable/design/interfaces -I$(AWS_FPGA_REPO_DIR)/hdk/cl/examples/CL_TEMPLATE/design \
+		--top-module cl_otpu f2/vivado/lint_stubs.sv f2/hdk/cl_otpu.sv
 
 # Durable 100-token replay evidence (destination must not exist), as tools/export_tiny_rtl_evidence.py does for RTL.
 replay-f2:
