@@ -279,6 +279,21 @@ CUDA/hybrid, final release checks. Deadline 2026-09-30T01:03:40Z. Commits from `
 pushed (no GitHub credentials); continue on the same checkout unless the user pushes. Rolling handoff:
 `build/zephyrus-jobs/release/20260928T223413Z-b463e746/handoff-latest.md`.
 
+### Tiny 100-token RTL and Qwen3.5-0.8B raw INT8 validation (2026-09-29, Cursor local)
+
+Fresh durable tiny evidence (unit `malleable-tiny-rtl-100-01`, exit 0): 100/100 steps bit-exact,
+406,800 cycles, build_id `eec9b2c397fc7005...`; `release/tiny-rtl-100-01/tiny-release.json` sha256
+`bd739609c9acacf0e5d7cae5ead45ab6f628a4271b05ccc2d8537fb44fc52fa7`.
+Qwen3.5-0.8B raw INT8 full-ISA validation (unit `malleable-qwen35-validation-01`, exit 0, ~70 min, clean
+source `91a19ce`+status commits, `release/qwen35-raw-int8-validation-01/`): **FAIL** agreement 800/1024 =
+78.125% (gate 90%), original FP32 NLL 4.34058013, ISA NLL 4.03603121 (-7.02%, NLL gate met but agreement
+gate not; NLL below FP32 is unusual and unexplained - do not read as quality), variant
+`dcc3d566...169a7b`, record `edbeeaa1...f401`, result.json sha256
+`2e7783a59c06cf17aced9bd82b8f6f7da9798b6c247f0510bb7e1a6bb553d424`. Preserved; no held-out run for
+raw Qwen3.5. INT8 candidate search (`candidates.py`) and precision attribution are Qwen3-only (they
+raise for other families); Qwen3.5 (gated DeltaNet/conv layers) needs new site definitions and
+emulation, hence an ADR first. Not started.
+
 ## Done
 
 - Signed INT8 MAC with signed INT32 accumulation and explicit overflow
