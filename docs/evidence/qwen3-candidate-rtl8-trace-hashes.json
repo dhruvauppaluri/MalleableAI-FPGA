@@ -1,0 +1,133 @@
+{
+ "schema_version": 1,
+ "source_file": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/candidate-rtl-acceptance-02/result.json",
+ "source_file_sha256": "ab0cfc2f77e56d2f0bcb6d7b2634ed00a46e36f91f5463915646e397b19e947a",
+ "record_id": "1f47b6df60460ceaaea451828ff7c03aef6d55afdd64f7aac5d17e6a0190b13b",
+ "model": "Qwen3-0.6B",
+ "prompt": "The capital of France is",
+ "prompt_format": "raw",
+ "prompt_tokens": 5,
+ "input_token_hash": "f16f6770e3fd5c26dcc187bb0d5509be1a01c2a8e57371829c40d9f291bf19fe",
+ "generated_token_ids": [
+  12095,
+  13,
+  576,
+  6722,
+  315,
+  9625,
+  374,
+  1083
+ ],
+ "text": " Paris. The capital of France is also",
+ "base_model_id": "7ab1181d3a2b04ce889880dfc3b94933574441e9c221e950622c39a3ce79a59d",
+ "tokenizer_id": "85efab0083f304a11454dcdba254bafc67d7fd6c3f8a1ef37b6b5fed767981da",
+ "variant_id": "16e8f30ea0f88024a7dc3e0ece6f61b4569acd605cd755b3cb0c444a44f21b19",
+ "configuration_id": "224a2edbf7462eae26e3527b8f0e554e5b13b06987bd557a9a4f983370d559dd",
+ "derived_candidate": {
+  "schema_version": 1,
+  "derived_id": "3129232e64ec1532cfb735b48dac385bbeac4a072af98660d0fe85953cd163da",
+  "parameters_id": "3840e2dbae1647c8b47984167fa6ba40fc5f6de044d7a4d905444bac8fbe2a08",
+  "calibration_statistics_id": "0e413dfe4e2718d421621006377b174169c3bb54cf4a4157b3a4e9f0a9e9dbf1",
+  "candidate": {
+   "schema_version": 1,
+   "name": "a0.5-cnone",
+   "strength": 0.5,
+   "clip_percentile": null,
+   "sites": [
+    "attn_input",
+    "mlp_input",
+    "attn_output",
+    "mlp_down",
+    "qk"
+   ],
+   "clip_groups": [
+    "transformer_weights"
+   ],
+   "preserves_unquantized_operation": true,
+   "scale_limit": 256.0,
+   "floor": 1e-06
+  },
+  "screen_result_sha256": "8f5bce23a24d2212e6c733364127a7be600cdd17a54db978f23dc48dbe9fee88"
+ },
+ "context": 128,
+ "personality": "balanced",
+ "wformat": "int8",
+ "build_id": "3cbd7f48c3eabe4a6de205d27d10e4374ddcb7c8249cd9e4ece2e7f7c48aa91f",
+ "upstream": "15754e971b55591b91048c4c636023fe59b343e7",
+ "steps_count": 12,
+ "total_cycles": 73729701,
+ "steps": [
+  {
+   "step": 0,
+   "cycles": 6145288,
+   "trace_sha256": "1212c0d998e8c68b37009402885afaec78cd1f0d6e2bbc320ea14a6dadd9360d",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 1,
+   "cycles": 6140895,
+   "trace_sha256": "a38eb73394d3aa5c041addb5f01ce8e64087e7ecb54107f434141e36601ea6dc",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 2,
+   "cycles": 6142547,
+   "trace_sha256": "3e9cc8cf7280193dc5a52554776e26f4340d75f69066e15b94445a195dfe9725",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 3,
+   "cycles": 6143946,
+   "trace_sha256": "020be3eddd65725097c44e33b2ff7ce7bb9e81048b3af51897f889b477ad3532",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 4,
+   "cycles": 6144070,
+   "trace_sha256": "f5b0736e1936068edbc662b6fed9eaf9221929088fa6af9b27b6ad3fe239baae",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 5,
+   "cycles": 6145682,
+   "trace_sha256": "c05832b63cbdfa74b5bf8008cd3d5af4adca84c8c26f0876b3cb17a05817e29f",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 6,
+   "cycles": 6142009,
+   "trace_sha256": "003d5bcd0f0a6080523266c5ce3b01208b38d9c38584c24fa71607532eb223a0",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 7,
+   "cycles": 6144628,
+   "trace_sha256": "8c6cb5457d4c5295a95203a0ecf0f20805c838ca9837e2ea98ce34bce7a67915",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 8,
+   "cycles": 6144816,
+   "trace_sha256": "3871fe731fff557e6dfbcb77581aaaa96d4cabc489773d335e9a6b4178c7c232",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 9,
+   "cycles": 6144605,
+   "trace_sha256": "1ae5a778c15d595a514a4780ba03b55e898d1f824e132caec1df7f205ccc2525",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 10,
+   "cycles": 6144043,
+   "trace_sha256": "976d8f203430f504f8b8ec2f64186c28a4e6c769c6f0b0e5f637c79b3e058089",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 11,
+   "cycles": 6147172,
+   "trace_sha256": "860abe3c926321f33c3e2fb1072ff4da43b0c2c543fa8d2b62fd365da1bc75c1",
+   "validation": "bit-exact-dram-and-tmem"
+  }
+ ]
+}

@@ -313,6 +313,18 @@ LFM2.5-230M raw INT8 single held-out (unit `malleable-lfm2-heldout-01`, exit 0, 
 `95f6aeedcf2b324207acb596708c17e15f5df43d72da14b28a1800da4ea21371`. One evaluation; do not rerun.
 Next: LFM2.5 eight-token full RTL (`release/lfm2-rtl-acceptance-01/`).
 
+LFM2.5-230M eight-token full RTL: attempt 01 (prompt "The capital of France is") was valid and bit-exact but EOS'd
+after 3 tokens (` Paris.`), so it is not acceptance (result sha256 `440cf983...c5eb`, preserved). Attempt 02
+(unit `malleable-lfm2-rtl-02`, exit 0, prompt "Once upon a time there was a small", chosen only to avoid early
+EOS): **PASS** 8 tokens (7314 14979 1859 1685 27358 23820 810 21281 = " village nestled between rolling hills
+and spark"), 9 prompt tokens, 16 steps all `bit-exact-dram-and-tmem`, 37,603,834 cycles, record
+`d6ba925e57f6d93ccad17e3aaadbafe6b51242f79f92c6d5010c60cd3981d917`, variant/configuration equal the held-out
+record, result.json sha256 `acaba9212635761ebe87ea8f50f44fa2ce8079c388b4e349e4de798073ea6dcb`.
+Comparison evidence for regenerated runs (per-step trace hashes/cycles) is tracked in `docs/evidence/`
+(`tiny-rtl-100`, `qwen3-candidate-rtl8`, `lfm2-rtl8` `-trace-hashes.json`). Standalone status: Qwen3 (candidate)
+and LFM2.5 have validation, held-out and eight-token RTL; Qwen3.5 fails raw validation (78.125%), so the
+standalone `release-check` cannot pass until Qwen3.5 has a passing candidate. Next: performance suite.
+
 ## Done
 
 - Signed INT8 MAC with signed INT32 accumulation and explicit overflow
