@@ -16,9 +16,20 @@ Baseline `b1f2d3f` passed final-source `make verify-llm`, actual CUDA cache test
 browser acceptance and CI. Evidence is under
 `build/zephyrus-jobs/release/20260928T223413Z-b463e746/`.
 Qwen3 remains blocked (16-target agreement 81.25%; NLL degradation 1.01%).
-Current action: Codex is saving the cross-agent handoff before implementing bounded
-precision attribution. No new checkpoint job has been dispatched; the next batch
-needs its mode selected in chat. Read the recovery plan before the older status
+Current action: the shared handoff was committed/pushed as `9617f82`. Bounded
+precision attribution is implemented with exact baseline-preservation, seven
+independent group controls, causal-prefix panels and CPU regressions. The user
+selected ten DIFFERENT serialized 16-target cases, then report: baseline,
+all-floating, seven single-group bypasses and an adaptive top-two combined bypass.
+This is the complete current batch authorization; it does not authorize later
+128-target or held-out jobs. Expected attempt folder:
+`build/zephyrus-jobs/release/20260928T223413Z-b463e746/precision-attribution-01/`.
+Run command (from the Linux repo, after a clean commit):
+`HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 OMP_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 PYTHONPATH=. .venv/bin/python -u tools/run_precision_attribution.py --root build/zephyrus-jobs/release/20260928T223413Z-b463e746/precision-attribution-01`.
+Before resuming inspect `batch.json` (PID/source), `case-*/summary.json`, worker
+logs and `report.json`/`failure.json`; never redispatch an active batch or overwrite
+an attempt. The runner freezes both 16-target and 128-target panels but executes
+only the authorized 16-target panel. Read the recovery plan before the older status
 paragraphs below, which preserve the historical Mac milestones.
 
 The [Zephyrus handoff guide](zephyrus-handoff.md) covers WSL2 installation,
@@ -105,7 +116,7 @@ unfinished.
 
 | Status | Owner | Item | Notes |
 | --- | --- | --- | --- |
-| in progress | Codex | Qwen3 quality recovery and precision attribution | User-approved staged redesign; see qwen3-quality-recovery.md. Save handoff first, then bounded diagnostics. New batch mode pending. |
+| in progress | Codex | Qwen3 quality recovery and precision attribution | Handoff saved; user selected ten distinct serialized 16-target diagnostics then report. See current attempt/command above and qwen3-quality-recovery.md. |
 | open | Codex | Zephyrus release completion implementation | Infrastructure verified at b1f2d3f; measured model release remains blocked. Resume after quality recovery. |
 | done | Codex | Bit-accurate dense golden model and tiny-network cross-check | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/model.py`. Framework calibration remains separate. |
 | done | Codex | Versioned dense model descriptor and exported test vectors | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/records.py` and generated RTL benches. |

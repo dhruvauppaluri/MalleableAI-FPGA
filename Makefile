@@ -78,7 +78,7 @@ ui:
 verify-llm:
 	$(PYTHON) -c "import torch, transformers, safetensors, fastapi, httpx, pytest"
 	$(MAKE) verify PYTHON=$(PYTHON)
-	$(PYTHON) -m pytest -q tests/test_diagnostics.py tests/test_release_implementation.py tests/test_cuda_cache.py
+	$(PYTHON) -m pytest -q tests/test_diagnostics.py tests/test_precision.py tests/test_release_implementation.py tests/test_cuda_cache.py
 	$(MAKE) test-upstream PYTHON=$(PYTHON)
 	npm --prefix frontend run check
 	npm --prefix frontend run build

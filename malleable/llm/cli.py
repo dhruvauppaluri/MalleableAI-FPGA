@@ -10,7 +10,7 @@ def emit(kind,payload):
 
 def main():
     p=argparse.ArgumentParser()
-    p.add_argument('command',choices=['analyze','generate','benchmark','quality','quality-diagnose','optimize',
+    p.add_argument('command',choices=['analyze','generate','benchmark','quality','quality-diagnose','quality-precision-diagnose','optimize',
         'train','evaluate','promote','rollback','predictor-train','predictor-evaluate',
         'release-check','full-release-check','gpu-generate','hybrid-generate','performance-suite'])
     p.add_argument('--model'); p.add_argument('--verifier'); p.add_argument('--store',default='build/llm-runs')
@@ -23,6 +23,7 @@ def main():
     p.add_argument('--passes',type=int,default=20)
     p.add_argument('--limit-targets',type=int,default=16)
     p.add_argument('--run-index',type=int)
+    p.add_argument('--precision-policy'); p.add_argument('--diagnostic-panel')
     p.add_argument('--depth',type=int,default=4); p.add_argument('--dtype',choices=['float16','float32'],default='float16')
     for name,default,typ in [('prompt','Hello',str),('prompt_format','chat',str),('max_new',16,int),('context',2048,int),
         ('seed',0,int),('backend','rtl',str),('personality','balanced',str),('wformat','int8',str),
@@ -124,17 +125,27 @@ def main():
                 key=store.save(kind,result); emit('result',dict(result,record_id=key)); return
             finally: store.close()
         if not a.model: raise ValueError('--model is required')
-        if a.command in ('quality','quality-diagnose'):
+        if a.command in ('quality','quality-diagnose','quality-precision-diagnose'):
             from ..store import Store
             if a.command=='quality':
                 from .quality import evaluate
                 result=evaluate(a.model,a.suite,a.wformat,a.split,a.personality,a.max_host_gib,emit=emit,context=a.context)
                 kind='llm-quality'
-            else:
+            elif a.command=='quality-diagnose':
                 from .diagnostics import diagnose
                 result=diagnose(a.model,a.suite,a.limit_targets,a.personality,a.wformat,a.context,
                     a.split,a.max_host_gib,emit=emit)
                 kind='llm-quality-diagnostic'
+            else:
+                if a.split!='validation' or a.context!=128 or a.personality!='balanced' or a.wformat!='int8':
+                    raise ValueError('precision attribution requires validation/context128/balanced/INT8 baseline')
+                if not a.precision_policy or not a.diagnostic_panel:
+                    raise ValueError('frozen --precision-policy and --diagnostic-panel are required')
+                from .precision import diagnose_precision
+                result=diagnose_precision(a.model,a.suite,json.loads(Path(a.precision_policy).read_text()),
+                    json.loads(Path(a.diagnostic_panel).read_text()),Path(a.store)/'floating-references',
+                    a.max_host_gib,emit=emit)
+                kind='llm-precision-diagnostic'
             store=Store(Path(a.store)/'research')
             try: result['record_id']=store.save(kind,result)
             finally: store.close()
