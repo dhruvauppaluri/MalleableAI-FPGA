@@ -91,12 +91,15 @@ emulation and actual ISA (13,13,35 versus 13,13,34). Do not assume emulation is
 an exact ISA oracle; reason was not localized by that test. Production arithmetic
 and quality thresholds remain unchanged.
 
-Next batch: select Interactive (one 16-target actual-ISA diagnostic, estimated
-1–3 minutes from the historical pilot) or Overnight (timing pilot, then full
-validation if justified by its measured timing, with the eight-hour dispatch cap).
+Current batch authorization: user said "execute then" to the recommended
+Interactive 16-target actual-ISA diagnostic and timing pilot, then report.
+Attempt will be `candidate-isa-pilot-01/` in the same release root. Inspect its
+`job.json` PID/source/command, `worker.log`, result/summary or failure before
+resuming; runner is saved there. Estimated 1–3 minutes from the historical pilot.
+Full-validation scheduling will use its measured result and timing afterward.
 Prepared commands are in docs/qwen3-int8-candidates.md; select `int8/case-00` in
 the completed pilot. Memory preflight for the diagnostic is 13.04 GiB, within
-the configured 16 GiB budget. No further checkpoint job has been dispatched.
+the configured 16 GiB budget. No full-validation or held-out job is dispatched.
 Reviewed source from PR #4 is incorporated as research code with screening gates,
 derived-only memory handling, model/tokenizer checks, and focused regressions.
 Diagnostic site-policy v2 and ADR-0006 predeclare ten fallback cases; production
@@ -207,7 +210,7 @@ unfinished.
 
 | Status | Owner | Item | Notes |
 | --- | --- | --- | --- |
-| open | Any agent | Qwen3 quality recovery and precision attribution | INT8 rescaling screen passed 94.53%; clipping failed. Actual ISA candidate support tested; choose next batch mode for timing pilot then full validation. |
+| in progress | Codex | Qwen3 quality recovery and precision attribution | User authorized the Interactive 16-target ISA pilot; inspect candidate-isa-pilot-01 before duplicate dispatch. |
 | open | Codex | Zephyrus release completion implementation | Infrastructure verified at b1f2d3f; measured model release remains blocked. Resume after quality recovery. |
 | done | Codex | Bit-accurate dense golden model and tiny-network cross-check | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/model.py`. Framework calibration remains separate. |
 | done | Codex | Versioned dense model descriptor and exported test vectors | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/records.py` and generated RTL benches. |
