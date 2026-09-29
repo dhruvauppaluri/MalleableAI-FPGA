@@ -5,7 +5,8 @@
 // beat and the write response come at least +hbm_lat cycles after the request
 // (default 20). +hbm_seed=N reseeds the per-PC xorshift generators.
 //
-// Addresses at or above 2**PC_AW answer DECERR and touch no memory.
+// The adapter keeps every address inside PC_AW bits (it answers DECERR itself otherwise), so this
+// model does not range-check.
 //
 // Simulation only: this is not the AMD HBM IP and says nothing about real HBM
 // bandwidth, latency, refresh or bank behaviour.

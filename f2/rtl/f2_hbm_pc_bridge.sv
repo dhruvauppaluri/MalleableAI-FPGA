@@ -69,42 +69,56 @@ module f2_hbm_pc_bridge #(
   localparam int AWW = PC_AW + 4;
   localparam int WW  = 256 + 32 + 1;
   localparam int RW  = 256 + 2 + 1;
+  // Per-source strides are powers of two so that selecting a source is a plain multiplexer
+  // (a stride of 289 or 259 would make synthesis build a barrel shifter).
+  localparam int AWS = 64;
+  localparam int WS  = 512;
+  localparam int RS  = 512;
+  if (AWW > AWS || WW > WS || RW > RS) begin : g_bad_stride
+    $error("f2_hbm_pc_bridge: channel wider than its stride");
+  end
 
   // ---- per-source crossings
   logic [1:0]        aw_rv, aw_rr, w_rv, w_rr, ar_rv, ar_rr;     // request FIFOs, HBM side
-  logic [1:0][AWW-1:0] aw_rd, ar_rd;
-  logic [1:0][WW-1:0]  w_rd;
+  logic [2*AWS-1:0]  aw_rd, ar_rd;                               // source i in [i*AWS +: AWW]
+  logic [2*WS-1:0]   w_rd;
   logic [1:0]        b_wv, b_wr, r_wv, r_wr;                     // response FIFOs, HBM side
-  logic [1:0][1:0]   b_wd;
-  logic [1:0][RW-1:0] r_wd;
+  logic [3:0]        b_wd;
+  logic [2*RS-1:0]   r_wd;
 
   for (genvar i = 0; i < 2; i++) begin : g_src
+    assign aw_rd[i*AWS + AWW +: AWS - AWW] = '0;
+    assign ar_rd[i*AWS + AWW +: AWS - AWW] = '0;
+    assign w_rd[i*WS + WW +: WS - WW]      = '0;
+    assign r_wd[i*RS + RW +: RS - RW]      = '0;
+    assign r_wd[i*RS +: RW]                = {m_rlast, m_rresp, m_rdata};   // data lines are shared; only *_wv gates them
+    assign b_wd[i*2 +: 2]                  = m_bresp;
     f2_async_fifo #(.W(AWW), .AW(FAW)) u_aw (
       .wclk(s_clk[i]), .wrst(s_rst[i]),
       .wvalid(s_awvalid[i]), .wready(s_awready[i]),
       .wdata({s_awlen[i*4 +: 4], s_awaddr[i*PC_AW +: PC_AW]}),
       .rclk(hbm_clk), .rrst(hbm_rst),
-      .rvalid(aw_rv[i]), .rready(aw_rr[i]), .rdata(aw_rd[i]));
+      .rvalid(aw_rv[i]), .rready(aw_rr[i]), .rdata(aw_rd[i*AWS +: AWW]));
     f2_async_fifo #(.W(WW), .AW(FAW)) u_w (
       .wclk(s_clk[i]), .wrst(s_rst[i]),
       .wvalid(s_wvalid[i]), .wready(s_wready[i]),
       .wdata({s_wlast[i], s_wstrb[i*32 +: 32], s_wdata[i*256 +: 256]}),
       .rclk(hbm_clk), .rrst(hbm_rst),
-      .rvalid(w_rv[i]), .rready(w_rr[i]), .rdata(w_rd[i]));
+      .rvalid(w_rv[i]), .rready(w_rr[i]), .rdata(w_rd[i*WS +: WW]));
     f2_async_fifo #(.W(AWW), .AW(FAW)) u_ar (
       .wclk(s_clk[i]), .wrst(s_rst[i]),
       .wvalid(s_arvalid[i]), .wready(s_arready[i]),
       .wdata({s_arlen[i*4 +: 4], s_araddr[i*PC_AW +: PC_AW]}),
       .rclk(hbm_clk), .rrst(hbm_rst),
-      .rvalid(ar_rv[i]), .rready(ar_rr[i]), .rdata(ar_rd[i]));
+      .rvalid(ar_rv[i]), .rready(ar_rr[i]), .rdata(ar_rd[i*AWS +: AWW]));
     f2_async_fifo #(.W(2), .AW(FAW)) u_b (
       .wclk(hbm_clk), .wrst(hbm_rst),
-      .wvalid(b_wv[i]), .wready(b_wr[i]), .wdata(b_wd[i]),
+      .wvalid(b_wv[i]), .wready(b_wr[i]), .wdata(b_wd[i*2 +: 2]),
       .rclk(s_clk[i]), .rrst(s_rst[i]),
       .rvalid(s_bvalid[i]), .rready(s_bready[i]), .rdata(s_bresp[i*2 +: 2]));
     f2_async_fifo #(.W(RW), .AW(FAW)) u_r (
       .wclk(hbm_clk), .wrst(hbm_rst),
-      .wvalid(r_wv[i]), .wready(r_wr[i]), .wdata(r_wd[i]),
+      .wvalid(r_wv[i]), .wready(r_wr[i]), .wdata(r_wd[i*RS +: RW]),
       .rclk(s_clk[i]), .rrst(s_rst[i]),
       .rvalid(s_rvalid[i]), .rready(s_rready[i]),
       .rdata({s_rlast[i], s_rresp[i*2 +: 2], s_rdata[i*256 +: 256]}));
@@ -114,15 +128,13 @@ module f2_hbm_pc_bridge #(
   logic ar_busy, ar_sel, ar_pref;
   logic rsrc_wv, rsrc_wr, rsrc_rv, rsrc_rr, rsrc_rd;
   wire  ar_any = ar_rv[0] || ar_rv[1];
-  assign m_arvalid = ar_busy && ar_rv[ar_sel] && rsrc_wr;
-  assign m_araddr  = ar_rd[ar_sel][PC_AW-1:0];
-  assign m_arlen   = ar_rd[ar_sel][PC_AW +: 4];
+  wire  [AWW-1:0] ar_d = ar_sel ? ar_rd[AWS +: AWW] : ar_rd[0 +: AWW];
+  assign m_arvalid = ar_busy && (ar_sel ? ar_rv[1] : ar_rv[0]) && rsrc_wr;
+  assign m_araddr  = ar_d[PC_AW-1:0];
+  assign m_arlen   = ar_d[PC_AW +: 4];
   wire   ar_fire   = m_arvalid && m_arready;
   assign rsrc_wv   = ar_fire;
-  always_comb begin
-    ar_rr = '0;
-    if (ar_fire) ar_rr[ar_sel] = 1'b1;
-  end
+  assign ar_rr     = {ar_fire && ar_sel, ar_fire && !ar_sel};
   always_ff @(posedge hbm_clk) begin
     if (hbm_rst) begin
       ar_busy <= 1'b0;
@@ -142,31 +154,22 @@ module f2_hbm_pc_bridge #(
     .clk(hbm_clk), .rst(hbm_rst),
     .wvalid(rsrc_wv), .wready(rsrc_wr), .wdata(ar_sel),
     .rvalid(rsrc_rv), .rready(rsrc_rr), .rdata(rsrc_rd));
-  always_comb begin
-    r_wv = '0;
-    r_wd = '0;
-    m_rready = 1'b0;
-    if (rsrc_rv) begin
-      m_rready = r_wr[rsrc_rd];
-      r_wv[rsrc_rd] = m_rvalid;
-      r_wd[rsrc_rd] = {m_rlast, m_rresp, m_rdata};
-    end
-  end
-  assign rsrc_rr = rsrc_rv && m_rvalid && m_rready && m_rlast;
+  // R goes to the source at the head of rsrc
+  assign r_wv     = {rsrc_rv && rsrc_rd && m_rvalid, rsrc_rv && !rsrc_rd && m_rvalid};
+  assign m_rready = rsrc_rv && (rsrc_rd ? r_wr[1] : r_wr[0]);
+  assign rsrc_rr  = rsrc_rv && m_rvalid && m_rready && m_rlast;
 
   // ---- AW arbitration; W and B follow the grant order
   logic aw_busy, aw_sel, aw_pref;
   logic wsrc_wr, wsrc_rv, wsrc_rr, wsrc_rd;
   logic bsrc_wr, bsrc_rv, bsrc_rr, bsrc_rd;
   wire  aw_any = aw_rv[0] || aw_rv[1];
-  assign m_awvalid = aw_busy && aw_rv[aw_sel] && wsrc_wr && bsrc_wr;
-  assign m_awaddr  = aw_rd[aw_sel][PC_AW-1:0];
-  assign m_awlen   = aw_rd[aw_sel][PC_AW +: 4];
+  wire  [AWW-1:0] aw_d = aw_sel ? aw_rd[AWS +: AWW] : aw_rd[0 +: AWW];
+  assign m_awvalid = aw_busy && (aw_sel ? aw_rv[1] : aw_rv[0]) && wsrc_wr && bsrc_wr;
+  assign m_awaddr  = aw_d[PC_AW-1:0];
+  assign m_awlen   = aw_d[PC_AW +: 4];
   wire   aw_fire   = m_awvalid && m_awready;
-  always_comb begin
-    aw_rr = '0;
-    if (aw_fire) aw_rr[aw_sel] = 1'b1;
-  end
+  assign aw_rr     = {aw_fire && aw_sel, aw_fire && !aw_sel};
   always_ff @(posedge hbm_clk) begin
     if (hbm_rst) begin
       aw_busy <= 1'b0;
@@ -192,26 +195,17 @@ module f2_hbm_pc_bridge #(
     .rvalid(bsrc_rv), .rready(bsrc_rr), .rdata(bsrc_rd));
 
   // W: the head of wsrc names the source whose W stream is forwarded
-  assign m_wvalid = wsrc_rv && w_rv[wsrc_rd];
-  assign m_wdata  = w_rd[wsrc_rd][255:0];
-  assign m_wstrb  = w_rd[wsrc_rd][256 +: 32];
-  assign m_wlast  = w_rd[wsrc_rd][288];
-  always_comb begin
-    w_rr = '0;
-    if (wsrc_rv && m_wready) w_rr[wsrc_rd] = w_rv[wsrc_rd];
-  end
-  assign wsrc_rr = m_wvalid && m_wready && m_wlast;
+  wire [WW-1:0] w_d = wsrc_rd ? w_rd[WS +: WW] : w_rd[0 +: WW];
+  assign m_wvalid = wsrc_rv && (wsrc_rd ? w_rv[1] : w_rv[0]);
+  assign m_wdata  = w_d[255:0];
+  assign m_wstrb  = w_d[256 +: 32];
+  assign m_wlast  = w_d[288];
+  wire   w_take   = wsrc_rv && m_wready;
+  assign w_rr     = {w_take && wsrc_rd && w_rv[1], w_take && !wsrc_rd && w_rv[0]};
+  assign wsrc_rr  = m_wvalid && m_wready && m_wlast;
 
   // B: returned to the source at the head of bsrc
-  always_comb begin
-    b_wv = '0;
-    b_wd = '0;
-    m_bready = 1'b0;
-    if (bsrc_rv) begin
-      m_bready = b_wr[bsrc_rd];
-      b_wv[bsrc_rd] = m_bvalid;
-      b_wd[bsrc_rd] = m_bresp;
-    end
-  end
-  assign bsrc_rr = bsrc_rv && m_bvalid && m_bready;
+  assign b_wv     = {bsrc_rv && bsrc_rd && m_bvalid, bsrc_rv && !bsrc_rd && m_bvalid};
+  assign m_bready = bsrc_rv && (bsrc_rd ? b_wr[1] : b_wr[0]);
+  assign bsrc_rr  = bsrc_rv && m_bvalid && m_bready;
 endmodule

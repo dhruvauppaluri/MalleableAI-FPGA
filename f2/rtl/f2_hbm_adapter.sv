@@ -108,18 +108,18 @@ module f2_hbm_adapter #(
   output logic                    pcis_err_pulse    // main clock: error piece/response on PCIS
 );
   localparam int NPCT   = 2 * PCS_PER_CH;
-  localparam int LOGPCH = $clog2(PCS_PER_CH);
 
   // ================================================================ core channel routers
-  logic [1:0][PCS_PER_CH*PC_AW-1:0]   cr_awaddr, cr_araddr;
-  logic [1:0][PCS_PER_CH*4-1:0]       cr_awlen, cr_arlen;
-  logic [1:0][PCS_PER_CH-1:0]         cr_awvalid, cr_awready, cr_wlast, cr_wvalid, cr_wready;
-  logic [1:0][PCS_PER_CH-1:0]         cr_bvalid, cr_bready, cr_arvalid, cr_arready;
-  logic [1:0][PCS_PER_CH-1:0]         cr_rlast, cr_rvalid, cr_rready;
-  logic [1:0][PCS_PER_CH*256-1:0]     cr_wdata, cr_rdata;
-  logic [1:0][PCS_PER_CH*32-1:0]      cr_wstrb;
-  logic [1:0][PCS_PER_CH*2-1:0]       cr_bresp, cr_rresp;
-  logic [1:0]                         cr_err;
+  // channel-major flat vectors: PC p (= c * PCS_PER_CH + sub) in slice p
+  logic [NPCT*PC_AW-1:0]   cr_awaddr, cr_araddr;
+  logic [NPCT*4-1:0]       cr_awlen, cr_arlen;
+  logic [NPCT-1:0]         cr_awvalid, cr_awready, cr_wlast, cr_wvalid, cr_wready;
+  logic [NPCT-1:0]         cr_bvalid, cr_bready, cr_arvalid, cr_arready;
+  logic [NPCT-1:0]         cr_rlast, cr_rvalid, cr_rready;
+  logic [NPCT*256-1:0]     cr_wdata, cr_rdata;
+  logic [NPCT*32-1:0]      cr_wstrb;
+  logic [NPCT*2-1:0]       cr_bresp, cr_rresp;
+  logic [1:0]              cr_err;
 
   for (genvar c = 0; c < 2; c++) begin : g_core
     f2_hbm_router #(.NPC(PCS_PER_CH), .AW(34), .PC_AW(PC_AW), .IDW(1), .STRIPE(STRIPE)) u_r (
@@ -134,13 +134,13 @@ module f2_hbm_adapter #(
       .s_arlen(c_arlen[c*8 +: 8]), .s_arvalid(c_arvalid[c]), .s_arready(c_arready[c]),
       .s_rid(c_rid[c]), .s_rdata(c_rdata[c*512 +: 512]), .s_rresp(c_rresp[c*2 +: 2]),
       .s_rlast(c_rlast[c]), .s_rvalid(c_rvalid[c]), .s_rready(c_rready[c]),
-      .m_awaddr(cr_awaddr[c]), .m_awlen(cr_awlen[c]), .m_awvalid(cr_awvalid[c]),
-      .m_awready(cr_awready[c]), .m_wdata(cr_wdata[c]), .m_wstrb(cr_wstrb[c]),
-      .m_wlast(cr_wlast[c]), .m_wvalid(cr_wvalid[c]), .m_wready(cr_wready[c]),
-      .m_bresp(cr_bresp[c]), .m_bvalid(cr_bvalid[c]), .m_bready(cr_bready[c]),
-      .m_araddr(cr_araddr[c]), .m_arlen(cr_arlen[c]), .m_arvalid(cr_arvalid[c]),
-      .m_arready(cr_arready[c]), .m_rdata(cr_rdata[c]), .m_rresp(cr_rresp[c]),
-      .m_rlast(cr_rlast[c]), .m_rvalid(cr_rvalid[c]), .m_rready(cr_rready[c]),
+      .m_awaddr(cr_awaddr[c*PCS_PER_CH*PC_AW +: PCS_PER_CH*PC_AW]), .m_awlen(cr_awlen[c*PCS_PER_CH*4 +: PCS_PER_CH*4]), .m_awvalid(cr_awvalid[c*PCS_PER_CH +: PCS_PER_CH]),
+      .m_awready(cr_awready[c*PCS_PER_CH +: PCS_PER_CH]), .m_wdata(cr_wdata[c*PCS_PER_CH*256 +: PCS_PER_CH*256]), .m_wstrb(cr_wstrb[c*PCS_PER_CH*32 +: PCS_PER_CH*32]),
+      .m_wlast(cr_wlast[c*PCS_PER_CH +: PCS_PER_CH]), .m_wvalid(cr_wvalid[c*PCS_PER_CH +: PCS_PER_CH]), .m_wready(cr_wready[c*PCS_PER_CH +: PCS_PER_CH]),
+      .m_bresp(cr_bresp[c*PCS_PER_CH*2 +: PCS_PER_CH*2]), .m_bvalid(cr_bvalid[c*PCS_PER_CH +: PCS_PER_CH]), .m_bready(cr_bready[c*PCS_PER_CH +: PCS_PER_CH]),
+      .m_araddr(cr_araddr[c*PCS_PER_CH*PC_AW +: PCS_PER_CH*PC_AW]), .m_arlen(cr_arlen[c*PCS_PER_CH*4 +: PCS_PER_CH*4]), .m_arvalid(cr_arvalid[c*PCS_PER_CH +: PCS_PER_CH]),
+      .m_arready(cr_arready[c*PCS_PER_CH +: PCS_PER_CH]), .m_rdata(cr_rdata[c*PCS_PER_CH*256 +: PCS_PER_CH*256]), .m_rresp(cr_rresp[c*PCS_PER_CH*2 +: PCS_PER_CH*2]),
+      .m_rlast(cr_rlast[c*PCS_PER_CH +: PCS_PER_CH]), .m_rvalid(cr_rvalid[c*PCS_PER_CH +: PCS_PER_CH]), .m_rready(cr_rready[c*PCS_PER_CH +: PCS_PER_CH]),
       .err_pulse(cr_err[c]));
   end
   assign core_err_pulse = |cr_err;
@@ -184,32 +184,30 @@ module f2_hbm_adapter #(
 
   // ================================================================ one bridge per PC
   for (genvar p = 0; p < NPCT; p++) begin : g_pc
-    localparam int CH  = p / PCS_PER_CH;
-    localparam int SUB = p % PCS_PER_CH;
     f2_hbm_pc_bridge #(.PC_AW(PC_AW), .FAW(FAW)) u_b (
       .hbm_clk, .hbm_rst,
       .s_clk({main_clk, core_clk}), .s_rst({main_rst, core_rst}),
-      .s_awaddr({pr_awaddr[p*PC_AW +: PC_AW], cr_awaddr[CH][SUB*PC_AW +: PC_AW]}),
-      .s_awlen({pr_awlen[p*4 +: 4], cr_awlen[CH][SUB*4 +: 4]}),
-      .s_awvalid({pr_awvalid[p], cr_awvalid[CH][SUB]}),
-      .s_awready({pr_awready[p], cr_awready[CH][SUB]}),
-      .s_wdata({pr_wdata[p*256 +: 256], cr_wdata[CH][SUB*256 +: 256]}),
-      .s_wstrb({pr_wstrb[p*32 +: 32], cr_wstrb[CH][SUB*32 +: 32]}),
-      .s_wlast({pr_wlast[p], cr_wlast[CH][SUB]}),
-      .s_wvalid({pr_wvalid[p], cr_wvalid[CH][SUB]}),
-      .s_wready({pr_wready[p], cr_wready[CH][SUB]}),
-      .s_bresp({pr_bresp[p*2 +: 2], cr_bresp[CH][SUB*2 +: 2]}),
-      .s_bvalid({pr_bvalid[p], cr_bvalid[CH][SUB]}),
-      .s_bready({pr_bready[p], cr_bready[CH][SUB]}),
-      .s_araddr({pr_araddr[p*PC_AW +: PC_AW], cr_araddr[CH][SUB*PC_AW +: PC_AW]}),
-      .s_arlen({pr_arlen[p*4 +: 4], cr_arlen[CH][SUB*4 +: 4]}),
-      .s_arvalid({pr_arvalid[p], cr_arvalid[CH][SUB]}),
-      .s_arready({pr_arready[p], cr_arready[CH][SUB]}),
-      .s_rdata({pr_rdata[p*256 +: 256], cr_rdata[CH][SUB*256 +: 256]}),
-      .s_rresp({pr_rresp[p*2 +: 2], cr_rresp[CH][SUB*2 +: 2]}),
-      .s_rlast({pr_rlast[p], cr_rlast[CH][SUB]}),
-      .s_rvalid({pr_rvalid[p], cr_rvalid[CH][SUB]}),
-      .s_rready({pr_rready[p], cr_rready[CH][SUB]}),
+      .s_awaddr({pr_awaddr[p*PC_AW +: PC_AW], cr_awaddr[p*PC_AW +: PC_AW]}),
+      .s_awlen({pr_awlen[p*4 +: 4], cr_awlen[p*4 +: 4]}),
+      .s_awvalid({pr_awvalid[p], cr_awvalid[p]}),
+      .s_awready({pr_awready[p], cr_awready[p]}),
+      .s_wdata({pr_wdata[p*256 +: 256], cr_wdata[p*256 +: 256]}),
+      .s_wstrb({pr_wstrb[p*32 +: 32], cr_wstrb[p*32 +: 32]}),
+      .s_wlast({pr_wlast[p], cr_wlast[p]}),
+      .s_wvalid({pr_wvalid[p], cr_wvalid[p]}),
+      .s_wready({pr_wready[p], cr_wready[p]}),
+      .s_bresp({pr_bresp[p*2 +: 2], cr_bresp[p*2 +: 2]}),
+      .s_bvalid({pr_bvalid[p], cr_bvalid[p]}),
+      .s_bready({pr_bready[p], cr_bready[p]}),
+      .s_araddr({pr_araddr[p*PC_AW +: PC_AW], cr_araddr[p*PC_AW +: PC_AW]}),
+      .s_arlen({pr_arlen[p*4 +: 4], cr_arlen[p*4 +: 4]}),
+      .s_arvalid({pr_arvalid[p], cr_arvalid[p]}),
+      .s_arready({pr_arready[p], cr_arready[p]}),
+      .s_rdata({pr_rdata[p*256 +: 256], cr_rdata[p*256 +: 256]}),
+      .s_rresp({pr_rresp[p*2 +: 2], cr_rresp[p*2 +: 2]}),
+      .s_rlast({pr_rlast[p], cr_rlast[p]}),
+      .s_rvalid({pr_rvalid[p], cr_rvalid[p]}),
+      .s_rready({pr_rready[p], cr_rready[p]}),
       .m_awaddr(hbm_awaddr[p*PC_AW +: PC_AW]), .m_awlen(hbm_awlen[p*4 +: 4]),
       .m_awvalid(hbm_awvalid[p]), .m_awready(hbm_awready[p]),
       .m_wdata(hbm_wdata[p*256 +: 256]), .m_wstrb(hbm_wstrb[p*32 +: 32]),

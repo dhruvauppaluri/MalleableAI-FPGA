@@ -115,8 +115,9 @@ module f2_hbm_router #(
 
   // ------------------------------------------------------------------ shared helpers
   function automatic logic [3:0] avail_beats(input logic [AW-1:0] a);
+    // (a[STRIPE-1:6] is at most 3 bits wide because STRIPE <= 9)
     // 64-byte beats left in the stripe that contains a: 1 .. 2**(STRIPE-6)
-    avail_beats = 4'((1 << (STRIPE - 6)) - int'(a[STRIPE-1:6]));
+    avail_beats = 4'(1 << (STRIPE - 6)) - {1'b0, a[STRIPE-1:6]};
   endfunction
   function automatic logic [3:0] piece_beats(input logic [8:0] rem, input logic [3:0] avail);
     piece_beats = (rem < {5'b0, avail}) ? rem[3:0] : avail;
@@ -140,6 +141,7 @@ module f2_hbm_router #(
   wire               ar_ok    = (ar_loc >> PC_AW) == '0;
   wire  [3:0]        ar_pb    = piece_beats(ar_rem, avail_beats(ar_a));
   wire               ar_last  = ar_rem == {5'b0, ar_pb};
+  wire  [3:0]        ar_len   = {ar_pb[2:0] - 3'd1, 1'b1};      // 2 * pb - 1 (pb is 1..8)
 
   logic              rq_wvalid, rq_wready, rq_rvalid, rq_rready;
   logic [E-1:0]      rq_rdata;
@@ -152,7 +154,7 @@ module f2_hbm_router #(
   always_comb begin
     m_arvalid = '0;
     m_araddr  = {NPC{ar_loc[PC_AW-1:0]}};
-    m_arlen   = {NPC{4'(2 * int'(ar_pb) - 1)}};
+    m_arlen   = {NPC{ar_len}};
     if (ar_act && ar_ok && rq_wready) m_arvalid[ar_pc] = 1'b1;
   end
 
@@ -255,6 +257,7 @@ module f2_hbm_router #(
   wire               aw_ok    = (aw_loc >> PC_AW) == '0;
   wire  [3:0]        aw_pb    = piece_beats(aw_rem, avail_beats(aw_a));
   wire               aw_last  = aw_rem == {5'b0, aw_pb};
+  wire  [3:0]        aw_len   = {aw_pb[2:0] - 3'd1, 1'b1};      // 2 * pb - 1 (pb is 1..8)
 
   // entry buffer shared by the W engine (pointer wp) and the B engine (pointer bp)
   logic [E-1:0]      wbuf [1 << DL];
@@ -270,7 +273,7 @@ module f2_hbm_router #(
   always_comb begin
     m_awvalid = '0;
     m_awaddr  = {NPC{aw_loc[PC_AW-1:0]}};
-    m_awlen   = {NPC{4'(2 * int'(aw_pb) - 1)}};
+    m_awlen   = {NPC{aw_len}};
     if (aw_act && aw_ok && !wb_full) m_awvalid[aw_pc] = 1'b1;
   end
 
