@@ -260,6 +260,25 @@ Qwen3.5-0.8B and LFM2.5-230M candidates/quality/RTL, 30 performance runs,
 controller/predictor, browser/final verification, CUDA/hybrid. Release remains open.
 Do not rerun the held-out evaluation or tune against it.
 
+### Qwen3 candidate full-RTL acceptance (2026-09-29, Cursor local)
+
+Unit `malleable-qwen3-candidate-rtl-02` (exit 0) on source `91a19cee224c9b689bed96726639bfb131ef8def`
+(clean): candidate a0.5-cnone, raw prompt "The capital of France is" (5 tokens) + 8 greedy tokens,
+context 128, balanced, INT8/INT8 head, full RTL. **PASS**: 8 tokens (12095 13 576 6722 315 9625 374 1083 =
+" Paris. The capital of France is also"), 12 executed steps all `bit-exact-dram-and-tmem` with trace
+hashes, 73,729,701 simulated cycles, host 0.0034 tokens/s (simulation, not FPGA). variant
+`16e8f30e...4f21b19` and configuration `224a2edb...59d` equal the held-out quality record; generation
+record `1f47b6df60460ceaaea451828ff7c03aef6d55afdd64f7aac5d17e6a0190b13b`; result.json sha256
+`ab0cfc2f77e56d2f0bcb6d7b2634ed00a46e36f91f5463915646e397b19e947a` in
+`build/zephyrus-jobs/release/20260928T223413Z-b463e746/candidate-rtl-acceptance-02/`.
+Attempt 01 failed only because the systemd unit PATH lacked `verilator` (preserved, noted there);
+RTL units need `PATH=/home/dhruv/.local/bin:/usr/local/bin:/usr/bin:/bin`.
+Qwen3 now has validation + held-out + eight-token RTL evidence for the candidate.
+Still unfinished: fresh 100-token tiny RTL, Qwen3.5/LFM2.5, 30 performance runs, controller, workbench,
+CUDA/hybrid, final release checks. Deadline 2026-09-30T01:03:40Z. Commits from `26279df` on are NOT
+pushed (no GitHub credentials); continue on the same checkout unless the user pushes. Rolling handoff:
+`build/zephyrus-jobs/release/20260928T223413Z-b463e746/handoff-latest.md`.
+
 ## Done
 
 - Signed INT8 MAC with signed INT32 accumulation and explicit overflow
