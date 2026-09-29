@@ -1,180 +1,158 @@
 # MalleableAI-FPGA
 
-MalleableAI-FPGA is an experiment in building an FPGA AI accelerator that can
-adapt its hardware architecture to the neural network it needs to run.
+A model-aware FPGA AI accelerator platform: understand a model and workload,
+compare supported hardware configurations, and learn whether changing to a
+better configuration will repay its overhead.
 
-Instead of forcing every model through one fixed accelerator, the long-term
-system will examine a model, choose a suitable compute layout, and deploy that
-layout to the FPGA. Small models might use a compact low-power design, while
-larger models might use more parallel arithmetic, different buffer sizes, or a
-different dataflow.
+The active project is the **local pretrained-LLM platform**. It uses pinned
+OpenTPU for language-model execution while preserving our independently verified
+dense RTL foundation. Simulation comes first, followed by a gated NVIDIA GPU
+baseline and greedy speculative-decoding experiment. AWS integration comes last
+and is excluded from this release.
 
-The FPGA performs inference. Model training, quantization, hardware selection,
-and FPGA compilation happen on a host computer.
+Inference runs on the accelerator design. Analysis, quantization, learning,
+hardware selection, and compilation run on the host. The custom SSM product
+path is retired; historical records and user data are preserved.
 
-## What I am trying to build
+## Where we are
 
-The final platform should be able to:
+The release is **incomplete**. Implemented interfaces are not completed
+acceptance evidence. Latest recorded local results (September 28, 2026):
 
-1. Accept a trained neural network.
-2. Convert it to a precise integer representation.
-3. Examine the model's layer shapes and memory requirements.
-4. Choose an accelerator configuration that fits the target FPGA.
-5. Load a precompiled hardware personality and the model's weights.
-6. Run inference and measure latency, throughput, resource use, and accuracy.
-7. Compare alternative hardware configurations and learn which one works best.
+| Area | Current evidence |
+| --- | --- |
+| Dense RTL | Simulation, Verilator lint, and Yosys structural checks pass. |
+| Checkpoint-free LLM suite | `make verify-llm` passed upstream, personality/format, host, and UI event tests plus the frontend build. |
+| Tiny-model full RTL | Durable 100-token sequence: 100/100 steps bit-exact. |
+| Qwen3-0.6B INT8/balanced | Fresh short-prompt + eight-token RTL run matched ISA execution/state. Held-out quality failed: 83.5% next-token agreement versus the required 90%, despite passing NLL degradation. Not selectable. |
+| Qwen3.5-0.8B / LFM2.5-230M | Real-checkpoint RTL acceptance and quality gates remain outstanding. |
+| Workbench | Service and React UI exist; complete browser/accessibility acceptance remains outstanding. |
+| Optimization / learning | Infrastructure exists; staged real-model benchmarks and held-out predictor/RL evaluations remain outstanding. RL superiority is not established. |
+| CUDA / hybrid | Commands are gated; Zephyrus acceptance evidence remains outstanding. |
 
-On the current Cyclone V, configurations will initially be compiled as complete
-FPGA designs. A future Kria or Zynq UltraScale+ platform could keep a fixed
-control and memory shell while replacing only the accelerator region with a
-precompiled partial bitstream.
+[docs/STATUS.md](docs/STATUS.md) is the authoritative handoff with evidence paths,
+caveats, and open tasks. Work is on `codex/local-llm-platform` in
+[draft PR #3](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/3), targeting
+the dense-baseline branch. No automatic merge to `main`.
 
-The FPGA will not synthesize RTL by itself. It will select from hardware designs
-that were generated and compiled ahead of time.
+## What we are building
 
-## Three-stage research roadmap
+- Safe local configuration, tokenizer, and Safetensors loading, including indexed
+  shards. No remote model Python, pickle imports, or implicit downloads.
+- Compatibility reports for architecture, operations, dimensions, numeric
+  requirements, memory capacity, and compiler/context limits. Unknown models
+  remain inspect-only, not universally executable.
+- Full Verilator RTL prompt processing and generation by default, with an
+  explicitly selected ISA reference/alternative. No hidden ISA prefill.
+- A live workbench for prompts, tokens, model inspection, experiment comparisons,
+  quality reports, optimizer decisions, instructions, and bounded traces.
+- Durable jobs, ordered/reconnectable SSE events, cancellation, searchable
+  experiment storage, and content-addressed evidence with complete lineage.
+- Recommendation-first optimization and periodically evaluated learning policies.
+  Automatic application requires explicit opt-in and approved configurations.
 
-The project will be developed and evaluated in three stages. **Stage 1 is the
-original project and remains unchanged.** The GPU and hybrid work are later
-extensions, not requirements or design constraints for the current FPGA
-accelerator.
+Initial adapters target **Qwen3-0.6B, Qwen3.5-0.8B, and LFM2.5-230M**. Adapter
+availability does not mean release acceptance has passed. GGUF/Ollama imports
+and additional architectures are deferred.
 
-```mermaid
-flowchart LR
-    S1[Stage 1<br/>Standalone malleable FPGA accelerator] --> R1[FPGA-only results]
-    R1 --> S2[Stage 2<br/>Independent GPU implementation]
-    S2 --> R2[FPGA versus GPU results]
-    R1 --> S3[Stage 3<br/>FPGA and GPU hybrid]
-    R2 --> S3
-    S3 --> R3[Hybrid versus both standalone systems]
-```
+OpenTPU is pinned at `15754e971b55591b91048c4c636023fe59b343e7` under
+`third_party/opentpu`. Its FP32/vector and quantized-matrix numeric contract is
+separate from our dense INT8/INT32 contract. Our orchestration/adapters remain
+separate from reviewed upstream source.
 
-1. **Original FPGA project:** finish the standalone, model-adaptive FPGA
-   inference platform described in this repository. It must operate and produce
-   complete FPGA-only results without a GPU. Its longer-term FPGA-only scope
-   includes a decoder-only language model and standalone token generation.
-2. **Independent GPU extension:** run a comparable model and workload entirely
-   on a GPU, producing a separate GPU-only baseline. The FPGA is not involved
-   in this result.
-3. **Hybrid extension:** connect the two already-working systems. The intended
-   first experiment uses the FPGA for candidate-token generation and the GPU
-   for verification, then compares the hybrid against both standalone results.
+## How malleability works now
 
-The hybrid is considered an improvement only if measured end-to-end results
-show that its benefits exceed verification and communication overhead. See
-[`docs/research-roadmap.md`](docs/research-roadmap.md) for scope boundaries,
-completion criteria, and comparison rules.
+The initial LLM search space uses separately compiled simulation personalities,
+all with one slice and quantization block depth 128:
 
-## System architecture
+| Personality | Matrix columns | Vector lanes | FIFO depth |
+| --- | ---: | ---: | ---: |
+| Compact | 2 | 8 | 128 |
+| Balanced | 4 | 8 | 512 |
+| Compute | 8 | 16 | 512 |
+| Buffered | 4 | 8 | 1,024 |
 
-```mermaid
-flowchart LR
-    Model[Trained model] --> Quantize[INT8 quantization]
-    Quantize --> Descriptor[Model descriptor]
-    Descriptor --> Analyzer[Hardware analyzer]
-    FPGAInfo[FPGA resource limits] --> Analyzer
-    Analyzer --> Choice[Selected accelerator configuration]
-    Choice --> Compile[Compile or select bitstream]
-    Compile --> FPGA[FPGA accelerator]
-    Quantize --> Weights[Weights and test vectors]
-    Weights --> Host[Host runtime]
-    Host --> FPGA
-    FPGA --> Results[Predictions and benchmarks]
-    Results --> Analyzer
-```
+INT8 is the baseline. Supported INT4/FP4 variants retain an INT8 output head.
+Compiler compatibility, capacity, correctness, and quality determine legal
+candidates. These are not instantaneous runtime structural changes or physical
+bitstream swaps. Incompatible state changes require reset and re-prefill.
 
-The analyzer connects the AI model to the hardware. It will explore choices such
-as MAC parallelism, precision, buffer sizes, tile sizes, and dataflow.
+Each decision asks:
 
-## FPGA compute architecture
+1. Which validated configuration is best for this workload and objective within
+   the experiment budget?
+2. Will its improvement repay switching/reload/re-prefill costs over the remaining
+   workload?
 
-```mermaid
-flowchart LR
-    Host[Host model storage] --> InBuf[Input and weight buffers]
+Switch only with explicit cost scenarios, uncertainty allowance, a default 5%
+improvement margin, and at least one decision window of residence. Missing costs
+disable cross-personality switching; zero-cost scenarios are labeled idealized.
+Keeping the current configuration is a valid outcome.
 
-    subgraph Accelerator[Configurable accelerator]
-        InBuf --> MACs[Parallel INT8 MAC lanes]
-        MACs --> Dot[Dot products]
-        Dot --> Acc[INT32 accumulation]
-        Acc --> Bias[Bias]
-        Bias --> Requant[Requantization]
-        Requant --> Act[Activation]
-    end
+## Approved completion plan
 
-    Act --> OutBuf[Output buffer]
-    OutBuf --> Host
+1. **Standalone correctness and quality.** Finish loading, chat templates, EOS,
+   context/preflight, cancellation, timeouts, and build-cache review. Require all
+   three official checkpoints to pass short-prompt + eight-token full-RTL
+   acceptance against ISA logits/state. Complete frozen quality suites and strict
+   standalone evidence manifests.
+2. **Workbench and durable service.** Finish report/policy views, instruction and
+   bounded trace inspection, conversation history, reconnect/cancellation,
+   resource admission, failure provenance, and browser/accessibility acceptance.
+   Live execution and recorded Lens replay remain visibly separate. Without trace
+   evidence, show “awaiting trace,” not fabricated hardware activity.
+3. **Benchmarking, optimization, and learning.** Complete 30 staged real-model
+   performance runs, ten per model, using fixed token tapes and AXI scenarios.
+   Evaluate exhaustive search, heuristic, measured predictor, and masked Double
+   DQN against fixed and budget-matched random baselines. Use base-model-disjoint
+   splits, at least five evaluation seeds, no candidate-timing leakage, and
+   explicit promotion/rollback. Publish negative results as well as improvements.
+4. **CUDA baseline and greedy hybrid.** After standalone acceptance, run local
+   Qwen3-1.7B on the Zephyrus GPU, then simulated Qwen3-0.6B drafts with lengths
+   1, 2, 4, and 8. Validate tokenizer mappings/formatting, cache rollback,
+   rejection, EOS, cancellation, and context limits. Hybrid output must match
+   GPU-only greedy output. Measure all end-to-end overhead; retain GPU-only
+   execution when hybrid is slower.
+5. **Review and publish evidence.** Finish reproducibility, security, upstream
+   patch documentation, handoff, CI, and strict full-release checks. Keep the
+   release incomplete until standalone, learning, UI, and Zephyrus CUDA/hybrid
+   evidence is present. Publish reviewed milestones without automatic merging.
 
-    Control[Runtime control registers] --> Accelerator
-```
+Search uses validation, not held-out data. Selectable variants require held-out
+**NLL degradation ≤5% and next-token agreement ≥90%**, with at least 1,024
+evaluated target tokens in each validation and held-out split per model.
+Failed candidates remain visible but cannot be selected. Do not relax thresholds
+or modify verified arithmetic to manufacture a pass.
 
-A multiply-accumulate unit, or MAC, evaluates:
+## Measurements and boundaries
 
-```text
-accumulator + input * weight
-```
+Report compilation/loading, host simulation time, prefill/decode, RTL cycles,
+and assumed-clock projections separately. Verilator executes on the CPU; an
+NVIDIA GPU does not directly accelerate RTL simulation. CUDA performance must be
+measured on the Zephyrus, not substituted with Mac/CPU results.
 
-Neural networks repeat this operation many times. Multiple MAC lanes form dot
-products; dot products form neurons and layers; layers form the complete model.
-Large layers will be divided into tiles so weights and activations can move
-through limited on-chip memory. Double buffering will eventually allow one tile
-to compute while the next tile is transferred.
+Counters and controlled comparisons support compute, memory/backpressure,
+dependency/controller, and setup diagnoses, including mixed/uncertain results.
+Generic two-channel AXI simulation is not AWS HBM. Baseline scenarios use latency
+20, stalls 20%, bandwidth 100%; stress scenarios use 100, 50%, and 50%.
+Derived queueing and predictions are labeled estimated.
 
-## What works today
+Physical FPGA timing, resource occupancy, power, and AWS bandwidth remain
+unavailable. Latency-first and throughput-first objectives are separate;
+energy-first stays disabled without a credible supplied energy source.
+Simulation and accepted draft tokens alone do not establish acceleration.
 
-The active [local LLM workbench](docs/local-llm-platform.md) integrates pinned
-OpenTPU, safe local Safetensors import, full-RTL/ISA backends, ordered live job
-events, Lens trace replay and quality-constrained optimization interfaces.
-The custom SSM path is retired (ADR-0003). Real-model acceptance and CUDA/hybrid
-deployment are separately gated; no physical FPGA speed or AWS integration is
-claimed. The existing INT8 dense path below remains unchanged.
+## Run locally
 
-- A parameterized signed INT8 MAC with signed INT32 accumulation
-- Explicit accumulator-overflow reporting
-- A parameterized parallel INT8 dot-product block
-- Multi-tile accumulation for reductions larger than the lane count
-- Per-output bias, integer requantization, INT8 saturation, and optional ReLU
-- Descriptor-driven execution of up to four dense layers
-- Ping-pong activation buffers and internal weight/parameter memories
-- A board-independent configuration, control, status, and result interface
-- Self-checking SystemVerilog tests
-- 10,000 seeded randomized MAC cases
-- 2,500 seeded randomized dot-product cases
-- 10,000 seeded post-processing cases
-- 1,000 seeded tiled reductions
-- 1,000 randomized dense layers and 100 complete 7-to-5-to-3 networks
-- Cyclone V Quartus project files and 100 MHz timing constraints
-- Automated simulation, Verilator lint, and Yosys synthesis through GitHub Actions
-- A dependency-free Python model analyzer, integer reference, SQLite experiment
-  store, RTL runner, overhead-aware selector, and experimental Double DQN learner
-- Separately synthesized 1/2/4/8-lane personalities, runtime active lanes, and counters
+Moving to the Zephyrus? Follow the
+[Windows + WSL2 Ubuntu setup and continuation guide](docs/zephyrus-handoff.md).
+Windows remains installed; Linux tools run inside WSL2. Rebuild Linux tools and
+caches instead of copying Mac virtual environments/executables. The ignored
+offline package at `build/Zephyrus-Transfer` has its own `START-HERE.md`, source
+snapshot, data restoration instructions, and checksums.
 
-The complete dense-network MVP has been simulated, linted, and checked with
-coarse Yosys synthesis. The Quartus projects still need to be extended to the
-integrated top level and compiled on a machine with Quartus Prime Lite to record
-real FPGA resource and timing results.
-
-## Numeric contract
-
-The first verified datapath uses:
-
-```text
-signed INT8 input x signed INT8 weight
-                  + signed INT32 accumulator
-                  = signed INT32 result
-```
-
-The multiplication is exact. Scaling, rounding, saturation, bias, and activation
-are not hidden inside the MAC. They are implemented as separate stages with
-matching RTL and software behavior.
-
-See `docs/numeric-contract.md` for the complete bit-level rules.
-
-## Run the project
-
-Moving from the Mac to the Zephyrus? Follow the
-[WSL2 setup and continuation guide](docs/zephyrus-handoff.md).
-
-For local LLM simulation and the workbench (Node 22+, Verilator and a source checkout):
+Prerequisites: Python 3.10+, Node 22+, Make, Icarus Verilog, Yosys, and the
+documented Verilator toolchain (v5.050). See the handoff for installation.
 
 ```sh
 python3 -m venv .venv
@@ -184,111 +162,88 @@ make verify-llm PYTHON=.venv/bin/python
 .venv/bin/python -m malleable.ide --model-root build/models
 ```
 
-Open `http://127.0.0.1:8765`. Place supported checkpoint folders inside the model
-root. If you explicitly want downloads, run
-`.venv/bin/python tools/download_llm_models.py --destination build/models`.
-Inference itself is offline. Full RTL is slow; compilation, host execution and
-RTL cycles are reported separately. See the guide for release and quality gates.
+Open `http://127.0.0.1:8765`. Place supported checkpoint folders under the model
+root. Downloading is a separate, explicit action:
 
-For the dependency-free dense baseline:
+```sh
+.venv/bin/python tools/download_llm_models.py --destination build/models
+```
 
-Requirements:
+Existing Mac checkpoints were downloaded but are not in Git. Weights, traces,
+and generated artifacts stay local and ignored. Follow the handoff's fresh
+job-directory instructions when migrating stores; do not redispatch historical
+Mac-path jobs or automatically resume canceled acceptance jobs.
 
-- Icarus Verilog
-- Verilator
-- Yosys
-- Make
-- Python 3.10 or newer (standard library only)
-
-Run simulation only:
+Defaults: one sequence, greedy decoding, 16 generated tokens, total context
+2,048 tokens; maximum 256 generated tokens within that limit. Real-model RTL
+tests can take substantial time.
 
 ```sh
 make test
-```
-
-Run simulation, lint, and synthesis:
-
-```sh
 make verify
+make verify-llm PYTHON=.venv/bin/python
+make release-check PYTHON=.venv/bin/python RELEASE_MANIFEST=path/to/standalone-release.json
+make full-release-check PYTHON=.venv/bin/python FULL_RELEASE_MANIFEST=path/to/full-release.json
 ```
 
-Run a model-aware experiment from the repository root:
+Replace manifest placeholders with completed evidence manifests. Strict checks
+fail when prerequisites/evidence are missing; ordinary CI downloads no models.
+See [the local LLM guide](docs/local-llm-platform.md) for interfaces and commands.
+
+## Preserved dense foundation
+
+The independent accelerator implements signed INT8 inputs/weights, INT32
+accumulation, tiled reductions, overflow reporting, per-output bias,
+requantization, saturation, ReLU, and autonomous execution of up to four dense
+layers. It includes inferred memories, ping-pong activations, board-independent
+configuration/results, counters, and 1/2/4/8-lane personalities with active-lane
+controls. Its arithmetic remains defined by
+[the dense numeric contract](docs/numeric-contract.md).
+
+Dense simulation/lint/Yosys regressions remain required. Quartus projects cover
+the MAC and dot-product blocks, not the integrated top; physical fitting is
+outside this release. The dependency-free dense host baseline remains usable:
 
 ```sh
 python3 -m malleable analyze --size light
 python3 -m malleable benchmark --size light --requests 4
 python3 -m malleable optimize --size heavy --lanes 1 --active-lanes 1 --switch-cycles 10000
-python3 -m malleable train --episodes 20 --switch-cycles 10000
 ```
 
-See [the model-aware system guide](docs/model-aware-system.md) for artifact
-schemas, evaluation/promotion, counter definitions, and measurement limitations.
-This is a simulation research system, not a physical-board deployment runtime.
+See [the model-aware system guide](docs/model-aware-system.md).
 
-With Quartus Prime Lite 25.1 installed, compile the Cyclone V projects with:
+## Scope and contributing
 
-```sh
-quartus_sh --flow compile quartus/int8_mac/int8_mac
-quartus_sh --flow compile quartus/int8_dot_product/int8_dot_product
-```
+Included: local simulation, validated configuration/quantization selection,
+learning evaluation, the workbench, and gated CUDA/greedy hybrid.
 
-## Repository layout
+Excluded: AWS provisioning/uploads/AFIs/HBM integration, physical programming,
+partial reconfiguration, new runtime hardware modes, retraining/distillation,
+contextual bandits, phase/operator experience retrieval, and extra architectures.
+No universal model compatibility or guaranteed speedup is claimed.
 
 ```text
-rtl/        SystemVerilog compute blocks
-sim/        Paired self-checking RTL testbenches
-quartus/    Cyclone V projects and timing constraints
-docs/       Architecture, research roadmap, contributor plans, and specifications
-malleable/  Python reference, host runtime, experiment storage, and learning
-tests/      Host and Python-to-RTL integration regressions
+rtl/                 Independent dense SystemVerilog
+sim/                 Dense self-checking testbenches
+quartus/             Cyclone V block projects
+malleable/           Host runtime, adapters, storage, learning and service
+frontend/            React/TypeScript workbench
+third_party/opentpu/ Pinned upstream engine and Lens assets
+tests/               Host/backend/integration regressions
+tools/               Downloads, verification and evidence utilities
+docs/                Decisions, specifications, status and handoff
+build/               Ignored checkpoints, outputs and evidence
 ```
 
-The layout follows the same small-module, paired-testbench style used in the
-separate Jane Street protocol-emulator project. The two projects do not share
-RTL and have different architectures and goals.
+Read [AGENTS.md](AGENTS.md) and [docs/STATUS.md](docs/STATUS.md), claim an open
+task, and leave decisions/results in the repo. Preserve dense schema-v1,
+checkpoints/datasets, private media, historical records, and unrelated `tmp/`.
+Document numeric/interface changes before code depends on them.
 
-## ML and software contribution
-
-The independent integer reference and versioned dense artifacts now live in
-`malleable/`. Framework exporters, labeled task-accuracy evaluation, and physical
-board integration remain contributor opportunities. The older
-`docs/ml-contributor-roadmap.md` is historical; the model-aware system guide
-describes the current software interfaces.
-
-## Local LLM release gates
-
-The active release preserves the verified dense RTL baseline and uses pinned
-OpenTPU as a separate local LLM execution backend. The service, live workbench,
-fixed-tape benchmark schedule, quality approvals, optimization sessions, and
-explicitly gated CUDA/hybrid commands are implemented in the current review
-branch. Their presence is not a release pass.
-
-- [ ] Complete full-RTL short-prompt + eight-token acceptance for all three
-  official checkpoints and attach bit-exact state/logit evidence.
-- [ ] Pass held-out quality for each selectable model/variant using frozen,
-  disjoint suites with at least 1,024 validation and held-out targets.
-- [ ] Complete the staged ten-run performance suite per model and base-model-
-  disjoint predictor/RL evaluations with five seeds and leakage checks.
-- [ ] On the Zephyrus in WSL2, capture a local Qwen3-1.7B CUDA greedy baseline,
-  then a tokenizer-validated full-RTL Qwen3-0.6B draft / CUDA verifier run.
-- [ ] Run strict standalone and full-release checks, finish review, and publish a
-  draft PR. No automatic merge to `main`.
-
-CUDA supports only the specified local Qwen3 verifier path; the hybrid remains
-greedy-only and must match GPU-only output. These tests establish neither
-physical FPGA timing/resource fit/power nor a guaranteed speedup. AWS, board
-programming, partial reconfiguration, runtime personality controls, additional
-architectures, model retraining and contextual-bandit extensions are excluded
-from this release.
-
-## Project status
-
-This is early-stage research. Dense arithmetic is verified; local LLM simulations
-and optimizers remain subject to the explicit acceptance gates above. Learned
-policies are candidates until held-out evaluation and promotion; RL superiority
-is not assumed. Physical-board timing, resource occupancy and power are not
-available from simulation.
+The active release is specified in [the local LLM guide](docs/local-llm-platform.md).
+Older SSM/research roadmaps are historical where they conflict with this release.
 
 ## License
 
-MIT
+Project code is [MIT licensed](LICENSE). Vendored OpenTPU retains its upstream
+license and notices in `third_party/opentpu`.

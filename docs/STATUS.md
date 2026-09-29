@@ -2,9 +2,15 @@
 
 Handoff for Cursor, Codex, and Claude. Update this before ending a session.
 
-Last updated: 2026-09-28. Any of Cursor, Codex, or Claude may claim any `open` row.
+Last updated: 2026-09-29. Any of Cursor, Codex, or Claude may claim any `open` row.
 
 ## Now
+
+README refresh completed by Codex on 2026-09-29: the entry point now describes
+the approved local LLM release, its five completion milestones, actual
+acceptance/quality evidence, compiled simulation personalities, Zephyrus
+handoff, and gated CUDA/hybrid scope. No new execution or release evidence was
+produced by this documentation-only change.
 
 The [Zephyrus handoff guide](zephyrus-handoff.md) covers WSL2 installation,
 transferring ignored models and complete stores, rebuilding Linux tools,
