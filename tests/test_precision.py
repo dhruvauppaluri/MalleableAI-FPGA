@@ -79,3 +79,34 @@ def test_diagnostic_rejects_tampered_panel_before_loading_checkpoint(tmp_path):
     path,_=frozen(tmp_path); panel=make_panel(path); panel['rows'][0]['tokens'][0]=500
     with pytest.raises(ValueError,match='panel mismatch'):
         diagnose_precision('unused',path,policy(GROUPS),panel,tmp_path/'ref')
+
+
+def test_site_precision_rounding_outliers_zeros_and_partial_blocks():
+    from malleable.llm.precision import site_quantize
+    from opentpu.llm.qwen3 import _fake_q
+    x=np.linspace(-0.01,0.01,128); x[0]=100; x[64:]=0
+    assert np.array_equal(site_quantize(x,{'format':'int8','block':128}),_fake_q(x,128))
+    small=site_quantize(x,{'format':'int8','block':16})
+    wide=site_quantize(x,{'format':'int16','block':128})
+    assert np.linalg.norm(small-x)<np.linalg.norm(_fake_q(x,128)-x)
+    assert np.linalg.norm(wide-x)<np.linalg.norm(_fake_q(x,128)-x)
+    assert np.array_equal(wide[64:],np.zeros(64))
+    assert np.array_equal(site_quantize(x,{'format':'float16','block':128}),x.astype(np.float16).astype(np.float64))
+    with pytest.raises(ValueError,match='divide'): site_quantize(x[:127],{'format':'int16','block':128})
+
+
+def test_key_only_override_retains_other_quantization_sites(tiny):
+    spec,weights=tiny; stats=OperatorStats()
+    p=dict(policy(GROUPS),schema_version=2,site_overrides={'key_store':{'format':'int8','block':32}})
+    run,_=controlled_reference(p,stats); before={k:v.copy() for k,v in weights.items()}
+    assert np.isfinite(run(spec,weights,[2,3,7])).all()
+    assert all(row['quantized'] for row in stats.export())
+    for row in stats.export():
+        assert row['block']==(32 if row['operator']=='key_store' else 128)
+    assert all(np.array_equal(weights[k],v) for k,v in before.items())
+
+
+@pytest.mark.parametrize('overrides',[{'value_store':{'format':'float16','block':128}},
+    {'key_store':{'format':'int4','block':128}}, {'query':{'format':'int16','block':17}}])
+def test_diagnostic_site_policy_rejects_unapproved_formats(overrides):
+    with pytest.raises(ValueError): validate_policy(dict(policy(GROUPS),schema_version=2,site_overrides=overrides))

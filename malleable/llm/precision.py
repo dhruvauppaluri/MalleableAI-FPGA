@@ -27,16 +27,48 @@ _SITES=(
 
 
 def validate_policy(policy):
-    if not isinstance(policy,dict) or set(policy)!={'schema_version','quantized_groups','group_size'}:
+    if not isinstance(policy,dict): raise ValueError('diagnostic precision policy must be a mapping')
+    version=policy.get('schema_version')
+    keys={'schema_version','quantized_groups','group_size'}
+    if version==2: keys.add('site_overrides')
+    if set(policy)!=keys:
         raise ValueError('diagnostic precision policy requires version, quantized_groups and group_size')
     groups=policy['quantized_groups']
-    if (type(policy['schema_version']) is not int or policy['schema_version']!=1
+    if (type(version) is not int or version not in (1,2)
         or not isinstance(groups,list) or any(not isinstance(g,str) or g not in GROUPS for g in groups)
         or len(set(groups))!=len(groups) or type(policy['group_size']) is not int
         or policy['group_size'] not in (32,64,128)):
         raise ValueError('unsupported diagnostic precision policy')
-    return {'schema_version':1,'quantized_groups':[g for g in GROUPS if g in groups],
+    result={'schema_version':version,'quantized_groups':[g for g in GROUPS if g in groups],
             'group_size':policy['group_size']}
+    if version==2:
+        overrides=policy['site_overrides']
+        if not isinstance(overrides,dict) or not overrides or set(overrides)-{'key_store','query'}:
+            raise ValueError('unsupported diagnostic precision sites')
+        for site,config in overrides.items():
+            if (not isinstance(config,dict) or set(config)!={'format','block'}
+                or config['format'] not in ('float32','float16','int16','int8')
+                or type(config['block']) is not int or config['block'] not in (16,32,64,128)
+                or ('key_cache' if site=='key_store' else 'attention') not in groups):
+                raise ValueError('unsupported site precision override')
+        result['site_overrides']={k:dict(overrides[k]) for k in sorted(overrides)}
+    return result
+
+
+def site_quantize(value,config):
+    """Independent diagnostic rounding only; this does not implement ISA storage."""
+    import numpy as np
+    value=np.asarray(value,np.float64); fmt=config['format']; block=config['block']
+    if value.shape[-1]%block: raise ValueError('precision block must divide the last axis')
+    if fmt in ('float32','float16'):
+        result=value.astype(np.float32 if fmt=='float32' else np.float16).astype(np.float64)
+    else:
+        maximum=127 if fmt=='int8' else 32767
+        shaped=value.reshape(*value.shape[:-1],value.shape[-1]//block,block)
+        scale=np.maximum(np.abs(shaped).max(-1,keepdims=True)/maximum,np.finfo(np.float64).tiny)
+        result=(np.clip(np.rint(shaped/scale),-maximum,maximum)*scale).reshape(value.shape)
+    if not np.isfinite(result).all(): raise ValueError('nonfinite site precision conversion')
+    return result
 
 
 def make_panel(suite,limit_targets=16,selection='prefix',context=128):
@@ -127,7 +159,11 @@ def controlled_reference(policy,stats=None):
     if rewrite.q!=len(_SITES) or rewrite.w!=1: raise ValueError('incomplete upstream quantization instrumentation')
     ast.fix_missing_locations(tree)
     def quantize(group,site,layer,value,block):
-        output=_fake_q(value,block) if group in enabled else np.asarray(value,np.float64)
+        config=policy.get('site_overrides',{}).get(site)
+        if config is not None:
+            output=site_quantize(value,config); block=config['block']
+        else:
+            output=_fake_q(value,block) if group in enabled else np.asarray(value,np.float64)
         if stats is not None: stats.observe((group,site,layer),value,output,group in enabled,block)
         return output
     def weight(name,value,block,fmt,is_head):
@@ -152,8 +188,9 @@ def token_summary(logits,target):
         'target_nll':float(peak+np.log(np.exp(x-peak).sum())-x[target])}
 
 
-def diagnose_precision(model,suite,policy,panel,reference_root,max_host_gib=16,emit=lambda *_:None):
-    """One policy per job. Reuse only a matching original-FP32 reference record."""
+def diagnose_precision(model,suite,policy,panel,reference_root,max_host_gib=16,emit=lambda *_:None,
+                       candidate_weights=None):
+    """Optional derived tensors override the candidate only, never the original reference."""
     import numpy as np
     import torch
     import transformers
@@ -166,7 +203,8 @@ def diagnose_precision(model,suite,policy,panel,reference_root,max_host_gib=16,e
     info=inspect(model,128)
     if info['family']!='qwen3' or not info['supported']: raise ValueError('precision attribution currently supports Qwen3')
     if any(info[k]!=panel[k] for k in ('base_model_id','tokenizer_id')): raise ValueError('diagnostic model/tokenizer mismatch')
-    if 4*info['fp32_tensor_bytes']>max_host_gib*1024**3:
+    derived_bytes=sum(v.nbytes for v in (candidate_weights or {}).values())
+    if 4*info['fp32_tensor_bytes']+derived_bytes>max_host_gib*1024**3:
         raise ValueError('precision attribution exceeds configured host memory budget')
     spec=load_spec(Path(model)); weights=load(model)
     if any(t>=spec.vocab for row in panel['rows'] for t in row['tokens']): raise ValueError('diagnostic token outside vocabulary')
@@ -196,6 +234,12 @@ def diagnose_precision(model,suite,policy,panel,reference_root,max_host_gib=16,e
         reference_record=identity(cached)
     finally: store.close()
     lookup={(r['sequence'],r['position']):r for r in cached['tokens']}
+    if candidate_weights is not None:
+        for name,value in candidate_weights.items():
+            if (name not in weights or value.shape!=weights[name].shape
+                or value.dtype!=np.float32 or not np.isfinite(value).all()):
+                raise ValueError('invalid derived candidate tensor: '+name)
+        weights={**weights,**candidate_weights}
     stats=OperatorStats(); forward,reference_source=controlled_reference(policy,stats); tokens=[]
     candidate_started=time.monotonic()
     for row in panel['rows']:
@@ -209,13 +253,17 @@ def diagnose_precision(model,suite,policy,panel,reference_root,max_host_gib=16,e
         del logits; gc.collect()
     count=len(tokens); fnll=sum(t['floating']['target_nll'] for t in tokens)/count
     cnll=sum(t['candidate']['target_nll'] for t in tokens)/count
+    operators=stats.export()
+    for row in operators:
+        row['precision_format']=policy.get('site_overrides',{}).get(row['operator'],{}).get(
+            'format','int8' if row['quantized'] else 'float64-bypass')
     return {'schema_version':1,'kind':'precision-diagnostic','release_evidence':False,'selectable':False,
         'split':'validation','context':128,'baseline_personality':'balanced','precision_policy':policy,
         'precision_policy_id':identity(policy),'panel_id':identity(panel),'panel':panel,
         'base_model_id':info['base_model_id'],'tokenizer_id':info['tokenizer_id'],'target_count':count,
         'executed_tokens':panel['executed_tokens'],'agreement':sum(t['agrees'] for t in tokens)/count,
         'float_nll':fnll,'candidate_nll':cnll,'nll_degradation_percent':100*(cnll-fnll)/max(fnll,1e-12),
-        'tokens':tokens,'operators':stats.export(),'reference_parity':cached['parity'],
+        'tokens':tokens,'operators':operators,'reference_parity':cached['parity'],
         'floating_reference_record':reference_record,'reference_provenance':provenance,
         'upstream_emulation_source_sha256':reference_source,'upstream_revision':info['upstream_revision'],
         'candidate_seconds':time.monotonic()-candidate_started,'elapsed_seconds':time.monotonic()-started,

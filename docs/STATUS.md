@@ -65,9 +65,22 @@ both quality gates and add actual ISA evaluation of derived tensors before any
 promotion. Review memory budgeting for duplicate checkpoint/derived allocations
 before a real-model pilot. Cursor must refresh this handoff instead of resuming
 missing cases that no longer exist. No new checkpoint batch is dispatched.
-Next: review the compatible INT8 PR against this key-cache finding, then select
-a bounded calibration/screening batch; if needed localize key-cache precision
-with the approved attribution/ADR/ISA/RTL sequence. Held-out remains untouched.
+Current authorization (2026-09-29): user said "go for it" to review/fix PR #4
+and run the short compatible INT8 pilot, followed on failure by another TEN
+different precision cases. Use serialized Interactive pilot (two candidates,
+512 calibration tokens, frozen 128-target panel); if neither meets agreement
+>=90% and NLL degradation <=5%, execute the ten predeclared diagnostic cases
+focused on key-cache precision. Record policies before any fallback case runs.
+Do not merge PRs or use held-out data. Working on code fixes before dispatch.
+Reviewed source from PR #4 is incorporated as research code with screening gates,
+derived-only memory handling, model/tokenizer checks, and focused regressions.
+Diagnostic site-policy v2 and ADR-0006 predeclare ten fallback cases; production
+ISA/RTL arithmetic stays unchanged. Run command after a clean commit:
+`HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 OMP_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 PYTHONPATH=. .venv/bin/python -u tools/run_quality_recovery_pilot.py --root build/zephyrus-jobs/release/20260928T223413Z-b463e746/quality-recovery-pilot-01 --authorization "User approved short INT8 pilot then ten different precision cases on failure"`.
+Inspect that attempt's `plan.json`, `int8-worker.log`, `int8/report.json`,
+`precision/case-*/summary.json`, and `report.json`/`failure.json` before resuming.
+Two INT8 cases take roughly 12–15 minutes including calibration. Conditional
+fallback is roughly 40–45 minutes based on the completed 128-target baseline.
 
 Batch record: the shared handoff was committed/pushed as `9617f82`. Bounded
 precision attribution is implemented with exact baseline-preservation, seven
@@ -169,7 +182,7 @@ unfinished.
 
 | Status | Owner | Item | Notes |
 | --- | --- | --- | --- |
-| open | Any agent | Qwen3 quality recovery and precision attribution | All 128-target cases complete. Key-cache bypass 91.41% diagnostic agreement. Review PR #4 and choose next bounded batch; no duplicate attribution dispatch. |
+| in progress | Codex | Qwen3 quality recovery and precision attribution | Fix reviewed INT8 candidate code; run two-candidate pilot, then ten new precision cases if it fails, as authorized 2026-09-29. |
 | open | Codex | Zephyrus release completion implementation | Infrastructure verified at b1f2d3f; measured model release remains blocked. Resume after quality recovery. |
 | done | Codex | Bit-accurate dense golden model and tiny-network cross-check | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/model.py`. Framework calibration remains separate. |
 | done | Codex | Versioned dense model descriptor and exported test vectors | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/records.py` and generated RTL benches. |
