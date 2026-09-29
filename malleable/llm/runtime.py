@@ -7,6 +7,7 @@ import shutil
 from . import upstream
 from .models import inspect, load, local_file
 from .records import PERSONALITIES
+from .candidates import variant_id,derived_record
 from ..records import identity
 from ..store import Store
 
@@ -39,7 +40,11 @@ def generate(model, workload, root, emit=lambda *_: None):
     if not info['supported']: raise ValueError('; '.join(info['errors']) or 'no legal personality')
     spec=load_spec(Path(model)); cfg=PERSONALITIES[workload.personality].config(spec,workload.context,workload.wformat)
     spec.check(cfg)
-    estimate=info['fp32_tensor_bytes']+6*cfg.DRAM_BYTES
+    derived=None
+    if workload.candidate_case is not None:
+        from .candidates import read_derived_candidate
+        derived=read_derived_candidate(workload.candidate_case,info)
+    estimate=info['fp32_tensor_bytes']+6*cfg.DRAM_BYTES+(derived['bytes'] if derived else 0)
     if estimate > workload.max_host_gib*1024**3: raise ValueError('estimated host memory exceeds configured budget')
     # All referenced tokenizer files must remain within the checkpoint root.
     for name in info['tokenizer_files']: local_file(Path(model).resolve(),name)
@@ -54,6 +59,9 @@ def generate(model, workload, root, emit=lambda *_: None):
             raise ValueError('insufficient free disk for estimated traces, verification dumps and 4 GiB reserve')
     emit('model',info); emit('phase',{'phase':'loading','prompt_tokens':len(tokens)})
     weights=load(model)
+    if derived:
+        from .candidates import apply_derived_candidate
+        weights=apply_derived_candidate(weights,derived)
     factory='isa' if workload.backend=='isa' else lambda c,i: CheckedRtlBackend(c,i,workload,root/'traces',emit)
     start=time.monotonic()
     engine=Engine(spec,weights,cap=workload.context,cfg=cfg,backend=factory,
@@ -80,9 +88,10 @@ def generate(model, workload, root, emit=lambda *_: None):
     cycles=sum(s.get('cycles',0) for s in engine.stats) if workload.backend=='rtl' else None
     bytes_read=sum(s.get('axi_read_bytes',0) for s in engine.stats) if cycles is not None else None
     useful=sum(s.get('useful_macs',0) for s in engine.stats) if cycles is not None else None
+    workload_record={k:v for k,v in asdict(workload).items() if k!='candidate_case' or v is not None}
     result=dict(schema_version=1,base_model_id=info['base_model_id'],tokenizer_id=info['tokenizer_id'],
-        variant_id=identity({'base':info['base_model_id'],'format':workload.wformat,'head':'int8'}),
-        workload_id=workload.workload_id,workload=asdict(workload),config=cfg.__dict__,previous_config=None,
+        variant_id=variant_id(info['base_model_id'],workload.wformat,derived),
+        workload_id=workload.workload_id,workload=workload_record,config=cfg.__dict__,previous_config=None,
         configuration_id=identity({'config':cfg.__dict__,'uarch':PERSONALITIES[workload.personality].uarch}),
         microarchitecture={'schema_version':1,'parameters':PERSONALITIES[workload.personality].uarch,
             'provenance':'declared simulator build parameters'},
@@ -113,6 +122,7 @@ def generate(model, workload, root, emit=lambda *_: None):
                  'power':{'value':None,'provenance':'unavailable'}},
         toolchain={'python':platform.python_version(),'torch':torch.__version__,'transformers':transformers.__version__,
                    'upstream':upstream.REVISION,'build_id':getattr(engine.backend,'build_id',None)})
+    if derived: result['derived_candidate']=derived_record(derived)
     store=Store(root/'research')
     try:
         result['model_record']=store.save('llm-model',info)

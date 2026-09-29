@@ -140,6 +140,14 @@ class Jobs:
         if set(payload)-allowed: raise ValueError('unsupported job fields')
         payload=dict(payload); payload['model']=str(self.path(payload.get('model')))
         if not Path(payload['model']).is_dir(): raise ValueError('model checkpoint directory required')
+        if payload.get('candidate_case') is not None:
+            if kind not in ('generate','benchmark'): raise ValueError('derived candidates apply only to generation/benchmark jobs')
+            case=Path(payload['candidate_case']).resolve()
+            if not case.is_relative_to(self.root) or not case.is_dir(): raise ValueError('candidate case must be a directory within the job data root')
+            from .llm.models import inspect
+            from .llm.candidates import read_derived_candidate
+            read_derived_candidate(case,inspect(payload['model']))
+            payload['candidate_case']=str(case)
         if kind in ('generate','benchmark'): GenerationWorkload(**{k:v for k,v in payload.items()
             if k not in ('model','previous_config','optimization_session_id')})
         elif kind=='analyze':

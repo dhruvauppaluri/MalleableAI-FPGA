@@ -24,7 +24,7 @@ def main():
     p.add_argument('--limit-targets',type=int,default=16)
     p.add_argument('--run-index',type=int)
     p.add_argument('--precision-policy'); p.add_argument('--diagnostic-panel')
-    p.add_argument('--candidate-case')
+    p.add_argument('--candidate-case'); p.add_argument('--candidate-freeze')
     p.add_argument('--depth',type=int,default=4); p.add_argument('--dtype',choices=['float16','float32'],default='float16')
     for name,default,typ in [('prompt','Hello',str),('prompt_format','chat',str),('max_new',16,int),('context',2048,int),
         ('seed',0,int),('backend','rtl',str),('personality','balanced',str),('wformat','int8',str),
@@ -53,7 +53,7 @@ def main():
                 from .cuda import hybrid_generate
                 result=hybrid_generate(a.model,a.verifier,a.prompt,a.max_new,a.context,a.depth,
                     a.personality,a.wformat,a.dtype,a.prompt_format,messages,a.standalone_manifest,
-                    trace_root=Path(a.store)/'traces',emit=emit)
+                    trace_root=Path(a.store)/'traces',emit=emit,candidate_case=a.candidate_case)
                 kind='llm-hybrid-generation'
             store=Store(Path(a.store)/'research')
             try: result['record_id']=store.save(kind,result)
@@ -133,8 +133,9 @@ def main():
                 if a.command=='quality-candidate-validate' and not a.candidate_case:
                     raise ValueError('--candidate-case is required')
                 result=evaluate(a.model,a.suite,a.wformat,a.split,a.personality,a.max_host_gib,emit=emit,context=a.context,
-                    candidate_case=a.candidate_case if a.command=='quality-candidate-validate' else None)
-                kind='llm-candidate-validation' if a.command=='quality-candidate-validate' else 'llm-quality'
+                    candidate_case=a.candidate_case if a.command=='quality-candidate-validate' else None,
+                    candidate_freeze=a.candidate_freeze if a.command=='quality-candidate-validate' else None)
+                kind=('llm-quality' if a.candidate_freeze else 'llm-candidate-validation') if a.command=='quality-candidate-validate' else 'llm-quality'
             elif a.command in ('quality-diagnose','quality-candidate-diagnose'):
                 from .diagnostics import diagnose
                 if a.command=='quality-candidate-diagnose' and not a.candidate_case:

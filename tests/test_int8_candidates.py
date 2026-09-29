@@ -270,12 +270,12 @@ def test_persisted_candidate_rejects_tampered_data_before_isa(tmp_path):
     with pytest.raises(ValueError,match='corrupted'): C.apply_derived_candidate(weights,candidate)
 
 
-def test_derived_quality_cannot_access_heldout(tmp_path):
+def test_derived_quality_cannot_access_heldout_without_a_freeze(tmp_path):
     from malleable.llm.quality import evaluate
     from llm_fixture import save
     from malleable.llm.models import inspect
     model=tmp_path/'model'; save(model); suite,_=suite_file(tmp_path,inspect(model))
-    with pytest.raises(ValueError,match='requires validation'):
+    with pytest.raises(ValueError,match='requires a frozen candidate'):
         evaluate(model,suite,split='held-out',context=128,candidate_case=tmp_path/'candidate')
 
 

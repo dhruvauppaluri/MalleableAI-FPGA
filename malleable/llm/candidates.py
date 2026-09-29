@@ -350,6 +350,118 @@ def apply_derived_candidate(weights,candidate):
     return merged(weights,derived)
 
 
+# ------------------------------------------------------------------ production identity
+def variant_record(base_model_id,wformat,derived=None):
+    """Legacy raw variants keep their historical hash; derived ones add lineage."""
+    record={'base':base_model_id,'format':wformat,'head':'int8'}
+    if derived: record.update(derived_id=derived['derived_id'],parameters_id=derived['parameters_id'])
+    return record
+
+
+def variant_id(base_model_id,wformat,derived=None): return identity(variant_record(base_model_id,wformat,derived))
+
+
+def derived_record(derived):
+    return {k:derived[k] for k in ('schema_version','derived_id','parameters_id',
+        'calibration_statistics_id','candidate','screen_result_sha256')}
+
+
+def source_state():
+    import subprocess
+    root=Path(__file__).resolve().parents[2]
+    return {'commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),
+            'status':subprocess.check_output(['git','status','--porcelain'],cwd=root,text=True)}
+
+
+FREEZE_KIND='candidate-heldout-freeze'
+CANDIDATE_CONFIGURATION={'context':128,'personality':'balanced','wformat':'int8','head_format':'int8'}
+
+
+def _freeze_id(freeze): return identity({k:v for k,v in freeze.items() if k!='freeze_id'})
+
+
+def create_freeze(path,info,suite_path,derived,validation,validation_sha256,source):
+    """Bind the passing full-validation candidate before any held-out feedback exists."""
+    from .quality import frozen_suite,gate
+    if source['status'] or not source['commit']: raise ValueError('candidate freeze requires clean committed source')
+    data,hashes=frozen_suite(suite_path)
+    counts={s:sum(len(r)-1 for r in data[s]) for s in hashes}
+    record=derived_record(derived)
+    if (validation.get('split')!='validation' or validation.get('suite_frozen') is not True
+        or validation.get('target_count')!=counts['validation'] or validation.get('samples')!=validation.get('target_count')
+        or validation.get('suite_file_hash')!=_digest(suite_path) or validation.get('suite_hashes')!=hashes
+        or any(validation.get(k)!=v for k,v in CANDIDATE_CONFIGURATION.items() if k in validation)
+        or validation.get('derived_candidate')!=record
+        or any(validation.get(k)!=info.get(k) for k in ('base_model_id','tokenizer_id'))
+        or validation.get('variant_id')!=variant_id(info['base_model_id'],'int8',derived)
+        or not gate(validation['float_nll'],validation['candidate_nll'],validation['agreement'])['passed']):
+        raise ValueError('candidate freeze requires a passing full validation of this exact candidate')
+    freeze={'schema_version':1,'kind':FREEZE_KIND,'source':source,
+        'base_model_id':info['base_model_id'],'tokenizer_id':info['tokenizer_id'],
+        'weight_files':info['weight_files'],'tokenizer_files':info['tokenizer_files'],
+        'derived_candidate':record,'derived_tensor_file_sha256':_digest(derived['tensor_file']),
+        'suite_file_hash':_digest(suite_path),'suite_hashes':hashes,'target_counts':counts,
+        'configuration':dict(CANDIDATE_CONFIGURATION,configuration_id=validation['configuration_id'],
+            config=validation['config'],microarchitecture=validation['microarchitecture']),
+        'variant_id':validation['variant_id'],
+        'validation':{'result_sha256':validation_sha256,'record_id':validation['record_id'],
+            'agreement':validation['agreement'],'float_nll':validation['float_nll'],
+            'candidate_nll':validation['candidate_nll'],'target_count':validation['target_count'],
+            'toolchain':validation['toolchain']}}
+    freeze['freeze_id']=_freeze_id(freeze)
+    _write(path,freeze); return freeze
+
+
+def verify_freeze(path,info,suite_path,derived,source,configuration_id):
+    """Recompute every frozen fact against the current source and artifacts."""
+    freeze=_read(path)
+    from .quality import frozen_suite
+    data,hashes=frozen_suite(suite_path)
+    counts={s:sum(len(r)-1 for r in data[s]) for s in hashes}
+    if (freeze.get('kind')!=FREEZE_KIND or freeze.get('schema_version')!=1
+        or freeze.get('freeze_id')!=_freeze_id(freeze)):
+        raise ValueError('invalid candidate freeze')
+    if (source['status'] or freeze['source']!={'commit':source['commit'],'status':''}):
+        raise ValueError('held-out evaluation requires the clean frozen code commit')
+    if (any(freeze.get(k)!=info.get(k) for k in ('base_model_id','tokenizer_id','weight_files','tokenizer_files'))
+        or freeze.get('derived_candidate')!=derived_record(derived)
+        or freeze.get('derived_tensor_file_sha256')!=_digest(derived['tensor_file'])
+        or freeze.get('suite_file_hash')!=_digest(suite_path) or freeze.get('suite_hashes')!=hashes
+        or freeze.get('target_counts')!=counts
+        or freeze['configuration'].get('configuration_id')!=configuration_id
+        or any(freeze['configuration'].get(k)!=v for k,v in CANDIDATE_CONFIGURATION.items())
+        or freeze.get('variant_id')!=variant_id(info['base_model_id'],'int8',derived)):
+        raise ValueError('candidate differs from its frozen identity')
+    return freeze
+
+
+def claim_heldout(path,freeze):
+    """Exactly-once guard: an existing claim is never overwritten or retried."""
+    import os,datetime
+    claim=Path(path).resolve().parent/'heldout-claim.json'
+    try: _write(claim,{'schema_version':1,'freeze_id':freeze['freeze_id'],'pid':os.getpid(),
+        'claimed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()})
+    except FileExistsError: raise ValueError('held-out was already claimed for this frozen candidate; a new documented evaluation design is required')
+    return claim
+
+
+def check_release_lineage(run,quality,freeze):
+    """A derived candidate's generation, held-out quality and freeze must be one identity."""
+    record=quality.get('derived_candidate') or run.get('derived_candidate')
+    if not record: return False
+    if (not isinstance(freeze,dict) or freeze.get('kind')!=FREEZE_KIND or freeze.get('freeze_id')!=_freeze_id(freeze)
+        or quality.get('candidate_freeze_id')!=freeze['freeze_id']
+        or run.get('derived_candidate')!=record or quality.get('derived_candidate')!=record
+        or freeze.get('derived_candidate')!=record or run.get('wformat',run.get('workload',{}).get('wformat'))!='int8'
+        or run.get('variant_id')!=variant_id(run['base_model_id'],'int8',record)
+        or quality.get('variant_id')!=run['variant_id'] or freeze.get('variant_id')!=run['variant_id']
+        or freeze['configuration'].get('configuration_id')!=run.get('configuration_id')
+        or freeze.get('suite_file_hash')!=quality.get('suite_file_hash')
+        or freeze.get('base_model_id')!=run['base_model_id'] or freeze.get('tokenizer_id')!=run['tokenizer_id']):
+        raise ValueError('derived candidate generation/quality/freeze identity mismatch')
+    return True
+
+
 # ------------------------------------------------------------------ screening attempts
 def _write(path,value):
     with Path(path).open('x') as stream: json.dump(value,stream,indent=2,allow_nan=False); stream.write('\n')

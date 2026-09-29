@@ -48,6 +48,7 @@ class GenerationWorkload:
     schema_version: int = 1
     messages: list | None = None
     input_tokens: list | None = None
+    candidate_case: str | None = None
 
     def __post_init__(self):
         if type(self.schema_version) is not int or self.schema_version!=1: raise ValueError('unsupported workload version')
@@ -77,10 +78,13 @@ class GenerationWorkload:
             if expected!='assistant' or sum(len(m['content']) for m in self.messages)>100000:
                 raise ValueError('bounded conversation must end with user')
             if self.prompt_format!='chat': raise ValueError('conversation requires chat formatting')
+        if self.candidate_case is not None and (type(self.candidate_case) is not str or not self.candidate_case
+            or self.wformat!='int8'):
+            raise ValueError('derived candidates apply only to INT8 workloads with an explicit case path')
         if self.input_tokens is not None and (self.messages is not None or not isinstance(self.input_tokens,list)
             or not self.input_tokens or len(self.input_tokens)>self.context or any(type(t) is not int or t<0 for t in self.input_tokens)):
             raise ValueError('bounded fixed input token tape required')
     @property
     def workload_id(self):
         # Preserve the historical v1 hash for old single-prompt workloads.
-        return identity({k:v for k,v in asdict(self).items() if k not in ('messages','input_tokens') or v is not None})
+        return identity({k:v for k,v in asdict(self).items() if k not in ('messages','input_tokens','candidate_case') or v is not None})

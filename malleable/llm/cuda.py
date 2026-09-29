@@ -11,6 +11,7 @@ from .hybrid import CudaVerifier, EngineDraft, greedy, tokenizer_compatibility
 from .models import inspect, load, digest
 from .records import GenerationWorkload, PERSONALITIES
 from .runtime import prompt_tokens
+from .candidates import variant_id,derived_record
 from ..records import identity
 
 
@@ -149,7 +150,8 @@ def gpu_generate(model, prompt, max_new=16, context=2048, dtype='float16',
 def hybrid_generate(draft_model, verifier_model, prompt, max_new=16, context=2048,
                     depth=4, personality='balanced', wformat='int8', dtype='float16',
                     prompt_format='chat', messages=None, standalone_manifest=None,
-                    trace_root='build/hybrid-traces', cancel=lambda:False, emit=lambda *_:None):
+                    trace_root='build/hybrid-traces', cancel=lambda:False, emit=lambda *_:None,
+                    candidate_case=None):
     """Run GPU greedy baseline and compatible speculative draft, then compare."""
     import torch
     from opentpu.llm import load_spec
@@ -193,9 +195,14 @@ def hybrid_generate(draft_model, verifier_model, prompt, max_new=16, context=204
     trace_path=Path(trace_root); trace_path.mkdir(parents=True,exist_ok=True)
     _rtl_preflight(draft_info,cfg,len(prompt_ids),max_new,trace_path)
     weights=load(draft_path)
+    derived=None
+    if candidate_case is not None:
+        from .candidates import read_derived_candidate,apply_derived_candidate
+        derived=read_derived_candidate(candidate_case,draft_info)
+        weights=apply_derived_candidate(weights,derived)
     from .backend import CheckedRtlBackend
     workload=GenerationWorkload(prompt,prompt_format=prompt_format,context=context,max_new=max_new,
-        personality=personality,wformat=wformat,backend='rtl',messages=messages)
+        personality=personality,wformat=wformat,backend='rtl',messages=messages,candidate_case=candidate_case)
     draft_engine=Engine(spec,weights,cap=context,cfg=cfg,rows=1,pipeline=False,
         wformat=wformat,head_format='int8',backend=lambda c,i:CheckedRtlBackend(c,i,workload,trace_path,emit))
     loading_seconds=verifier_loading+time.monotonic()-loading_started
@@ -210,6 +217,8 @@ def hybrid_generate(draft_model, verifier_model, prompt, max_new=16, context=204
         'verifier_source_manifest_sha256':identity(source) if source else None,
         'tokenizer_pair_id':tokenizer_id,'input_token_hash':identity(prompt_ids),
         'personality':personality,'wformat':wformat,'depth':depth,'context':context,
+        'draft_variant_id':variant_id(draft_info['base_model_id'],wformat,derived),
+        'draft_derived_candidate':derived_record(derived) if derived else None,
         'standalone_release_id':gate['manifest_sha256'],'gpu_greedy_tokens':reference,
         'draft_backend':'full-rtl','draft_rtl_cycles':sum(s.get('cycles',0) for s in draft_engine.stats),
         'draft_steps':len(draft_engine.stats),'gpu_baseline_seconds':baseline_prefill+baseline_seconds,

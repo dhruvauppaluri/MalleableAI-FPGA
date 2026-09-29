@@ -57,5 +57,9 @@ def check(path):
             or not quality.get('floating_reference_record') or not quality.get('floating_reference_id')
             or not gate(quality['float_nll'],quality['candidate_nll'],quality['agreement'])['passed']):
             raise ValueError('held-out quality/lineage gate failed: '+name)
+        if run.get('derived_candidate') or quality.get('derived_candidate'):
+            from .candidates import check_release_lineage
+            if not isinstance(entry.get('candidate_freeze'),dict): raise ValueError('derived candidate freeze artifact required: '+name)
+            check_release_lineage(run,quality,artifact(entry['candidate_freeze']))
     return {'schema_version':3,'passed':True,'models':list(REQUIRED),'manifest_sha256':digest(path),
             'scope':'local-standalone-simulation','physical_fpga_evidence':False}

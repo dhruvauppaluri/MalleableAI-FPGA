@@ -80,7 +80,7 @@ def floating_reference(model,info,weights):
     return original.eval()
 
 def evaluate(model,path,wformat='int8',split='validation',personality='balanced',max_host_gib=12,
-             cache_root=None,emit=lambda *_:None,context=2048,candidate_case=None):
+             cache_root=None,emit=lambda *_:None,context=2048,candidate_case=None,candidate_freeze=None):
     import numpy as np
     import torch
     import transformers
@@ -93,8 +93,12 @@ def evaluate(model,path,wformat='int8',split='validation',personality='balanced'
     data,hashes=suites(path); info=inspect(model)
     derived=None
     if candidate_case is not None:
-        if split!='validation' or wformat!='int8' or context!=128 or personality!='balanced':
-            raise ValueError('derived candidate validation requires validation/INT8/context128/balanced')
+        if wformat!='int8' or context!=128 or personality!='balanced':
+            raise ValueError('derived candidate evaluation requires INT8/context128/balanced')
+        if split=='held-out' and candidate_freeze is None:
+            raise ValueError('held-out derived candidate evaluation requires a frozen candidate')
+        if split=='validation' and candidate_freeze is not None:
+            raise ValueError('a candidate freeze applies only to its single held-out evaluation')
         data,hashes=frozen_suite(path)
         from .candidates import read_derived_candidate
         derived=read_derived_candidate(candidate_case,info)
@@ -139,6 +143,13 @@ def evaluate(model,path,wformat='int8',split='validation',personality='balanced'
     if derived:
         from .candidates import apply_derived_candidate
         W=apply_derived_candidate(W,derived)
+    configuration_id=identity({'config':cfg.__dict__,'uarch':PERSONALITIES[personality].uarch})
+    freeze=None
+    if derived and split=='held-out':
+        from .candidates import verify_freeze,claim_heldout,source_state
+        freeze=verify_freeze(candidate_freeze,info,path,derived,source_state(),configuration_id)
+        # The claim precedes the first candidate computation on held-out data.
+        claim_heldout(candidate_freeze,freeze)
     engine=Engine(spec,W,cap=context,cfg=cfg,
                   backend='isa',rows=1,pipeline=False,wformat=wformat,head_format='int8')
     fnll=qnll=agree=count=0
@@ -164,20 +175,18 @@ def evaluate(model,path,wformat='int8',split='validation',personality='balanced'
     # Validation is for search only. A candidate becomes selectable only after
     # the untouched, frozen held-out split independently meets both thresholds.
     selectable=selection_approval(split,is_frozen,target_count,checks['passed'])
-    variant={'base':info['base_model_id'],'format':wformat,'head':'int8'}
-    candidate_record=None
-    if derived:
-        candidate_record={k:derived[k] for k in ('schema_version','derived_id','parameters_id',
-            'calibration_statistics_id','candidate','screen_result_sha256')}
-        variant.update(derived_id=derived['derived_id'],parameters_id=derived['parameters_id'])
-    return dict(schema_version=1,base_model_id=info['base_model_id'],tokenizer_id=info['tokenizer_id'],
-        variant_id=identity(variant),
+    from .candidates import variant_id,derived_record
+    candidate_record=derived_record(derived) if derived else None
+    result=dict(schema_version=1,base_model_id=info['base_model_id'],tokenizer_id=info['tokenizer_id'],
+        variant_id=variant_id(info['base_model_id'],wformat,derived),
         wformat=wformat,head_format='int8',personality=personality,split=split,suite_hashes=hashes,suite_file_hash=digest(path),
         samples=count,float_nll=fnll/count,candidate_nll=qnll/count,agreement=agree/count,
-        configuration_id=identity({'config':cfg.__dict__,'uarch':PERSONALITIES[personality].uarch}),
+        configuration_id=configuration_id,
         context=context,config=cfg.__dict__,microarchitecture={'schema_version':1,'parameters':PERSONALITIES[personality].uarch},
         suite_frozen=is_frozen, target_count=target_count,
         floating_reference_id=reference_id,floating_reference_record=reference_record,toolchain=provenance,
         **checks,provenance='measured-isa-versus-original-float',selectable=selectable,
         derived_candidate=candidate_record,
         selection_rule='held-out-only; frozen suite; >=1024 targets; NLL <=5%; next-token agreement >=90%')
+    if freeze: result['candidate_freeze_id']=freeze['freeze_id']
+    return result

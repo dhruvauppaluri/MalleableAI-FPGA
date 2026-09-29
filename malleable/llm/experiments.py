@@ -4,11 +4,27 @@ from .runtime import generate
 from .records import PERSONALITIES
 from .optimization import config_key,validated_variants,observations
 from ..records import identity
+from .candidates import variant_id
+
+def manifest_candidate(data,model_info):
+    """A candidate manifest is INT8-only and must re-verify its saved derived lineage."""
+    case=data.get('candidate_case')
+    if case is None:
+        if data.get('derived_candidate') is not None: raise ValueError('derived candidate lineage requires a candidate case')
+        return None
+    from .candidates import read_derived_candidate,derived_record
+    derived=read_derived_candidate(case,model_info)
+    if data.get('derived_candidate')!=derived_record(derived):
+        raise ValueError('performance manifest derived candidate lineage mismatch')
+    return derived
 
 def validate_performance_manifest(data,model_info):
     if data.get('schema_version')!=1 or data.get('base_model_id')!=model_info['base_model_id'] \
         or data.get('tokenizer_id')!=model_info['tokenizer_id']:
         raise ValueError('performance manifest model/tokenizer lineage mismatch')
+    derived=manifest_candidate(data,model_info)
+    if derived and any(r.get('wformat')!='int8' for r in data.get('runs',[])):
+        raise ValueError('derived INT8 candidates cannot be combined with INT4/FP4 comparisons')
     from .quality import gate
     approvals={}
     for evidence in data.get('quality_evidence',[]):
@@ -64,7 +80,7 @@ def validate_performance_manifest(data,model_info):
     if all(r['wformat'] in ('int4','fp4') and r['personality']=='balanced' and r['memory_scenario']=='baseline' for r in extras):
         if {r['wformat'] for r in extras}!={'int4','fp4'}: raise ValueError('both balanced INT4 and FP4 variants required')
         for run in extras:
-            variant=identity({'base':model_info['base_model_id'],'format':run['wformat'],'head':'int8'})
+            variant=variant_id(model_info['base_model_id'],run['wformat'])
             if (variant,'balanced') not in approvals: raise ValueError('quantized comparison missing validation approval')
             if not any(e['record'].get('context')==run['context'] and e['record'].get('wformat')==run['wformat']
                 and e['record'].get('variant_id')==variant for e in evidence_rows):
@@ -84,6 +100,7 @@ def validate_benchmark_result(data,index,result):
     cfg=result.get('config',{}); metadata=result.get('microarchitecture',{})
     expected={'personality':row['personality'],'wformat':row['wformat'],'context':row['context'],
         'seed':data['seed'],'backend':'rtl','input_tokens':row['input_tokens'],
+        **({'candidate_case':data['candidate_case']} if data.get('candidate_case') else {}),
         'latency':row['latency'],'stall_percent':row['stall_percent'],'bandwidth_percent':row['bandwidth_percent']}
     if (result.get('status')!='completed' or result.get('valid') is not True or result.get('backend')!='rtl'
         or result.get('base_model_id')!=data['base_model_id'] or result.get('tokenizer_id')!=data['tokenizer_id']
@@ -92,7 +109,8 @@ def validate_benchmark_result(data,index,result):
         or result.get('input_token_hash')!=row['input_token_hash'] or result.get('personality')!=row['personality']
         or result.get('generation_mode')!='fixed-token-tape' or result.get('tokens')!=[]
         or result.get('prompt_tokens')!=len(row['input_tokens']) or any(w.get(k)!=v for k,v in expected.items())
-        or result.get('variant_id')!=identity({'base':data['base_model_id'],'format':row['wformat'],'head':'int8'})
+        or result.get('variant_id')!=variant_id(data['base_model_id'],row['wformat'],data.get('derived_candidate'))
+        or result.get('derived_candidate')!=data.get('derived_candidate')
         or metadata.get('schema_version')!=1 or metadata.get('parameters')!=p.uarch
         or cfg.get('MCOLS')!=p.matrix_columns or cfg.get('LANES')!=p.vector_lanes
         or result.get('configuration_id')!=identity({'config':cfg,'uarch':p.uarch})
@@ -155,7 +173,8 @@ def _run_performance_index(data,model,row,index,root,emit):
     workload=GenerationWorkload(prompt='fixed-token benchmark tape',prompt_format='raw',
         max_new=8,context=row['context'],seed=data['seed'],backend='rtl',personality=row['personality'],
         wformat=row['wformat'],latency=row['latency'],stall_percent=row['stall_percent'],
-        bandwidth_percent=row['bandwidth_percent'],input_tokens=row['input_tokens'])
+        bandwidth_percent=row['bandwidth_percent'],input_tokens=row['input_tokens'],
+        candidate_case=data.get('candidate_case'))
     emit('candidate',{'index':index,'total':10,'workload':row['workload'],
         'personality':row['personality'],'wformat':row['wformat'],'status':'running'})
     result=generate(model,workload,root,lambda kind,payload:emit(kind,payload) if kind!='result' else None)
@@ -169,6 +188,7 @@ def benchmark(model,workload,root,emit=lambda *_:None):
     results=[]
     for personality in PERSONALITIES:
         for wformat in ('int8','int4','fp4'):
+            if workload.candidate_case is not None and wformat!='int8': continue
             selected=replace(workload,personality=personality,wformat=wformat)
             emit('candidate',{'personality':personality,'wformat':wformat,'status':'running'})
             try:
