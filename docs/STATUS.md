@@ -23,10 +23,21 @@ transformer-weight bypass fixed the three original mismatches but introduced two
 others. No targeted case met 90%; release remains blocked. See
 [the complete results and interpretation](qwen3-precision-attribution-results.md).
 All ten result hashes verified; focused CPU tests: 31 passed in 10.44 seconds.
-No worker remains active from this batch. PID 2021 is historical, not a resume
-instruction. The next action is to select the next run mode in chat for a
-128-target baseline timing pilot before broader screening; no further checkpoint
-batch is authorized. The already frozen 128-target panel must be reused.
+The user then authorized the recommended single Interactive 128-target baseline
+pilot. It completed on clean source `c352607e3c9394231491fa1c4a30e9d098f3b04f`:
+107/128 matches (83.59375%), +0.622021% NLL, 281.44 seconds wall time,
+256.52 seconds candidate time, 996 executed context tokens across eight sequences.
+Both floating references agree on all 128 targets. Evidence:
+`build/zephyrus-jobs/release/20260928T223413Z-b463e746/precision-128-pilot-01/`.
+Result SHA-256: `994db61a623d52ce3a3ddf6cf792c38ead207ebf2bc93764bdfe24e2c557d454`.
+Runner, frozen panel/policy, events, canonical record, summary and source identity
+are retained there; Windows evidence copy is in `setup-evidence/precision-128-pilot-01`.
+No batch worker remains active. PIDs 2021 and 3215 are historical.
+Next: choose the next batch mode for the remaining nine 128-target cases
+(all-floating, seven single-group bypasses, fixed key-cache + transformer-weight
+bypass), estimated 35–45 minutes serialized using this completed pilot. Reuse the
+frozen panel and compatible baseline/reference evidence; preserve each attempt.
+No further checkpoint batch or held-out evaluation has been dispatched/authorized.
 
 Batch record: the shared handoff was committed/pushed as `9617f82`. Bounded
 precision attribution is implemented with exact baseline-preservation, seven
@@ -128,7 +139,7 @@ unfinished.
 
 | Status | Owner | Item | Notes |
 | --- | --- | --- | --- |
-| open | Any agent | Qwen3 quality recovery and precision attribution | Ten-case batch complete; best targeted result 87.50%. Select next batch mode before the frozen 128-target pilot. See qwen3-precision-attribution-results.md and the recovery plan. |
+| open | Any agent | Qwen3 quality recovery and precision attribution | Ten-case batch and 128-target baseline complete (83.59%). Select next mode for nine remaining 128-target cases, estimated 35–45 minutes. See current evidence above and recovery plan. |
 | open | Codex | Zephyrus release completion implementation | Infrastructure verified at b1f2d3f; measured model release remains blocked. Resume after quality recovery. |
 | done | Codex | Bit-accurate dense golden model and tiny-network cross-check | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/model.py`. Framework calibration remains separate. |
 | done | Codex | Versioned dense model descriptor and exported test vectors | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/records.py` and generated RTL benches. |

@@ -82,4 +82,28 @@ Then complete quantize-only and pairwise attribution as needed by the approved
 recovery plan; fit compatible channel-rescaling/clipping candidates on calibration
 only. Confirm improvements through actual ISA validation before any promotion.
 Do not jump directly to higher-precision RTL or held-out testing from this panel.
-The user authorized ten cases and a report; no next checkpoint batch has started.
+The ten-case authorization ended with its report. The subsequently authorized
+128-target baseline pilot is recorded below; additional cases still need a batch
+mode selection.
+
+## Follow-up: 128-target baseline pilot
+
+User authorized one Interactive pilot. The frozen spread panel was reused without
+alteration: eight sequences, 128 scored targets, 996 executed context tokens.
+Source `c352607e3c9394231491fa1c4a30e9d098f3b04f` stayed clean and unchanged.
+Both floating references agreed on all 128 targets. INT8 emulation matched
+107/128 (83.59375%); FP32 NLL was 4.79491632, candidate NLL 4.82474171,
+degradation +0.622021%. Agreement remains below 90%, requiring at least 116/128
+matches on this diagnostic panel. This is not held-out acceptance.
+
+Wall time: 281.44 seconds; candidate time: 256.52 seconds. Estimate 35–45 minutes
+for the remaining nine serialized cases, allowing for variation and reference
+reuse. Next batch should use the same frozen panel and fixed combined bypass;
+do not select a new pair from held-out data or silently change the panel.
+
+Evidence: sibling attempt `precision-128-pilot-01/`, including saved runner,
+job/source identity, panel, policy, events, result and summary. Result SHA-256:
+`994db61a623d52ce3a3ddf6cf792c38ead207ebf2bc93764bdfe24e2c557d454`.
+Canonical record ID:
+`213b8e7d0326d9c5d86f8649c4b0c78e2735f4602cf07365f576220f17320260`.
+No production arithmetic was changed. No further checkpoint job is active.
