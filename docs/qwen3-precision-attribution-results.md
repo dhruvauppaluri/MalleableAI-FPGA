@@ -107,3 +107,38 @@ job/source identity, panel, policy, events, result and summary. Result SHA-256:
 Canonical record ID:
 `213b8e7d0326d9c5d86f8649c4b0c78e2735f4602cf07365f576220f17320260`.
 No production arithmetic was changed. No further checkpoint job is active.
+
+## Completed nine-case continuation (inspected 2026-09-29)
+
+The previously dispatched batch continued to completion while the chat was
+interrupted. It ran on clean source `6975b1c5e5c2c5ae5b832224297ff44412753ab6`,
+using the exact frozen panel and copied reference store. It took 2167.79 seconds
+(36 minutes 8 seconds). All nine saved result hashes verified. No worker remains
+active, and no cases need rerunning.
+
+| Floating bypass | Matches | Agreement | NLL change vs FP32 |
+| --- | --- | --- | --- |
+| None (previous baseline) | 107/128 | 83.59% | +0.622% |
+| All groups | 128/128 | 100% | approximately 0% |
+| Transformer weights | 110/128 | 85.94% | +0.350% |
+| Projection inputs | 111/128 | 86.72% | +0.801% |
+| Key cache | 117/128 | 91.41% | -0.363% |
+| Value cache | 108/128 | 84.38% | +0.389% |
+| Attention queries/probabilities | 113/128 | 88.28% | +1.072% |
+| Output-head weights | 107/128 | 83.59% | +0.614% |
+| Output-head inputs | 108/128 | 84.38% | +0.604% |
+| Key cache + transformer weights | 117/128 | 91.41% | -0.149% |
+
+This broader panel changes the priority: key-cache quantization is the strongest
+single-group lead. Bypassing transformer-weight quantization in addition adds no
+agreement benefit here. A key-cache bypass meets the numerical thresholds on
+this diagnostic panel, but it uses floating values in independent emulation.
+It has no corresponding production ISA/RTL implementation or held-out approval.
+It does not establish a passing release or guarantee full-validation success.
+Follow the approved compatible INT8 search first, informed by this finding;
+targeted cache precision is the measured fallback for localization and an ADR.
+
+Attempt: `precision-128-remaining-01/` beside the pilot. Report SHA-256:
+`31134ec2dbd76c6dee9f747e871b551aa96a0676d3ada0a8ba44a5a8ec21a0c7`.
+The earlier lack of a chat completion message was a handoff problem, not a failed
+job. These measurements run on CPU; GPU access is required later for CUDA/hybrid.

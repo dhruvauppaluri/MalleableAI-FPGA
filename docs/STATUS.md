@@ -44,13 +44,30 @@ Next: choose the next batch mode for the remaining nine 128-target cases
 (all-floating, seven single-group bypasses, fixed key-cache + transformer-weight
 bypass), estimated 35–45 minutes serialized using this completed pilot. Reuse the
 frozen panel and compatible baseline/reference evidence; preserve each attempt.
-The user has now authorized these remaining nine cases, serialized, then report.
-Active attempt will be `precision-128-remaining-01/` in the same release root;
-inspect its `batch.json` PID, per-case logs/summaries, and final report/failure
-before resuming. Runner is snapshotted as `runner.py` inside the attempt and
-reuses a copied floating-reference store from the verified pilot. Cases 1–9 use
-the exact earlier policies, including the fixed combined bypass. No held-out or
-subsequent calibration batch is authorized by this dispatch.
+The remaining nine cases COMPLETED successfully on clean source
+`6975b1c5e5c2c5ae5b832224297ff44412753ab6` in 2167.79 seconds (36m08s).
+Attempt: `precision-128-remaining-01/` in the same release root. All nine result
+hashes verified; report SHA-256:
+`31134ec2dbd76c6dee9f747e871b551aa96a0676d3ada0a8ba44a5a8ec21a0c7`.
+No batch worker is active; PID 3837 is historical. Do not rerun this attempt.
+Key-cache bypass alone reached 117/128 = 91.40625%, NLL change -0.363486%.
+Combined key-cache + transformer-weight bypass also reached 117/128, NLL
+-0.149227%. All-floating control reached 128/128. These are independent CPU
+emulation diagnostics, not ISA/RTL or held-out approval. See the results document
+for all cases. The previously running handoff was stale until this inspection.
+
+Cursor's separate draft PR #4 (`415b762dc1f575b74867396103287efc059d3929`)
+implements compatible INT8 rescaling/clipping research code. It has not been
+merged or run on the real checkpoint here. Initial review: separating its branch
+and calibration/validation is appropriate; checkpoints/evidence access, not a
+GPU, is required for these CPU diagnostics. Fix eligibility/ranking to enforce
+both quality gates and add actual ISA evaluation of derived tensors before any
+promotion. Review memory budgeting for duplicate checkpoint/derived allocations
+before a real-model pilot. Cursor must refresh this handoff instead of resuming
+missing cases that no longer exist. No new checkpoint batch is dispatched.
+Next: review the compatible INT8 PR against this key-cache finding, then select
+a bounded calibration/screening batch; if needed localize key-cache precision
+with the approved attribution/ADR/ISA/RTL sequence. Held-out remains untouched.
 
 Batch record: the shared handoff was committed/pushed as `9617f82`. Bounded
 precision attribution is implemented with exact baseline-preservation, seven
@@ -152,7 +169,7 @@ unfinished.
 
 | Status | Owner | Item | Notes |
 | --- | --- | --- | --- |
-| in progress | Codex | Qwen3 quality recovery and precision attribution | User authorized nine remaining 128-target cases; inspect precision-128-remaining-01 before dispatch. Estimated 35–45 minutes. |
+| open | Any agent | Qwen3 quality recovery and precision attribution | All 128-target cases complete. Key-cache bypass 91.41% diagnostic agreement. Review PR #4 and choose next bounded batch; no duplicate attribution dispatch. |
 | open | Codex | Zephyrus release completion implementation | Infrastructure verified at b1f2d3f; measured model release remains blocked. Resume after quality recovery. |
 | done | Codex | Bit-accurate dense golden model and tiny-network cross-check | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/model.py`. Framework calibration remains separate. |
 | done | Codex | Versioned dense model descriptor and exported test vectors | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/records.py` and generated RTL benches. |
