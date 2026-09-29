@@ -30,6 +30,22 @@ Branches (stacked, draft PRs, none merged):
   Vivado in the cloud container: **no synthesis, place-and-route, timing or power result exists
   for the VU47P.**
 
+## Host harness (PR B)
+
+```sh
+python -m malleable.f2 all --mode emulate                # software card; default
+python -m malleable.f2 loopback --mode sim               # PCIS write/read through the Verilator RTL
+python -m malleable.f2 descriptor --mode sim             # register + program-load + RUN path on the RTL
+python -m malleable.f2 steps --mode sim --steps 20       # tiny-model tokens, DRAM equal to the ISA machine each step
+# never run, needs an explicit opt-in, a loaded AFI and a PCI address:
+python -m malleable.f2 all --mode hardware --enable-hardware --bdf 0000:00:1d.0
+```
+
+Results carry their provenance (`emulated`, `simulated`, or `measured on a real F2 card`);
+emulated timings are host memcpy/interpreter speed and simulated timings are the simulator's.
+`F2BarTransport` (real card through the PCIe BARs) is UNTESTED on hardware; its register and
+window plumbing is tested against ordinary files standing in for the BARs.
+
 ## Toolchain used in the cloud container (2026-09-29)
 
 Verilator 5.050 (built from tag v5.050), Icarus Verilog 12.0, Yosys 0.33: the same versions as
