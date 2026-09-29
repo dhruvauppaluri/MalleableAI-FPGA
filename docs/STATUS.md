@@ -306,6 +306,13 @@ selectable=false). Raw baseline, no candidate. Commits are now PUSHED (branch he
 `b0df2fc`; push worked via the Windows Git Credential Manager helper for that one command).
 Next: single raw held-out run (`release/lfm2-raw-int8-heldout-01/`), then 8-token full RTL.
 
+LFM2.5-230M raw INT8 single held-out (unit `malleable-lfm2-heldout-01`, exit 0, ~17 min,
+`release/lfm2-raw-int8-heldout-01/`): **PASS** 977/1024 = 95.41016%, FP32 NLL 6.50602366, ISA NLL 6.52798781
+(+0.3376%), selectable=true, same variant/configuration as validation, record
+`711f2f594a4d68ae070502610d0b2670b218f2f8e4091b60d8b3770ed6c6bc80`, result.json sha256
+`95f6aeedcf2b324207acb596708c17e15f5df43d72da14b28a1800da4ea21371`. One evaluation; do not rerun.
+Next: LFM2.5 eight-token full RTL (`release/lfm2-rtl-acceptance-01/`).
+
 ## Done
 
 - Signed INT8 MAC with signed INT32 accumulation and explicit overflow
