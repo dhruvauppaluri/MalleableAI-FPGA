@@ -341,6 +341,7 @@ standalone `release-check` cannot pass until Qwen3.5 has a passing candidate. Ne
 | Status | Owner | Item | Notes |
 | --- | --- | --- | --- |
 | in progress | Cursor (local, Zephyrus) | Qwen3 quality recovery and precision attribution | Qwen3 a0.5-cnone PASSED full ISA validation (94.04%) and its single frozen held-out (94.14%, NLL -0.21%); integration done (ADR-0007). Remaining: full-RTL acceptance, Qwen3.5/LFM candidates, performance/controller/workbench/CUDA/final release checks. Shared dispatch deadline 2026-09-30T01:03:40Z. |
+| in progress | Claude (cloud) | AWS EC2 F2 platform around the frozen OpenTPU accelerator (design + simulation only) | Branch `claude/f2-platform`. Detail, evidence and caveats live in [f2-status.md](f2-status.md), not here. No AWS provisioning/AFI/spend without explicit user approval. |
 | open | Codex | Zephyrus release completion implementation | Infrastructure verified at b1f2d3f; measured model release remains blocked. Resume after quality recovery. |
 | done | Codex | Bit-accurate dense golden model and tiny-network cross-check | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/model.py`. Framework calibration remains separate. |
 | done | Codex | Versioned dense model descriptor and exported test vectors | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/records.py` and generated RTL benches. |

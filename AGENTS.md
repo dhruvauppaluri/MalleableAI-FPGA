@@ -13,7 +13,9 @@ MalleableAI-FPGA is a model-aware FPGA AI accelerator. The FPGA runs inference.
 Training, quantization, hardware selection, and FPGA compilation happen on the
 host. The active product is the local pretrained-LLM platform (ADR-0003).
 Standalone full-RTL acceptance precedes enabling CUDA and greedy hybrid runs.
-AWS provisioning, uploads, AFIs, HBM and physical programming remain excluded.
+AWS provisioning, uploads, AFI submission, physical programming and spending remain
+excluded without the owner's explicit approval; F2 design and simulation work (HBM adapter,
+shell wrapper, host transport, ADR-0008, docs/f2-status.md) is in scope.
 
 The verified dense RTL foundation and independently implemented model-aware
 software baseline are in this repo. Pinned OpenTPU is a separate execution and

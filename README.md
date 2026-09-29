@@ -228,7 +228,9 @@ See [the model-aware system guide](docs/model-aware-system.md).
 Included: local simulation, validated configuration/quantization selection,
 learning evaluation, the workbench, and gated CUDA/greedy hybrid.
 
-Excluded: AWS provisioning/uploads/AFIs/HBM integration, physical programming,
+Excluded: AWS provisioning/uploads/AFI submission and spending without explicit owner approval
+(F2 design and simulation is in scope: [ADR-0008](docs/adr/0008-f2-platform-architecture.md),
+[F2 status](docs/f2-status.md)), physical programming,
 partial reconfiguration, new runtime hardware modes, retraining/distillation,
 contextual bandits, phase/operator experience retrieval, and extra architectures.
 No universal model compatibility or guaranteed speedup is claimed.

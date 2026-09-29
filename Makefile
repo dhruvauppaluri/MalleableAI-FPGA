@@ -11,7 +11,7 @@ ACCELERATOR_RTL := \
 	rtl/int8_postprocess.sv \
 	rtl/malleable_accelerator_top.sv
 
-.PHONY: all test test-rtl test-host lint synth verify verify-llm test-upstream ui clean release-tiny release-check full-release-check verify-evidence
+.PHONY: all test test-rtl test-host lint synth verify verify-llm test-upstream ui clean release-tiny release-check full-release-check verify-evidence test-f2 lint-f2 synth-f2 verify-f2 replay-f2
 
 all: verify
 
@@ -75,11 +75,41 @@ ui:
 	npm --prefix frontend ci
 	npm --prefix frontend run build
 
+F2_RTL := \
+	f2/rtl/f2_fifo.sv \
+	f2/rtl/f2_cdc.sv \
+	f2/rtl/f2_ocl.sv \
+	f2/rtl/f2_hbm_router.sv \
+	f2/rtl/f2_hbm_pc_bridge.sv \
+	f2/rtl/f2_hbm_adapter.sv
+
+# F2 platform (docs/adr/0008-*.md, docs/f2-status.md): simulation and structural checks only.
+lint-f2:
+	$(VERILATOR) --lint-only --Wall -Wno-fatal -Wno-DECLFILENAME -Wno-TIMESCALEMOD -Wno-UNUSEDSIGNAL -Wno-UNUSEDPARAM \
+		--top-module f2_hbm_adapter $(F2_RTL)
+	PYTHONPATH=. $(PYTHON) -m malleable.f2.sim --sources --rtl-only | xargs $(VERILATOR) --lint-only -Wno-fatal \
+		-Wno-WIDTHEXPAND -Wno-WIDTHTRUNC -Wno-UNUSEDSIGNAL -Wno-UNUSEDPARAM -Wno-DECLFILENAME -Wno-TIMESCALEMOD \
+		--top-module cl_otpu_core
+
+synth-f2: | $(BUILD_DIR)
+	$(YOSYS) -q -l $(BUILD_DIR)/synthesis-f2.log -p \
+		"read_verilog -sv $(F2_RTL); hierarchy -top f2_hbm_adapter; synth -top f2_hbm_adapter -run begin:fine; select -assert-none t:\$$dlatch p:*; check -assert; stat"
+
+test-f2:
+	PYTHONPATH=. $(PYTHON) -m pytest -q tests/test_f2_placement.py tests/test_f2_rtl.py tests/test_f2_replay.py
+
+verify-f2: lint-f2 synth-f2 test-f2
+
+# Durable 100-token replay evidence (destination must not exist), as tools/export_tiny_rtl_evidence.py does for RTL.
+replay-f2:
+	PYTHONPATH=. $(PYTHON) -m malleable.f2.replay --output $(BUILD_DIR)/release-evidence/f2-replay
+
 verify-llm:
 	$(PYTHON) -c "import torch, transformers, safetensors, fastapi, httpx, pytest"
 	$(MAKE) verify PYTHON=$(PYTHON)
 	$(PYTHON) -m pytest -q tests/test_diagnostics.py tests/test_precision.py tests/test_int8_candidates.py tests/test_candidate_integration.py tests/test_release_implementation.py tests/test_cuda_cache.py
 	$(MAKE) test-upstream PYTHON=$(PYTHON)
+	$(MAKE) test-f2 PYTHON=$(PYTHON)
 	npm --prefix frontend run check
 	npm --prefix frontend run build
 
