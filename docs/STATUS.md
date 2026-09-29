@@ -37,7 +37,13 @@ Next: choose the next batch mode for the remaining nine 128-target cases
 (all-floating, seven single-group bypasses, fixed key-cache + transformer-weight
 bypass), estimated 35–45 minutes serialized using this completed pilot. Reuse the
 frozen panel and compatible baseline/reference evidence; preserve each attempt.
-No further checkpoint batch or held-out evaluation has been dispatched/authorized.
+The user has now authorized these remaining nine cases, serialized, then report.
+Active attempt will be `precision-128-remaining-01/` in the same release root;
+inspect its `batch.json` PID, per-case logs/summaries, and final report/failure
+before resuming. Runner is snapshotted as `runner.py` inside the attempt and
+reuses a copied floating-reference store from the verified pilot. Cases 1–9 use
+the exact earlier policies, including the fixed combined bypass. No held-out or
+subsequent calibration batch is authorized by this dispatch.
 
 Batch record: the shared handoff was committed/pushed as `9617f82`. Bounded
 precision attribution is implemented with exact baseline-preservation, seven
@@ -139,7 +145,7 @@ unfinished.
 
 | Status | Owner | Item | Notes |
 | --- | --- | --- | --- |
-| open | Any agent | Qwen3 quality recovery and precision attribution | Ten-case batch and 128-target baseline complete (83.59%). Select next mode for nine remaining 128-target cases, estimated 35–45 minutes. See current evidence above and recovery plan. |
+| in progress | Codex | Qwen3 quality recovery and precision attribution | User authorized nine remaining 128-target cases; inspect precision-128-remaining-01 before dispatch. Estimated 35–45 minutes. |
 | open | Codex | Zephyrus release completion implementation | Infrastructure verified at b1f2d3f; measured model release remains blocked. Resume after quality recovery. |
 | done | Codex | Bit-accurate dense golden model and tiny-network cross-check | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/model.py`. Framework calibration remains separate. |
 | done | Codex | Versioned dense model descriptor and exported test vectors | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/records.py` and generated RTL benches. |
