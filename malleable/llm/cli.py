@@ -10,7 +10,7 @@ def emit(kind,payload):
 
 def main():
     p=argparse.ArgumentParser()
-    p.add_argument('command',choices=['analyze','generate','benchmark','quality','quality-diagnose','quality-precision-diagnose','optimize',
+    p.add_argument('command',choices=['analyze','generate','benchmark','quality','quality-candidate-validate','quality-candidate-diagnose','quality-diagnose','quality-precision-diagnose','optimize',
         'train','evaluate','promote','rollback','predictor-train','predictor-evaluate',
         'release-check','full-release-check','gpu-generate','hybrid-generate','performance-suite'])
     p.add_argument('--model'); p.add_argument('--verifier'); p.add_argument('--store',default='build/llm-runs')
@@ -24,6 +24,7 @@ def main():
     p.add_argument('--limit-targets',type=int,default=16)
     p.add_argument('--run-index',type=int)
     p.add_argument('--precision-policy'); p.add_argument('--diagnostic-panel')
+    p.add_argument('--candidate-case')
     p.add_argument('--depth',type=int,default=4); p.add_argument('--dtype',choices=['float16','float32'],default='float16')
     for name,default,typ in [('prompt','Hello',str),('prompt_format','chat',str),('max_new',16,int),('context',2048,int),
         ('seed',0,int),('backend','rtl',str),('personality','balanced',str),('wformat','int8',str),
@@ -125,17 +126,23 @@ def main():
                 key=store.save(kind,result); emit('result',dict(result,record_id=key)); return
             finally: store.close()
         if not a.model: raise ValueError('--model is required')
-        if a.command in ('quality','quality-diagnose','quality-precision-diagnose'):
+        if a.command in ('quality','quality-candidate-validate','quality-candidate-diagnose','quality-diagnose','quality-precision-diagnose'):
             from ..store import Store
-            if a.command=='quality':
+            if a.command in ('quality','quality-candidate-validate'):
                 from .quality import evaluate
-                result=evaluate(a.model,a.suite,a.wformat,a.split,a.personality,a.max_host_gib,emit=emit,context=a.context)
-                kind='llm-quality'
-            elif a.command=='quality-diagnose':
+                if a.command=='quality-candidate-validate' and not a.candidate_case:
+                    raise ValueError('--candidate-case is required')
+                result=evaluate(a.model,a.suite,a.wformat,a.split,a.personality,a.max_host_gib,emit=emit,context=a.context,
+                    candidate_case=a.candidate_case if a.command=='quality-candidate-validate' else None)
+                kind='llm-candidate-validation' if a.command=='quality-candidate-validate' else 'llm-quality'
+            elif a.command in ('quality-diagnose','quality-candidate-diagnose'):
                 from .diagnostics import diagnose
+                if a.command=='quality-candidate-diagnose' and not a.candidate_case:
+                    raise ValueError('--candidate-case is required')
                 result=diagnose(a.model,a.suite,a.limit_targets,a.personality,a.wformat,a.context,
-                    a.split,a.max_host_gib,emit=emit)
-                kind='llm-quality-diagnostic'
+                    a.split,a.max_host_gib,emit=emit,
+                    candidate_case=a.candidate_case if a.command=='quality-candidate-diagnose' else None)
+                kind='llm-candidate-isa-diagnostic' if a.command=='quality-candidate-diagnose' else 'llm-quality-diagnostic'
             else:
                 if a.split!='validation' or a.context!=128 or a.personality!='balanced' or a.wformat!='int8':
                     raise ValueError('precision attribution requires validation/context128/balanced/INT8 baseline')

@@ -46,7 +46,7 @@ def comparison(actual, reference):
 
 
 def diagnose(model, suite, limit_targets=16, personality='balanced', wformat='int8',
-             context=128, split='validation', max_host_gib=16, emit=lambda *_: None):
+             context=128, split='validation', max_host_gib=16, emit=lambda *_: None,candidate_case=None):
     if split != 'validation': raise ValueError('diagnostics are validation-only; held-out is never a search input')
     if type(limit_targets) is not int or not 1 <= limit_targets <= 128:
         raise ValueError('diagnostic limit must be 1..128 targets')
@@ -56,6 +56,12 @@ def diagnose(model, suite, limit_targets=16, personality='balanced', wformat='in
     import platform
     data, hashes = frozen_suite(suite)
     info = inspect(model, context)
+    derived=None
+    if candidate_case is not None:
+        if context!=128 or personality!='balanced' or wformat!='int8':
+            raise ValueError('derived candidate diagnostic requires context128/balanced/INT8')
+        from .candidates import read_derived_candidate
+        derived=read_derived_candidate(candidate_case,info)
     if info['family'] != 'qwen3' or not info['supported']:
         raise ValueError('localized independent-reference diagnostics currently support Qwen3')
     if data['base_model_id'] != info['base_model_id'] or data['tokenizer_id'] != info['tokenizer_id']:
@@ -68,7 +74,9 @@ def diagnose(model, suite, limit_targets=16, personality='balanced', wformat='in
     spec = load_spec(Path(model))
     cfg = PERSONALITIES[personality].config(spec, context, wformat)
     # FP32 weights, the float64 quantized emulation, the ISA image and scratch.
-    if 3 * info['fp32_tensor_bytes'] + 3 * cfg.DRAM_BYTES > max_host_gib * 1024**3:
+    estimate=3 * info['fp32_tensor_bytes'] + 3 * cfg.DRAM_BYTES
+    if derived: estimate+=derived['bytes']
+    if estimate > max_host_gib * 1024**3:
         raise ValueError('diagnostic exceeds configured host memory budget')
     weights = load(model)
     original = floating_reference(model, info, weights)
@@ -94,11 +102,23 @@ def diagnose(model, suite, limit_targets=16, personality='balanced', wformat='in
             hf_rows.append(original(torch.tensor([row[:-1]])).logits[0].float().numpy())
     del original
     gc.collect()
+    original_rows=None
+    if derived:
+        original_rows=[]
+        for row in rows:
+            floats={}
+            fp=_captured_reference(reference_logits,floats)(spec,weights,row[:-1])
+            original_rows.append((fp,floats))
+        from .candidates import apply_derived_candidate
+        weights=apply_derived_candidate(weights,derived)
     emit('phase', {'phase':'independent-reference-diagnostics','targets':limit_targets})
     token_results, layer_results, parity = [], [], []
     for row_index, row in enumerate(rows):
         floats, quantized = {}, {}
-        fp = _captured_reference(reference_logits, floats)(spec, weights, row[:-1])
+        if original_rows is None:
+            fp = _captured_reference(reference_logits, floats)(spec, weights, row[:-1])
+        else:
+            fp,floats=original_rows[row_index]
         emu = _captured_reference(emulated_logits, quantized)(spec, weights, row[:-1], wformat=wformat, head_format='int8')
         hf = hf_rows[row_index]
         parity.append(comparison(fp, hf))
@@ -130,6 +150,10 @@ def diagnose(model, suite, limit_targets=16, personality='balanced', wformat='in
         gc.collect()
     count = len(token_results)
     def agree(left, right): return sum(r[left]['top1']==r[right]['top1'] for r in token_results)/count
+    candidate_record=None
+    if derived:
+        candidate_record={k:derived[k] for k in ('schema_version','derived_id','parameters_id',
+            'calibration_statistics_id','candidate','screen_result_sha256')}
     return {'schema_version':1,'kind':'quality-diagnostic','split':'validation','release_evidence':False,
             'selectable':False,'base_model_id':info['base_model_id'],'tokenizer_id':info['tokenizer_id'],
             'suite_file_hash':digest(suite),'split_hash':hashes['validation'],'diagnostic_token_hash':identity(rows),
@@ -142,6 +166,7 @@ def diagnose(model, suite, limit_targets=16, personality='balanced', wformat='in
             'isa_emulation_agreement':agree('isa','quantized_emulation'),
             'emulation_float_agreement':agree('quantized_emulation','floating'),
             'tokens':token_results,'layer_residuals':layer_results,'elapsed_seconds':time.monotonic()-started,
+            'derived_candidate':candidate_record,
             'toolchain':{'torch':torch.__version__,'transformers':transformers.__version__},
             'checkpoint':{'weight_files':info['weight_files'],'tokenizer_files':info['tokenizer_files']},
             'numeric_contract':info['numeric_contract'],'upstream_revision':info['upstream_revision'],

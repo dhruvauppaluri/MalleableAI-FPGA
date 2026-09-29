@@ -80,3 +80,46 @@ Screening results are independent emulation of derived tensors, not ISA/RTL and 
 release evidence. Next after screening: complete validation of the top three through
 the actual ISA (goal at least 92% agreement, gate 90%), then a single held-out
 evaluation of a frozen winner.
+
+## Passing Zephyrus pilot and actual ISA validation
+
+The authorized two-case pilot completed on source `cb193a3` in 620.25 seconds.
+`a0.5-cnone` reached 121/128 (94.53125%), NLL change -0.177878%.
+`a0.5-c99.9` reached 5/128 (3.90625%), NLL change +135.676582%; rejected.
+Both are preserved under
+`build/zephyrus-jobs/release/20260928T223413Z-b463e746/quality-recovery-pilot-01/`.
+The ten-case precision fallback was predeclared but not dispatched because the
+rescaling-only candidate met both screening gates. All 308 persisted tensor
+hashes verified for each candidate. Actual calibration used all 256 available
+tokens, with 512 as the requested maximum. No held-out data was evaluated.
+
+`quality-candidate-validate` now loads a verified, eligible persisted screen case
+and executes its derived tensors through the actual ISA, against the original
+FP32 checkpoint reference. It enforces frozen validation with at least 1,024
+targets, context 128, balanced, and INT8/head INT8. The candidate has a distinct
+variant identity bound to derived tensors and calibration parameters. This path
+rejects held-out evaluation; generation/release integration and candidate freeze
+must precede any held-out promotion.
+
+After the next batch mode is selected, the prepared full-validation command is:
+
+```sh
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 OMP_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 \
+PYTHONPATH=. .venv/bin/python -u -m malleable.llm.cli quality-candidate-validate \
+  --model build/models/Qwen3-0.6B --suite build/models/quality/qwen3-frozen-v2.json \
+  --candidate-case build/zephyrus-jobs/release/20260928T223413Z-b463e746/quality-recovery-pilot-01/int8/case-00 \
+  --context 128 --personality balanced --wformat int8 --split validation \
+  --max-host-gib 16 --store <new-append-only-validation-attempt>/store
+```
+
+Plan a bounded actual-ISA timing pilot before scheduling the complete validation
+job; emulation screening time is not an ISA runtime estimate.
+For that bounded pilot, replace the command with `quality-candidate-diagnose` and
+add `--limit-targets 16`. It compares original FP32, derived INT8 emulation and
+actual ISA while retaining token margins and loss differences. Historical
+baseline timing was roughly 75 seconds for 16 targets; the derived candidate's
+runtime must be measured. The tiny synthetic ISA regression verifies exact
+output of the checked loader against directly loaded persisted tensors. It does
+not treat float64 emulation as an exact ISA oracle: a synthetic outlier fixture
+showed differing top tokens at the third step, which reinforces the need for
+actual ISA quality evaluation before any release claim.

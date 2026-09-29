@@ -65,13 +65,38 @@ both quality gates and add actual ISA evaluation of derived tensors before any
 promotion. Review memory budgeting for duplicate checkpoint/derived allocations
 before a real-model pilot. Cursor must refresh this handoff instead of resuming
 missing cases that no longer exist. No new checkpoint batch is dispatched.
-Current authorization (2026-09-29): user said "go for it" to review/fix PR #4
-and run the short compatible INT8 pilot, followed on failure by another TEN
-different precision cases. Use serialized Interactive pilot (two candidates,
-512 calibration tokens, frozen 128-target panel); if neither meets agreement
->=90% and NLL degradation <=5%, execute the ten predeclared diagnostic cases
-focused on key-cache precision. Record policies before any fallback case runs.
-Do not merge PRs or use held-out data. Working on code fixes before dispatch.
+Latest completed authorization (2026-09-29): user said "go for it" to review/fix
+PR #4 and run the short INT8 pilot, followed on failure by TEN different precision
+cases. The pilot COMPLETED on clean source `cb193a318c3bcb0b5a559fc057610bd65c786842`
+in 620.25 seconds. `a0.5-cnone` (rescaling only) reached 121/128 = 94.53125%,
+NLL change -0.177878%; `a0.5-c99.9` reached 5/128 = 3.90625%, NLL +135.676582%
+and was rejected. Because one candidate met both gates, the conditional fallback
+was NOT dispatched. All ten fallback policies remain frozen in `plan.json`.
+Actual calibration used all 256 available tokens (512 requested maximum).
+Attempt: `quality-recovery-pilot-01/` in the release root. Report SHA-256:
+`3d82dd224361d50d42131b3dae1cc93e611a93be9830f171f6d2f674951b393a`.
+All 308 persisted tensor hashes verified per candidate; see `artifact-integrity.json`.
+Best derived ID: `3129232e64ec1532cfb735b48dac385bbeac4a072af98660d0fe85953cd163da`.
+No job from this batch remains active; PID 22182 is historical. No held-out used.
+
+Actual derived-weight ISA integration is now implemented and tested: new
+`quality-candidate-diagnose` (bounded validation) and `quality-candidate-validate`
+(full frozen validation, >=1024 targets). Both bind checked artifact hashes and
+original model/tokenizer/weight lineage; derived tensors never become the FP32
+reference. Held-out is rejected. The quality variant binds derived/parameter IDs;
+production generation/release integration and candidate freeze remain unfinished.
+88 focused CPU tests passed in 21.15s, including actual tiny ISA loading parity.
+A synthetic outlier fixture showed one top-token difference between float64
+emulation and actual ISA (13,13,35 versus 13,13,34). Do not assume emulation is
+an exact ISA oracle; reason was not localized by that test. Production arithmetic
+and quality thresholds remain unchanged.
+
+Next batch: select Interactive (one 16-target actual-ISA diagnostic, estimated
+1–3 minutes from the historical pilot) or Overnight (timing pilot, then full
+validation if justified by its measured timing, with the eight-hour dispatch cap).
+Prepared commands are in docs/qwen3-int8-candidates.md; select `int8/case-00` in
+the completed pilot. Memory preflight for the diagnostic is 13.04 GiB, within
+the configured 16 GiB budget. No further checkpoint job has been dispatched.
 Reviewed source from PR #4 is incorporated as research code with screening gates,
 derived-only memory handling, model/tokenizer checks, and focused regressions.
 Diagnostic site-policy v2 and ADR-0006 predeclare ten fallback cases; production
@@ -182,7 +207,7 @@ unfinished.
 
 | Status | Owner | Item | Notes |
 | --- | --- | --- | --- |
-| in progress | Codex | Qwen3 quality recovery and precision attribution | Fix reviewed INT8 candidate code; run two-candidate pilot, then ten new precision cases if it fails, as authorized 2026-09-29. |
+| open | Any agent | Qwen3 quality recovery and precision attribution | INT8 rescaling screen passed 94.53%; clipping failed. Actual ISA candidate support tested; choose next batch mode for timing pilot then full validation. |
 | open | Codex | Zephyrus release completion implementation | Infrastructure verified at b1f2d3f; measured model release remains blocked. Resume after quality recovery. |
 | done | Codex | Bit-accurate dense golden model and tiny-network cross-check | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/model.py`. Framework calibration remains separate. |
 | done | Codex | Versioned dense model descriptor and exported test vectors | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/records.py` and generated RTL benches. |

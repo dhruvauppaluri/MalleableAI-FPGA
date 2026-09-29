@@ -290,6 +290,66 @@ def merged(weights,derived):
     return {**weights,**derived}
 
 
+def read_derived_candidate(case,info):
+    """Verify a completed screen's lineage before loading any derived tensors."""
+    from safetensors import safe_open
+    from .models import local_file
+    case=Path(case).resolve(); root=case.parent; artifacts=(root/'artifacts').resolve()
+    meta=_read(case/'candidate.json'); summary=_read(case/'summary.json')
+    result_file=case/'result.json'
+    if _digest(result_file)!=summary['result_sha256']: raise ValueError('candidate screen result hash mismatch')
+    result=_read(result_file)
+    if (result.get('status')!='completed' or not screen_passes(summary)
+        or any(result.get(k)!=summary.get(k) for k in ('agreement','float_nll','candidate_nll','target_count','nll_degradation_percent'))
+        or any(result.get(k)!=info.get(k) for k in ('base_model_id','tokenizer_id'))):
+        raise ValueError('candidate screen is not eligible for validation')
+    def artifact(kind,key):
+        if not isinstance(key,str) or len(key)!=64 or any(c not in '0123456789abcdef' for c in key):
+            raise ValueError('invalid candidate artifact identity')
+        obj=_read(local_file(artifacts,f'{kind}-{key}.json'))
+        if identity(obj)!=key: raise ValueError('candidate artifact hash mismatch')
+        return obj
+    statistics=artifact('calibration-statistics',meta['calibration_statistics_id'])
+    parameters=artifact('candidate-parameters',meta['parameters_id'])
+    manifest=artifact('derived-tensors',meta['derived_id'])
+    lineage={k:info[k] for k in ('base_model_id','tokenizer_id','weight_files')}
+    if (statistics.get('source')!=lineage or statistics.get('split')!='calibration'
+        or parameters.get('source')!=lineage or manifest.get('source')!=lineage
+        or parameters.get('calibration_statistics_id')!=meta['calibration_statistics_id']
+        or manifest.get('parameters_id')!=meta['parameters_id']
+        or parameters.get('candidate')!=meta['candidate']
+        or any(result.get(k)!=meta.get(k) for k in ('derived_id','parameters_id','calibration_statistics_id'))):
+        raise ValueError('derived candidate lineage mismatch')
+    tensor_file=local_file(artifacts,meta['tensor_file'])
+    if tensor_file.suffix!='.safetensors': raise ValueError('derived candidate requires safetensors')
+    count=0
+    with safe_open(str(tensor_file),framework='np') as tensors:
+        if (tensors.metadata() or {}).get('derived_id')!=meta['derived_id'] or set(tensors.keys())!=set(manifest['tensors']):
+            raise ValueError('derived tensor manifest mismatch')
+        for name,row in manifest['tensors'].items():
+            view=tensors.get_slice(name)
+            if row['dtype']!='float32' or view.get_dtype()!='F32' or view.get_shape()!=row['shape']:
+                raise ValueError('derived tensor shape/dtype mismatch')
+            size=4
+            for dim in row['shape']: size*=dim
+            count+=size
+    return {'schema_version':1,'derived_id':meta['derived_id'],'parameters_id':meta['parameters_id'],
+        'calibration_statistics_id':meta['calibration_statistics_id'],'candidate':meta['candidate'],
+        'tensor_file':tensor_file,'manifest':manifest,'bytes':count,'screen_result_sha256':summary['result_sha256']}
+
+
+def apply_derived_candidate(weights,candidate):
+    """Hash/shape checks apply to every tensor before the actual ISA uses it."""
+    from safetensors.numpy import load_file
+    np=_np(); derived=load_file(str(candidate['tensor_file']))
+    for name,value in derived.items():
+        row=candidate['manifest']['tensors'][name]
+        if (name not in weights or value.shape!=weights[name].shape or value.dtype!=np.float32
+            or not np.isfinite(value).all() or hashlib.sha256(value.tobytes()).hexdigest()!=row['sha256']):
+            raise ValueError('invalid or corrupted derived tensor: '+name)
+    return merged(weights,derived)
+
+
 # ------------------------------------------------------------------ screening attempts
 def _write(path,value):
     with Path(path).open('x') as stream: json.dump(value,stream,indent=2,allow_nan=False); stream.write('\n')
@@ -409,7 +469,10 @@ def screen_passes(summary):
     return (all(isinstance(summary.get(k),(int,float)) and math.isfinite(summary[k]) for k in fields)
         and summary.get('target_count')==128 and 0.9<=summary['agreement']<=1
         and summary['candidate_nll']>=0 and summary['float_nll']>0
-        and summary['nll_degradation_percent']<=5)
+        and summary['candidate_nll']<=1.05*summary['float_nll']
+        and summary['nll_degradation_percent']<=5
+        and math.isclose(summary['nll_degradation_percent'],
+            100*(summary['candidate_nll']-summary['float_nll'])/summary['float_nll'],abs_tol=1e-8))
 
 
 def write_report(root,source=None,elapsed=None):

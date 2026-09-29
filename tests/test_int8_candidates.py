@@ -230,3 +230,76 @@ def test_screen_rejects_failed_or_insufficient_evidence(updates):
     row={'agreement':0.95,'candidate_nll':4.,'float_nll':4.,'nll_degradation_percent':0.,'target_count':128}
     assert C.screen_passes(row)
     assert not C.screen_passes(dict(row,**updates))
+
+
+def persisted_screen(tmp_path):
+    from malleable.llm.models import digest
+    spec,weights=synthetic(); info={'base_model_id':'synthetic','tokenizer_id':'tokenizer','weight_files':{'model':'hash'}}
+    statistics=stats(spec,weights); statistics['source']=dict(info)
+    candidate=C.Candidate(0.5); parameters=C.fit_parameters(weights,spec,statistics,candidate,identity(statistics))
+    derived=C.derive_tensors(weights,spec,parameters)
+    root=tmp_path/'attempt'; artifacts=root/'artifacts'; case=root/'case-00'; case.mkdir(parents=True)
+    sid,_=C.write_artifact(artifacts,'calibration-statistics',statistics)
+    pid,_=C.write_artifact(artifacts,'candidate-parameters',parameters)
+    did,_=C.write_artifact(artifacts,'derived-tensors',C.tensor_manifest(derived,pid,info))
+    file=C.write_tensors(artifacts,did,derived)
+    meta={'candidate':candidate.record(),'calibration_statistics_id':sid,'parameters_id':pid,'derived_id':did,'tensor_file':file.name}
+    result=dict(meta,base_model_id=info['base_model_id'],tokenizer_id=info['tokenizer_id'],status='completed',
+        agreement=0.95,float_nll=4.,candidate_nll=4.,nll_degradation_percent=0.,target_count=128)
+    (case/'candidate.json').write_text(json.dumps(meta)); (case/'result.json').write_text(json.dumps(result))
+    summary=dict(result,result_sha256=digest(case/'result.json')); (case/'summary.json').write_text(json.dumps(summary))
+    return spec,weights,info,case
+
+
+def test_persisted_candidate_applies_verified_tensors_and_preserves_source(tmp_path):
+    spec,weights,info,case=persisted_screen(tmp_path); before={k:v.copy() for k,v in weights.items()}
+    candidate=C.read_derived_candidate(case,info); applied=C.apply_derived_candidate(weights,candidate)
+    assert candidate['bytes']>0 and candidate['derived_id']!=candidate['parameters_id']
+    assert np.allclose(logits(spec,applied),logits(spec,weights),atol=2e-4,rtol=2e-4)
+    assert all(np.array_equal(weights[k],v) for k,v in before.items())
+    with pytest.raises(ValueError,match='lineage'): C.read_derived_candidate(case,dict(info,weight_files={'other':'hash'}))
+
+
+def test_persisted_candidate_rejects_tampered_data_before_isa(tmp_path):
+    import struct
+    _,weights,info,case=persisted_screen(tmp_path)
+    candidate=C.read_derived_candidate(case,info)
+    with candidate['tensor_file'].open('r+b') as f:
+        header=struct.unpack('<Q',f.read(8))[0]; f.seek(header+8+2); b=f.read(1)
+        f.seek(header+8+2); f.write(bytes([b[0]^1]))
+    with pytest.raises(ValueError,match='corrupted'): C.apply_derived_candidate(weights,candidate)
+
+
+def test_derived_quality_cannot_access_heldout(tmp_path):
+    from malleable.llm.quality import evaluate
+    from llm_fixture import save
+    from malleable.llm.models import inspect
+    model=tmp_path/'model'; save(model); suite,_=suite_file(tmp_path,inspect(model))
+    with pytest.raises(ValueError,match='requires validation'):
+        evaluate(model,suite,split='held-out',context=128,candidate_case=tmp_path/'candidate')
+
+
+def test_forged_stored_loss_change_does_not_pass_screen():
+    assert not C.screen_passes({'agreement':0.99,'float_nll':4.,'candidate_nll':8.,
+        'nll_degradation_percent':0.,'target_count':128})
+
+
+def test_verified_derived_weights_execute_on_actual_tiny_isa(tmp_path):
+    from opentpu.llm.qwen3 import Engine
+    from safetensors.numpy import load_file
+    from malleable.llm.records import PERSONALITIES
+    spec,weights,info,case=persisted_screen(tmp_path)
+    applied=C.apply_derived_candidate(weights,C.read_derived_candidate(case,info))
+    tokens=[3,17,5]
+    # Independent float64 emulation omits ISA rounding and is not a bit-exact
+    # oracle. Compare the verified loader with the same persisted tensors fed
+    # directly to the ISA, rather than asserting an unsupported numeric contract.
+    direct={**weights,**load_file(str(C.read_derived_candidate(case,info)['tensor_file']))}
+    expected_engine=Engine(spec,direct,cap=128,cfg=PERSONALITIES['balanced'].config(spec,128),
+        backend='isa',rows=1,pipeline=False,wformat='int8',head_format='int8')
+    expected=np.stack([expected_engine.step(t)[:spec.vocab] for t in tokens])
+    engine=Engine(spec,applied,cap=128,cfg=PERSONALITIES['balanced'].config(spec,128),
+        backend='isa',rows=1,pipeline=False,wformat='int8',head_format='int8')
+    actual=np.stack([engine.step(t)[:spec.vocab] for t in tokens])
+    assert np.isfinite(actual).all()
+    assert np.array_equal(actual,expected)

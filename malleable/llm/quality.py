@@ -80,7 +80,7 @@ def floating_reference(model,info,weights):
     return original.eval()
 
 def evaluate(model,path,wformat='int8',split='validation',personality='balanced',max_host_gib=12,
-             cache_root=None,emit=lambda *_:None,context=2048):
+             cache_root=None,emit=lambda *_:None,context=2048,candidate_case=None):
     import numpy as np
     import torch
     import transformers
@@ -91,6 +91,13 @@ def evaluate(model,path,wformat='int8',split='validation',personality='balanced'
     from opentpu.llm.qwen3 import Engine
     if split not in ('validation','held-out'): raise ValueError('invalid quality split')
     data,hashes=suites(path); info=inspect(model)
+    derived=None
+    if candidate_case is not None:
+        if split!='validation' or wformat!='int8' or context!=128 or personality!='balanced':
+            raise ValueError('derived candidate validation requires validation/INT8/context128/balanced')
+        data,hashes=frozen_suite(path)
+        from .candidates import read_derived_candidate
+        derived=read_derived_candidate(candidate_case,info)
     if not info['supported']: raise ValueError('unsupported model')
     if data.get('base_model_id')!=info['base_model_id'] or data.get('tokenizer_id')!=info['tokenizer_id']:
         raise ValueError('quality suite model/tokenizer lineage mismatch')
@@ -100,6 +107,7 @@ def evaluate(model,path,wformat='int8',split='validation',personality='balanced'
     if max(len(row)-1 for row in data[split])>context: raise ValueError('quality sequence exceeds configured context')
     cfg=PERSONALITIES[personality].config(spec,context,wformat)
     estimate=2*info['fp32_tensor_bytes']+cfg.DRAM_BYTES+max(map(len,data[split]))*spec.vocab*8
+    if derived: estimate+=derived['bytes']
     if estimate>max_host_gib*1024**3: raise ValueError('quality reference exceeds configured host memory budget')
     W=load(model)
     if any(t>=spec.vocab for row in data[split] for t in row): raise ValueError('quality token out of range')
@@ -128,6 +136,9 @@ def evaluate(model,path,wformat='int8',split='validation',personality='balanced'
             del original,logits
         else: reference_record=identity(cached)
     finally: cache.close()
+    if derived:
+        from .candidates import apply_derived_candidate
+        W=apply_derived_candidate(W,derived)
     engine=Engine(spec,W,cap=context,cfg=cfg,
                   backend='isa',rows=1,pipeline=False,wformat=wformat,head_format='int8')
     fnll=qnll=agree=count=0
@@ -153,8 +164,14 @@ def evaluate(model,path,wformat='int8',split='validation',personality='balanced'
     # Validation is for search only. A candidate becomes selectable only after
     # the untouched, frozen held-out split independently meets both thresholds.
     selectable=selection_approval(split,is_frozen,target_count,checks['passed'])
+    variant={'base':info['base_model_id'],'format':wformat,'head':'int8'}
+    candidate_record=None
+    if derived:
+        candidate_record={k:derived[k] for k in ('schema_version','derived_id','parameters_id',
+            'calibration_statistics_id','candidate','screen_result_sha256')}
+        variant.update(derived_id=derived['derived_id'],parameters_id=derived['parameters_id'])
     return dict(schema_version=1,base_model_id=info['base_model_id'],tokenizer_id=info['tokenizer_id'],
-        variant_id=identity({'base':info['base_model_id'],'format':wformat,'head':'int8'}),
+        variant_id=identity(variant),
         wformat=wformat,head_format='int8',personality=personality,split=split,suite_hashes=hashes,suite_file_hash=digest(path),
         samples=count,float_nll=fnll/count,candidate_nll=qnll/count,agreement=agree/count,
         configuration_id=identity({'config':cfg.__dict__,'uarch':PERSONALITIES[personality].uarch}),
@@ -162,4 +179,5 @@ def evaluate(model,path,wformat='int8',split='validation',personality='balanced'
         suite_frozen=is_frozen, target_count=target_count,
         floating_reference_id=reference_id,floating_reference_record=reference_record,toolchain=provenance,
         **checks,provenance='measured-isa-versus-original-float',selectable=selectable,
+        derived_candidate=candidate_record,
         selection_rule='held-out-only; frozen suite; >=1024 targets; NLL <=5%; next-token agreement >=90%')
