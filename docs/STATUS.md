@@ -1,5 +1,31 @@
 # Status
 
+## Latest completed Interactive probe — Qwen3.5 attention
+
+User authorized one short attention diagnostic with “go for it”. Codex completed
+qwen35-attention-localization-01 in 14.12 seconds on clean source 57edbb3.
+16 validation targets from sequence 1 of the existing spread panel were evaluated
+with complete causal prefixes. No held-out evaluation or production changes.
+Synthetic observation check passed: exact original logits, all capture sites present.
+
+Relative L2 differences before rotary encoding: projection input 9.50e-7,
+normalized query 8.88e-7, normalized key 8.73e-7. After rotary encoding:
+query 37.75%, key 29.58%; attention probabilities 22.01%.
+The first major discrepancy is positional encoding, not projection or normalization.
+Loaded rotary parameters agree (theta 1e7, 64 rotary dimensions); the visible
+rotation formulas use the same rotate-half convention. Root cause is NOT yet proven.
+Next bounded diagnostic: capture actual position IDs and cosine/sine tables and
+apply both rotations to identical normalized q/k inputs; check broadcasting,
+position layout, mutation/aliasing and table generation before changing arithmetic.
+Do not conclude that quantization alone causes the full 78.125% validation failure.
+
+Evidence directory:
+build/zephyrus-jobs/release/20260928T223413Z-b463e746/continuation-20260930/qwen35-attention-localization-01/
+Contains result.json, checksummed summary.json, job.json, runner.py and the exact
+instrumentation.py. Instrumentation is diagnostic-only and not production code.
+No worker remains active. Interactive batch complete; choose mode before another
+checkpoint job. Overnight authorization remains revoked. Release remains blocked.
+
 ## Current mode override — Interactive (2026-09-30)
 
 The user's latest instruction supersedes the eight-hour Overnight authorization.
