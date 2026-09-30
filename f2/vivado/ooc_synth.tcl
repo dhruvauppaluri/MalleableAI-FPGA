@@ -1,6 +1,6 @@
 # Out-of-context synthesis (and optional implementation) of cl_otpu_core for the F2 device.
 #
-# Run once on Vivado 2025.2 (OOC synthesis, 2026-09-30; impl=1 place and route never run). It needs
+# Run on Vivado 2025.2 (OOC synthesis and impl=1 place and route, core only, 2026-09-30). It needs
 # a Vivado release with xcvu47p support (an FPGA Developer AMI has one; the part needs a
 # licensed edition), and no AWS shell, no HDK and no AWS access: it builds only the design
 # verified in simulation, with the frozen OpenTPU sources unchanged.

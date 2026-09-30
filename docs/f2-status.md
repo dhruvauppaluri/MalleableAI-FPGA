@@ -101,16 +101,21 @@ numpy 2.4. Vivado: not available. HDK facts from a shallow clone of `aws/aws-fpg
   (8.9%), 103,202 FF (4.0%), 496 block RAM tiles (24.6%), 283 DSP (3.1%), post-synthesis setup
   WNS +0.467 ns at 125 MHz. Smaller than the Kintex-7-based estimate; synthesis only, adapter
   and 450 MHz paths not included.
-- Not done / not possible here: Vivado place and route or HDK builds, hardware runs, an
+- Vivado OOC place and route of the same core (owner, same day): 112,545 LUT, 101,669 FF, 496
+  block RAM tiles, 283 DSP; routed setup WNS +0.221 ns and hold WHS +0.014 ns at 125 MHz, 0
+  failing endpoints, 0 critical warnings; power 5.157 W (default activity, medium confidence).
+  Core only: no adapter, no shell, no 450 MHz paths.
+- Not done / not possible here: Vivado runs that include the adapter or the shell, HDK builds, hardware runs, an
   exact model-image size for the three target models (needs the weights, which the cloud
   environment does not have; sizes in the ADR are estimates).
 
 ## Open items for the owner
 
-1. The first paid step (out-of-context synthesis, stage 1) was approved and run on 2026-09-30;
-   results are in `docs/f2-resource-timing.md` section 5. Next decision: approve (or not) OOC
-   place and route (stage 2, `impl=1`; hours of a build instance). Please also report the actual
-   AWS charge for stage 1, so the cost estimate can be checked against a real bill.
+1. The first two paid steps (out-of-context synthesis and place and route of the core, stages 1
+   and 2) were approved and run on 2026-09-30; results are in `docs/f2-resource-timing.md`
+   section 5. Next decision: approve (or not) an OOC run that includes the HBM adapter with the
+   450 MHz clock (the paths that have not been timed). Please also report the actual AWS charge
+   for the build instance, so the cost estimate can be checked against a real bill.
 2. Decide how to use the hash finding: the per-step raw hashes being saved from the Zephyrus
    run are not comparable with any re-run; normalized hashes from the saved traces are.
 3. The `verify-llm` Makefile line (`$(MAKE) test-f2`) is a one-line addition and should not be
@@ -125,4 +130,7 @@ numpy 2.4. Vivado: not available. HDK facts from a shallow clone of `aws/aws-fpg
   above.
 - 2026-09-30: stage-1 OOC synthesis run by the owner on an AWS FPGA Developer AMI (Vivado
   2025.2); results recorded; one redundant `if` removed from `ooc_clocks.xdc`. No other AWS
+  resource was used.
+- 2026-09-30: stage-2 OOC place and route of the core run by the owner on the same instance;
+  results recorded (closes 125 MHz with +0.221 ns setup slack, core only). No other AWS
   resource was used.

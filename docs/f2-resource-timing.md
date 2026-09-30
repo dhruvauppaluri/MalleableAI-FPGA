@@ -88,7 +88,7 @@ timing and routing are.
 | Run | Tool / version | LUT | FF | Block RAM tiles | URAM | DSP | WNS (core / main / HBM) | Power | Status |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | --- | --- | --- |
 | OOC synthesis, `cl_otpu_core`, PCS=2, MCOLS=2, LANES=8, core 125 MHz | Vivado 2025.2 (build 6299465), `xcvu47p-fsvh2892-2-e` | 116,080 (8.90%) | 103,202 (3.96%) | 496 (24.60%) | 0 | 283 (3.14%) | +0.467 ns at the core clock (see below) | - | **measured, synthesis only** |
-| OOC place and route | - | - | - | - | - | - | - | - | **unavailable** |
+| OOC place and route, same configuration, fixed XDC | Vivado 2025.2 (build 6299465), `xcvu47p-fsvh2892-2-e` | 112,545 (8.63%) | 101,669 (3.90%) | 496 (24.60%) | 0 | 283 (3.14%) | +0.221 ns at the core clock (hold +0.014 ns) | 5.157 W (default activity, medium confidence) | **measured, core only, no shell** |
 | HDK build (post-route DCP) | - | - | - | - | - | - | - | - | **unavailable** |
 
 Run on 2026-09-30 by the owner on an AWS FPGA Developer AMI 1.19.2 (Ubuntu 24.04), instance
@@ -118,5 +118,29 @@ What the synthesis run says:
   were verified as above, and the line is removed. The script was otherwise run unchanged on
   first contact. Other tool warnings (412 in synthesis) have not been reviewed here.
 
-Procedure: `f2/vivado/README.md`. The next step that can fill the remaining rows is OOC place and
-route (`docs/f2-bringup.md` stage 2), subject to the owner's approval.
+### Place and route (same instance, same day)
+
+Run with `f2/vivado/run_ooc.sh build/f2-vivado/ooc-pcs2-impl pcs=2 core_ns=8.0 impl=1` on the
+repository at commit `fc7d2ef` (XDC fixed); `route_design` took about 5 minutes elapsed. The log
+reports 0 errors and 0 critical warnings in every step.
+
+- Routed setup WNS **+0.221 ns**, TNS 0, 0 of 337,798 endpoints failing; hold WHS +0.014 ns, 0
+  failing; pulse-width WPWS +0.579 ns, 0 failing; "All user specified timing constraints are
+  met". Setup slack fell from +0.467 ns after synthesis to +0.221 ns after routing, which is
+  about 2.8% of the 8 ns period.
+- **What this supports:** the frozen core places and routes at 125 MHz on the VU47P when it is
+  the only thing in the design. **What it does not support:** 125 MHz as a safe margin in the real
+  design (there is no shell, no HBM adapter, no 450 MHz HBM-side paths, and no SLR crossings in
+  this run), or any higher clock; 250 MHz remains unsupported by any evidence.
+- Routed utilization is slightly below synthesis (112,545 LUT, 101,669 FF; block RAM and DSP
+  unchanged), so the LUT/FF comparison with the Kintex-7 estimate in section 3 holds.
+- Power: total on-chip 5.157 W = 1.842 W dynamic + 3.315 W device static, confidence "Medium".
+  This is Vivado's estimate with default switching activity and no real toggle data; it is not a
+  card-power figure, and the static part is the device's.
+- The flat utilization report also contains a second table (25.60% LUT, 11.56% FF, 73.81% block
+  RAM, 9.83% DSP) whose column headings were not captured. It **appears to be a per-SLR view**
+  (the core placed in one SLR); if so, block RAM is the resource to watch when the adapter and
+  shell are added. This is an interpretation, not a checked fact.
+
+Procedure: `f2/vivado/README.md`. Still unavailable: a run that includes the HBM adapter and the
+450 MHz clock, and the HDK build.

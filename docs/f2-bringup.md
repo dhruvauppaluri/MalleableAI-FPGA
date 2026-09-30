@@ -1,10 +1,11 @@
 # F2 bring-up plan
 
 Cheapest tests first. **Nothing may be started without the owner's explicit approval of each
-paid step.** Status: stage 0 is done, and stage 1 was run by the owner on 2026-09-30 (one CPU-only
-build instance, about 12 minutes of synthesis; results in `docs/f2-resource-timing.md` section 5;
-the actual AWS charge has not been reported to this document). No AFI has been built or submitted,
-no F2 instance has been used, and no other stage has been started.
+paid step.** Status: stage 0 is done, and stages 1 and 2 were run by the owner on 2026-09-30 on one CPU-only
+build instance (about 12 minutes of synthesis, about 5 minutes of routing; results in
+`docs/f2-resource-timing.md` section 5; the actual AWS charge has not been reported to this
+document). Stage 2 covered the core alone, not the HBM adapter or the 450 MHz paths. No AFI has
+been built or submitted, no F2 instance has been used, and no other stage has been started.
 
 Everything below that names a price, a duration or a quota is an **assumption to verify**
 (AWS pricing page, service quotas, the HDK docs in the release you use). AWS facts marked
@@ -18,7 +19,7 @@ Each stage lists what it proves, what it needs, the go/stop criterion, and the p
 | --- | --- | --- | --- | --- | --- |
 | 0 | Local simulation | RTL, adapter, host driver, byte equality on the tiny test | this repo | done in the F2 PRs | none |
 | 1 | **DONE 2026-09-30** (`m7a.4xlarge`, AMI 1.19.2, Vivado 2025.2): 116,080 LUT, 103,202 FF, 496 BRAM tiles, 283 DSP, post-synthesis WNS +0.467 ns at 125 MHz; one critical warning (removed). **Out-of-context synthesis of `cl_otpu_core` on the AWS developer AMI** | The frozen core maps to UltraScale+; LUT/FF/BRAM/URAM/DSP use; synthesis timing; unsupported constructs surface | one CPU-only x86 instance (4+ vCPU, 32+ GiB; 8 vCPU / 64 GiB recommended), FPGA Developer AMI, `f2/vivado/run_ooc.sh` | no synthesis errors; utilization leaves room beside the shell; no unexplained critical warnings | 2-4 h x build-instance rate |
-| 2 | Out-of-context place and route (`impl=1`) | Timing at 125 MHz core / 450 MHz HBM side without the shell | same instance | WNS >= 0 at 125 MHz core; the 450 MHz paths (bridge, async FIFO read side) either close or the fallback in ADR-0008 section 4 is chosen | 3-8 h x rate |
+| 2 | **DONE 2026-09-30 for the core alone** (routed: 112,545 LUT, 101,669 FF, 496 BRAM tiles, 283 DSP, WNS +0.221 ns at 125 MHz, hold +0.014 ns, 0 critical warnings; the adapter and the 450 MHz paths were NOT in the run and stay unmeasured). Out-of-context place and route (`impl=1`) | Timing at 125 MHz core / 450 MHz HBM side without the shell | same instance | WNS >= 0 at 125 MHz core; the 450 MHz paths (bridge, async FIFO read side) either close or the fallback in ADR-0008 section 4 is chosen | 3-8 h x rate |
 | 3 | AWS hello-world AFI from the HDK (`cl_axil_reg_access`) on an F2 instance | The account/AFI flow works end to end (quota, IAM, S3, `create-fpga-image`, load, PCIe access) independent of our RTL | quotas, S3 buckets, IAM role, an F2 instance | AFI `available`; loads; the example's register test passes | build 1-2 h + F2 instance about 1 h |
 | 4 | Our CL build (DCP) and AFI | The design fits the Small Shell and closes timing with the HDK's flow | stage 2 passed; `f2/vivado/setup_cl.sh`; HDK build | post-route DCP with no timing violation (a violated DCP is "test only" [HDK]) | 3-8 h x rate per iteration; plan several iterations |
 | 5 | Register test on the card | `F2_ID`, board `ID`, `STATUS`, scratch registers, HBM-ready | F2 instance, AFI | `python -m malleable.f2 descriptor --mode hardware ...` first checks pass | short F2 session |
@@ -32,8 +33,10 @@ Stage 1 was the first paid step, chosen because it is the cheapest test that can
 The core was built for a Kintex-7 (`docs/f2-resource-timing.md`); it needed no F2 instance and no
 shell. It synthesized on UltraScale+ without errors, used under 9% of the LUTs and about a quarter
 of the block RAM tiles, and met 125 MHz after synthesis, so the plan was not changed. That timing
-is optimistic (no placement or routing) and excludes the HBM adapter and the 450 MHz paths, so
-stage 2 (place and route) is the next decision and is not started.
+is optimistic (no placement or routing) and excludes the HBM adapter and the 450 MHz paths.
+Stage 2 then placed and routed the core alone and closed 125 MHz with +0.221 ns of setup slack. The
+open questions are the ones that run could not test: the adapter's 450 MHz paths, SLR crossings and
+the shell. The next decision is an out-of-context run that includes the adapter (not started).
 
 ## AFI build steps (stages 3-4) [HDK]
 
