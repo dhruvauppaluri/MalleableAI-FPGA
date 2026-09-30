@@ -96,7 +96,7 @@ synth-f2: | $(BUILD_DIR)
 		"read_verilog -sv $(F2_RTL); hierarchy -top f2_hbm_adapter; synth -top f2_hbm_adapter -run begin:fine; select -assert-none t:\$$dlatch p:*; check -assert; stat"
 
 test-f2:
-	PYTHONPATH=. $(PYTHON) -m pytest -q tests/test_f2_placement.py tests/test_f2_rtl.py tests/test_f2_replay.py
+	PYTHONPATH=. $(PYTHON) -m pytest -q tests/test_f2_placement.py tests/test_f2_host.py tests/test_f2_rtl.py tests/test_f2_replay.py
 
 verify-f2: lint-f2 synth-f2 test-f2
 
