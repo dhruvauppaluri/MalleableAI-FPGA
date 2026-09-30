@@ -25,6 +25,18 @@ _SITES=(
     ('projection_inputs','mlp_down','(g / (1 + np.exp(-g))) * u'),
     ('head_inputs','head_input','norm(x, W["model.norm.weight"])'))
 
+QWEN35_SITES=(
+    ('projection_inputs','shared_attention_input','_norm(x, g1(p + "input_layernorm.weight"), eps)'),
+    ('projection_inputs','linear_attention_output','o.reshape(-1)'),
+    ('key_cache','key_store','k'),
+    ('value_cache','value_store','v'),
+    ('attention','query','q[hq] / math.sqrt(d)'),
+    ('attention','probabilities','ppad'),
+    ('projection_inputs','full_attention_output','o.reshape(-1)'),
+    ('projection_inputs','shared_mlp_input','_norm(x, g1(p + "post_attention_layernorm.weight"), eps)'),
+    ('projection_inputs','mlp_down','_silu(gg) * u'),
+    ('head_inputs','head_input','_norm(x, g1("model.norm.weight"), eps)'))
+
 
 def validate_policy(policy):
     if not isinstance(policy,dict): raise ValueError('diagnostic precision policy must be a mapping')
@@ -128,10 +140,15 @@ class OperatorStats:
         return result
 
 
-def controlled_reference(policy,stats=None):
+def controlled_reference(policy,stats=None,family='qwen3'):
     """Instrument the pinned independent emulation, asserting every quantization site."""
     import numpy as np
     from opentpu.llm.qwen3 import emulated_logits,_fake_q,_fake_w
+    sites=_SITES
+    if family=='qwen35':
+        from opentpu.llm.qwen35 import emulated_logits
+        sites=QWEN35_SITES
+    elif family!='qwen3': raise ValueError('unsupported diagnostic family')
     policy=validate_policy(policy); enabled=set(policy['quantized_groups'])
     source=source_inspect.getsource(emulated_logits); tree=ast.parse(source)
     class Rewrite(ast.NodeTransformer):
@@ -140,8 +157,8 @@ def controlled_reference(policy,stats=None):
             self.generic_visit(node)
             if not isinstance(node.func,ast.Name): return node
             if node.func.id=='_fake_q':
-                if self.q>=len(_SITES) or len(node.args)!=2: raise ValueError('quantization sites changed upstream')
-                group,site,expression=_SITES[self.q]; self.q+=1
+                if self.q>=len(sites) or len(node.args)!=2: raise ValueError('quantization sites changed upstream')
+                group,site,expression=sites[self.q]; self.q+=1
                 if ast.dump(node.args[0])!=ast.dump(ast.parse(expression,mode='eval').body):
                     raise ValueError('quantization site expression changed upstream: '+site)
                 layer=ast.Constant(None) if group=='head_inputs' else ast.Name(id='i',ctx=ast.Load())
@@ -156,7 +173,7 @@ def controlled_reference(policy,stats=None):
                                       comparators=[ast.Name(id='head',ctx=ast.Load())])],keywords=[]),node)
             return node
     rewrite=Rewrite(); tree=rewrite.visit(tree)
-    if rewrite.q!=len(_SITES) or rewrite.w!=1: raise ValueError('incomplete upstream quantization instrumentation')
+    if rewrite.q!=len(sites) or rewrite.w!=1: raise ValueError('incomplete upstream quantization instrumentation')
     ast.fix_missing_locations(tree)
     def quantize(group,site,layer,value,block):
         config=policy.get('site_overrides',{}).get(site)
@@ -201,11 +218,18 @@ def diagnose_precision(model,suite,policy,panel,reference_root,max_host_gib=16,e
     expected=make_panel(suite,panel.get('target_count'),panel.get('selection'),panel.get('context'))
     if panel!=expected: raise ValueError('frozen validation diagnostic panel mismatch')
     info=inspect(model,128)
-    if info['family']!='qwen3' or not info['supported']: raise ValueError('precision attribution currently supports Qwen3')
+    if info['family'] not in ('qwen3','qwen35') or not info['supported']: raise ValueError('unsupported precision attribution family')
+    if info['family']=='qwen35':
+        from opentpu.llm.qwen35 import reference_logits
     if any(info[k]!=panel[k] for k in ('base_model_id','tokenizer_id')): raise ValueError('diagnostic model/tokenizer mismatch')
     derived_bytes=sum(v.nbytes for v in (candidate_weights or {}).values())
     if 4*info['fp32_tensor_bytes']+derived_bytes>max_host_gib*1024**3:
         raise ValueError('precision attribution exceeds configured host memory budget')
+    if Path('/proc/meminfo').is_file():
+        available=next(int(line.split()[1])*1024 for line in Path('/proc/meminfo').read_text().splitlines()
+            if line.startswith('MemAvailable:'))
+        if 4*info['fp32_tensor_bytes']+derived_bytes>available:
+            raise ValueError('precision attribution exceeds currently available host memory')
     spec=load_spec(Path(model)); weights=load(model)
     if any(t>=spec.vocab for row in panel['rows'] for t in row['tokens']): raise ValueError('diagnostic token outside vocabulary')
     provenance={'base_model_id':info['base_model_id'],'tokenizer_id':info['tokenizer_id'],
@@ -240,7 +264,7 @@ def diagnose_precision(model,suite,policy,panel,reference_root,max_host_gib=16,e
                 or value.dtype!=np.float32 or not np.isfinite(value).all()):
                 raise ValueError('invalid derived candidate tensor: '+name)
         weights={**weights,**candidate_weights}
-    stats=OperatorStats(); forward,reference_source=controlled_reference(policy,stats); tokens=[]
+    stats=OperatorStats(); forward,reference_source=controlled_reference(policy,stats,info['family']); tokens=[]
     candidate_started=time.monotonic()
     for row in panel['rows']:
         logits=forward(spec,weights,row['tokens'][:-1],D=policy['group_size'],wformat='int8',head_format='int8')

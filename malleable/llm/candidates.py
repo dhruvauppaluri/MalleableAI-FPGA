@@ -291,6 +291,8 @@ def merged(weights,derived):
 
 
 def read_derived_candidate(case,info):
+    if any(not info.get(k) for k in ('base_model_id','tokenizer_id','weight_files')):
+        raise ValueError('complete verified model weight lineage required for derived candidate')
     """Verify a completed screen's lineage before loading any derived tensors."""
     from safetensors import safe_open
     from .models import local_file
@@ -380,29 +382,48 @@ CANDIDATE_CONFIGURATION={'context':128,'personality':'balanced','wformat':'int8'
 def _freeze_id(freeze): return identity({k:v for k,v in freeze.items() if k!='freeze_id'})
 
 
+def validate_configuration(record,info=None):
+    """Require the complete device and uarch and recompute their identity."""
+    from .records import PERSONALITIES
+    required=('context','personality','wformat','head_format','configuration_id','config','microarchitecture')
+    if any(k not in record for k in required): raise ValueError('complete configuration fields required')
+    if (record['context']!=128 or record['personality'] not in PERSONALITIES
+        or record['wformat']!='int8' or record['head_format']!='int8'):
+        raise ValueError('release freeze requires context128 and INT8 matrices/head')
+    config=record['config']; metadata=record['microarchitecture']; p=PERSONALITIES[record['personality']]
+    if not isinstance(config,dict) or not isinstance(metadata,dict) or metadata.get('schema_version')!=1:
+        raise ValueError('complete configuration and versioned microarchitecture required')
+    if metadata.get('parameters')!=p.uarch or record['configuration_id']!=identity({'config':config,'uarch':p.uarch}):
+        raise ValueError('configuration identity/microarchitecture mismatch')
+    if info is not None:
+        expected=info.get('personalities',{}).get(record['personality'],{}).get('config')
+        if expected is None or config!=expected: raise ValueError('configuration differs from inspected device configuration')
+    return {k:record[k] for k in required}
+
+
 def create_freeze(path,info,suite_path,derived,validation,validation_sha256,source):
     """Bind the passing full-validation candidate before any held-out feedback exists."""
     from .quality import frozen_suite,gate
     if source['status'] or not source['commit']: raise ValueError('candidate freeze requires clean committed source')
     data,hashes=frozen_suite(suite_path)
     counts={s:sum(len(r)-1 for r in data[s]) for s in hashes}
-    record=derived_record(derived)
+    record=derived_record(derived) if derived else None
+    try: configuration=validate_configuration(validation,info)
+    except ValueError as error: raise ValueError('candidate freeze requires a passing full validation: '+str(error)) from error
     if (validation.get('split')!='validation' or validation.get('suite_frozen') is not True
         or validation.get('target_count')!=counts['validation'] or validation.get('samples')!=validation.get('target_count')
         or validation.get('suite_file_hash')!=_digest(suite_path) or validation.get('suite_hashes')!=hashes
-        or any(validation.get(k)!=v for k,v in CANDIDATE_CONFIGURATION.items() if k in validation)
         or validation.get('derived_candidate')!=record
         or any(validation.get(k)!=info.get(k) for k in ('base_model_id','tokenizer_id'))
         or validation.get('variant_id')!=variant_id(info['base_model_id'],'int8',derived)
         or not gate(validation['float_nll'],validation['candidate_nll'],validation['agreement'])['passed']):
         raise ValueError('candidate freeze requires a passing full validation of this exact candidate')
-    freeze={'schema_version':1,'kind':FREEZE_KIND,'source':source,
+    freeze={'schema_version':2,'kind':FREEZE_KIND,'source':source,
         'base_model_id':info['base_model_id'],'tokenizer_id':info['tokenizer_id'],
         'weight_files':info['weight_files'],'tokenizer_files':info['tokenizer_files'],
-        'derived_candidate':record,'derived_tensor_file_sha256':_digest(derived['tensor_file']),
+        'derived_candidate':record,'derived_tensor_file_sha256':_digest(derived['tensor_file']) if derived else None,
         'suite_file_hash':_digest(suite_path),'suite_hashes':hashes,'target_counts':counts,
-        'configuration':dict(CANDIDATE_CONFIGURATION,configuration_id=validation['configuration_id'],
-            config=validation['config'],microarchitecture=validation['microarchitecture']),
+        'configuration':configuration,
         'variant_id':validation['variant_id'],
         'validation':{'result_sha256':validation_sha256,'record_id':validation['record_id'],
             'agreement':validation['agreement'],'float_nll':validation['float_nll'],
@@ -418,18 +439,18 @@ def verify_freeze(path,info,suite_path,derived,source,configuration_id):
     from .quality import frozen_suite
     data,hashes=frozen_suite(suite_path)
     counts={s:sum(len(r)-1 for r in data[s]) for s in hashes}
-    if (freeze.get('kind')!=FREEZE_KIND or freeze.get('schema_version')!=1
+    if (freeze.get('kind')!=FREEZE_KIND or freeze.get('schema_version') not in (1,2)
         or freeze.get('freeze_id')!=_freeze_id(freeze)):
         raise ValueError('invalid candidate freeze')
     if (source['status'] or freeze['source']!={'commit':source['commit'],'status':''}):
         raise ValueError('held-out evaluation requires the clean frozen code commit')
+    validate_configuration(freeze.get('configuration',{}),info)
     if (any(freeze.get(k)!=info.get(k) for k in ('base_model_id','tokenizer_id','weight_files','tokenizer_files'))
-        or freeze.get('derived_candidate')!=derived_record(derived)
-        or freeze.get('derived_tensor_file_sha256')!=_digest(derived['tensor_file'])
+        or freeze.get('derived_candidate')!=(derived_record(derived) if derived else None)
+        or freeze.get('derived_tensor_file_sha256')!=(_digest(derived['tensor_file']) if derived else None)
         or freeze.get('suite_file_hash')!=_digest(suite_path) or freeze.get('suite_hashes')!=hashes
         or freeze.get('target_counts')!=counts
         or freeze['configuration'].get('configuration_id')!=configuration_id
-        or any(freeze['configuration'].get(k)!=v for k,v in CANDIDATE_CONFIGURATION.items())
         or freeze.get('variant_id')!=variant_id(info['base_model_id'],'int8',derived)):
         raise ValueError('candidate differs from its frozen identity')
     return freeze
@@ -437,11 +458,10 @@ def verify_freeze(path,info,suite_path,derived,source,configuration_id):
 
 def claim_heldout(path,freeze):
     """Exactly-once guard: an existing claim is never overwritten or retried."""
-    import os,datetime
+    from .heldout import consume
+    payload=consume(freeze)
     claim=Path(path).resolve().parent/'heldout-claim.json'
-    try: _write(claim,{'schema_version':1,'freeze_id':freeze['freeze_id'],'pid':os.getpid(),
-        'claimed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()})
-    except FileExistsError: raise ValueError('held-out was already claimed for this frozen candidate; a new documented evaluation design is required')
+    _write(claim,payload)
     return claim
 
 
@@ -449,6 +469,7 @@ def check_release_lineage(run,quality,freeze):
     """A derived candidate's generation, held-out quality and freeze must be one identity."""
     record=quality.get('derived_candidate') or run.get('derived_candidate')
     if not record: return False
+    if isinstance(freeze,dict): validate_configuration(freeze.get('configuration',{}))
     if (not isinstance(freeze,dict) or freeze.get('kind')!=FREEZE_KIND or freeze.get('freeze_id')!=_freeze_id(freeze)
         or quality.get('candidate_freeze_id')!=freeze['freeze_id']
         or run.get('derived_candidate')!=record or quality.get('derived_candidate')!=record

@@ -36,6 +36,8 @@ def main():
     p.add_argument('--candidate-case',type=Path,required=True)
     p.add_argument('--authorization',required=True)
     a=p.parse_args(); os.chdir(ROOT); root=a.root.resolve()
+    from malleable.llm.continuation import read_control
+    read_control(a.deadline_unix)
     if time.time()>=a.deadline_unix: raise ValueError('dispatch deadline has passed; no new job may start')
     with (ROOT/'build/zephyrus-jobs/precision-attribution.lock').open('a') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)

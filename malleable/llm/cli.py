@@ -134,7 +134,7 @@ def main():
                     raise ValueError('--candidate-case is required')
                 result=evaluate(a.model,a.suite,a.wformat,a.split,a.personality,a.max_host_gib,emit=emit,context=a.context,
                     candidate_case=a.candidate_case if a.command=='quality-candidate-validate' else None,
-                    candidate_freeze=a.candidate_freeze if a.command=='quality-candidate-validate' else None)
+                    candidate_freeze=a.candidate_freeze)
                 kind=('llm-quality' if a.candidate_freeze else 'llm-candidate-validation') if a.command=='quality-candidate-validate' else 'llm-quality'
             elif a.command in ('quality-diagnose','quality-candidate-diagnose'):
                 from .diagnostics import diagnose

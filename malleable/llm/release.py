@@ -6,6 +6,35 @@ from .quality import gate, MIN_RELEASE_TARGETS
 
 REQUIRED=('Qwen3-0.6B','Qwen3.5-0.8B','LFM2.5-230M')
 
+def approved_draft(path):
+    """Read the checksummed draft generation from an already verified manifest."""
+    manifest=Path(path).resolve(); root=manifest.parent
+    data=json.loads(manifest.read_text())
+    item=data.get('models',{}).get('Qwen3-0.6B',{}).get('generation')
+    if not isinstance(item,dict) or not isinstance(item.get('path'),str):
+        raise ValueError('approved standalone Qwen3 draft artifact required')
+    file=(root/item['path']).resolve()
+    if not file.is_relative_to(root) or digest(file)!=item.get('sha256'):
+        raise ValueError('approved draft artifact hash/path mismatch')
+    return json.loads(file.read_text())
+
+
+def validate_draft_approval(approved,selected):
+    """Bind execution and final acceptance to the same approved draft identity."""
+    workload=approved.get('workload',{})
+    expected={'draft_model_id':approved.get('base_model_id'),
+        'tokenizer_id':approved.get('tokenizer_id'),
+        'draft_variant_id':approved.get('variant_id'),
+        'draft_derived_candidate':approved.get('derived_candidate'),
+        'draft_configuration_id':approved.get('configuration_id'),
+        'draft_head_format':'int8','personality':approved.get('personality'),
+        'context':workload.get('context'),'wformat':workload.get('wformat')}
+    if any(expected[k] is None for k in expected if k!='draft_derived_candidate'):
+        raise ValueError('incomplete approved standalone draft identity')
+    if any(selected.get(k)!=v for k,v in expected.items()):
+        raise ValueError('selected hybrid draft differs from approved standalone draft identity/configuration')
+    return True
+
 def check(path):
     if not path: raise ValueError('release manifest required')
     root=Path(path).resolve().parent; data=json.loads(Path(path).read_text())

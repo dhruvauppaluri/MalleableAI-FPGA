@@ -17,9 +17,9 @@ The user authorized one new eight-hour Overnight window; it has NOT started.
 Start its fixed deadline with the first new checkpoint dispatch AFTER the five
 safeguards and diagnostic controls pass focused tests. Persist the deadline at
 `build/zephyrus-jobs/release/20260928T223413Z-b463e746/continuation-20260930/control.json`.
-Next: fix derived benchmark lineage, hybrid draft binding, persistent held-out
+Implemented safeguards (pending final commit): derived benchmark lineage, hybrid draft binding, persistent held-out
 consumption, complete freeze validation, and benchmark failure/deadline status.
-Then follow the plan's measured Qwen3.5 recovery with INT8 matrices/head retained.
+Five safeguard fixes passed 98 focused tests; another 31 diagnostic/deadline tests passed. Existing Qwen3/LFM held-out were verified and registered as consumed, without inference. New freeze v2 supports raw/derived; existing v1 remains checked. Ten Qwen3.5 emulator controls preserve baseline; site map is docs/qwen35-diagnostic-site-map.md. Next: commit clean source and launch tools/run_qwen35_diagnostics.py --phase alignment --unit malleable-release-20260930-alignment.service; then inspect its result before attribution. INT8 matrices/head retained.
 Older entries below are historical and cannot override this authorization/status.
 
 ## Historical progress

@@ -6,6 +6,18 @@ from .models import digest
 from .release import check as check_standalone
 from ..records import identity
 
+def validate_performance_lineage(schedule,expected_model_id):
+    """Verify original checkpoint files before derived artifact validation."""
+    from .models import inspect
+    from .experiments import validate_performance_manifest
+    model_path=schedule.get('model_path')
+    if not isinstance(model_path,str): raise ValueError('benchmark model path and verified weight lineage required')
+    model_info=inspect(model_path)
+    if model_info.get('base_model_id')!=expected_model_id:
+        raise ValueError('benchmark checkpoint differs from required official model')
+    validate_performance_manifest(schedule,model_info)
+    return model_info
+
 
 def validate_final_verification(ui,browser,source_commit):
     if (ui.get('status')!='passed' or 'make verify-llm' not in ui.get('commands',[])
@@ -32,6 +44,8 @@ def check(path):
     if not standalone_path.is_relative_to(root) or digest(standalone_path)!=standalone_item.get('sha256'):
         raise ValueError('standalone manifest hash/path mismatch')
     standalone=check_standalone(standalone_path)
+    from .release import approved_draft,validate_draft_approval
+    approved=approved_draft(standalone_path)
 
     def artifact(item):
         if not isinstance(item,dict) or not isinstance(item.get('path'),str):
@@ -43,6 +57,7 @@ def check(path):
 
     gpu=artifact(manifest.get('gpu_baseline'))
     hybrid=artifact(manifest.get('hybrid'))
+    validate_draft_approval(approved,hybrid)
     cache=artifact(manifest.get('cuda_cache_verification'))
     if (cache.get('status')!='passed' or cache.get('actual_cuda') is not True
         or cache.get('depths')!=[1,2,4,8] or cache.get('rejection_positions')!='every position per depth'
@@ -93,8 +108,7 @@ def check(path):
         name=entry.get('model')
         if name not in expected or name in performance: raise ValueError('unknown/duplicate performance model')
         schedule=artifact(entry.get('manifest')); report=artifact(entry.get('report'))
-        from .experiments import validate_performance_manifest
-        validate_performance_manifest(schedule,{'base_model_id':expected[name],'tokenizer_id':schedule.get('tokenizer_id')})
+        validate_performance_lineage(schedule,expected[name])
         if (schedule.get('base_model_id')!=expected[name] or report.get('base_model_id')!=expected[name]
             or identity(schedule)!=report.get('manifest_id') or schedule.get('seed')!=42 or report.get('seed')!=42 or len(schedule.get('runs',[]))!=10
             or len(report.get('runs',[]))!=10 or report.get('completed')!=10 or report.get('failed')!=0):

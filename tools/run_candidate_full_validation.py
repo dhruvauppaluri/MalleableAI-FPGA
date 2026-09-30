@@ -36,6 +36,8 @@ def main():
     p.add_argument('--suite',type=Path,default=ROOT/'build/models/quality/qwen3-frozen-v2.json')
     p.add_argument('--candidate-case',type=Path,default=RELEASE/'quality-recovery-pilot-01/int8/case-00')
     a=p.parse_args(); os.chdir(ROOT); root=a.root.resolve()
+    from malleable.llm.continuation import read_control
+    control=read_control()
     with (ROOT/'build/zephyrus-jobs/precision-attribution.lock').open('a') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
         frozen=source()
@@ -50,7 +52,7 @@ def main():
             '--max-host-gib','16','--store',str(root/'store')]
         write(root/'job.json',{'schema_version':1,'source':frozen,'pid':os.getpid(),
             'started_utc':datetime.now(timezone.utc).isoformat(),'started_unix':started,
-            'dispatch_deadline_unix':started+8*3600,'mode':a.mode,'authorization':a.authorization,
+            'dispatch_deadline_unix':control['dispatch_deadline_unix'],'mode':a.mode,'authorization':a.authorization,
             'command':command,'suite_sha256':digest(a.suite),'release_evidence':False})
         print(json.dumps({'status':'running','root':str(root),'pid':os.getpid()}),flush=True)
         result=None

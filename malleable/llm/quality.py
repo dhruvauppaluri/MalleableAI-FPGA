@@ -90,11 +90,11 @@ def evaluate(model,path,wformat='int8',split='validation',personality='balanced'
     from opentpu.llm import load_spec
     from opentpu.llm.qwen3 import Engine
     if split not in ('validation','held-out'): raise ValueError('invalid quality split')
-    data,hashes=suites(path); info=inspect(model)
+    data,hashes=suites(path); info=inspect(model,context)
     derived=None
     if candidate_case is not None:
-        if wformat!='int8' or context!=128 or personality!='balanced':
-            raise ValueError('derived candidate evaluation requires INT8/context128/balanced')
+        if wformat!='int8' or context!=128:
+            raise ValueError('derived candidate evaluation requires INT8/context128')
         if split=='held-out' and candidate_freeze is None:
             raise ValueError('held-out derived candidate evaluation requires a frozen candidate')
         if split=='validation' and candidate_freeze is not None:
@@ -110,6 +110,14 @@ def evaluate(model,path,wformat='int8',split='validation',personality='balanced'
     if type(context) is not int or context%128 or not 128<=context<=2048: raise ValueError('invalid quality context')
     if max(len(row)-1 for row in data[split])>context: raise ValueError('quality sequence exceeds configured context')
     cfg=PERSONALITIES[personality].config(spec,context,wformat)
+    configuration_id=identity({'config':cfg.__dict__,'uarch':PERSONALITIES[personality].uarch})
+    freeze=None
+    if split=='held-out':
+        if candidate_freeze is None: raise ValueError('held-out evaluation requires a frozen candidate')
+        from .candidates import verify_freeze,claim_heldout,source_state
+        freeze=verify_freeze(candidate_freeze,info,path,derived,source_state(),configuration_id)
+        # Consume the design before any held-out reference or candidate computation.
+        claim_heldout(candidate_freeze,freeze)
     estimate=2*info['fp32_tensor_bytes']+cfg.DRAM_BYTES+max(map(len,data[split]))*spec.vocab*8
     if derived: estimate+=derived['bytes']
     if estimate>max_host_gib*1024**3: raise ValueError('quality reference exceeds configured host memory budget')
@@ -143,13 +151,6 @@ def evaluate(model,path,wformat='int8',split='validation',personality='balanced'
     if derived:
         from .candidates import apply_derived_candidate
         W=apply_derived_candidate(W,derived)
-    configuration_id=identity({'config':cfg.__dict__,'uarch':PERSONALITIES[personality].uarch})
-    freeze=None
-    if derived and split=='held-out':
-        from .candidates import verify_freeze,claim_heldout,source_state
-        freeze=verify_freeze(candidate_freeze,info,path,derived,source_state(),configuration_id)
-        # The claim precedes the first candidate computation on held-out data.
-        claim_heldout(candidate_freeze,freeze)
     engine=Engine(spec,W,cap=context,cfg=cfg,
                   backend='isa',rows=1,pipeline=False,wformat=wformat,head_format='int8')
     fnll=qnll=agree=count=0

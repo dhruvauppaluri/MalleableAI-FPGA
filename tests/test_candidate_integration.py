@@ -17,6 +17,11 @@ from malleable.records import identity
 
 CLEAN={'commit':'a'*40,'status':''}
 
+@pytest.fixture(autouse=True)
+def isolated_heldout_registry(tmp_path,monkeypatch):
+    from malleable.llm import heldout
+    monkeypatch.setattr(heldout,'registry_path',lambda:tmp_path/'registry.sqlite3')
+
 
 def tiny_candidate(tmp_path,model=None,attempt=None):
     model=model or tmp_path/'model'; attempt=attempt or tmp_path/'attempt'; _,_,spec=save(model); info=inspect(model,128); weights=load(model)
@@ -38,14 +43,16 @@ def tiny_candidate(tmp_path,model=None,attempt=None):
     return model,info,case
 
 
-def passing_validation(info,derived,suite,config_id='cfg'):
+def passing_validation(info,derived,suite,config_id=None):
+    from malleable.llm.records import PERSONALITIES
+    config=info['personalities']['balanced']['config']; uarch=PERSONALITIES['balanced'].uarch
     return dict(base_model_id=info['base_model_id'],tokenizer_id=info['tokenizer_id'],split='validation',
         suite_frozen=True,target_count=1024,samples=1024,suite_file_hash=digest(suite),
         suite_hashes=json.loads(Path(suite).read_text())['freeze']['split_hashes'],
         context=128,personality='balanced',wformat='int8',head_format='int8',
         derived_candidate=C.derived_record(derived),variant_id=C.variant_id(info['base_model_id'],'int8',derived),
-        float_nll=4.,candidate_nll=4.01,agreement=.95,configuration_id=config_id,config={'D':128},
-        microarchitecture={'schema_version':1},record_id='r',toolchain={'torch':'x'})
+        float_nll=4.,candidate_nll=4.01,agreement=.95,configuration_id=identity({'config':config,'uarch':uarch}),config=config,
+        microarchitecture={'schema_version':1,'parameters':uarch},record_id='r',toolchain={'torch':'x'})
 
 
 def test_variant_identity_preserves_legacy_and_binds_derived_lineage():
@@ -107,7 +114,7 @@ def test_freeze_verification_detects_every_identity_change(tmp_path):
     suite,data=suite_file(tmp_path,info)
     C.create_freeze(tmp_path/'freeze.json',info,suite,derived,passing_validation(info,derived,suite,'cfg'),'h',CLEAN)
     ok=lambda **k: C.verify_freeze(tmp_path/'freeze.json',k.get('info',info),k.get('suite',suite),
-        k.get('derived',derived),k.get('source',CLEAN),k.get('configuration','cfg'))
+        k.get('derived',derived),k.get('source',CLEAN),k.get('configuration',passing_validation(info,derived,suite)['configuration_id']))
     assert ok()['kind']==C.FREEZE_KIND
     with pytest.raises(ValueError,match='clean frozen code commit'): ok(source={'commit':'b'*40,'status':''})
     with pytest.raises(ValueError,match='clean frozen code commit'): ok(source=dict(CLEAN,status='?? x'))
@@ -120,11 +127,13 @@ def test_freeze_verification_detects_every_identity_change(tmp_path):
     forged=json.loads((tmp_path/'freeze.json').read_text()); forged['source']['commit']='b'*40
     (tmp_path/'forged.json').write_text(json.dumps(forged))
     with pytest.raises(ValueError,match='invalid candidate freeze'):
-        C.verify_freeze(tmp_path/'forged.json',info,suite,derived,CLEAN,'cfg')
+        C.verify_freeze(tmp_path/'forged.json',info,suite,derived,CLEAN,passing_validation(info,derived,suite)['configuration_id'])
 
 
 def test_heldout_claim_is_exactly_once(tmp_path):
-    freeze={'freeze_id':'f'*64}; (tmp_path/'freeze.json').write_text('{}')
+    freeze={'freeze_id':'f'*64,'base_model_id':'b','tokenizer_id':'t','variant_id':'v',
+        'configuration_id':'c','suite_file_hash':'s','suite_hashes':{'held-out':'h'}}
+    (tmp_path/'freeze.json').write_text('{}')
     claim=C.claim_heldout(tmp_path/'freeze.json',freeze)
     assert json.loads(claim.read_text())['freeze_id']=='f'*64
     with pytest.raises(ValueError,match='already claimed'): C.claim_heldout(tmp_path/'freeze.json',freeze)
@@ -167,7 +176,7 @@ def lineage(tmp_path):
     freeze=C.create_freeze(tmp_path/'freeze.json',info,suite,derived,passing_validation(info,derived,suite),'h',CLEAN)
     record=C.derived_record(derived); variant=C.variant_id(info['base_model_id'],'int8',derived)
     run={'base_model_id':info['base_model_id'],'tokenizer_id':info['tokenizer_id'],'variant_id':variant,
-         'derived_candidate':record,'workload':{'wformat':'int8'},'configuration_id':'cfg'}
+         'derived_candidate':record,'workload':{'wformat':'int8'},'configuration_id':freeze['configuration']['configuration_id']}
     quality={'variant_id':variant,'derived_candidate':record,'candidate_freeze_id':freeze['freeze_id'],
              'suite_file_hash':freeze['suite_file_hash']}
     return run,quality,freeze

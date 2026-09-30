@@ -45,6 +45,51 @@ def comparison(actual, reference):
             'cosine': float(np.dot(a.ravel(), b.ravel())/max(np.linalg.norm(a)*np.linalg.norm(b), 1e-12))}
 
 
+def _captured_qwen35(function,captured):
+    """Observe bounded samples at existing Qwen3.5 operators without changing math."""
+    import numpy as np
+    tree=ast.parse(python_inspect.getsource(function)); batched=function.__name__=='reference_logits'
+    stages={'y':'convolution','S':'deltanet_state','o':'attention_output','q':'query_normalization','k':'key_normalization',
+        'beta':'beta_gate','g':'decay_gate','z':'output_gate','gg':'mlp_gate','u':'mlp_up'}
+    class Capture(ast.NodeTransformer):
+        def visit_Call(self,node):
+            self.generic_visit(node)
+            if isinstance(node.func,ast.Name) and node.func.id=='_norm' and 'model.norm.weight' in ast.unparse(node):
+                return ast.copy_location(ast.Call(func=ast.Name(id='_capture_head',ctx=ast.Load()),
+                    args=[node,ast.Call(func=ast.Attribute(value=ast.Call(func=ast.Name(id='locals',ctx=ast.Load()),args=[],keywords=[]),
+                        attr='get',ctx=ast.Load()),args=[ast.Constant('pos')],keywords=[])],keywords=[]),node)
+            return node
+        def visit_Assign(self,node):
+            self.generic_visit(node)
+            if len(node.targets)!=1 or not isinstance(node.targets[0],ast.Name):return node
+            name=node.targets[0].id;stage=stages.get(name)
+            if name=='h':
+                text=ast.unparse(node.value)
+                if 'input_layernorm' in text:stage='input_normalization'
+                elif 'post_attention_layernorm' in text:stage='mlp_normalization'
+            if name=='x' and isinstance(node.value,ast.BinOp) and isinstance(node.value.op,ast.Add):
+                stage='mlp_residual' if 'mlp.down_proj' in ast.unparse(node.value) else 'attention_residual'
+            if name=='x' and 'model.norm.weight' in ast.unparse(node.value):stage='head_normalization'
+            if stage is None:return node
+            # Initial zeros are not a completed recurrence/attention operator.
+            if 'np.zeros' in ast.unparse(node.value):return node
+            position="locals().get('t')" if batched and name=='S' else "locals().get('pos')"
+            extra=ast.parse(f"_capture('{stage}', locals().get('i'), {position}, {name})").body[0]
+            return [node,ast.copy_location(extra,node)]
+    tree=Capture().visit(tree);ast.fix_missing_locations(tree)
+    def capture(stage,layer,position,value):
+        array=np.asarray(value)
+        if batched and position is None:
+            for index,row in enumerate(array):
+                captured[stage,layer,index]=np.asarray(row).reshape(-1)[:4096].copy()
+        else:captured[stage,layer,position]=array.reshape(-1)[:4096].copy()
+    def capture_head(value,position):
+        capture('head_normalization',None,position,value);return value
+    namespace=dict(function.__globals__,_capture=capture,_capture_head=capture_head)
+    exec(compile(tree,'<qwen35-observed-reference>','exec'),namespace)
+    return namespace[function.__name__]
+
+
 def diagnose(model, suite, limit_targets=16, personality='balanced', wformat='int8',
              context=128, split='validation', max_host_gib=16, emit=lambda *_: None,candidate_case=None):
     if split != 'validation': raise ValueError('diagnostics are validation-only; held-out is never a search input')
@@ -62,12 +107,16 @@ def diagnose(model, suite, limit_targets=16, personality='balanced', wformat='in
             raise ValueError('derived candidate diagnostic requires context128/balanced/INT8')
         from .candidates import read_derived_candidate
         derived=read_derived_candidate(candidate_case,info)
-    if info['family'] != 'qwen3' or not info['supported']:
-        raise ValueError('localized independent-reference diagnostics currently support Qwen3')
+    if info['family'] not in ('qwen3','qwen35') or not info['supported']:
+        raise ValueError('unsupported localized independent-reference diagnostic family')
     if data['base_model_id'] != info['base_model_id'] or data['tokenizer_id'] != info['tokenizer_id']:
         raise ValueError('diagnostic suite model/tokenizer lineage mismatch')
     if wformat not in ('int8','int4','fp4'): raise ValueError('unsupported diagnostic format')
     from opentpu.llm.qwen3 import Engine, reference_logits, emulated_logits
+    capture=_captured_reference
+    if info['family']=='qwen35':
+        from opentpu.llm.qwen35 import reference_logits,emulated_logits
+        capture=_captured_qwen35
     from opentpu.llm import load_spec
     from transformers import AutoTokenizer
     tokenizer = AutoTokenizer.from_pretrained(str(model), local_files_only=True, trust_remote_code=False)
@@ -78,6 +127,10 @@ def diagnose(model, suite, limit_targets=16, personality='balanced', wformat='in
     if derived: estimate+=derived['bytes']
     if estimate > max_host_gib * 1024**3:
         raise ValueError('diagnostic exceeds configured host memory budget')
+    if Path('/proc/meminfo').is_file():
+        available=next(int(line.split()[1])*1024 for line in Path('/proc/meminfo').read_text().splitlines()
+            if line.startswith('MemAvailable:'))
+        if estimate>available:raise ValueError('diagnostic exceeds currently available host memory')
     weights = load(model)
     original = floating_reference(model, info, weights)
     loaded = original.state_dict()
@@ -107,7 +160,7 @@ def diagnose(model, suite, limit_targets=16, personality='balanced', wformat='in
         original_rows=[]
         for row in rows:
             floats={}
-            fp=_captured_reference(reference_logits,floats)(spec,weights,row[:-1])
+            fp=capture(reference_logits,floats)(spec,weights,row[:-1])
             original_rows.append((fp,floats))
         from .candidates import apply_derived_candidate
         weights=apply_derived_candidate(weights,derived)
@@ -116,10 +169,10 @@ def diagnose(model, suite, limit_targets=16, personality='balanced', wformat='in
     for row_index, row in enumerate(rows):
         floats, quantized = {}, {}
         if original_rows is None:
-            fp = _captured_reference(reference_logits, floats)(spec, weights, row[:-1])
+            fp = capture(reference_logits, floats)(spec, weights, row[:-1])
         else:
             fp,floats=original_rows[row_index]
-        emu = _captured_reference(emulated_logits, quantized)(spec, weights, row[:-1], wformat=wformat, head_format='int8')
+        emu = capture(emulated_logits, quantized)(spec, weights, row[:-1], wformat=wformat, head_format='int8')
         hf = hf_rows[row_index]
         parity.append(comparison(fp, hf))
         engine = Engine(spec, weights, cap=context, cfg=cfg, rows=1, pipeline=False,
@@ -141,9 +194,12 @@ def diagnose(model, suite, limit_targets=16, personality='balanced', wformat='in
                       'isa_vs_floating':comparison(actual,hf[position])}
             token_results.append(values)
             for (stage, layer, pos), value in quantized.items():
-                if pos == position:
+                reference_value=(floats.get((stage,layer,pos)) if info['family']=='qwen35'
+                    else floats[(stage,layer,None)][position])
+                if pos == position and reference_value is not None and value.shape==reference_value.shape:
                     layer_results.append({'sequence':row_index,'position':position,'layer':layer,'stage':stage,
-                        **comparison(value, floats[(stage,layer,None)][position]),
+                        **comparison(value,reference_value),
+                        'sampling':'first 4096 flattened elements' if info['family']=='qwen35' else 'complete residual',
                         'scope':'independent quantized emulation versus FP32 reference; not RTL state'})
             emit('quality-progress',{'phase':'diagnostic','completed_targets':len(token_results),'total_targets':limit_targets})
         del engine

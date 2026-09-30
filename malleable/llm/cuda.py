@@ -72,8 +72,8 @@ def driver_metadata():
     except (OSError,subprocess.SubprocessError,ValueError) as error:
         return {'value':None,'provenance':'unavailable','reason':str(error)[:512]}
 
-def _rtl_preflight(info,cfg,prompt_tokens,max_new,trace_root,max_host_gib=16):
-    required=info['fp32_tensor_bytes']+6*cfg.DRAM_BYTES
+def _rtl_preflight(info,cfg,prompt_tokens,max_new,trace_root,max_host_gib=16,derived_bytes=0):
+    required=info['fp32_tensor_bytes']+6*cfg.DRAM_BYTES+derived_bytes
     if required>max_host_gib*1024**3:
         raise ValueError(f'RTL draft preflight needs about {required/1024**3:.2f} GiB; configured host limit is {max_host_gib:.2f} GiB')
     if Path('/proc/meminfo').is_file():
@@ -166,6 +166,17 @@ def hybrid_generate(draft_model, verifier_model, prompt, max_new=16, context=204
     draft_info=inspect(draft_path,context)
     if not draft_info['supported'] or draft_info['family']!='qwen3':
         raise ValueError('initial hybrid draft must be a supported Qwen3 checkpoint')
+    from .candidates import read_derived_candidate,apply_derived_candidate
+    from .release import approved_draft,validate_draft_approval
+    derived=read_derived_candidate(candidate_case,draft_info) if candidate_case is not None else None
+    spec=load_spec(draft_path)
+    cfg=PERSONALITIES[personality].config(spec,context,wformat)
+    draft_identity={'draft_model_id':draft_info['base_model_id'],'tokenizer_id':draft_info['tokenizer_id'],
+        'draft_variant_id':variant_id(draft_info['base_model_id'],wformat,derived),
+        'draft_derived_candidate':derived_record(derived) if derived else None,
+        'draft_configuration_id':identity({'config':cfg.__dict__,'uarch':PERSONALITIES[personality].uarch}),
+        'draft_head_format':'int8','personality':personality,'context':context,'wformat':wformat}
+    validate_draft_approval(approved_draft(standalone_manifest),draft_identity)
     draft_tok,prompt_ids=_prompt(draft_path,prompt,prompt_format,messages,context)
     target=CudaVerifier(target_path,dtype)
     target_tok=target.tokenizer
@@ -193,12 +204,9 @@ def hybrid_generate(draft_model, verifier_model, prompt, max_new=16, context=204
     spec=load_spec(draft_path)
     cfg=PERSONALITIES[personality].config(spec,context,wformat)
     trace_path=Path(trace_root); trace_path.mkdir(parents=True,exist_ok=True)
-    _rtl_preflight(draft_info,cfg,len(prompt_ids),max_new,trace_path)
+    _rtl_preflight(draft_info,cfg,len(prompt_ids),max_new,trace_path,derived_bytes=derived['bytes'] if derived else 0)
     weights=load(draft_path)
-    derived=None
-    if candidate_case is not None:
-        from .candidates import read_derived_candidate,apply_derived_candidate
-        derived=read_derived_candidate(candidate_case,draft_info)
+    if derived is not None:
         weights=apply_derived_candidate(weights,derived)
     from .backend import CheckedRtlBackend
     workload=GenerationWorkload(prompt,prompt_format=prompt_format,context=context,max_new=max_new,
@@ -211,6 +219,7 @@ def hybrid_generate(draft_model, verifier_model, prompt, max_new=16, context=204
                   max_new=max_new,depth=depth,eos=eos,cancel=cancel,emit=emit)
     torch.cuda.synchronize(); driver=driver_metadata()
     result.update({'schema_version':1,'status':'completed','backend':'hybrid-simulated-draft-cuda-verifier',
+        **draft_identity,
         'draft_model_id':draft_info['base_model_id'],'verifier_model_id':target_info['base_model_id'],
         'verifier_repository':source.get('repo') if source else None,
         'verifier_revision':source.get('revision') if source else None,

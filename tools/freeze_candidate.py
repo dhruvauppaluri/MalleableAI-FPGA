@@ -15,7 +15,7 @@ def main():
     p=argparse.ArgumentParser()
     p.add_argument('--root',type=Path,required=True,help='new held-out attempt directory')
     p.add_argument('--model',type=Path,required=True); p.add_argument('--suite',type=Path,required=True)
-    p.add_argument('--candidate-case',type=Path,required=True)
+    p.add_argument('--candidate-case',type=Path)
     p.add_argument('--validation',type=Path,required=True,help='completed candidate-isa-validation attempt')
     a=p.parse_args()
     summary=json.loads((a.validation/'summary.json').read_text())
@@ -23,7 +23,7 @@ def main():
     if summary.get('status')!='completed' or summary.get('validation_passed') is not True or summary.get('result_sha256')!=result_sha:
         raise ValueError('a completed, passing, hash-verified full validation is required')
     validation=json.loads(result_file.read_text())
-    info=inspect(a.model,128); derived=C.read_derived_candidate(a.candidate_case,info)
+    info=inspect(a.model,128); derived=C.read_derived_candidate(a.candidate_case,info) if a.candidate_case else None
     a.root.mkdir(parents=True)
     freeze=C.create_freeze(a.root/'freeze.json',info,a.suite,derived,validation,result_sha,C.source_state())
     store=Store(a.root/'store'/'research')
