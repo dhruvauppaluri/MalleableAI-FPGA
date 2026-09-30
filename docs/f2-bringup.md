@@ -101,6 +101,22 @@ against a card; expect first-contact fixes (BAR discovery, mapping sizes, write 
 
 | # | Assumption | Resolved by |
 | --- | --- | --- |
-| A8 | HBM ECC is not enabled (or is transparent) so `Board.scrub` is unnecessary; a read of never-written HBM may otherwise fault (the original board's DDR3 does) | stage 6: read before write |
+| A8 | HBM ECC is not enabled (or is transparent) so `Board.scrub` is unnecessary; a read of never-written HBM may otherwise fault (the original board's DDR3 does). HDK errata: HBM ECC scrubbing / "Initialize Memory Using ECC" are **not supported in the Small Shell** and enabling them makes the HBM monitor time out at AFI load, so the design must not enable them (`cl_otpu.sv` uses the HDK's own wrapper unchanged) | stage 6: read before write |
 | A9 | The AFI's PCIe IDs (`cl_id_defines.vh`: template default `0xF010/0x1D0F`, subsystem `0x1D51/0xFEDC`) are acceptable for a private AFI | AFI creation |
 | A10 | F2 prices, quotas and region availability as above | AWS pricing/quotas pages |
+
+## HDK checks done locally (2026-09-30, no AWS, against the `aws-fpga` clone at `b603a81`, RC 2.3.4)
+
+These are reading and lint checks against the real HDK files; none of them is a build.
+
+| Check | Result |
+| --- | --- |
+| A2: HBM address format `{pc[4:0], local[29-1:0]}` (`f2/hdk/cl_otpu.sv`) | **Consistent with the HDK.** `cl_mem_perf/README.md` (HBM Memory Address Space): channel 0 = `0x0000_0000`-`0x1FFF_FFFF`, channel 1 starts at `0x2000_0000`, "and so on" for 16 GB, i.e. 512 MiB (29 bits) per channel and the channel index in address bits [33:29]. The HDK wrapper passes AXI port *n* straight to HBM port *n* (`HBM_STACK_MAPPING`). Not verified: behaviour of the HBM IP on real hardware. |
+| Port names of `cl_mem_hbm_wrapper` and `aws_clk_gen` used by `f2/hdk/cl_otpu.sv` | Scripted check against the real module declarations: every connection names a real port or parameter, and every real port is connected (0 mismatches; the parser's 9 false alarms were interface/parameter names, checked by hand). Port *widths* and directions are covered only by the lint below, which still stubs these two modules. |
+| `make lint-f2-hdk` with the real `cl_ports.vh` / `cl_id_defines.vh` | Runs without errors (Verilator 5.050, `-Wno-fatal` with the warning classes listed in the Makefile). The two HDK modules remain stubs, so this is not a check of the real IP. |
+| Clock recipes | `Clock_Recipes_User_Guide.md`: **A1** = `clk_main_a0` 250 MHz, `clk_extra_a1` 125 MHz; **H2** = `clk_hbm_axi` 450 MHz. Both match ADR-0008. `aws_build_dcp_from_cl.py` has `--aws_clk_gen`, `--clock_recipe_a`, `--clock_recipe_b`, `--clock_recipe_c`, `--clock_recipe_hbm` (the build command in this file uses `--aws_clk_gen --clock_recipe_a A1 --clock_recipe_hbm H2`). |
+| Reset release | `AWS_CLK_GEN_spec.md`: with `AWS_CLK_GEN` instantiated, runtime software must call `aws_clkgen_deassert_resets(slot_id)` (`sdk/userspace/include/fpga_clkgen.h`) after AFI load. Step 7 of the AFI steps above already requires it; it is **not yet in the host bring-up script** (`malleable/f2/transport.py` has no such call). |
+| A9: PCIe IDs | `CL_TEMPLATE/design/cl_id_defines.vh`: `CL_SH_ID0 = 32'hF010_1D0F`, `CL_SH_ID1 = 32'h1D51_FEDC`, as assumed. Whether AWS accepts them for a private AFI is decided at AFI creation. |
+
+Open after these checks: the host-side reset release is missing from the bring-up script, and the
+first real HDK build (stage 4) is the next thing that can fail.
