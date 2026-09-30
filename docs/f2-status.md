@@ -99,13 +99,15 @@ numpy 2.4. Vivado: not available. HDK facts from a shallow clone of `aws/aws-fpg
   Yosys run, not by simulation.
 - Vivado OOC synthesis of the frozen core on VU47P (run by the owner, 2026-09-30): 116,080 LUT
   (8.9%), 103,202 FF (4.0%), 496 block RAM tiles (24.6%), 283 DSP (3.1%), post-synthesis setup
-  WNS +0.467 ns at 125 MHz. Smaller than the Kintex-7-based estimate; synthesis only, adapter
-  and 450 MHz paths not included.
-- Vivado OOC place and route of the same core (owner, same day): 112,545 LUT, 101,669 FF, 496
-  block RAM tiles, 283 DSP; routed setup WNS +0.221 ns and hold WHS +0.014 ns at 125 MHz, 0
-  failing endpoints, 0 critical warnings; power 5.157 W (default activity, medium confidence).
-  Core only: no adapter, no shell, no 450 MHz paths.
-- Not done / not possible here: Vivado runs that include the adapter or the shell, HDK builds, hardware runs, an
+  WNS +0.467 ns (worst of the three clocks). Smaller than the Kintex-7-based estimate;
+  synthesis only (no placement or routing delay).
+- Vivado OOC place and route of the same design (owner, same day): 112,545 LUT, 101,669 FF, 496
+  block RAM tiles, 283 DSP; 0 failing endpoints, 0 critical warnings. Setup WNS per clock: core
+  (125 MHz) +0.658 ns, HBM (450 MHz) +0.221 ns, main (250 MHz) +0.457 ns; hold >= +0.014 ns.
+  Power 5.157 W (default activity, medium confidence). The run includes the HBM adapter (7,231
+  LUT) and OCL but no AWS shell, no HBM IP, no floorplan and no SLR crossings. (Correction: an
+  earlier revision of this file and of the PR text said the adapter was not in the run.)
+- Not done / not possible here: Vivado runs that include the shell or the HBM IP, HDK builds, hardware runs, an
   exact model-image size for the three target models (needs the weights, which the cloud
   environment does not have; sizes in the ADR are estimates).
 
@@ -113,8 +115,8 @@ numpy 2.4. Vivado: not available. HDK facts from a shallow clone of `aws/aws-fpg
 
 1. The first two paid steps (out-of-context synthesis and place and route of the core, stages 1
    and 2) were approved and run on 2026-09-30; results are in `docs/f2-resource-timing.md`
-   section 5. Next decision: approve (or not) an OOC run that includes the HBM adapter with the
-   450 MHz clock (the paths that have not been timed). Please also report the actual AWS charge
+   section 5. Next decision: whether to go on to the HDK build flow (stage 4: shell, HBM IP,
+   floorplan), which needs local HDK checks first. Please also report the actual AWS charge
    for the build instance, so the cost estimate can be checked against a real bill.
 2. Decide how to use the hash finding: the per-step raw hashes being saved from the Zephyrus
    run are not comparable with any re-run; normalized hashes from the saved traces are.
@@ -132,5 +134,5 @@ numpy 2.4. Vivado: not available. HDK facts from a shallow clone of `aws/aws-fpg
   2025.2); results recorded; one redundant `if` removed from `ooc_clocks.xdc`. No other AWS
   resource was used.
 - 2026-09-30: stage-2 OOC place and route of the core run by the owner on the same instance;
-  results recorded (closes 125 MHz with +0.221 ns setup slack, core only). No other AWS
+  results recorded (all three clocks close; worst slack +0.221 ns on the 450 MHz HBM clock). No other AWS
   resource was used.

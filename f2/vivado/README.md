@@ -1,7 +1,7 @@
 # Vivado scripts for the F2 platform
 
 **Only the out-of-context flow has been run**: `run_ooc.sh`, `ooc_synth.tcl` and `ooc_clocks.xdc`
-ran on Vivado 2025.2 (synthesis and, with `impl=1`, place and route of the core alone, 2026-09-30,
+ran on Vivado 2025.2 (synthesis and, with `impl=1`, place and route of the CL wrapper, 2026-09-30,
 see `docs/f2-resource-timing.md`); the only fix needed was removing an `if` from the XDC.
 **Everything else here is UNTESTED**: `setup_cl.sh`, `synth_cl_otpu.tcl`, the HDK-flow constraints
 and the HDK-facing top were never run. Their checks are shell/Tcl syntax balance and a Verilator

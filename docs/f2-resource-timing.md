@@ -1,10 +1,12 @@
 # F2 resource and timing estimate (VU47P)
 
-**The only Vivado result for this design on the VU47P is one out-of-context synthesis of
-`cl_otpu_core`** (section 5: Vivado 2025.2, no shell, no place and route, the HBM adapter not
-included). There is no place-and-route, post-route timing, power or HDK-build result. Vivado was
-not available in the authoring environment; the synthesis was run by the owner on an AWS FPGA
-Developer AMI. This document separates kinds of information by how they were obtained.
+**The only Vivado results for this design on the VU47P are one out-of-context synthesis and one
+out-of-context place and route of `cl_otpu_core`** (section 5: Vivado 2025.2). `cl_otpu_core` is the
+CL wrapper: the frozen `otpu_board`, the HBM adapter and the OCL front end, with the three real
+clocks. **No AWS shell, no HBM IP, no floorplan and no HDK build are in these runs**, and the ports
+carry no input/output delay constraints. Vivado was not available in the authoring environment;
+the runs were made by the owner on an AWS FPGA Developer AMI. This document separates kinds of
+information by how they were obtained.
 
 | Kind | Source | Trust |
 | --- | --- | --- |
@@ -79,7 +81,7 @@ timing and routing are.
 | --- | --- | --- |
 | Core (frozen block) | 125 MHz plan | Upstream closes 120.8-125.5 MHz on Kintex-7; UltraScale+ is faster, so 125 MHz is plausible. 250 MHz is unsupported by any evidence. |
 | Async FIFOs, gray pointers | 125/250/450 MHz pairs | Standard structure; the gray-pointer `set_max_delay` exceptions in `f2/vivado/cl_timing_user.xdc` need checking with `report_cdc`. |
-| HBM-side bridge request path | 450 MHz plan | The FIFO empty flag -> arbiter -> PC `valid` path is several logic levels and is not pipelined for 450 MHz. Likely to need pipelining, or the 300 MHz / 8-PC fallback in ADR-0008 section 4. |
+| HBM-side bridge request path | 450 MHz plan | The FIFO empty flag -> arbiter -> PC `valid` path is several logic levels and is not pipelined for 450 MHz. This estimate predicted pipelining might be needed; the out-of-context place and route (section 5) closed `clk_hbm` at 2.222 ns with +0.221 ns setup slack, 0 failing endpoints, so that prediction was not borne out there. The run has no shell, HBM IP pins or SLR crossings, so it does not remove the risk. |
 | SLR crossings | all | HBM is in the bottom region, PCIS in the SLR1/top region [HDK]; the adapter's bridges and the core are not yet floorplanned. Register stages on both sides of every crossing are required [HDK]. |
 | PCIS | 250 MHz | Per-burst arbitration bounds host latency; the shell's 8 us PCIS timeout is not at risk from the core, but is not verified in hardware. |
 
@@ -88,7 +90,7 @@ timing and routing are.
 | Run | Tool / version | LUT | FF | Block RAM tiles | URAM | DSP | WNS (core / main / HBM) | Power | Status |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | --- | --- | --- |
 | OOC synthesis, `cl_otpu_core`, PCS=2, MCOLS=2, LANES=8, core 125 MHz | Vivado 2025.2 (build 6299465), `xcvu47p-fsvh2892-2-e` | 116,080 (8.90%) | 103,202 (3.96%) | 496 (24.60%) | 0 | 283 (3.14%) | +0.467 ns at the core clock (see below) | - | **measured, synthesis only** |
-| OOC place and route, same configuration, fixed XDC | Vivado 2025.2 (build 6299465), `xcvu47p-fsvh2892-2-e` | 112,545 (8.63%) | 101,669 (3.90%) | 496 (24.60%) | 0 | 283 (3.14%) | +0.221 ns at the core clock (hold +0.014 ns) | 5.157 W (default activity, medium confidence) | **measured, core only, no shell** |
+| OOC place and route, same configuration, fixed XDC | Vivado 2025.2 (build 6299465), `xcvu47p-fsvh2892-2-e` | 112,545 (8.63%) | 101,669 (3.90%) | 496 (24.60%) | 0 | 283 (3.14%) | core +0.658 ns / main +0.457 ns / HBM +0.221 ns (hold +0.014 / +0.020 / +0.019 ns) | 5.157 W (default activity, medium confidence) | **measured, CL wrapper, no shell or HBM IP** |
 | HDK build (post-route DCP) | - | - | - | - | - | - | - | - | **unavailable** |
 
 Run on 2026-09-30 by the owner on an AWS FPGA Developer AMI 1.19.2 (Ubuntu 24.04), instance
@@ -101,18 +103,20 @@ What the synthesis run says:
 - Block RAM tiles are 470 RAMB36 + 52 RAMB18; LUT use is 105,328 logic + 8,131 LUTRAM + 2,621
   SRL. Largest blocks by LUT: `otpu_vpu` about 28K, `otpu_axi_dram` about 17K, `otpu_quant` about
   17K, `otpu_mxu` about 17K, `otpu_seq` about 17K.
-- Against the Kintex-7 based estimate in section 3: LUT (116K vs 170K-190K) and FF (103K vs
-  127K-133K) came out well below it; DSP (283) is at the top of the 267-283 range; Block RAM
-  (496 tiles) is below the upstream 560-635 BRAM36.
+- The top level is 116,080 LUT: `otpu_board` (the frozen core) 108,480, `f2_hbm_adapter` (`u_mem`,
+  PCS_PER_CH=2) 7,231 LUT / 2,870 FF (Yosys had estimated 6.4K / 3.0K), `f2_ocl` 277 LUT.
+- Against the Kintex-7 based estimate in section 3: the total (116K LUT vs 180K-200K) and the
+  core (108K vs 170K-190K) and FF (103K vs 130K-140K total) came out well below it; DSP (283) is
+  at the top of the 267-283 range; Block RAM (496 tiles) is below the upstream 560-635 BRAM36.
 - Timing: clocks confirmed by `report_clocks` as `clk_core` 8.000 ns (125 MHz), `clk_main`
   4.000 ns, `clk_hbm` 2.222 ns. Setup WNS +0.467 ns, TNS 0, 0 of 341,840 endpoints failing; hold
-  WHS +0.014 ns, 0 failing; "All user specified timing constraints are met". **This is a
-  post-synthesis result with no placement or routing delay, and is optimistic.** It is the core
-  clock domain only: the core is the only logic in the run, so the 250 MHz and 450 MHz domains
-  have no timed paths.
-- Not covered by this run: the HBM adapter (Yosys, section 2: about 6.4K LUT, 3.0K FF, which
-  would bring the total to about 122K LUT), the 450 MHz HBM-side bridge paths, the shell, SLR
-  crossings, power.
+  WHS +0.014 ns, 0 failing; "All user specified timing constraints are met". The overall WNS is
+  the worst of the three clock domains. **This is a post-synthesis result with no placement or
+  routing delay, and is optimistic.** (An earlier version of this document wrongly said the
+  adapter and the 450 MHz paths were not in the run; they are, as shown by the per-clock table
+  below.)
+- Not covered by this run: the AWS shell, the HBM IP and its pins, SLR crossings, the floorplan,
+  and any input/output delay on the top-level ports.
 - One critical warning (reported twice in the log's summary): `ooc_clocks.xdc:5`, an `if` that
   XDC does not support. It was a redundant fallback for an unset `core_ns`; the clock periods
   were verified as above, and the line is removed. The script was otherwise run unchanged on
@@ -124,16 +128,27 @@ Run with `f2/vivado/run_ooc.sh build/f2-vivado/ooc-pcs2-impl pcs=2 core_ns=8.0 i
 repository at commit `fc7d2ef` (XDC fixed); `route_design` took about 5 minutes elapsed. The log
 reports 0 errors and 0 critical warnings in every step.
 
-- Routed setup WNS **+0.221 ns**, TNS 0, 0 of 337,798 endpoints failing; hold WHS +0.014 ns, 0
-  failing; pulse-width WPWS +0.579 ns, 0 failing; "All user specified timing constraints are
-  met". Setup slack fell from +0.467 ns after synthesis to +0.221 ns after routing, which is
-  about 2.8% of the 8 ns period.
-- **What this supports:** the frozen core places and routes at 125 MHz on the VU47P when it is
-  the only thing in the design. **What it does not support:** 125 MHz as a safe margin in the real
-  design (there is no shell, no HBM adapter, no 450 MHz HBM-side paths, and no SLR crossings in
-  this run), or any higher clock; 250 MHz remains unsupported by any evidence.
+- Routed overall setup WNS **+0.221 ns**, TNS 0, 0 of 337,798 endpoints failing; hold WHS
+  +0.014 ns, 0 failing; pulse-width WPWS +0.579 ns, 0 failing; "All user specified timing
+  constraints are met". The overall figure is the minimum of the per-clock figures below. Overall
+  setup slack fell from +0.467 ns after synthesis to +0.221 ns after routing.
+- Per clock (Intra Clock Table of `timing_impl.rpt`):
+
+  | Clock | Period | Setup WNS | Hold WHS | Endpoints | Failing |
+  | --- | ---: | ---: | ---: | ---: | ---: |
+  | `clk_core` | 8.000 ns (125 MHz) | +0.658 ns | +0.014 ns | 311,454 | 0 |
+  | `clk_hbm` | 2.222 ns (450 MHz) | **+0.221 ns** | +0.019 ns | 13,930 | 0 |
+  | `clk_main` | 4.000 ns (250 MHz) | +0.457 ns | +0.020 ns | 12,414 | 0 |
+
+- **What this supports:** the frozen core closes at 125 MHz (about 8% of its period as slack),
+  the adapter's logic closes at 450 MHz (about 10% of its period), and the OCL side closes at
+  250 MHz, all on the VU47P in an out-of-context place and route. **What it does not support:** the
+  same margins in the real design. There is no shell, no HBM IP (the adapter's `hbm_*` ports are
+  unconstrained top-level ports, so paths to the real HBM pins are untimed), no floorplan or SLR
+  crossings, and no congestion from the shell. A core clock above 125 MHz is unsupported by any
+  evidence, and this run was not tried at one.
 - Routed utilization is slightly below synthesis (112,545 LUT, 101,669 FF; block RAM and DSP
-  unchanged), so the LUT/FF comparison with the Kintex-7 estimate in section 3 holds.
+  unchanged), so the comparison with the Kintex-7 estimate above holds.
 - Power: total on-chip 5.157 W = 1.842 W dynamic + 3.315 W device static, confidence "Medium".
   This is Vivado's estimate with default switching activity and no real toggle data; it is not a
   card-power figure, and the static part is the device's.
@@ -142,5 +157,5 @@ reports 0 errors and 0 critical warnings in every step.
   (the core placed in one SLR); if so, block RAM is the resource to watch when the adapter and
   shell are added. This is an interpretation, not a checked fact.
 
-Procedure: `f2/vivado/README.md`. Still unavailable: a run that includes the HBM adapter and the
-450 MHz clock, and the HDK build.
+Procedure: `f2/vivado/README.md`. Still unavailable: anything involving the shell or the HBM IP
+(the HDK build) and hardware.
