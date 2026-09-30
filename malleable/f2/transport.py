@@ -15,6 +15,7 @@ from __future__ import annotations
 import mmap
 import os
 import struct
+import time
 from pathlib import Path
 
 import numpy as np
@@ -39,6 +40,18 @@ F2_ID_VALUE = 0x4632_4F54                      # "F2OT"
 F2_ST_HBM_READY, F2_ST_CORE_ERR, F2_ST_PCIS_ERR = 1, 2, 4
 UNMAPPED = 0xDEAD_BEEF
 
+# AWS_CLK_GEN registers (aws-fpga hdk/docs/AWS_CLK_GEN_spec.md; the host reaches them through the
+# BAR the AWS SDK calls PF1 / BAR4). Offsets and the group layout below are from that spec and
+# from the register map the SDK documents; none of this has run against a card.
+CLKGEN_REG_BASE = 0x58000
+CLKGEN_ID, CLKGEN_VER, CLKGEN_BLD, CLKGEN_CLKS_AVAIL = (CLKGEN_REG_BASE + o for o in (0x0, 0x4, 0x8, 0xC))
+CLKGEN_GRST, CLKGEN_SYSRST, CLKGEN_LOCK = (CLKGEN_REG_BASE + o for o in (0x10, 0x14, 0x20))
+CLKGEN_ID_VALUE = 0x9048_1D0F
+CLKGEN_BAR_BYTES = CLKGEN_REG_BASE + 0x1000
+# (first CLKS_AVAIL bit, number of clocks, MMCM_LOCK bit) for groups A, B, C and HBM
+CLKGEN_GROUPS = ((1, 3, 0), (4, 2, 4), (6, 2, 6), (8, 1, 8))
+CLKGEN_TIMEOUT_S = 5.0          # the SDK waits 100 x 50 ms for lock
+
 
 class HardwareDisabled(RuntimeError):
     """The real-card transport was not explicitly enabled."""
@@ -50,6 +63,52 @@ class AxiDecodeError(RuntimeError):
 
 def f2_caps(pcs_per_ch: int, pc_aw: int, stripe_log2: int = 9) -> int:
     return (2 << 24) | (stripe_log2 << 16) | (pc_aw << 8) | pcs_per_ch
+
+
+def clkgen_lock_mask(clks_avail: int) -> int:
+    """MMCM_LOCK bits to wait for: one per clock group that has at least one clock enabled.
+
+    This design enables group A and the HBM clock, so the mask is 0x101 (bits 0 and 8);
+    a design using all four groups would wait for 0x151."""
+    mask = 0
+    for first, count, lock_bit in CLKGEN_GROUPS:
+        if (clks_avail >> first) & ((1 << count) - 1):
+            mask |= 1 << lock_bit
+    return mask
+
+
+def release_clock_resets(read, write, *, timeout: float = CLKGEN_TIMEOUT_S, poll_interval: float = 0.05,
+                         sleep=time.sleep, now=time.monotonic) -> dict:
+    """Release the CL resets held by AWS_CLK_GEN after AFI load.
+
+    UNTESTED ON HARDWARE. With AWS_CLK_GEN in the design every CL reset except the main one is
+    asserted at load and the MMCM outputs are stopped until they lock; releasing a reset before
+    lock leaves the HBM IP without a clocked reset (AWS_CLK_GEN_spec.md). So: check the ID, work
+    out which MMCMs are enabled, clear the global reset, wait for all their lock bits, and only
+    then clear SYS_RST. `read(offset)` and `write(offset, value)` access the AWS_CLK_GEN BAR. If
+    lock is not reached the resets are left asserted and TimeoutError is raised.
+    """
+    ident = read(CLKGEN_ID)
+    if ident != CLKGEN_ID_VALUE:
+        raise RuntimeError(f"AWS_CLK_GEN ID register reads {ident:#x}, expected {CLKGEN_ID_VALUE:#x}: "
+                           "no AWS_CLK_GEN in this AFI, or the wrong BAR")
+    avail = read(CLKGEN_CLKS_AVAIL)
+    mask = clkgen_lock_mask(avail)
+    if not mask:
+        raise RuntimeError(f"AWS_CLK_GEN reports no enabled clocks (CLKS_AVAIL={avail:#x})")
+    write(CLKGEN_GRST, 0)
+    deadline = now() + timeout
+    while True:
+        lock = read(CLKGEN_LOCK)
+        if lock & mask == mask:
+            break
+        if now() >= deadline:
+            raise TimeoutError(f"AWS_CLK_GEN MMCMs not locked after {timeout:g} s "
+                               f"(lock={lock:#x}, need {mask:#x}); resets left asserted")
+        sleep(poll_interval)
+    write(CLKGEN_SYSRST, 0)
+    return {"clks_avail": avail, "lock_mask": mask, "lock": lock,
+            "version": read(CLKGEN_VER), "build": read(CLKGEN_BLD)}
 
 
 class F2BarTransport:
@@ -75,7 +134,9 @@ class F2BarTransport:
     def __init__(self, bdf: str | None = None, *, enable: bool = False, bar0: str | Path | None = None,
                  bar4: str | Path | None = None, hbm_offset: int = P.HBM_BASE,
                  ocl_bytes: int = 0x2000, window_bytes: int = P.WINDOW_BYTES, check: bool = True,
-                 ch_base: tuple[int, int] = P.CH_BASE, ch_bytes: int = P.CH_BYTES):
+                 ch_base: tuple[int, int] = P.CH_BASE, ch_bytes: int = P.CH_BYTES,
+                 release_resets: bool = False, clkgen_bar: str | Path | None = None,
+                 ready_timeout: float = 30.0):
         if not (enable or os.environ.get(HARDWARE_ENV) == "1"):
             raise HardwareDisabled(
                 "F2BarTransport talks to real hardware and is disabled by default; pass enable=True "
@@ -85,7 +146,11 @@ class F2BarTransport:
                 raise ValueError("give a PCI address (bdf, e.g. 0000:00:1d.0) or explicit BAR paths")
             base = Path("/sys/bus/pci/devices") / bdf
             bar0, bar4 = base / "resource0", base / "resource4"
+        if clkgen_bar is None and bdf:
+            # ASSUMPTION (unverified): AWS_CLK_GEN is on PF1, i.e. the same PCI device with function 1
+            clkgen_bar = Path("/sys/bus/pci/devices") / (bdf[:-1] + "1") / "resource4"
         self.bdf = bdf
+        self.clkgen_bar = clkgen_bar
         self.devname = "f2-" + (bdf or Path(str(bar0)).parent.name).replace(":", "_").replace(".", "_")
         self.dev = str(bar0)
         self.hbm_offset, self.window_bytes = hbm_offset, window_bytes
@@ -94,8 +159,34 @@ class F2BarTransport:
         self._ocl = self._map(bar0, 0, ocl_bytes)
         self._hbm = self._map(bar4, hbm_offset, window_bytes)
         self.reads = 0
+        self.clkgen_info: dict | None = None
+        if release_resets:
+            # must precede the identity check: until the resets are released the HBM is not
+            # ready and the board registers answer SLVERR
+            self.clkgen_info = self.release_clock_resets()
+            self.wait_hbm_ready(ready_timeout)
         if check:
             self.check_identity()
+
+    def release_clock_resets(self, timeout: float = CLKGEN_TIMEOUT_S) -> dict:
+        """Release the AWS_CLK_GEN resets (see `release_clock_resets`). Safe to repeat."""
+        if self.clkgen_bar is None:
+            raise ValueError("no AWS_CLK_GEN BAR: give a bdf or clkgen_bar=")
+        m = self._map(self.clkgen_bar, 0, CLKGEN_BAR_BYTES)
+        try:
+            return release_clock_resets(lambda o: struct.unpack_from("<I", m, o)[0],
+                                        lambda o, v: struct.pack_into("<I", m, o, v & 0xFFFFFFFF),
+                                        timeout=timeout)
+        finally:
+            m.close()
+
+    def wait_hbm_ready(self, timeout: float = 30.0, poll_interval: float = 0.05) -> None:
+        """Wait for F2_STATUS.hbm_ready (HBM IP initialized), which needs the resets released."""
+        deadline = time.monotonic() + timeout
+        while not self.reg_read(F2_STATUS) & F2_ST_HBM_READY:
+            if time.monotonic() >= deadline:
+                raise TimeoutError(f"HBM not ready after {timeout:g} s (F2_STATUS={self.reg_read(F2_STATUS):#x})")
+            time.sleep(poll_interval)
 
     def _map(self, path, offset: int, length: int) -> mmap.mmap:
         fd = os.open(str(path), os.O_RDWR | os.O_SYNC)
