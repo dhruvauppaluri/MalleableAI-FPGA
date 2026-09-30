@@ -1,5 +1,30 @@
 # Agent guidance
 
+## Authorized full Qwen3.5 acceptance batch
+
+Latest user instruction: "go for full acceptance". This authorizes one finite
+serialized validation -> held-out once if validation passes -> eight-token RTL
+if held-out passes batch. It supersedes the pending mode question for this batch;
+it does not revive the old Overnight window or authorize unrelated jobs/retries.
+Runner: tools/run_qwen35_acceptance.py. Clean source must remain unchanged until
+the unit ends. Canonical source/commands/PIDs and stage logs/results are recorded.
+The 13 acceptance-runner and safeguard regression tests passed before dispatch.
+
+Unit: malleable-qwen35-acceptance-20260930-01
+Root: build/zephyrus-jobs/release/20260928T223413Z-b463e746/continuation-20260930/qwen35-full-acceptance-01
+Inspect terminal.json and per-stage summary.json/worker.log before any dispatch.
+Exact launch: systemd-run --user --unit=malleable-qwen35-acceptance-20260930-01
+--property=WorkingDirectory=/home/dhruv/projects/MalleableAI-FPGA
+--setenv=OMP_NUM_THREADS=4 --setenv=MKL_NUM_THREADS=4 --setenv=OPENBLAS_NUM_THREADS=4
+/home/dhruv/projects/MalleableAI-FPGA/.venv/bin/python -u tools/run_qwen35_acceptance.py
+--root [the absolute root above] --unit malleable-qwen35-acceptance-20260930-01
+Do not relaunch an existing attempt or consumed held-out. No auto-restart.
+Windows keep-acceptance-awake.ps1 prevents idle sleep and holds a foreground WSL
+connection via tools/keep_acceptance_wsl.py until this unit stops. Verify its
+heartbeat in keeper-status.json and Windows TEMP/malleable-qwen35-acceptance-awake.json.
+Keep the laptop powered. During execution, write handoffs only inside the ignored
+attempt directory. Full release is not passing until all required evidence/checks pass.
+
 ## Current handoff: Qwen3.5 reference fixed; raw INT8 pilot passes
 
 Codex fixed a confirmed quality-reference defect in ba9a988: constructing the
