@@ -7,6 +7,20 @@ repo.
 `docs/STATUS.md` is the handoff. Read it before starting, and update it before
 you stop.
 
+## Authoritative continuation (2026-09-30)
+
+Read [the complete approved continuation](docs/release-continuation-20260930.md)
+and the current opening of docs/STATUS.md before acting. They supersede earlier
+handoff next-actions and expired run windows below. The user approved one NEW
+eight-hour Overnight window, starting at the first new checkpoint dispatch after
+safeguard implementation/tests. Persist and reuse one deadline across retries and
+agent changes. Targeted Qwen3.5 activation/cache/operator redesign is authorized;
+INT8 matrices and INT8 output head, dense contract, frozen suites and >=90% / <=5%
+gates remain mandatory. Do not repeat completed Qwen3/LFM balanced held-out or
+LFM's ten benchmarks. Inspect workers before dispatch; serialize heavy jobs.
+While source-bound workers run, record handoffs in their ignored attempt folders,
+not tracked files. Do not extend the window or merge PRs. Release is still blocked.
+
 ## Project
 
 MalleableAI-FPGA is a model-aware FPGA AI accelerator. The FPGA runs inference.

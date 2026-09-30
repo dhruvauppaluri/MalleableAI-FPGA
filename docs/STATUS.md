@@ -2,9 +2,27 @@
 
 Handoff for Cursor, Codex, and Claude. Update this before ending a session.
 
-Last updated: 2026-09-29. Any of Cursor, Codex, or Claude may claim any `open` row.
+Last updated: 2026-09-30. Any of Cursor, Codex, or Claude may claim any `open` row.
 
-## Now
+## Authoritative continuation — 2026-09-30
+
+Read [the complete approved plan](release-continuation-20260930.md) first.
+The current verified base is `7693ed9`; Qwen3 calibrated INT8 and LFM raw INT8
+pass validation, held-out and eight-token RTL. Tiny 100-token RTL and all ten
+LFM benchmark indices pass. Qwen3.5 validation fails at 78.125%; held-out untouched.
+Do not repeat completed Qwen3/LFM balanced held-out or LFM benchmark jobs.
+
+Codex owns the current safeguard implementation. No release unit/PID is active.
+The user authorized one new eight-hour Overnight window; it has NOT started.
+Start its fixed deadline with the first new checkpoint dispatch AFTER the five
+safeguards and diagnostic controls pass focused tests. Persist the deadline at
+`build/zephyrus-jobs/release/20260928T223413Z-b463e746/continuation-20260930/control.json`.
+Next: fix derived benchmark lineage, hybrid draft binding, persistent held-out
+consumption, complete freeze validation, and benchmark failure/deadline status.
+Then follow the plan's measured Qwen3.5 recovery with INT8 matrices/head retained.
+Older entries below are historical and cannot override this authorization/status.
+
+## Historical progress
 
 Latest continuation handoff (2026-09-29): user is moving execution to Cursor
 because Codex credits may run out. Use
@@ -334,7 +352,7 @@ Manifest `release/perf/lfm2-performance-manifest.json` id (sha256)
 comparisons + 2 INT8 AXI stress; INT4/FP4 not validated). Aggregated `llm-benchmark-suite` record id
 `8486833b35eeba0ef1ccef4098df5e07360b6ccdb594dcd7eedceae59eae8f52`, store
 `release/perf/lfm2-01/store/research/`, logs `release/perf/lfm2-01/driver.log` and `indices.log`.
-Per-index driver wall seconds: 404, 404, 949, 434, 557, 661, 1446, 671, 620, 1346 (~7.5 h serialized).
+Per-index driver wall seconds: 404, 404, 949, 434, 557, 661, 1446, 671, 620, 1346 (7,492 seconds, approximately 2.08 h serialized).
 Per-index summed RTL cycles: 14214874, 14091076, 14058280, 14074618, 23696663, 23491003, 23430444,
 23460308, 26196184, 26177717 (total 202,891,167). Read-only parallelization notes:
 `release/perf/lfm2-01/findings-20260929T230500Z.md`. Qwen3/Qwen3.5 performance manifests not started
@@ -355,8 +373,8 @@ Per-index summed RTL cycles: 14214874, 14091076, 14058280, 14074618, 23696663, 2
 
 | Status | Owner | Item | Notes |
 | --- | --- | --- | --- |
-| in progress | Cursor (local, Zephyrus) | Qwen3 quality recovery and precision attribution | Qwen3 candidate + LFM2.5 standalone gates (validation/held-out/RTL8 + 10-run perf) done; tiny RTL + trace-hash evidence in docs/evidence/. Qwen3.5 raw validation FAIL 78.125%; no candidate path yet. Remaining: Qwen3/Qwen3.5 perf (20 runs), controller/predictor episodes, workbench/browser, final verify-llm/release-check. No new heavy jobs after 2026-09-30T01:03:40Z unless user extends. |
-| open | Codex | Zephyrus release completion implementation | Infrastructure verified at b1f2d3f; measured model release remains blocked. Resume after quality recovery. |
+| done | Cursor (local, Zephyrus) | Qwen3 quality recovery and precision attribution | Qwen3 candidate + LFM2.5 standalone gates (validation/held-out/RTL8 + 10-run perf) done; tiny RTL + trace-hash evidence in docs/evidence/. Qwen3.5 raw validation FAIL 78.125%; no candidate path yet. Remaining: Qwen3/Qwen3.5 perf (20 runs), controller/predictor episodes, workbench/browser, final verify-llm/release-check. No new heavy jobs after 2026-09-30T01:03:40Z unless user extends. |
+| in progress | Codex | Zephyrus release completion implementation | Authoritative 2026-09-30 plan: fix five safeguards before new Qwen3.5 diagnostics; new eight-hour window not started. |
 | done | Codex | Bit-accurate dense golden model and tiny-network cross-check | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/model.py`. Framework calibration remains separate. |
 | done | Codex | Versioned dense model descriptor and exported test vectors | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/records.py` and generated RTL benches. |
 | open | | Extend Cyclone V Quartus projects to `malleable_accelerator_top` and record real resource and timing results | Needs Quartus Prime Lite. Current projects are `quartus/int8_mac` and `quartus/int8_dot_product`. |
@@ -367,7 +385,7 @@ Per-index summed RTL cycles: 14214874, 14091076, 14058280, 14074618, 23696663, 2
 | retired | | SSM memory/timing optimization, external-memory model and Windows Quartus worker | Superseded by the requested pretrained-LLM/F2 direction. Existing prototype is not a deployable board design. |
 | in progress | Codex | Implement the local pretrained-LLM pivot | Approved local plan: retire SSM product, pinned OpenTPU backend, full RTL default, live UI, quantization/learning, then gated greedy hybrid. AWS integration excluded. |
 | in progress | Codex | Retirement, pinned integration and safe model import | Implemented and committed; three official checkpoints downloaded and hash-verified. Draft [PR #3](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/3) is open; CI is in progress after fixing the missing Verilator lexer-header dependency. |
-| in progress | Codex | Standalone full-RTL acceptance | Tiny 100-token and Qwen3 short-prompt + 8-token evidence pass bit-exactness. Qwen3 quality fails the 90% agreement gate; Qwen3.5/LFM evidence remains outstanding. |
+| in progress | Codex | Standalone full-RTL acceptance | Qwen3 calibrated and LFM raw INT8 pass validation/held-out/RTL8; tiny 100-token passes. Qwen3.5 fails validation; untouched held-out. |
 | in progress | Codex | Live UI and profiling | Durable jobs/SSE, cancellation, history, report views, bounded trace/instruction inspection, and CUDA/hybrid controls are implemented. Full browser-level accessibility/reconnect/cancel test coverage remains. |
 | in progress | Codex | Overhead-aware optimization and learning | CLI/controller, predictor and masked Double DQN primitives implemented. Review fixes preserve parent training lineage. Real measured-data evaluations and full UI/service integration remain. |
 | in progress | Codex | CUDA baseline and greedy hybrid deployment | Strict standalone-gated CLI/API, WSL2 instructions, opt-in Qwen3-1.7B download and full-RTL draft path are implemented. Mac has no CUDA and verifier is not downloaded; actual Zephyrus evidence remains. |
