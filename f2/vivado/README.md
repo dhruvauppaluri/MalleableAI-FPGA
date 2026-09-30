@@ -1,9 +1,11 @@
 # Vivado scripts for the F2 platform
 
-**Everything here is UNTESTED.** No Vivado was available when it was written: no script has
-been run, no constraint has been read by a tool, and the checks that exist are shell/Tcl
-syntax balance and a Verilator port-connection lint against stub modules. First contact with
-Vivado should be expected to need fixes.
+**Only the out-of-context flow has been run**: `run_ooc.sh`, `ooc_synth.tcl` and `ooc_clocks.xdc`
+ran once on Vivado 2025.2 (synthesis only, 2026-09-30, see `docs/f2-resource-timing.md`); the
+only fix needed was removing an `if` from the XDC. **Everything else here is UNTESTED**: the
+`impl=1` place-and-route path, `setup_cl.sh`, `synth_cl_otpu.tcl`, the HDK-flow constraints and the
+HDK-facing top were never run. Their checks are shell/Tcl syntax balance and a Verilator
+port-connection lint against stub modules. Expect first-contact fixes.
 
 Nothing here calls AWS, starts a paid resource, or copies AWS source into this repository.
 Running any of it on AWS needs the owner's approval (`docs/f2-bringup.md`).

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Wrapper for f2/vivado/ooc_synth.tcl. UNTESTED (never run). Refuses to start without Vivado.
+# Wrapper for f2/vivado/ooc_synth.tcl. Synthesis run once on Vivado 2025.2 (impl=1 never run). Refuses to start without Vivado.
 #   f2/vivado/run_ooc.sh <out_dir> [key=value ...]     e.g. pcs=2 core_ns=8.0 impl=0
 set -euo pipefail
 here="$(cd "$(dirname "$0")" && pwd)"

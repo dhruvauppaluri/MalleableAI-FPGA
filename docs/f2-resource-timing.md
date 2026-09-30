@@ -1,9 +1,10 @@
 # F2 resource and timing estimate (VU47P)
 
-**There are no Vivado results for this design on the VU47P.** Vivado is not available in the
-authoring environment and no tool run on a VU47P has happened. This document separates four
-kinds of information; only the first two are results of a tool run, and neither is a
-Vivado-on-VU47P result.
+**The only Vivado result for this design on the VU47P is one out-of-context synthesis of
+`cl_otpu_core`** (section 5: Vivado 2025.2, no shell, no place and route, the HBM adapter not
+included). There is no place-and-route, post-route timing, power or HDK-build result. Vivado was
+not available in the authoring environment; the synthesis was run by the owner on an AWS FPGA
+Developer AMI. This document separates kinds of information by how they were obtained.
 
 | Kind | Source | Trust |
 | --- | --- | --- |
@@ -51,9 +52,11 @@ change is covered by the same simulation tests. Vivado may map either form diffe
 
 ## 3. Estimate for the VU47P (arithmetic, not a result)
 
-Device capacity used for percentages (**[ASSUMPTION]**, recalled from the AMD Virtex UltraScale+
-product table and not verifiable from the sources available here; check DS923 before relying
-on the percentages): about 1.3 M LUT, 2.6 M FF, 2,160 BRAM36, 960 URAM, 9,024 DSP48E2. The
+Device capacity for the percentages below was first **assumed** from memory (about 1.3 M LUT,
+2.6 M FF, 2,160 BRAM36, 960 URAM, 9,024 DSP48E2). Vivado's own report for `xcvu47p-fsvh2892-2-e`
+later gave 1,303,680 LUT, 2,607,360 FF, **2,016** block RAM tiles, 960 URAM and 9,024 DSP; the
+BRAM figure above was wrong. The estimates in this section were written before the synthesis run
+and are kept for comparison; the measured numbers are in section 5. The
 Small Shell occupies part of the device, the amount is not stated in the HDK files read; the
 HDK text says the top SLR is fully available to the CL.
 
@@ -80,13 +83,40 @@ timing and routing are.
 | SLR crossings | all | HBM is in the bottom region, PCIS in the SLR1/top region [HDK]; the adapter's bridges and the core are not yet floorplanned. Register stages on both sides of every crossing are required [HDK]. |
 | PCIS | 250 MHz | Per-burst arbitration bounds host latency; the shell's 8 us PCIS timeout is not at risk from the core, but is not verified in hardware. |
 
-## 5. Results table (to be filled only from Vivado reports)
+## 5. Results table (filled only from Vivado reports)
 
-| Run | Tool / version | LUT | FF | BRAM36 | URAM | DSP | WNS (core / main / HBM) | Power | Status |
+| Run | Tool / version | LUT | FF | Block RAM tiles | URAM | DSP | WNS (core / main / HBM) | Power | Status |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | --- | --- | --- |
-| OOC synthesis, PCS=2, MCOLS=2 | - | - | - | - | - | - | - | - | **unavailable** |
+| OOC synthesis, `cl_otpu_core`, PCS=2, MCOLS=2, LANES=8, core 125 MHz | Vivado 2025.2 (build 6299465), `xcvu47p-fsvh2892-2-e` | 116,080 (8.90%) | 103,202 (3.96%) | 496 (24.60%) | 0 | 283 (3.14%) | +0.467 ns at the core clock (see below) | - | **measured, synthesis only** |
 | OOC place and route | - | - | - | - | - | - | - | - | **unavailable** |
 | HDK build (post-route DCP) | - | - | - | - | - | - | - | - | **unavailable** |
 
-Procedure: `f2/vivado/README.md`. The first paid step that can fill these rows is the
-out-of-context synthesis in `docs/f2-bringup.md` stage 1, subject to the owner's approval.
+Run on 2026-09-30 by the owner on an AWS FPGA Developer AMI 1.19.2 (Ubuntu 24.04), instance
+`m7a.4xlarge`, about 12 minutes of synthesis (`f2/vivado/run_ooc.sh ... pcs=2 core_ns=8.0`). Numbers
+are copied from Vivado's `utilization_synth.rpt`, `report_utilization`, `timing_synth.rpt` and
+`report_clocks` output; the raw report files were on the instance and are not in the repository.
+
+What the synthesis run says:
+
+- Block RAM tiles are 470 RAMB36 + 52 RAMB18; LUT use is 105,328 logic + 8,131 LUTRAM + 2,621
+  SRL. Largest blocks by LUT: `otpu_vpu` about 28K, `otpu_axi_dram` about 17K, `otpu_quant` about
+  17K, `otpu_mxu` about 17K, `otpu_seq` about 17K.
+- Against the Kintex-7 based estimate in section 3: LUT (116K vs 170K-190K) and FF (103K vs
+  127K-133K) came out well below it; DSP (283) is at the top of the 267-283 range; Block RAM
+  (496 tiles) is below the upstream 560-635 BRAM36.
+- Timing: clocks confirmed by `report_clocks` as `clk_core` 8.000 ns (125 MHz), `clk_main`
+  4.000 ns, `clk_hbm` 2.222 ns. Setup WNS +0.467 ns, TNS 0, 0 of 341,840 endpoints failing; hold
+  WHS +0.014 ns, 0 failing; "All user specified timing constraints are met". **This is a
+  post-synthesis result with no placement or routing delay, and is optimistic.** It is the core
+  clock domain only: the core is the only logic in the run, so the 250 MHz and 450 MHz domains
+  have no timed paths.
+- Not covered by this run: the HBM adapter (Yosys, section 2: about 6.4K LUT, 3.0K FF, which
+  would bring the total to about 122K LUT), the 450 MHz HBM-side bridge paths, the shell, SLR
+  crossings, power.
+- One critical warning (reported twice in the log's summary): `ooc_clocks.xdc:5`, an `if` that
+  XDC does not support. It was a redundant fallback for an unset `core_ns`; the clock periods
+  were verified as above, and the line is removed. The script was otherwise run unchanged on
+  first contact. Other tool warnings (412 in synthesis) have not been reviewed here.
+
+Procedure: `f2/vivado/README.md`. The next step that can fill the remaining rows is OOC place and
+route (`docs/f2-bringup.md` stage 2), subject to the owner's approval.

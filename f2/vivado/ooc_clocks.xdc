@@ -1,8 +1,8 @@
 # Clock constraints for the out-of-context runs (f2/vivado/ooc_synth.tcl).
-# UNTESTED: never run through Vivado. Periods are the ADR-0008 plan: main 250 MHz, core 125 MHz
-# (first bring-up), HBM AXI 450 MHz. ooc_synth.tcl sets $core_ns from its arguments before reading this file.
+# Run once through Vivado 2025.2 (OOC synthesis, docs/f2-resource-timing.md). Periods are the ADR-0008
+# plan: main 250 MHz, core 125 MHz (first bring-up), HBM AXI 450 MHz. ooc_synth.tcl must set $core_ns
+# from its arguments before reading this file (XDC does not support `if`, so there is no default here).
 create_clock -name clk_main -period 4.000 [get_ports clk_main]
-if {![info exists core_ns]} { set core_ns 8.000 }
 create_clock -name clk_core -period $core_ns [get_ports clk_core]
 create_clock -name clk_hbm  -period 2.222 [get_ports clk_hbm]
 
