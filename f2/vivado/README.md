@@ -35,14 +35,26 @@ the floorplan and the real clock network are absent.
 
 ## HDK build (needs AWS approval to go beyond a local build)
 
+Run on an FPGA Developer AMI instance (the AMI carries the HDK; check `ls ~/src` and record the
+commit, this repository was checked against `aws-fpga` RC 2.3.4 `b603a81`). Synthesis first, because
+it is the cheap step that finds missing modules, IP and constraint errors:
+
 ```sh
 export AWS_FPGA_REPO_DIR=/path/to/aws-fpga
-f2/vivado/setup_cl.sh
-source $AWS_FPGA_REPO_DIR/hdk_setup.sh
+f2/vivado/setup_cl.sh /usr/bin/python3                 # creates hdk/cl/examples/cl_otpu (never overwrites)
+cd $AWS_FPGA_REPO_DIR && source hdk_setup.sh           # about 2 minutes the first time
 export CL_DIR=$AWS_FPGA_REPO_DIR/hdk/cl/examples/cl_otpu
 cd $CL_DIR/build/scripts
-./aws_build_dcp_from_cl.py -c cl_otpu --aws_clk_gen --clock_recipe_a A1 --clock_recipe_hbm H2
+./aws_build_dcp_from_cl.py -c cl_otpu --aws_clk_gen --clock_recipe_a A1 --clock_recipe_hbm H2 \
+    --no-encrypt --flow SynthCL                        # synthesis only
+# then, if synthesis is clean:
+./aws_build_dcp_from_cl.py -c cl_otpu --aws_clk_gen --clock_recipe_a A1 --clock_recipe_hbm H2 \
+    --no-encrypt --flow ImplCL                         # place and route (uses the synthesis checkpoint)
 ```
+
+`--flow BuildAll` (the default) runs both. The option names are from the HDK's own
+`aws_build_dcp_from_cl.py`. `setup_cl.sh` was run once as a dry run against a scratch copy of the
+HDK (no Vivado): it created the CL directory with flat design files as expected.
 
 Submitting the resulting DCP (S3 upload, `aws ec2 create-fpga-image`) is a separate, paid,
 externally visible step: see `docs/f2-bringup.md`.
@@ -58,3 +70,13 @@ externally visible step: see `docs/f2-bringup.md`.
   `{pc[4:0], local[28:0]}` (assumption A2 in ADR-0008); confirm against the HBM IP
   configuration before the first build.
 - No ILA/VIO/virtual-JTAG debug is wired.
+- `cl_otpu.sv` connects the SDA AXI-Lite bus straight to `AWS_CLK_GEN`. The HDK's `cl_mem_perf`
+  example puts a `cl_sda_axil_xbar` in front of it (SDA BRAM at `0x0`-`0x4FFFF`, `AWS_CLK_GEN` from
+  `0x50000`), and the clock generator's registers are documented at absolute addresses from
+  `0x50000`. If `AWS_CLK_GEN` does not decode absolute addresses without the crossbar, the host's
+  clock/reset release will read garbage; the ID check in `malleable/f2/transport.py` would catch it.
+- The floorplan (`small_shell_cl_pnr_user.xdc`) is the template's; `cl_mem_perf` ships SLR pblocks.
+  Expect to need one if timing fails after place and route.
+- `aws_clk_gen.sv` instantiates `cl_axi_clock_converter_light` and five `cl_axi_register_slice_light`
+  unconditionally; `synth_cl_otpu.tcl` now reads both (an earlier version did not, found by reading
+  the HDK sources, not by a run).

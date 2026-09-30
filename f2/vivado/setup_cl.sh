@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Create an HDK CL directory for cl_otpu from this repository and a local clone of aws/aws-fpga.
 #
-# UNTESTED: never run. It only copies files into $AWS_FPGA_REPO_DIR/hdk/cl/examples/cl_otpu; it
+# Run once as a dry run against a scratch copy of the HDK (2026-09-30; no Vivado). It only copies files into $AWS_FPGA_REPO_DIR/hdk/cl/examples/cl_otpu; it
 # does not call AWS, does not start Vivado, and copies no AWS source into this repository. The
 # HDK's own wrapper (cl_mem_hbm_wrapper.sv, ASL-licensed) is copied from your clone into the
 # build directory only.
@@ -14,7 +14,7 @@
 #        --clock_recipe_a A1 --clock_recipe_hbm H2
 set -euo pipefail
 repo="$(cd "$(dirname "$0")/../.." && pwd)"
-py="${1:-python3}"
+py="$(command -v "${1:-python3}")" || { echo "python not found: ${1:-python3}" >&2; exit 2; }   # absolute: the script changes directory
 : "${AWS_FPGA_REPO_DIR:?set AWS_FPGA_REPO_DIR to a clone of aws/aws-fpga}"
 hdk="$AWS_FPGA_REPO_DIR/hdk"
 cl="$hdk/cl/examples/cl_otpu"

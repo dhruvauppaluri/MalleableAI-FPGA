@@ -48,8 +48,12 @@ the floorplan and the shell. They need the HDK build (stage 4), which has not be
 2. `export AWS_FPGA_REPO_DIR=...; f2/vivado/setup_cl.sh` (creates `cl_otpu` from the HDK's
    `CL_TEMPLATE`, overlays our files, copies the HDK's own `cl_mem_hbm_wrapper.sv`).
 3. `export CL_DIR=$AWS_FPGA_REPO_DIR/hdk/cl/examples/cl_otpu; cd $CL_DIR/build/scripts;
-   ./aws_build_dcp_from_cl.py -c cl_otpu --aws_clk_gen --clock_recipe_a A1 --clock_recipe_hbm H2`
-   (`--no-encrypt` eases debugging). The HDK examples take 30-90 minutes; this design is larger.
+   ./aws_build_dcp_from_cl.py -c cl_otpu --aws_clk_gen --clock_recipe_a A1 --clock_recipe_hbm H2
+   --no-encrypt --flow SynthCL`, then the same with `--flow ImplCL` once synthesis is clean
+   (`--flow` takes `SynthCL`, `ImplCL` or `BuildAll`, the default; `--no-encrypt` eases debugging).
+   Run synthesis first: it is the cheap step that finds missing modules, IP and constraint
+   errors. The HDK examples take 30-90 minutes in total; this design is larger. Full command
+   block and known gaps: `f2/vivado/README.md`.
 4. Artifacts: `$CL_DIR/build/checkpoints/*.Developer_CL.tar`, reports in `build/reports/`.
    Read the timing summary first. A `VIOLATED` DCP is for testing only.
 5. **Submit only with approval.** Create S3 buckets (DCP and logs), upload the tarball,

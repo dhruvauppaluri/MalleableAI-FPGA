@@ -32,11 +32,16 @@ read_ip [ list \
   $HDK_SHELL_DESIGN_DIR/../../ip/cl_ip/cl_ip.srcs/sources_1/ip/cl_clk_axil_xbar/cl_clk_axil_xbar.xci
 ]
 
-## AXI register slice IPs referenced by the HDK's HBM wrapper
+## AXI register slice / clock converter IPs referenced by the HDK's HBM wrapper and by
+## aws_clk_gen.sv. The last two are instantiated unconditionally by aws_clk_gen (five
+## cl_axi_register_slice_light, one cl_axi_clock_converter_light); a run without them cannot
+## resolve those modules. Names follow the HDK's own cl_mem_perf synthesis script.
 read_ip [ list \
   ${HDK_IP_SRC_DIR}/axi_register_slice/axi_register_slice.xci \
   ${HDK_IP_SRC_DIR}/cl_axi3_256b_reg_slice/cl_axi3_256b_reg_slice.xci \
-  ${HDK_IP_SRC_DIR}/cl_axi_clock_converter/cl_axi_clock_converter.xci
+  ${HDK_IP_SRC_DIR}/cl_axi_clock_converter/cl_axi_clock_converter.xci \
+  ${HDK_IP_SRC_DIR}/cl_axi_clock_converter_light/cl_axi_clock_converter_light.xci \
+  ${HDK_IP_SRC_DIR}/cl_axi_register_slice_light/cl_axi_register_slice_light.xci
 ]
 
 ###############################################################################
