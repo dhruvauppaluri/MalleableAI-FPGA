@@ -24,6 +24,7 @@ def main():
     p.add_argument('--limit-targets',type=int,default=16)
     p.add_argument('--run-index',type=int)
     p.add_argument('--precision-policy'); p.add_argument('--diagnostic-panel')
+    p.add_argument('--panel-selection',choices=['prefix','spread'],default='prefix')
     p.add_argument('--candidate-case'); p.add_argument('--candidate-freeze')
     p.add_argument('--depth',type=int,default=4); p.add_argument('--dtype',choices=['float16','float32'],default='float16')
     for name,default,typ in [('prompt','Hello',str),('prompt_format','chat',str),('max_new',16,int),('context',2048,int),
@@ -140,7 +141,7 @@ def main():
                 if a.split!='validation' or a.context!=128 or a.personality!='balanced' or a.wformat!='int8':
                     raise ValueError('reference diagnosis requires validation/context128/balanced/INT8')
                 from .diagnostics import diagnose_reference_rounding
-                result=diagnose_reference_rounding(a.model,a.suite,a.limit_targets,a.max_host_gib,emit=emit)
+                result=diagnose_reference_rounding(a.model,a.suite,a.limit_targets,a.max_host_gib,emit=emit,selection=a.panel_selection)
                 kind='llm-reference-rounding-diagnostic'
             elif a.command in ('quality-diagnose','quality-candidate-diagnose'):
                 from .diagnostics import diagnose

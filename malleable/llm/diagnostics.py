@@ -90,17 +90,18 @@ def _captured_qwen35(function,captured):
     return namespace[function.__name__]
 
 
-def diagnose_reference_rounding(model,suite,limit_targets=16,max_host_gib=16,emit=lambda *_:None):
+def diagnose_reference_rounding(model,suite,limit_targets=16,max_host_gib=16,emit=lambda *_:None,selection='prefix'):
     """Validation-only control; ordinary Transformers quality reference stays unchanged."""
     import numpy as np
     import torch
     from safetensors import safe_open
     from unittest.mock import patch
+    from contextlib import ExitStack
     from transformers.models.qwen3_5 import modeling_qwen3_5 as hf_module
     from .precision import make_panel,token_summary
     from opentpu.llm import load_spec
     from opentpu.llm.qwen35 import reference_logits
-    panel=make_panel(suite,limit_targets,'prefix');info=inspect(model,128)
+    panel=make_panel(suite,limit_targets,selection);info=inspect(model,128)
     if info['family']!='qwen35' or not info['supported']:raise ValueError('Qwen3.5 rounding control required')
     if 2*info['fp32_tensor_bytes']>max_host_gib*1024**3:raise ValueError('rounding control exceeds host budget')
     weights=load(model);raw_checked=0;defects=[]
@@ -114,18 +115,36 @@ def diagnose_reference_rounding(model,suite,limit_targets=16,max_host_gib=16,emi
                 if key not in weights or value.shape!=weights[key].shape or not np.array_equal(value,weights[key]):defects.append(name)
     if raw_checked!=len(weights):raise ValueError('conversion tensor count mismatch')
     original=floating_reference(model,info,weights);spec=load_spec(Path(model));rows=[];started=time.monotonic()
-    with torch.no_grad():
+    observed={};handles=[]
+    def observe(stage,index,value):
+        if isinstance(value,tuple):value=value[0]
+        observed[stage,index]=value.detach().float().numpy()[0].copy()
+    for index,layer in enumerate(original.model.layers):
+        handles.append(layer.post_attention_layernorm.register_forward_pre_hook(
+            lambda module,args,index=index:observe('attention_residual',index,args[0])))
+        handles.append(layer.register_forward_hook(lambda module,args,output,index=index:observe('mlp_residual',index,output)))
+    with ExitStack() as cleanup,torch.no_grad():
+        for handle in handles:cleanup.callback(handle.remove)
         for row in panel['rows']:
             tokens=row['tokens'];inputs=torch.tensor([tokens[:-1]])
             chunked=original(inputs).logits[0].float().numpy()
+            chunk_layers=dict(observed);observed.clear()
             with patch.object(hf_module,'torch_chunk_gated_delta_rule',hf_module.torch_recurrent_gated_delta_rule):
                 sequential=original(inputs).logits[0].float().numpy()
-            independent=reference_logits(spec,weights,tokens[:-1]);positions=row['positions']
+            sequential_layers=dict(observed);observed.clear();independent_layers={}
+            independent=_captured_qwen35(reference_logits,independent_layers)(spec,weights,tokens[:-1]);positions=row['positions']
+            layers=[]
+            for (stage,index),values in chunk_layers.items():
+                independent_values=np.stack([independent_layers[stage,index,p] for p in positions])
+                layers.append({'stage':stage,'layer':index,
+                    'independent_vs_chunked':comparison(independent_values,values[positions]),
+                    'independent_vs_sequential':comparison(independent_values,sequential_layers[stage,index][positions]),
+                    'sequential_vs_chunked':comparison(sequential_layers[stage,index][positions],values[positions])})
             rows.append({'sequence':row['sequence'],'positions':positions,
                 'independent_vs_chunked':comparison(independent[positions],chunked[positions]),
                 'independent_vs_sequential':comparison(independent[positions],sequential[positions]),
                 'sequential_vs_chunked':comparison(sequential[positions],chunked[positions]),
-                'tokens':[{'position':p,'target_token':tokens[p+1],
+                'layer_residuals':layers,'tokens':[{'position':p,'target_token':tokens[p+1],
                     **{name:token_summary(values[p],tokens[p+1]) for name,values in
                         [('chunked',chunked),('sequential',sequential),('independent',independent)]}} for p in positions]})
             emit('reference-progress',{'sequence':row['sequence'],'targets':len(positions)})
