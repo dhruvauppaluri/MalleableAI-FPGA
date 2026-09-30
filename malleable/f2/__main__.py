@@ -2,7 +2,8 @@
 
 Default mode is the software emulation: it needs no hardware, simulator or AWS access.
 `--mode hardware` needs --enable-hardware and a PCI address, refuses otherwise, and has never
-been run against a card.
+been run against a card. It first releases the AWS_CLK_GEN resets (waiting for the MMCMs to lock)
+and waits for the HBM, unless --skip-clock-reset-release is given.
 """
 from __future__ import annotations
 
@@ -36,7 +37,10 @@ def build(mode: str, personality: str, dram_bytes: int, a):
             lambda c, images: _sim(c, images, p, a)
     from .transport import F2BarTransport
     from opentpu.host.board import Board, device_config
-    t = F2BarTransport(a.bdf, enable=a.enable_hardware)
+    # the AWS_CLK_GEN resets are released first (and the HBM waited for); without that the
+    # board registers do not answer after an AFI load
+    t = F2BarTransport(a.bdf, enable=a.enable_hardware, release_resets=not a.skip_clock_reset_release,
+                       clkgen_bar=a.clkgen_bar)
     cfg = device_config(Board(t, lock=False).info())
     return cfg, t, lambda c, images: (cfg, t)
 
@@ -69,6 +73,10 @@ def main(argv=None) -> int:
     ap.add_argument("--hbm-lat", type=int, default=20, help="sim mode")
     ap.add_argument("--bdf", help="hardware mode: PCI address of the F2 slot")
     ap.add_argument("--enable-hardware", action="store_true", help="hardware mode: explicit opt-in")
+    ap.add_argument("--clkgen-bar", help="hardware mode: sysfs resource file of the AWS_CLK_GEN BAR "
+                    "(default: function 1 of --bdf, resource4; unverified)")
+    ap.add_argument("--skip-clock-reset-release", action="store_true",
+                    help="hardware mode: do not release the AWS_CLK_GEN resets (already released)")
     ap.add_argument("--json", help="write the report here")
     a = ap.parse_args(argv)
     sizes = tuple(int(x) for x in a.sizes.split(",") if x)

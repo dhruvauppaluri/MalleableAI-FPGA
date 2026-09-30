@@ -186,3 +186,119 @@ def test_loopback_over_the_rtl_model_uses_the_pcis_path():
     r = bench.loopback(t, sizes=(64, 4096, 1 << 15))
     assert r["passed"] and all(row["verified"] and "PCIS" in row["path"] for row in r["rows"])
     assert all(row["read_main_clock_cycles_simulated"] > 0 for row in r["rows"])
+
+
+# ---- AWS_CLK_GEN reset release (register model in place of the real IP; nothing here is hardware)
+class FakeClkGen:
+    """AWS_CLK_GEN as the spec describes it at load: SYS_RST asserted, MMCMs locking after a
+    number of LOCK reads. Records every write so the ordering can be checked."""
+
+    def __init__(self, avail=(1 << 1) | (1 << 8), lock_after=3, ident=T.CLKGEN_ID_VALUE, lock=0x101):
+        self.r = {T.CLKGEN_ID: ident, T.CLKGEN_VER: 0x02010000, T.CLKGEN_BLD: 0x09232223,
+                  T.CLKGEN_CLKS_AVAIL: avail, T.CLKGEN_GRST: 0, T.CLKGEN_SYSRST: 0xFFFF_FFFE, T.CLKGEN_LOCK: 0}
+        self.lock_after, self.lock_value, self.lock_reads, self.writes = lock_after, lock, 0, []
+
+    def read(self, off):
+        if off == T.CLKGEN_LOCK:
+            self.lock_reads += 1
+            return self.lock_value if self.lock_reads > self.lock_after else 0
+        return self.r[off]
+
+    def write(self, off, val):
+        self.writes.append((off, val))
+        self.r[off] = val
+
+
+def _release(dev, **kw):
+    t = [0.0]
+
+    def sleep(dt):
+        t[0] += dt
+    return T.release_clock_resets(dev.read, dev.write, sleep=sleep, now=lambda: t[0], **kw)
+
+
+def test_clkgen_lock_mask_follows_the_enabled_groups():
+    assert T.clkgen_lock_mask((1 << 1) | (1 << 8)) == 0x101          # this design: group A + HBM
+    assert T.clkgen_lock_mask(0x1FF) == 0x151                         # all four groups
+    assert T.clkgen_lock_mask(1 << 5) == 0x010                        # only group B's second clock
+    assert T.clkgen_lock_mask(0) == 0 and T.clkgen_lock_mask(1) == 0  # bit 0 (main clock) is not a group
+
+
+def test_clkgen_resets_are_released_only_after_lock():
+    dev = FakeClkGen(lock_after=5)
+    info = _release(dev)
+    assert dev.writes == [(T.CLKGEN_GRST, 0), (T.CLKGEN_SYSRST, 0)]       # global reset first, SYS_RST last
+    assert dev.lock_reads == 6 and info["lock_mask"] == 0x101 and info["clks_avail"] == 0x102
+    assert dev.r[T.CLKGEN_SYSRST] == 0 and info["version"] == 0x02010000
+    _release(dev)                                                         # safe to repeat
+    assert dev.r[T.CLKGEN_SYSRST] == 0
+
+
+def test_clkgen_lock_timeout_leaves_resets_asserted():
+    dev = FakeClkGen(lock_after=10**9)
+    with pytest.raises(TimeoutError, match="resets left asserted"):
+        _release(dev, timeout=1.0)
+    assert (T.CLKGEN_SYSRST, 0) not in dev.writes and dev.r[T.CLKGEN_SYSRST] == 0xFFFF_FFFE
+    # a partial lock is still a timeout
+    dev = FakeClkGen(lock_after=0, lock=0x001)
+    with pytest.raises(TimeoutError):
+        _release(dev, timeout=1.0)
+    assert (T.CLKGEN_SYSRST, 0) not in dev.writes
+
+
+def test_clkgen_rejects_a_bar_without_the_ip_and_writes_nothing():
+    dev = FakeClkGen(ident=0x1234)
+    with pytest.raises(RuntimeError, match="ID register"):
+        _release(dev)
+    assert dev.writes == []
+    dev = FakeClkGen(avail=0)
+    with pytest.raises(RuntimeError, match="no enabled clocks"):
+        _release(dev)
+    assert dev.writes == []
+
+
+def _clkgen_bar(tmp_path, *, lock=0x101, avail=0x102):
+    p = tmp_path / "clkgen"
+    b = bytearray(T.CLKGEN_BAR_BYTES)
+    for off, v in ((T.CLKGEN_ID, T.CLKGEN_ID_VALUE), (T.CLKGEN_CLKS_AVAIL, avail), (T.CLKGEN_LOCK, lock),
+                   (T.CLKGEN_SYSRST, 0xFFFF_FFFE)):
+        b[off:off + 4] = v.to_bytes(4, "little")
+    p.write_bytes(bytes(b))
+    return p
+
+
+def test_bar_transport_releases_resets_before_the_identity_check(tmp_path):
+    # board ID register reads 0 (not yet answering) until the HBM is ready: with the release the
+    # constructor must do clkgen -> hbm ready -> identity check, in that order
+    bar0, bar4 = _bars(tmp_path)
+    b0 = bytearray(bar0.read_bytes())
+    b0[T.F2_STATUS:T.F2_STATUS + 4] = T.F2_ST_HBM_READY.to_bytes(4, "little")
+    bar0.write_bytes(bytes(b0))
+    cg = _clkgen_bar(tmp_path)
+    t = T.F2BarTransport(enable=True, bar0=bar0, bar4=bar4, hbm_offset=0, window_bytes=1 << 16,
+                         release_resets=True, clkgen_bar=cg, ready_timeout=1.0)
+    assert t.clkgen_info["lock_mask"] == 0x101
+    t.close()
+    assert cg.read_bytes()[T.CLKGEN_SYSRST:T.CLKGEN_SYSRST + 4] == bytes(4)   # SYS_RST released
+    assert cg.read_bytes()[T.CLKGEN_GRST:T.CLKGEN_GRST + 4] == bytes(4)
+
+
+def test_bar_transport_reports_an_hbm_that_never_becomes_ready(tmp_path):
+    bar0, bar4 = _bars(tmp_path)                       # F2_STATUS stays 0: hbm_ready never set
+    with pytest.raises(TimeoutError, match="HBM not ready"):
+        T.F2BarTransport(enable=True, bar0=bar0, bar4=bar4, hbm_offset=0, window_bytes=1 << 16,
+                         release_resets=True, clkgen_bar=_clkgen_bar(tmp_path), ready_timeout=0.2)
+
+
+def test_bar_transport_default_clkgen_bar_is_function_1(tmp_path, monkeypatch):
+    bar0, bar4 = _bars(tmp_path)
+    t = T.F2BarTransport("0000:00:1d.0", enable=True, bar0=bar0, bar4=bar4, hbm_offset=0,
+                         window_bytes=1 << 16)
+    assert str(t.clkgen_bar) == "/sys/bus/pci/devices/0000:00:1d.1/resource4"   # an unverified assumption
+    t.close()
+
+
+def test_cli_hardware_mode_still_refuses_without_the_opt_in(monkeypatch):
+    monkeypatch.delenv(T.HARDWARE_ENV, raising=False)
+    assert cli_main(["loopback", "--mode", "hardware", "--bdf", "0000:00:1d.0",
+                     "--clkgen-bar", "/nonexistent"]) == 2
