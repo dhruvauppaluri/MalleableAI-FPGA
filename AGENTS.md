@@ -1,5 +1,36 @@
 # Agent guidance
 
+## Current handoff: Qwen3.5 reference fixed; raw INT8 pilot passes
+
+Codex fixed a confirmed quality-reference defect in ba9a988: constructing the
+Qwen3.5 Transformers text tower on the meta device did not restore non-persistent
+rotary-frequency buffers from checkpoint weights. Rebuild the rotary embedding
+from the unchanged configuration after assigning checkpoint tensors. The position
+IDs were correct, but observed sine tables were effectively zero. No ISA/RTL,
+matrix/head precision, checkpoint, suite or threshold was changed.
+Qwen3.5 reference cache contract is now original-local-safetensors-qwen35-rope-restored-v2;
+old Qwen3.5 cache entries must not be reused. Qwen3 and LFM identities are unchanged.
+Historical Qwen3.5 78.125% quality and reference-divergence records remain preserved
+but used a defective reference and do not describe corrected-reference acceptance.
+
+qwen35-corrected-int8-pilot-01 completed in 329.55 seconds on clean ba9a988:
+128 frozen spread-validation targets with complete causal prefixes, raw INT8
+matrices/head, balanced emulation: 125/128 = 97.65625% agreement; NLL -0.19908%.
+Independent FP32 vs corrected Transformers: 128/128 top tokens, relative L2
+1.08e-6 to 1.61e-6. This is diagnostic emulation evidence, NOT actual-ISA or RTL
+acceptance. Fourteen focused reference/Qwen3.5 regressions passed before dispatch.
+Evidence is under continuation-20260930/qwen35-corrected-int8-pilot-01 (result,
+checksummed summary, job/source/PID, runner and fresh reference store). The preceding
+qwen35-rope-localization-01 preserves bad-table and matched-input rotation evidence.
+
+No job is running. User was asked to select the next actual-ISA batch mode;
+do not revive the revoked Overnight window. Next: short corrected-reference actual
+ISA pilot for timing, then unchanged 1024-target full validation of RAW INT8. If
+full validation passes, freeze source/config/reference design and perform the
+untouched held-out split once via persistent registry, then eight-token full RTL.
+Do not launch calibration or precision redesign unless corrected ISA evidence
+requires it. Never repeat completed Qwen3/LFM held-out or LFM benchmarks.
+
 ## Latest completed Interactive probe — Qwen3.5 attention
 
 User authorized one short attention diagnostic with “go for it”. Codex completed
