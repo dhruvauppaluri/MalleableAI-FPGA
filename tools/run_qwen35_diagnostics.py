@@ -4,6 +4,7 @@ from datetime import datetime,timezone
 import fcntl
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -83,7 +84,11 @@ def attempt(name,command,panel,control,frozen,unit):
 
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--phase',choices=['alignment','attribution'],required=True)
-    parser.add_argument('--unit',required=True);args=parser.parse_args();os.chdir(ROOT)
+    parser.add_argument('--unit',required=True)
+    parser.add_argument('--alignment-attempt',default='qwen35-alignment-01')
+    args=parser.parse_args();os.chdir(ROOT)
+    if not re.fullmatch(r'qwen35-alignment-[0-9]{2}',args.alignment_attempt):
+        raise ValueError('alignment attempt must be a fresh numbered alignment directory')
     suite=ROOT/'build/models/quality/qwen35-frozen-v2.json'
     with (ROOT/'build/zephyrus-jobs/precision-attribution.lock').open('a') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
@@ -102,10 +107,10 @@ def main():
             '--max-host-gib','16','--store',str(CONTINUATION/'diagnostic-store')]
         if args.phase=='alignment':
             panel=make_panel(suite,16,'prefix');control=window()
-            attempt('qwen35-alignment-01',common+['quality-diagnose',*settings,'--limit-targets','16'],
+            attempt(args.alignment_attempt,common+['quality-diagnose',*settings,'--limit-targets','16'],
                 panel,control,frozen,args.unit)
             return
-        alignment=json.loads((CONTINUATION/'qwen35-alignment-01/result.json').read_text())
+        alignment=json.loads((CONTINUATION/args.alignment_attempt/'result.json').read_text())
         if alignment.get('float_reference_agreement')!=1 or alignment.get('conversion',{}).get('mismatches'):
             raise ValueError('resolve floating-reference/conversion alignment before quantization attribution')
         panel=make_panel(suite,128,'spread');control=window()

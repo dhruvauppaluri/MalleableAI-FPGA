@@ -13,13 +13,13 @@ LFM benchmark indices pass. Qwen3.5 validation fails at 78.125%; held-out untouc
 Do not repeat completed Qwen3/LFM balanced held-out or LFM benchmark jobs.
 
 Codex owns the current safeguard implementation. No release unit/PID is active.
-The user authorized one new eight-hour Overnight window; it has NOT started.
-Start its fixed deadline with the first new checkpoint dispatch AFTER the five
-safeguards and diagnostic controls pass focused tests. Persist the deadline at
+The authorized eight-hour Overnight window started 2026-09-30T19:14:51Z. Fixed dispatch deadline: 2026-10-01T03:14:51Z (September 30, 8:14:51 PM Pacific).
+The five safeguards passed before that first checkpoint dispatch. Reuse the fixed deadline for all subsequent jobs;
+the persisted control is at
 `build/zephyrus-jobs/release/20260928T223413Z-b463e746/continuation-20260930/control.json`.
 Implemented safeguards (pending final commit): derived benchmark lineage, hybrid draft binding, persistent held-out
 consumption, complete freeze validation, and benchmark failure/deadline status.
-Five safeguard fixes passed 98 focused tests; another 31 diagnostic/deadline tests passed. Existing Qwen3/LFM held-out were verified and registered as consumed, without inference. New freeze v2 supports raw/derived; existing v1 remains checked. Ten Qwen3.5 emulator controls preserve baseline; site map is docs/qwen35-diagnostic-site-map.md. Next: commit clean source and launch tools/run_qwen35_diagnostics.py --phase alignment --unit malleable-release-20260930-alignment.service; then inspect its result before attribution. INT8 matrices/head retained.
+Five safeguard fixes passed 98 focused tests; another 31 diagnostic/deadline tests passed. Existing Qwen3/LFM held-out were verified and registered as consumed, without inference. New freeze v2 supports raw/derived; existing v1 remains checked. Ten Qwen3.5 emulator controls preserve baseline; site map is docs/qwen35-diagnostic-site-map.md. Attempt qwen35-alignment-01 was interrupted by WSL shutdown at 19:15:00Z, with no results; all files and failure-interruption.json preserved. WSL keeper Windows PID 34304/Linux PID 276 now holds a foreground connection; power helper Windows PID 35824 verified active after a monitoring interval. Next: commit retry support and launch qwen35-alignment-02 using --alignment-attempt qwen35-alignment-02; inspect results before attribution. Never reset the deadline. INT8 matrices/head retained.
 Older entries below are historical and cannot override this authorization/status.
 
 ## Historical progress
