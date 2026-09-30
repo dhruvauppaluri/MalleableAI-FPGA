@@ -325,6 +325,21 @@ Comparison evidence for regenerated runs (per-step trace hashes/cycles) is track
 and LFM2.5 have validation, held-out and eight-token RTL; Qwen3.5 fails raw validation (78.125%), so the
 standalone `release-check` cannot pass until Qwen3.5 has a passing candidate. Next: performance suite.
 
+### LFM2.5-230M indexed performance suite (2026-09-29, Cursor local)
+
+Unit `malleable-perf-lfm2-01` (driver `tools/run_performance_indices.py`, exit 0 after index 9):
+**10/10 verified** `llm-benchmark-attempt` records, all `validate_benchmark_result` checks passed, zero failures.
+Manifest `release/perf/lfm2-performance-manifest.json` id (sha256)
+`3b76747d715b0d10038a1502bb3938dffccbdf23eb5e64912d8bce60f96ba1ba` (seed 42, 8 INT8 personality/workload
+comparisons + 2 INT8 AXI stress; INT4/FP4 not validated). Aggregated `llm-benchmark-suite` record id
+`8486833b35eeba0ef1ccef4098df5e07360b6ccdb594dcd7eedceae59eae8f52`, store
+`release/perf/lfm2-01/store/research/`, logs `release/perf/lfm2-01/driver.log` and `indices.log`.
+Per-index driver wall seconds: 404, 404, 949, 434, 557, 661, 1446, 671, 620, 1346 (~7.5 h serialized).
+Per-index summed RTL cycles: 14214874, 14091076, 14058280, 14074618, 23696663, 23491003, 23430444,
+23460308, 26196184, 26177717 (total 202,891,167). Read-only parallelization notes:
+`release/perf/lfm2-01/findings-20260929T230500Z.md`. Qwen3/Qwen3.5 performance manifests not started
+(Qwen3 needs `candidate_case` in manifest creator; Qwen3.5 needs passing quality/candidate).
+
 ## Done
 
 - Signed INT8 MAC with signed INT32 accumulation and explicit overflow
@@ -340,7 +355,7 @@ standalone `release-check` cannot pass until Qwen3.5 has a passing candidate. Ne
 
 | Status | Owner | Item | Notes |
 | --- | --- | --- | --- |
-| in progress | Cursor (local, Zephyrus) | Qwen3 quality recovery and precision attribution | Qwen3 a0.5-cnone PASSED full ISA validation (94.04%) and its single frozen held-out (94.14%, NLL -0.21%); integration done (ADR-0007). Remaining: full-RTL acceptance, Qwen3.5/LFM candidates, performance/controller/workbench/CUDA/final release checks. Shared dispatch deadline 2026-09-30T01:03:40Z. |
+| in progress | Cursor (local, Zephyrus) | Qwen3 quality recovery and precision attribution | Qwen3 candidate + LFM2.5 standalone gates (validation/held-out/RTL8 + 10-run perf) done; tiny RTL + trace-hash evidence in docs/evidence/. Qwen3.5 raw validation FAIL 78.125%; no candidate path yet. Remaining: Qwen3/Qwen3.5 perf (20 runs), controller/predictor episodes, workbench/browser, final verify-llm/release-check. No new heavy jobs after 2026-09-30T01:03:40Z unless user extends. |
 | open | Codex | Zephyrus release completion implementation | Infrastructure verified at b1f2d3f; measured model release remains blocked. Resume after quality recovery. |
 | done | Codex | Bit-accurate dense golden model and tiny-network cross-check | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/model.py`. Framework calibration remains separate. |
 | done | Codex | Versioned dense model descriptor and exported test vectors | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/records.py` and generated RTL benches. |
