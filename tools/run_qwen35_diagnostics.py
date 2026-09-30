@@ -28,6 +28,8 @@ def source():
         'status':subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True)}
 
 def window():
+    from malleable.llm.continuation import current_mode
+    if current_mode().get('mode')!='overnight':raise ValueError('Overnight authorization was superseded by Interactive mode')
     CONTINUATION.mkdir(parents=True,exist_ok=True);path=CONTINUATION/'control.json'
     if not path.exists():
         started=time.time()

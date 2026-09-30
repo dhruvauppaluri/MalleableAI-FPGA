@@ -1,5 +1,28 @@
 # Status
 
+## Current mode override — Interactive (2026-09-30)
+
+The user's latest instruction supersedes the eight-hour Overnight authorization.
+One bounded Interactive analysis completed; no further checkpoint dispatch is
+authorized by the old window. Select a new run mode in chat before the next batch.
+The original control/deadline remains historical, with an append-only Interactive
+override in continuation-20260930/mode-overrides. Never restart the Overnight loop.
+
+The saved 128-target reference-spread run completed on source 61ac769 in 50.37s.
+Independent floating/reference top-token agreement is 119/128 (92.97%); this is
+diagnostic evidence, not INT8 acceptance. Interactive analysis verified its hash
+and found the first residual error above 0.1% at layer 3's attention output in
+all eight sequences. Earlier relative L2 error is about 1e-6; layer 3 is 6.3–9.1%.
+This localizes the discrepancy but does not establish its cause.
+
+Evidence: build/zephyrus-jobs/release/20260928T223413Z-b463e746/continuation-20260930/
+interactive-localization-audit-20260930T223446Z/result.json.
+No new inference or held-out evaluation was performed by this Interactive audit.
+Next: instrument the first full-attention layer's q/k normalization, RoPE, scores,
+and attention outputs with matched inputs before attributing loss to quantization.
+Qwen3.5 full INT8 validation remains 78.125%; release acceptance stays blocked.
+No release worker is active. All older run authorizations below are historical.
+
 Handoff for Cursor, Codex, and Claude. Update this before ending a session.
 
 Last updated: 2026-09-30. Any of Cursor, Codex, or Claude may claim any `open` row.
