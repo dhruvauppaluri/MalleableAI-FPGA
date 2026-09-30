@@ -58,10 +58,18 @@ the floorplan and the shell. They need the HDK build (stage 4), which has not be
 6. On the F2 instance: `sudo fpga-load-local-image -S 0 -I <agfi-id>`,
    `sudo fpga-describe-local-image -S 0`.
 7. **Clock/reset release.** Because the design instantiates `AWS_CLK_GEN`, the runtime software
-   must release the generated resets after the MMCMs lock (`aws_clkgen_deassert_resets(slot)`
-   from the SDK; poll `MMCM_LOCK_REG` for `0x151`) before the HBM AXI domain leaves reset
-   [HDK, AWS_CLK_GEN spec]. Until then `F2_STATUS.hbm_ready` reads 0 and board registers
-   answer SLVERR/`0xDEADBEEF`. Add this step to the host bring-up script before stage 5.
+   must release the generated resets after the MMCMs lock (the SDK's
+   `aws_clkgen_deassert_resets(slot)`) before the HBM AXI domain leaves reset
+   [HDK, AWS_CLK_GEN spec]. The lock bits to wait for come from `CLKS_AVAIL`: this design enables
+   clock group A and the HBM clock, so the mask is **`0x101`** (an earlier revision of this file
+   said `0x151`, which is the mask when all four groups are enabled). Until the release,
+   `F2_STATUS.hbm_ready` reads 0 and board registers answer SLVERR/`0xDEADBEEF`.
+   `malleable.f2` now does this first in hardware mode (`F2BarTransport(release_resets=True)`,
+   `--skip-clock-reset-release` to omit): it checks the AWS_CLK_GEN ID, clears the global reset,
+   waits for the lock mask, clears `SYS_RST`, then waits for `hbm_ready` and only then checks the
+   identity registers. Written from the spec's register map and tested against a register model
+   only; **UNTESTED on hardware**, and the location of AWS_CLK_GEN (PF1 BAR4, here assumed to be
+   function 1 of the same PCI address) is taken from the SDK header and unverified.
 8. Teardown: stop or terminate the instance; delete the buckets/AFIs you no longer need.
 
 ## Cost estimate (formulas; assumptions, not quotes)
@@ -115,8 +123,8 @@ These are reading and lint checks against the real HDK files; none of them is a 
 | Port names of `cl_mem_hbm_wrapper` and `aws_clk_gen` used by `f2/hdk/cl_otpu.sv` | Scripted check against the real module declarations: every connection names a real port or parameter, and every real port is connected (0 mismatches; the parser's 9 false alarms were interface/parameter names, checked by hand). Port *widths* and directions are covered only by the lint below, which still stubs these two modules. |
 | `make lint-f2-hdk` with the real `cl_ports.vh` / `cl_id_defines.vh` | Runs without errors (Verilator 5.050, `-Wno-fatal` with the warning classes listed in the Makefile). The two HDK modules remain stubs, so this is not a check of the real IP. |
 | Clock recipes | `Clock_Recipes_User_Guide.md`: **A1** = `clk_main_a0` 250 MHz, `clk_extra_a1` 125 MHz; **H2** = `clk_hbm_axi` 450 MHz. Both match ADR-0008. `aws_build_dcp_from_cl.py` has `--aws_clk_gen`, `--clock_recipe_a`, `--clock_recipe_b`, `--clock_recipe_c`, `--clock_recipe_hbm` (the build command in this file uses `--aws_clk_gen --clock_recipe_a A1 --clock_recipe_hbm H2`). |
-| Reset release | `AWS_CLK_GEN_spec.md`: with `AWS_CLK_GEN` instantiated, runtime software must call `aws_clkgen_deassert_resets(slot_id)` (`sdk/userspace/include/fpga_clkgen.h`) after AFI load. Step 7 of the AFI steps above already requires it; it is **not yet in the host bring-up script** (`malleable/f2/transport.py` has no such call). |
+| Reset release | `AWS_CLK_GEN_spec.md`: with `AWS_CLK_GEN` instantiated, runtime software must wait for MMCM lock and then clear `SYS_RST` after AFI load (the SDK does this in `aws_clkgen_deassert_resets`). Lock mask derived from `CLKS_AVAIL` (SDK's `fpga_clkgen_mmcm.c`): group A bit 0, B bit 4, C bit 6, HBM bit 8, so **0x101 for this design**. Now implemented in `malleable/f2/transport.py` (see step 7 above); not run on a card. |
 | A9: PCIe IDs | `CL_TEMPLATE/design/cl_id_defines.vh`: `CL_SH_ID0 = 32'hF010_1D0F`, `CL_SH_ID1 = 32'h1D51_FEDC`, as assumed. Whether AWS accepts them for a private AFI is decided at AFI creation. |
 
-Open after these checks: the host-side reset release is missing from the bring-up script, and the
-first real HDK build (stage 4) is the next thing that can fail.
+Open after these checks: the first real HDK build (stage 4) is the next thing that can fail, and
+the hardware transport, including the reset release, has never run against a card.
