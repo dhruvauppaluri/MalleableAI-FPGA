@@ -9,7 +9,7 @@ import time
 
 from ..records import identity
 from .diagnostics import comparison
-from .quality import frozen_suite, floating_reference
+from .quality import frozen_suite, floating_reference, reference_contract
 from .models import inspect, load, digest
 
 GROUPS=('transformer_weights','projection_inputs','key_cache','value_cache',
@@ -235,7 +235,7 @@ def diagnose_precision(model,suite,policy,panel,reference_root,max_host_gib=16,e
     provenance={'base_model_id':info['base_model_id'],'tokenizer_id':info['tokenizer_id'],
         'weight_files':info['weight_files'],'panel_id':identity(panel),'torch':torch.__version__,
         'transformers':transformers.__version__,'dtype':'float32','attention':'eager',
-        'contract':'original-local-safetensors-teacher-forced-v1'}
+        'contract':reference_contract(info)}
     ref_id=identity(provenance); store=Store(reference_root); started=time.monotonic()
     try:
         cached=next((r for r in store.records('llm-precision-reference') if r['reference_id']==ref_id),None)

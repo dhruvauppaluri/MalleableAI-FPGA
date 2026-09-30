@@ -1,5 +1,13 @@
 # Status
 
+Current repair: Codex restored Qwen3.5 non-persistent rotary buffers after meta
+initialization and versioned its reference cache. Fourteen focused tests pass.
+Historical Qwen3.5 quality scores used an invalid reference and are preserved,
+but cannot establish current acceptance. Qwen3/LFM are unaffected. Next is a
+128-target corrected-reference/INT8 validation diagnostic in Interactive mode.
+Held-out remains untouched. No thresholds, matrices, head or ISA/RTL changed.
+
+
 ## Latest completed Interactive probe — Qwen3.5 attention
 
 User authorized one short attention diagnostic with “go for it”. Codex completed

@@ -60,6 +60,10 @@ def frozen_suite(path):
         raise ValueError('quality suite must be frozen before configuration search')
     return data,hashes
 
+def reference_contract(info):
+    return ('original-local-safetensors-qwen35-rope-restored-v2' if info['family']=='qwen35'
+            else 'original-local-safetensors-teacher-forced-v1')
+
 def floating_reference(model,info,weights):
     """Load only Qwen3.5's text tower; never initialize/download vision code."""
     import torch
@@ -77,6 +81,10 @@ def floating_reference(model,info,weights):
         tensors['lm_head.weight']=tensors['model.embed_tokens.weight']
     original.load_state_dict(tensors,strict=True,assign=True)
     original.tie_weights()
+    # Non-persistent RoPE buffers are absent from state_dict. Meta construction
+    # cannot supply their numeric contents; rebuild using the original config.
+    from transformers.models.qwen3_5.modeling_qwen3_5 import Qwen3_5TextRotaryEmbedding
+    original.model.rotary_emb = Qwen3_5TextRotaryEmbedding(config)
     return original.eval()
 
 def evaluate(model,path,wformat='int8',split='validation',personality='balanced',max_host_gib=12,
@@ -126,7 +134,7 @@ def evaluate(model,path,wformat='int8',split='validation',personality='balanced'
     provenance=dict(schema_version=1,base_model_id=info['base_model_id'],tokenizer_id=info['tokenizer_id'],
         suite_file_hash=digest(path),split=split,split_hash=hashes[split],dtype='float32',attention='eager',
         torch=torch.__version__,transformers=transformers.__version__,python=platform.python_version(),
-        contract='original-local-safetensors-teacher-forced-v1')
+        contract=reference_contract(info))
     reference_id=identity(provenance)
     cache=Store(cache_root or Path(path).parent/'floating-references')
     try:
