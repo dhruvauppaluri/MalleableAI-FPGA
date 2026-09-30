@@ -26,3 +26,12 @@ any later calibration transformation. Never scale recurrence/gates blindly.
 Local operator comparisons retain at most the first 4096 flattened elements per
 operator/token/layer, explicitly labeled samples. Output losses/top-token margins
 and conversion checks use complete tensors/logits. Hooks preserve reference math.
+
+The first real 16-target result had identical top tokens but a 2.082% relative
+floating-logit difference. `quality-reference-diagnose` compares the unchanged
+original Transformers chunked FP32 reference with a diagnostic-only replacement
+using Transformers' existing sequential FP32 DeltaNet helper, and the pinned
+independent FP32 reference. It also checks converted tensors directly against
+original Safetensors files. This control neither changes ordinary quality
+evaluation nor supplies selectable/release evidence. Do not assume that any
+remaining difference is quantization error; preserve and localize it first.

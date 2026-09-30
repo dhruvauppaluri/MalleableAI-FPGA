@@ -90,6 +90,55 @@ def _captured_qwen35(function,captured):
     return namespace[function.__name__]
 
 
+def diagnose_reference_rounding(model,suite,limit_targets=16,max_host_gib=16,emit=lambda *_:None):
+    """Validation-only control; ordinary Transformers quality reference stays unchanged."""
+    import numpy as np
+    import torch
+    from safetensors import safe_open
+    from unittest.mock import patch
+    from transformers.models.qwen3_5 import modeling_qwen3_5 as hf_module
+    from .precision import make_panel,token_summary
+    from opentpu.llm import load_spec
+    from opentpu.llm.qwen35 import reference_logits
+    panel=make_panel(suite,limit_targets,'prefix');info=inspect(model,128)
+    if info['family']!='qwen35' or not info['supported']:raise ValueError('Qwen3.5 rounding control required')
+    if 2*info['fp32_tensor_bytes']>max_host_gib*1024**3:raise ValueError('rounding control exceeds host budget')
+    weights=load(model);raw_checked=0;defects=[]
+    # Independent file-to-converted-tensor check, not only assigned HF state.
+    for file in info['weight_files']:
+        with safe_open(str(Path(model)/file),framework='pt',device='cpu') as tensors:
+            for name in tensors.keys():
+                if name.startswith(('model.visual.','mtp.')):continue
+                key=name.replace('model.language_model.','model.',1)
+                value=tensors.get_tensor(name).float().numpy();raw_checked+=1
+                if key not in weights or value.shape!=weights[key].shape or not np.array_equal(value,weights[key]):defects.append(name)
+    if raw_checked!=len(weights):raise ValueError('conversion tensor count mismatch')
+    original=floating_reference(model,info,weights);spec=load_spec(Path(model));rows=[];started=time.monotonic()
+    with torch.no_grad():
+        for row in panel['rows']:
+            tokens=row['tokens'];inputs=torch.tensor([tokens[:-1]])
+            chunked=original(inputs).logits[0].float().numpy()
+            with patch.object(hf_module,'torch_chunk_gated_delta_rule',hf_module.torch_recurrent_gated_delta_rule):
+                sequential=original(inputs).logits[0].float().numpy()
+            independent=reference_logits(spec,weights,tokens[:-1]);positions=row['positions']
+            rows.append({'sequence':row['sequence'],'positions':positions,
+                'independent_vs_chunked':comparison(independent[positions],chunked[positions]),
+                'independent_vs_sequential':comparison(independent[positions],sequential[positions]),
+                'sequential_vs_chunked':comparison(sequential[positions],chunked[positions]),
+                'tokens':[{'position':p,'target_token':tokens[p+1],
+                    **{name:token_summary(values[p],tokens[p+1]) for name,values in
+                        [('chunked',chunked),('sequential',sequential),('independent',independent)]}} for p in positions]})
+            emit('reference-progress',{'sequence':row['sequence'],'targets':len(positions)})
+    return {'schema_version':1,'kind':'qwen35-reference-rounding-diagnostic','split':'validation',
+        'release_evidence':False,'selectable':False,'panel':panel,'panel_id':identity(panel),
+        'base_model_id':info['base_model_id'],'tokenizer_id':info['tokenizer_id'],
+        'conversion':{'raw_tensors_checked':raw_checked,'mismatches':defects},'rows':rows,
+        'elapsed_seconds':time.monotonic()-started,'reference_unchanged':True,
+        'control':'replace only diagnostic HF chunked DeltaNet with its existing sequential FP32 helper',
+        'helper_source_sha256':identity({'chunked':python_inspect.getsource(hf_module.torch_chunk_gated_delta_rule),
+            'sequential':python_inspect.getsource(hf_module.torch_recurrent_gated_delta_rule)})}
+
+
 def diagnose(model, suite, limit_targets=16, personality='balanced', wformat='int8',
              context=128, split='validation', max_host_gib=16, emit=lambda *_: None,candidate_case=None):
     if split != 'validation': raise ValueError('diagnostics are validation-only; held-out is never a search input')

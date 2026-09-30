@@ -10,7 +10,7 @@ def emit(kind,payload):
 
 def main():
     p=argparse.ArgumentParser()
-    p.add_argument('command',choices=['analyze','generate','benchmark','quality','quality-candidate-validate','quality-candidate-diagnose','quality-diagnose','quality-precision-diagnose','optimize',
+    p.add_argument('command',choices=['analyze','generate','benchmark','quality','quality-candidate-validate','quality-candidate-diagnose','quality-diagnose','quality-reference-diagnose','quality-precision-diagnose','optimize',
         'train','evaluate','promote','rollback','predictor-train','predictor-evaluate',
         'release-check','full-release-check','gpu-generate','hybrid-generate','performance-suite'])
     p.add_argument('--model'); p.add_argument('--verifier'); p.add_argument('--store',default='build/llm-runs')
@@ -126,7 +126,7 @@ def main():
                 key=store.save(kind,result); emit('result',dict(result,record_id=key)); return
             finally: store.close()
         if not a.model: raise ValueError('--model is required')
-        if a.command in ('quality','quality-candidate-validate','quality-candidate-diagnose','quality-diagnose','quality-precision-diagnose'):
+        if a.command in ('quality','quality-candidate-validate','quality-candidate-diagnose','quality-diagnose','quality-reference-diagnose','quality-precision-diagnose'):
             from ..store import Store
             if a.command in ('quality','quality-candidate-validate'):
                 from .quality import evaluate
@@ -136,6 +136,12 @@ def main():
                     candidate_case=a.candidate_case if a.command=='quality-candidate-validate' else None,
                     candidate_freeze=a.candidate_freeze)
                 kind=('llm-quality' if a.candidate_freeze else 'llm-candidate-validation') if a.command=='quality-candidate-validate' else 'llm-quality'
+            elif a.command=='quality-reference-diagnose':
+                if a.split!='validation' or a.context!=128 or a.personality!='balanced' or a.wformat!='int8':
+                    raise ValueError('reference diagnosis requires validation/context128/balanced/INT8')
+                from .diagnostics import diagnose_reference_rounding
+                result=diagnose_reference_rounding(a.model,a.suite,a.limit_targets,a.max_host_gib,emit=emit)
+                kind='llm-reference-rounding-diagnostic'
             elif a.command in ('quality-diagnose','quality-candidate-diagnose'):
                 from .diagnostics import diagnose
                 if a.command=='quality-candidate-diagnose' and not a.candidate_case:

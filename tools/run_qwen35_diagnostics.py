@@ -83,7 +83,7 @@ def attempt(name,command,panel,control,frozen,unit):
     return True
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--phase',choices=['alignment','attribution'],required=True)
+    parser=argparse.ArgumentParser();parser.add_argument('--phase',choices=['alignment','reference-rounding','attribution'],required=True)
     parser.add_argument('--unit',required=True)
     parser.add_argument('--alignment-attempt',default='qwen35-alignment-01')
     args=parser.parse_args();os.chdir(ROOT)
@@ -98,7 +98,7 @@ def main():
         available=next(int(line.split()[1])*1024 for line in Path('/proc/meminfo').read_text().splitlines()
             if line.startswith('MemAvailable:'))
         required=(3*info['fp32_tensor_bytes']+3*info['personalities']['balanced']['config']['DRAM_BYTES']
-            if args.phase=='alignment' else 4*info['fp32_tensor_bytes'])
+            if args.phase=='alignment' else (2 if args.phase=='reference-rounding' else 4)*info['fp32_tensor_bytes'])
         if not info['supported'] or required>min(16*1024**3,available):
             raise ValueError('Qwen3.5 supported-model/memory preflight failed before dispatch')
         common=[sys.executable,'-u','-m','malleable.llm.cli']
@@ -108,6 +108,11 @@ def main():
         if args.phase=='alignment':
             panel=make_panel(suite,16,'prefix');control=window()
             attempt(args.alignment_attempt,common+['quality-diagnose',*settings,'--limit-targets','16'],
+                panel,control,frozen,args.unit)
+            return
+        if args.phase=='reference-rounding':
+            panel=make_panel(suite,16,'prefix');control=window()
+            attempt('qwen35-reference-rounding-01',common+['quality-reference-diagnose',*settings,'--limit-targets','16'],
                 panel,control,frozen,args.unit)
             return
         alignment=json.loads((CONTINUATION/args.alignment_attempt/'result.json').read_text())
