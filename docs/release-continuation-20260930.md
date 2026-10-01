@@ -1,5 +1,26 @@
 # Finish the Zephyrus release and preserve a complete Cursor/Claude handoff
 
+## Current milestone — standalone schema-v3 PASSED (2026-09-30)
+
+The standalone release-check passes for Qwen3-0.6B, Qwen3.5-0.8B and LFM2.5-230M.
+See docs/standalone-acceptance-20260930.md for the reviewed evidence and remaining
+scope. Manifest: build/zephyrus-jobs/release/20260928T223413Z-b463e746/standalone-v3-20260930-01/standalone-v3.json
+SHA256: 23f51698475d75850bdfcd8222fe87c866b55e76986b7ec3b782b30b752a2118
+All models retain context128, balanced INT8 matrices/head and unchanged gates.
+Held-out agreement: Qwen3 94.14%, Qwen3.5 95.51%, LFM 95.41%. Each produced exactly
+eight full-RTL tokens with bit-exact DRAM/TMEM checking. Verified 143 trace hashes,
+including the 100-token synthetic run. No model or held-out evaluations repeated.
+
+No worker is active. Old failed/missing-Verilator attempt is preserved; the RTL-only
+retry passed with /home/dhruv/.local/bin on PATH. Include that PATH in future RTL
+systemd units. Original Overnight authorization remains revoked; select a run mode
+before another heavy batch. Do not rerun consumed held-out data or LFM benchmarks.
+Next: complete the remaining Qwen3/Qwen3.5 indexed benchmarks, predictor/controller
+evidence, current-source browser acceptance, actual matched CUDA/hybrid evidence,
+then final-source verification and full-release schema-v2 checks/reviews. Standalone
+schema v3 passing does NOT establish full-release schema v2 or physical FPGA success.
+Older entries below are historical and do not override this milestone.
+
 ## Authorized full Qwen3.5 acceptance batch
 
 Latest user instruction: "go for full acceptance". This authorizes one finite

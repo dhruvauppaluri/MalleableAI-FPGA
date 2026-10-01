@@ -1,5 +1,26 @@
 # Status
 
+## Current milestone — standalone schema-v3 PASSED (2026-09-30)
+
+The standalone release-check passes for Qwen3-0.6B, Qwen3.5-0.8B and LFM2.5-230M.
+See docs/standalone-acceptance-20260930.md for the reviewed evidence and remaining
+scope. Manifest: build/zephyrus-jobs/release/20260928T223413Z-b463e746/standalone-v3-20260930-01/standalone-v3.json
+SHA256: 23f51698475d75850bdfcd8222fe87c866b55e76986b7ec3b782b30b752a2118
+All models retain context128, balanced INT8 matrices/head and unchanged gates.
+Held-out agreement: Qwen3 94.14%, Qwen3.5 95.51%, LFM 95.41%. Each produced exactly
+eight full-RTL tokens with bit-exact DRAM/TMEM checking. Verified 143 trace hashes,
+including the 100-token synthetic run. No model or held-out evaluations repeated.
+
+No worker is active. Old failed/missing-Verilator attempt is preserved; the RTL-only
+retry passed with /home/dhruv/.local/bin on PATH. Include that PATH in future RTL
+systemd units. Original Overnight authorization remains revoked; select a run mode
+before another heavy batch. Do not rerun consumed held-out data or LFM benchmarks.
+Next: complete the remaining Qwen3/Qwen3.5 indexed benchmarks, predictor/controller
+evidence, current-source browser acceptance, actual matched CUDA/hybrid evidence,
+then final-source verification and full-release schema-v2 checks/reviews. Standalone
+schema v3 passing does NOT establish full-release schema v2 or physical FPGA success.
+Older entries below are historical and do not override this milestone.
+
 ## Authorized full Qwen3.5 acceptance batch
 
 Latest user instruction: "go for full acceptance". This authorizes one finite
@@ -487,7 +508,7 @@ Per-index summed RTL cycles: 14214874, 14091076, 14058280, 14074618, 23696663, 2
 | Status | Owner | Item | Notes |
 | --- | --- | --- | --- |
 | done | Cursor (local, Zephyrus) | Qwen3 quality recovery and precision attribution | Qwen3 candidate + LFM2.5 standalone gates (validation/held-out/RTL8 + 10-run perf) done; tiny RTL + trace-hash evidence in docs/evidence/. Qwen3.5 raw validation FAIL 78.125%; no candidate path yet. Remaining: Qwen3/Qwen3.5 perf (20 runs), controller/predictor episodes, workbench/browser, final verify-llm/release-check. No new heavy jobs after 2026-09-30T01:03:40Z unless user extends. |
-| in progress | Codex | Zephyrus release completion implementation | Authoritative 2026-09-30 plan: fix five safeguards before new Qwen3.5 diagnostics; new eight-hour window not started. |
+| in progress | Codex | Zephyrus release completion implementation | Standalone schema-v3 passed; five safeguards fixed and all three models accepted. Remaining: performance/controller/browser/CUDA/full-release evidence. No active job; choose next heavy-batch mode. |
 | done | Codex | Bit-accurate dense golden model and tiny-network cross-check | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/model.py`. Framework calibration remains separate. |
 | done | Codex | Versioned dense model descriptor and exported test vectors | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/records.py` and generated RTL benches. |
 | open | | Extend Cyclone V Quartus projects to `malleable_accelerator_top` and record real resource and timing results | Needs Quartus Prime Lite. Current projects are `quartus/int8_mac` and `quartus/int8_dot_product`. |
