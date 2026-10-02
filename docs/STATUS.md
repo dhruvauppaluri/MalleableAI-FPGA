@@ -1,5 +1,36 @@
 # Status
 
+## Active continuation — remaining 20 benchmarks (2026-10-01)
+
+User selected a NEW eight-hour Overnight window for the remaining Qwen3/Qwen3.5
+benchmarks. First complete balanced INT4/FP4 full validation for each model, then
+freeze manifest v2: eight INT8 personality/tape comparisons plus both four-bit
+formats if both pass, otherwise the two prescribed INT8 AXI stress runs. Qwen3's
+INT8 rows use the approved calibrated candidate; Qwen3.5 uses approved raw INT8.
+These performance rows do not grant new controller/automatic-application approvals.
+No held-out evaluation, LFM benchmark rerun, CUDA, or training is part of this batch.
+
+Runner: tools/run_remaining_benchmarks.py
+Root: build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01
+Unit: malleable-benchmarks-20261001-01
+The first new quality job creates control.json. Its deadline is exactly eight
+hours later; check it before EVERY screen and indexed run. Never reset it across
+agents/retries. Let the active job finish, then stop new dispatch at the deadline.
+All jobs are serialized with the shared heavy lock; PATH must include
+/home/dhruv/.local/bin. Keep source/docs unchanged while the unit runs. Inspect
+job.json, control.json, terminal.json, each screen worker.log, and per-index logs.
+Save in-flight handoffs only in the ignored root. Keeper and sleep prevention
+persist until the unit stops. Canonical source, command, result, failure and
+pilot-time records are append-only. Forty-three focused tests passed before dispatch.
+
+The preliminary 4–8-hour estimate covered benchmarks only, not four full-validation
+prerequisites. This window may finish only part of the 20. Future explicitly
+authorized windows can use --resume-from PREVIOUS_ROOT with a NEW root and
+authorization: verify and reuse completed screen hashes and indexed results;
+failed screens require diagnosis and explicit retry, and LFM's ten stay preserved.
+No aggregate performance report exists until all ten indices for that model verify.
+Standalone schema-v3 remains passed; full-release schema-v2 is still incomplete.
+
 ## Current milestone — standalone schema-v3 PASSED (2026-09-30)
 
 The standalone release-check passes for Qwen3-0.6B, Qwen3.5-0.8B and LFM2.5-230M.

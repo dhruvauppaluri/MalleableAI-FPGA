@@ -14,7 +14,15 @@ from malleable.store import Store
 def main():
     p=argparse.ArgumentParser(); p.add_argument('--model',required=True); p.add_argument('--output',required=True)
     p.add_argument('--store',default='build/llm-runs/research'); p.add_argument('--seed',type=int,default=42)
-    a=p.parse_args(); model=Path(a.model).resolve(); info=inspect(model)
+    p.add_argument('--schema-version',type=int,choices=[1,2],default=1)
+    p.add_argument('--candidate-case');p.add_argument('--format-validation',action='append',default=[])
+    a=p.parse_args()
+    if a.schema_version==2:
+        from tools.create_llm_performance_manifest_v2 import create
+        data=create(a.model,a.output,a.format_validation,a.candidate_case,a.seed)
+        print(json.dumps({'manifest':a.output,'manifest_id':identity(data),'runs':len(data['runs'])}));return
+    if a.candidate_case or a.format_validation:raise ValueError('candidate and format-validation options require schema v2')
+    model=Path(a.model).resolve(); info=inspect(model)
     if not info['supported']: raise ValueError('supported local checkpoint required')
     tok=AutoTokenizer.from_pretrained(str(model),local_files_only=True,trust_remote_code=False)
     prompts={'short-a':'A small neural network performs',

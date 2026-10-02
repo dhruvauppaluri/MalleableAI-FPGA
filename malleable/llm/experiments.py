@@ -6,6 +6,13 @@ from .optimization import config_key,validated_variants,observations
 from ..records import identity
 from .candidates import variant_id
 
+def performance_lineage(data,row):
+    return row if data.get('schema_version')==2 else data
+
+def precision_lineage(wformat):
+    return {'matrix_format':wformat,'head_format':'int8',
+            'arithmetic_contract':'opentpu-isa-v1-fp32-rne-ftz-block-quantized'}
+
 def manifest_candidate(data,model_info):
     """A candidate manifest is INT8-only and must re-verify its saved derived lineage."""
     case=data.get('candidate_case')
@@ -19,9 +26,11 @@ def manifest_candidate(data,model_info):
     return derived
 
 def validate_performance_manifest(data,model_info):
-    if data.get('schema_version')!=1 or data.get('base_model_id')!=model_info['base_model_id'] \
+    if data.get('schema_version') not in (1,2) or data.get('base_model_id')!=model_info['base_model_id'] \
         or data.get('tokenizer_id')!=model_info['tokenizer_id']:
         raise ValueError('performance manifest model/tokenizer lineage mismatch')
+    if data['schema_version']==2 and any(k in data for k in ('candidate_case','derived_candidate')):
+        raise ValueError('manifest v2 requires per-run candidate lineage')
     derived=manifest_candidate(data,model_info)
     if derived and any(r.get('wformat')!='int8' for r in data.get('runs',[])):
         raise ValueError('derived INT8 candidates cannot be combined with INT4/FP4 comparisons')
@@ -41,14 +50,44 @@ def validate_performance_manifest(data,model_info):
             raise ValueError('performance format lacks frozen validation approval')
         approvals[(record['variant_id'],record['personality'])]=evidence['id']
     evidence_rows=data.get('quality_evidence',[])
+    if data['schema_version']==2:
+        from .quality import reference_contract
+        screens=data.get('format_screening_evidence',[])
+        if len(screens)!=2 or {e.get('record',{}).get('wformat') for e in screens}!={'int4','fp4'}:
+            raise ValueError('v2 requires both frozen four-bit validation results')
+        for evidence in screens:
+            record=evidence.get('record',{})
+            if (identity(record)!=evidence.get('id') or record.get('split')!='validation'
+                or record.get('base_model_id')!=model_info['base_model_id']
+                or record.get('tokenizer_id')!=model_info['tokenizer_id']
+                or record.get('personality')!='balanced' or record.get('context')!=128
+                or record.get('head_format')!='int8' or record.get('suite_frozen') is not True
+                or record.get('samples',0)<1024 or record.get('samples')!=record.get('target_count')
+                or not record.get('suite_file_hash') or not record.get('configuration_id')
+                or record.get('derived_candidate') is not None
+                or record.get('variant_id')!=variant_id(model_info['base_model_id'],record['wformat'])
+                or record.get('toolchain',{}).get('contract')!=reference_contract(model_info)):
+                raise ValueError('invalid four-bit screening evidence')
+        if len({e['record']['suite_file_hash'] for e in screens})!=1:
+            raise ValueError('four-bit screens must use the same frozen suite')
     if data.get('quality_evidence_ids',[])!=[e.get('id') for e in evidence_rows]:
         raise ValueError('quality evidence ID list does not match embedded records')
     if type(data.get('seed')) is not int or not 0<=data['seed']<2**31:
         raise ValueError('reproducible benchmark seed required')
+    if data['schema_version']==2 and data['seed']!=42:raise ValueError('v2 release benchmark seed must be 42')
     runs=data.get('runs')
     if not isinstance(runs,list) or len(runs)!=10: raise ValueError('staged performance suite requires exactly ten runs per model')
     names=set()
     for run in runs:
+        if data['schema_version']==2:
+            if run.get('context')!=128:raise ValueError('v2 release benchmark context must be 128')
+            if any(k not in run for k in ('candidate_case','derived_candidate','variant_id','precision_policy')):
+                raise ValueError('complete per-run candidate and precision lineage required')
+            candidate=manifest_candidate(run,model_info)
+            if candidate and run.get('wformat')!='int8':raise ValueError('derived candidate requires INT8')
+            if (run['variant_id']!=variant_id(model_info['base_model_id'],run.get('wformat'),candidate)
+                or run['precision_policy']!=precision_lineage(run.get('wformat'))):
+                raise ValueError('per-run variant/precision lineage mismatch')
         if run.get('workload') not in ('short-a','short-b','axi-stress'): raise ValueError('unknown performance workload')
         if not isinstance(run.get('input_tokens'),list) or not run['input_tokens'] \
             or any(type(t) is not int or t<0 for t in run['input_tokens']): raise ValueError('fixed integer token tape required')
@@ -77,6 +116,10 @@ def validate_performance_manifest(data,model_info):
             raise ValueError('each workload must reuse its manifest-hashed fixed tape')
     extras=[r for r in runs if (r['workload'],r['personality'],r['wformat']) not in expected]
     if len(extras)!=2: raise ValueError('two quality/stress comparison runs required')
+    if data['schema_version']==2:
+        both_pass=all(gate(e['record']['float_nll'],e['record']['candidate_nll'],e['record']['agreement'])['passed'] for e in screens)
+        if both_pass!={r['wformat'] for r in extras}.issubset({'int4','fp4'}):
+            raise ValueError('extras must follow the measured four-bit validation disposition')
     if all(r['wformat'] in ('int4','fp4') and r['personality']=='balanced' and r['memory_scenario']=='baseline' for r in extras):
         if {r['wformat'] for r in extras}!={'int4','fp4'}: raise ValueError('both balanced INT4 and FP4 variants required')
         for run in extras:
@@ -95,12 +138,14 @@ def validate_performance_manifest(data,model_info):
 
 def validate_benchmark_result(data,index,result):
     """Bind reusable measured evidence to every declared indexed run setting."""
-    row=data['runs'][index]; w=result.get('workload',{})
+    row=data['runs'][index]; w=result.get('workload',{}); lineage=performance_lineage(data,row)
+    if data.get('schema_version')==2 and result.get('benchmark_precision_policy')!=row['precision_policy']:
+        raise ValueError('mismatched per-run precision metadata')
     p=PERSONALITIES[row['personality']]
     cfg=result.get('config',{}); metadata=result.get('microarchitecture',{})
     expected={'personality':row['personality'],'wformat':row['wformat'],'context':row['context'],
         'seed':data['seed'],'backend':'rtl','input_tokens':row['input_tokens'],
-        **({'candidate_case':data['candidate_case']} if data.get('candidate_case') else {}),
+        **({'candidate_case':lineage['candidate_case']} if lineage.get('candidate_case') else {}),
         'latency':row['latency'],'stall_percent':row['stall_percent'],'bandwidth_percent':row['bandwidth_percent']}
     if (result.get('status')!='completed' or result.get('valid') is not True or result.get('backend')!='rtl'
         or result.get('base_model_id')!=data['base_model_id'] or result.get('tokenizer_id')!=data['tokenizer_id']
@@ -109,8 +154,9 @@ def validate_benchmark_result(data,index,result):
         or result.get('input_token_hash')!=row['input_token_hash'] or result.get('personality')!=row['personality']
         or result.get('generation_mode')!='fixed-token-tape' or result.get('tokens')!=[]
         or result.get('prompt_tokens')!=len(row['input_tokens']) or any(w.get(k)!=v for k,v in expected.items())
-        or result.get('variant_id')!=variant_id(data['base_model_id'],row['wformat'],data.get('derived_candidate'))
-        or result.get('derived_candidate')!=data.get('derived_candidate')
+        or result.get('variant_id')!=variant_id(data['base_model_id'],row['wformat'],lineage.get('derived_candidate'))
+        or result.get('derived_candidate')!=lineage.get('derived_candidate')
+        or (data.get('schema_version')==2 and w.get('candidate_case')!=lineage.get('candidate_case'))
         or metadata.get('schema_version')!=1 or metadata.get('parameters')!=p.uarch
         or cfg.get('MCOLS')!=p.matrix_columns or cfg.get('LANES')!=p.vector_lanes
         or result.get('configuration_id')!=identity({'config':cfg,'uarch':p.uarch})
@@ -174,13 +220,14 @@ def _run_performance_index(data,model,row,index,root,emit):
         max_new=8,context=row['context'],seed=data['seed'],backend='rtl',personality=row['personality'],
         wformat=row['wformat'],latency=row['latency'],stall_percent=row['stall_percent'],
         bandwidth_percent=row['bandwidth_percent'],input_tokens=row['input_tokens'],
-        candidate_case=data.get('candidate_case'))
+        candidate_case=performance_lineage(data,row).get('candidate_case'))
     emit('candidate',{'index':index,'total':10,'workload':row['workload'],
         'personality':row['personality'],'wformat':row['wformat'],'status':'running'})
     result=generate(model,workload,root,lambda kind,payload:emit(kind,payload) if kind!='result' else None)
     result.update(benchmark_manifest_id=identity(data),benchmark_run_index=index,
         benchmark_workload=row['workload'],memory_scenario=row['memory_scenario'],
         input_token_hash=row['input_token_hash'])
+    if data.get('schema_version')==2:result['benchmark_precision_policy']=row['precision_policy']
     emit('candidate',result); return result
 
 def benchmark(model,workload,root,emit=lambda *_:None):
