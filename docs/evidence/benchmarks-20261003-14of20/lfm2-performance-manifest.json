@@ -1,0 +1,232 @@
+{
+  "schema_version": 1,
+  "model_path": "/home/dhruv/projects/MalleableAI-FPGA/build/models/LFM2.5-230M",
+  "base_model_id": "8d6ac525c1b135ad360d0f9f5a822698bbb257b7408f791e2ca695ae473798b3",
+  "tokenizer_id": "85ba6138043aa10b1a72e679643539f9d995f66a9f791e7c0ca0a6e5161460ae",
+  "seed": 42,
+  "suite": "10-run-real-model-rtl-v1",
+  "quality_evidence_ids": [],
+  "quality_evidence": [],
+  "fixed_prompt_hashes": {
+    "short-a": "cee30cad4523a8bff63e7fbdc5dfa2a9906fc565e4d9496a106fff9a2794d25e",
+    "short-b": "e49aed262409d58fa3f85a605f5c864dc3bef44c09acc009ebb46f9df839532c"
+  },
+  "runs": [
+    {
+      "workload": "short-a",
+      "personality": "compact",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        1,
+        542,
+        2211,
+        16898,
+        3998,
+        30692
+      ],
+      "input_token_hash": "cee30cad4523a8bff63e7fbdc5dfa2a9906fc565e4d9496a106fff9a2794d25e",
+      "memory_scenario": "baseline",
+      "latency": 20,
+      "stall_percent": 20,
+      "bandwidth_percent": 100
+    },
+    {
+      "workload": "short-a",
+      "personality": "balanced",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        1,
+        542,
+        2211,
+        16898,
+        3998,
+        30692
+      ],
+      "input_token_hash": "cee30cad4523a8bff63e7fbdc5dfa2a9906fc565e4d9496a106fff9a2794d25e",
+      "memory_scenario": "baseline",
+      "latency": 20,
+      "stall_percent": 20,
+      "bandwidth_percent": 100
+    },
+    {
+      "workload": "short-a",
+      "personality": "compute",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        1,
+        542,
+        2211,
+        16898,
+        3998,
+        30692
+      ],
+      "input_token_hash": "cee30cad4523a8bff63e7fbdc5dfa2a9906fc565e4d9496a106fff9a2794d25e",
+      "memory_scenario": "baseline",
+      "latency": 20,
+      "stall_percent": 20,
+      "bandwidth_percent": 100
+    },
+    {
+      "workload": "short-a",
+      "personality": "buffered",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        1,
+        542,
+        2211,
+        16898,
+        3998,
+        30692
+      ],
+      "input_token_hash": "cee30cad4523a8bff63e7fbdc5dfa2a9906fc565e4d9496a106fff9a2794d25e",
+      "memory_scenario": "baseline",
+      "latency": 20,
+      "stall_percent": 20,
+      "bandwidth_percent": 100
+    },
+    {
+      "workload": "short-b",
+      "personality": "compact",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        1,
+        2797,
+        45417,
+        15472,
+        1011,
+        38396,
+        19471,
+        2801,
+        39747,
+        968
+      ],
+      "input_token_hash": "e49aed262409d58fa3f85a605f5c864dc3bef44c09acc009ebb46f9df839532c",
+      "memory_scenario": "baseline",
+      "latency": 20,
+      "stall_percent": 20,
+      "bandwidth_percent": 100
+    },
+    {
+      "workload": "short-b",
+      "personality": "balanced",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        1,
+        2797,
+        45417,
+        15472,
+        1011,
+        38396,
+        19471,
+        2801,
+        39747,
+        968
+      ],
+      "input_token_hash": "e49aed262409d58fa3f85a605f5c864dc3bef44c09acc009ebb46f9df839532c",
+      "memory_scenario": "baseline",
+      "latency": 20,
+      "stall_percent": 20,
+      "bandwidth_percent": 100
+    },
+    {
+      "workload": "short-b",
+      "personality": "compute",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        1,
+        2797,
+        45417,
+        15472,
+        1011,
+        38396,
+        19471,
+        2801,
+        39747,
+        968
+      ],
+      "input_token_hash": "e49aed262409d58fa3f85a605f5c864dc3bef44c09acc009ebb46f9df839532c",
+      "memory_scenario": "baseline",
+      "latency": 20,
+      "stall_percent": 20,
+      "bandwidth_percent": 100
+    },
+    {
+      "workload": "short-b",
+      "personality": "buffered",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        1,
+        2797,
+        45417,
+        15472,
+        1011,
+        38396,
+        19471,
+        2801,
+        39747,
+        968
+      ],
+      "input_token_hash": "e49aed262409d58fa3f85a605f5c864dc3bef44c09acc009ebb46f9df839532c",
+      "memory_scenario": "baseline",
+      "latency": 20,
+      "stall_percent": 20,
+      "bandwidth_percent": 100
+    },
+    {
+      "workload": "axi-stress",
+      "personality": "balanced",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        1,
+        542,
+        2211,
+        16898,
+        3998,
+        30692
+      ],
+      "input_token_hash": "cee30cad4523a8bff63e7fbdc5dfa2a9906fc565e4d9496a106fff9a2794d25e",
+      "memory_scenario": "stress",
+      "latency": 100,
+      "stall_percent": 50,
+      "bandwidth_percent": 50
+    },
+    {
+      "workload": "axi-stress",
+      "personality": "compute",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        1,
+        542,
+        2211,
+        16898,
+        3998,
+        30692
+      ],
+      "input_token_hash": "cee30cad4523a8bff63e7fbdc5dfa2a9906fc565e4d9496a106fff9a2794d25e",
+      "memory_scenario": "stress",
+      "latency": 100,
+      "stall_percent": 50,
+      "bandwidth_percent": 50
+    }
+  ],
+  "baseline_axi": {
+    "latency": 20,
+    "stall_probability_percent": 20,
+    "bandwidth_percent": 100
+  },
+  "stress_axi": {
+    "latency": 100,
+    "stall_probability_percent": 50,
+    "bandwidth_percent": 50
+  }
+}

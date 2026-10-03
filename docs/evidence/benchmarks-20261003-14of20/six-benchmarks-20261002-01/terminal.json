@@ -1,0 +1,44 @@
+{
+  "status": "completed",
+  "finished": [
+    [
+      "qwen3",
+      1
+    ],
+    [
+      "qwen35",
+      1
+    ],
+    [
+      "qwen3",
+      2
+    ],
+    [
+      "qwen35",
+      2
+    ],
+    [
+      "qwen3",
+      3
+    ],
+    [
+      "qwen35",
+      3
+    ]
+  ],
+  "completed_indices": {
+    "qwen3": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "qwen35": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "next": "Report to user before dispatching another six. Preserve all existing screens and results."
+}

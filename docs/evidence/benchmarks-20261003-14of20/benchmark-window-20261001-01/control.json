@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "mode": "overnight",
+  "started_unix": 1790908890.6226754,
+  "dispatch_deadline_unix": 1790937690.6226754,
+  "authorization_sha256": "d11a8577ae38cb245d7c6c129a776d6f8589bcbbdd00df088305751c87c686ef",
+  "started_utc": "2026-10-02T02:41:30.622675+00:00"
+}

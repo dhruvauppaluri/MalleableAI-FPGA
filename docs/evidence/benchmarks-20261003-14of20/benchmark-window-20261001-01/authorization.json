@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "mode": "overnight",
+  "window_hours": 8,
+  "models": [
+    "qwen3",
+    "qwen35"
+  ],
+  "user_instruction": "lets just finish the 20; Overnight: dispatch for up to eight hours, then let the active run finish",
+  "created_utc": "2026-10-02T02:40:43.412892+00:00",
+  "scope": "four-bit validation prerequisites and 20 indexed RTL benchmarks; reuse LFM",
+  "automatic_retries": false
+}

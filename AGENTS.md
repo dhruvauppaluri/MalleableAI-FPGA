@@ -1,5 +1,9 @@
 # Agent guidance
 
+## Current continuation: final six benchmarks (2026-10-03)
+
+User authorized pushing collected evidence BEFORE dispatching the final six. Evidence snapshot: docs/evidence/benchmarks-20261003-14of20. Verified Qwen3/Qwen3.5 indices 0-6 each; all four format screens complete, LFM ten runs preserved. Next bounded batch: indices 7,8,9 for each model, serially, under perf/six-benchmarks-20261003-02, unit malleable-six-benchmarks-20261003-02. Stop after six; inspect terminal.json and verify all ten indices per model before aggregation. Historical overnight deadlines are not renewed; current authorization is count-limited. No quality or held-out repeats. Do not edit tracked files during execution.
+
 ## Active continuation — remaining 20 benchmarks (2026-10-01)
 
 User selected a NEW eight-hour Overnight window for the remaining Qwen3/Qwen3.5

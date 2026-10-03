@@ -1,0 +1,38 @@
+{
+  "source": {
+    "commit": "e919d558960162d0caae12f50946e2aa20025274",
+    "status": ""
+  },
+  "command": [
+    "/home/dhruv/projects/MalleableAI-FPGA/.venv/bin/python",
+    "-u",
+    "-m",
+    "malleable.llm.cli",
+    "quality",
+    "--model",
+    "/home/dhruv/projects/MalleableAI-FPGA/build/models/Qwen3-0.6B",
+    "--suite",
+    "/home/dhruv/projects/MalleableAI-FPGA/build/models/quality/qwen3-frozen-v2.json",
+    "--split",
+    "validation",
+    "--context",
+    "128",
+    "--personality",
+    "balanced",
+    "--wformat",
+    "fp4",
+    "--max-host-gib",
+    "16",
+    "--store",
+    "/home/dhruv/projects/MalleableAI-FPGA/build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3-fp4-validation/store"
+  ],
+  "control": {
+    "schema_version": 1,
+    "mode": "overnight",
+    "started_unix": 1790908890.6226754,
+    "dispatch_deadline_unix": 1790937690.6226754,
+    "authorization_sha256": "d11a8577ae38cb245d7c6c129a776d6f8589bcbbdd00df088305751c87c686ef",
+    "started_utc": "2026-10-02T02:41:30.622675+00:00"
+  },
+  "available_memory": 15135670272
+}

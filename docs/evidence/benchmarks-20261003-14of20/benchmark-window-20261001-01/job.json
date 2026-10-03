@@ -1,0 +1,28 @@
+{
+  "source": {
+    "commit": "e919d558960162d0caae12f50946e2aa20025274",
+    "status": ""
+  },
+  "unit": "malleable-benchmarks-20261001-01",
+  "pid": 382,
+  "authorization": {
+    "schema_version": 1,
+    "mode": "overnight",
+    "window_hours": 8,
+    "models": [
+      "qwen3",
+      "qwen35"
+    ],
+    "user_instruction": "lets just finish the 20; Overnight: dispatch for up to eight hours, then let the active run finish",
+    "created_utc": "2026-10-02T02:40:43.412892+00:00",
+    "scope": "four-bit validation prerequisites and 20 indexed RTL benchmarks; reuse LFM",
+    "automatic_retries": false
+  },
+  "command": [
+    "tools/run_remaining_benchmarks.py",
+    "--root",
+    "/home/dhruv/projects/MalleableAI-FPGA/build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01",
+    "--unit",
+    "malleable-benchmarks-20261001-01"
+  ]
+}

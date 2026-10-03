@@ -1,0 +1,2178 @@
+{
+  "files": [
+    {
+      "path": "benchmark-window-20261001-01/authorization.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/authorization.json",
+      "original_sha256": "d11a8577ae38cb245d7c6c129a776d6f8589bcbbdd00df088305751c87c686ef",
+      "export_sha256": "d11a8577ae38cb245d7c6c129a776d6f8589bcbbdd00df088305751c87c686ef"
+    },
+    {
+      "path": "benchmark-window-20261001-01/control.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/control.json",
+      "original_sha256": "a1d7ede87a2cad164882aa24e5b9c9fbc9f86b2bc68de2a7c8d2568f5e8e4443",
+      "export_sha256": "a1d7ede87a2cad164882aa24e5b9c9fbc9f86b2bc68de2a7c8d2568f5e8e4443"
+    },
+    {
+      "path": "benchmark-window-20261001-01/handoff-20261002T024214Z.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/handoff-20261002T024214Z.json",
+      "original_sha256": "360e3342f18c0a3b5589d842b6360abe865a07202ce945697f0a05d3484b0f7c",
+      "export_sha256": "360e3342f18c0a3b5589d842b6360abe865a07202ce945697f0a05d3484b0f7c"
+    },
+    {
+      "path": "benchmark-window-20261001-01/job.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/job.json",
+      "original_sha256": "35e1ab385ec785b07d55a3fac2a7a6c61401a58f66897a4a5298d6663d0500ac",
+      "export_sha256": "35e1ab385ec785b07d55a3fac2a7a6c61401a58f66897a4a5298d6663d0500ac"
+    },
+    {
+      "path": "benchmark-window-20261001-01/keeper-status.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/keeper-status.json",
+      "original_sha256": "4f487cadf9900f8ab6745fe740e6147d7f8422a97fc6c461aa814cfd045b60b8",
+      "export_sha256": "4f487cadf9900f8ab6745fe740e6147d7f8422a97fc6c461aa814cfd045b60b8"
+    },
+    {
+      "path": "benchmark-window-20261001-01/lfm-reuse.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/lfm-reuse.json",
+      "original_sha256": "65b00742e7ef43df0716c2ce15910f4592b1e7e414ca438ba7ba6fc42bb8ba53",
+      "export_sha256": "65b00742e7ef43df0716c2ce15910f4592b1e7e414ca438ba7ba6fc42bb8ba53"
+    },
+    {
+      "path": "benchmark-window-20261001-01/pause-handoff-20261002T083308Z.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/pause-handoff-20261002T083308Z.json",
+      "original_sha256": "edc21ae1898b81428eb2026b8cf3944924eee86345433549521b510ed53baf09",
+      "export_sha256": "edc21ae1898b81428eb2026b8cf3944924eee86345433549521b510ed53baf09"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/manifest.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/manifest.json",
+      "original_sha256": "4762f77610fe17f9ee48d0dfddb2586fb4ff8e1e2c4fbe74a518626e117fa1ee",
+      "export_sha256": "4762f77610fe17f9ee48d0dfddb2586fb4ff8e1e2c4fbe74a518626e117fa1ee"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/1d7f81b5cd354c66b4ceb8cd5fe1992e/research/objects/b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/1d7f81b5cd354c66b4ceb8cd5fe1992e/research/objects/b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6.json",
+      "original_sha256": "b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6",
+      "export_sha256": "b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/1d7f81b5cd354c66b4ceb8cd5fe1992e/research/objects/f7e6305c6e67592c173d066d184cbd25b11efd8c752185b6c957ac3f49bb6c3f.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/1d7f81b5cd354c66b4ceb8cd5fe1992e/research/objects/f7e6305c6e67592c173d066d184cbd25b11efd8c752185b6c957ac3f49bb6c3f.json",
+      "original_sha256": "f7e6305c6e67592c173d066d184cbd25b11efd8c752185b6c957ac3f49bb6c3f",
+      "export_sha256": "f7e6305c6e67592c173d066d184cbd25b11efd8c752185b6c957ac3f49bb6c3f"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/1d7f81b5cd354c66b4ceb8cd5fe1992e/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/1d7f81b5cd354c66b4ceb8cd5fe1992e/traces/step-00000/profile.json",
+      "original_sha256": "9c7887c733048615bd3ce791316e103973bb06a2e8d81e42814366304b9e7172",
+      "export_sha256": "0b65ffb5871ee3db2c30fb43113423f2d41c742602062509d88068ad600a4ee4"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/1d7f81b5cd354c66b4ceb8cd5fe1992e/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/1d7f81b5cd354c66b4ceb8cd5fe1992e/traces/step-00001/profile.json",
+      "original_sha256": "843248f0564bdfa5eba4ea401fca3915d51c6cd7c28e71c8e47ffc23ae263844",
+      "export_sha256": "d6e12adeb2d3813516d4826dc9422bfd1d45bffa2d041c96dfc7eee5f0a08546"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/1d7f81b5cd354c66b4ceb8cd5fe1992e/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/1d7f81b5cd354c66b4ceb8cd5fe1992e/traces/step-00002/profile.json",
+      "original_sha256": "8bca921df0745ff8721456b881e550e8b6b4c810b7668630a279488bab7112e5",
+      "export_sha256": "1eff53fd82d97389e7669bc09c41fe6cb0c460e88aafceb1bc9e9bb31be37f73"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/1d7f81b5cd354c66b4ceb8cd5fe1992e/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/1d7f81b5cd354c66b4ceb8cd5fe1992e/traces/step-00003/profile.json",
+      "original_sha256": "79c9271fcaa3a786ea74e2648af7ff3d982f06c3c34336112043e821d0166562",
+      "export_sha256": "8a0a3a73fa35e0f98d3735dd87c6b3fb8917f135145f46836b1d9098cc31ee7c"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/1d7f81b5cd354c66b4ceb8cd5fe1992e/traces/step-00004/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/1d7f81b5cd354c66b4ceb8cd5fe1992e/traces/step-00004/profile.json",
+      "original_sha256": "08df6d0f2f001d904159e9843d8796e662b55d1af8d31026912f904db04a820f",
+      "export_sha256": "98b6ce5fdd88374bbb81cbc57b63a6e42993ece7a2ea8e974a3860de74fa0ca8"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/8190a11ea13d447aa5a5b32b35570c68/research/objects/713826141321373304700d0b30558edd523af3589343c26610e3f93bd56fc9cb.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/8190a11ea13d447aa5a5b32b35570c68/research/objects/713826141321373304700d0b30558edd523af3589343c26610e3f93bd56fc9cb.json",
+      "original_sha256": "713826141321373304700d0b30558edd523af3589343c26610e3f93bd56fc9cb",
+      "export_sha256": "713826141321373304700d0b30558edd523af3589343c26610e3f93bd56fc9cb"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/8190a11ea13d447aa5a5b32b35570c68/research/objects/b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/8190a11ea13d447aa5a5b32b35570c68/research/objects/b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6.json",
+      "original_sha256": "b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6",
+      "export_sha256": "b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/8190a11ea13d447aa5a5b32b35570c68/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/8190a11ea13d447aa5a5b32b35570c68/traces/step-00000/profile.json",
+      "original_sha256": "08af0b27870ea7915d34dc346bedf680b04c5b89f627eb517e8389f906f69877",
+      "export_sha256": "ec82dff9a9b80df2ec4d7180855e36d63bf9f4c78a82b493402a8aaf5c705285"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/8190a11ea13d447aa5a5b32b35570c68/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/8190a11ea13d447aa5a5b32b35570c68/traces/step-00001/profile.json",
+      "original_sha256": "e7217b04437bb3ba705f2d631685260e2f46c5278694c9f669d9233350b86ba2",
+      "export_sha256": "185db8a8baa490f0612fe9d24bc61d1d308b81a24238351b7583a8d231938ef9"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/8190a11ea13d447aa5a5b32b35570c68/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/8190a11ea13d447aa5a5b32b35570c68/traces/step-00002/profile.json",
+      "original_sha256": "3b17b5dfe71c4b4865031e8d5727b4ec5b0a026b13384e94108ecd8edad61106",
+      "export_sha256": "663395661f7373112638d3e135da25c8ec72c9d9738cec512774808d14369f93"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/8190a11ea13d447aa5a5b32b35570c68/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/8190a11ea13d447aa5a5b32b35570c68/traces/step-00003/profile.json",
+      "original_sha256": "d02fe8f544704c014153d100cf08b14bee03042b30c6d99a06f33c132a528f81",
+      "export_sha256": "4744e32b2061f8d62ae9c65eddf3ea3bcb5fa61e31f1f0ba87f82d867c31a7c5"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/8190a11ea13d447aa5a5b32b35570c68/traces/step-00004/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/8190a11ea13d447aa5a5b32b35570c68/traces/step-00004/profile.json",
+      "original_sha256": "35b57fe8dd8e712faa37c3294f0cad8142d241e9a4ad6189e668378678c6a76f",
+      "export_sha256": "9abaf1c4aeea016abee935d90ad0688eb292e67e7c8a8b54965d02b4602e8a8e"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/b9d303308d4943f581fc1495040e21c3/research/objects/b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/b9d303308d4943f581fc1495040e21c3/research/objects/b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6.json",
+      "original_sha256": "b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6",
+      "export_sha256": "b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/b9d303308d4943f581fc1495040e21c3/research/objects/c8fce87c2cee50391e334b7d2c9de58aa23361cf8414816ff1d0b86db550aa2d.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/b9d303308d4943f581fc1495040e21c3/research/objects/c8fce87c2cee50391e334b7d2c9de58aa23361cf8414816ff1d0b86db550aa2d.json",
+      "original_sha256": "c8fce87c2cee50391e334b7d2c9de58aa23361cf8414816ff1d0b86db550aa2d",
+      "export_sha256": "c8fce87c2cee50391e334b7d2c9de58aa23361cf8414816ff1d0b86db550aa2d"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/b9d303308d4943f581fc1495040e21c3/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/b9d303308d4943f581fc1495040e21c3/traces/step-00000/profile.json",
+      "original_sha256": "2f457be5cae8433257334dad7bc4244fd8bc98860fc6d1d8659e89019402bb03",
+      "export_sha256": "78157c91c1b7bc70d83e666d1b602587fd49b7880f3070e01749c5025c55db07"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/b9d303308d4943f581fc1495040e21c3/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/b9d303308d4943f581fc1495040e21c3/traces/step-00001/profile.json",
+      "original_sha256": "2624ab8dc6c2520837c51d3a8e288434afb7acd3a2abac8ff232193e1d871357",
+      "export_sha256": "12544b905823529cc1bc8606293c35ecfbd2947201607a43d77cb9f0a4c09f78"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/b9d303308d4943f581fc1495040e21c3/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/b9d303308d4943f581fc1495040e21c3/traces/step-00002/profile.json",
+      "original_sha256": "036feadb7915add627b1e79cbc0cf798cdd6b98ad52511707d767e3be6b8906e",
+      "export_sha256": "f52cfe3027fe652828933035972e269c11b47827beb7691b9b17b3f475d406ae"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/b9d303308d4943f581fc1495040e21c3/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/b9d303308d4943f581fc1495040e21c3/traces/step-00003/profile.json",
+      "original_sha256": "db1d70f3c68e380ec395a0ad0a1456ddd1f1f53e15ceb56a783c6d28384ad352",
+      "export_sha256": "6cc60534e22b3cc475fdcf8bb8670539cc13191f5d0d19f39ef5d3d596c1e116"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/b9d303308d4943f581fc1495040e21c3/traces/step-00004/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/b9d303308d4943f581fc1495040e21c3/traces/step-00004/profile.json",
+      "original_sha256": "5484adc6b1c7d4e105ada6cd1004cfb22db592ed344ff8838a735fbfd0256683",
+      "export_sha256": "919f0ecd01bda121e6f7bcc1809940efd0c3b5db3c9feef06fa0a82d893ed3eb"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/c16414e28138472eba43814dd21564e5/research/objects/865500653f137383c6ba54ae10caf62bb26ada433cfcd84816fcd3b4b75d72dc.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/c16414e28138472eba43814dd21564e5/research/objects/865500653f137383c6ba54ae10caf62bb26ada433cfcd84816fcd3b4b75d72dc.json",
+      "original_sha256": "865500653f137383c6ba54ae10caf62bb26ada433cfcd84816fcd3b4b75d72dc",
+      "export_sha256": "865500653f137383c6ba54ae10caf62bb26ada433cfcd84816fcd3b4b75d72dc"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/c16414e28138472eba43814dd21564e5/research/objects/b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/c16414e28138472eba43814dd21564e5/research/objects/b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6.json",
+      "original_sha256": "b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6",
+      "export_sha256": "b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/c16414e28138472eba43814dd21564e5/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/c16414e28138472eba43814dd21564e5/traces/step-00000/profile.json",
+      "original_sha256": "0386f36ccc2966b0e44e8e81d5ed7ae6468187263a967e4b1b9a7686b349967b",
+      "export_sha256": "a7c08b1de2b3e4d4ae664b8aea3bed16ef15ddf6a5f7b4b9f6b51c2aa4adf99b"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/c16414e28138472eba43814dd21564e5/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/c16414e28138472eba43814dd21564e5/traces/step-00001/profile.json",
+      "original_sha256": "403b465e5662d0585743df58d2416fb730d30981e3e0d0c658c85b9bc7f69789",
+      "export_sha256": "3d66dcff4d2136e86333eea152342229a9ff047daf483854b31de4882fa9348e"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/c16414e28138472eba43814dd21564e5/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/c16414e28138472eba43814dd21564e5/traces/step-00002/profile.json",
+      "original_sha256": "890ae4436654fff7b2ef927a7d8fa319478128dd2d57aab146a9c9957ba4a4e7",
+      "export_sha256": "58f4faa090885ba381461fdcd49e0092aa9943d5458038a140d65fdc09740ab6"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/c16414e28138472eba43814dd21564e5/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/c16414e28138472eba43814dd21564e5/traces/step-00003/profile.json",
+      "original_sha256": "17cb639d6a1c76e731223f9b68720c03461121c6bb7908760638552796d8d2a8",
+      "export_sha256": "abfc4ad1462e63430ef3fbffd3e75578d253d5c462b9abfce5e2ed663e2e22df"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/c16414e28138472eba43814dd21564e5/traces/step-00004/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/c16414e28138472eba43814dd21564e5/traces/step-00004/profile.json",
+      "original_sha256": "a3ebee91093f5d835285973b8fadab9e402bed8679efc8a86dee4239b5c8ed91",
+      "export_sha256": "662edc031d3d877eadff1fe790f290ecb40b2cfb853877f91b2d7baf42387537"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/cfeec48e1aa44028bfa47ac784d5f0a7/research/objects/b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/cfeec48e1aa44028bfa47ac784d5f0a7/research/objects/b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6.json",
+      "original_sha256": "b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6",
+      "export_sha256": "b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/cfeec48e1aa44028bfa47ac784d5f0a7/research/objects/d4f6148fb0f00d553b68517dca3bb1b271668a04f7466e835a80ee70da638dc1.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/cfeec48e1aa44028bfa47ac784d5f0a7/research/objects/d4f6148fb0f00d553b68517dca3bb1b271668a04f7466e835a80ee70da638dc1.json",
+      "original_sha256": "d4f6148fb0f00d553b68517dca3bb1b271668a04f7466e835a80ee70da638dc1",
+      "export_sha256": "d4f6148fb0f00d553b68517dca3bb1b271668a04f7466e835a80ee70da638dc1"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/cfeec48e1aa44028bfa47ac784d5f0a7/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/cfeec48e1aa44028bfa47ac784d5f0a7/traces/step-00000/profile.json",
+      "original_sha256": "08af0b27870ea7915d34dc346bedf680b04c5b89f627eb517e8389f906f69877",
+      "export_sha256": "ec82dff9a9b80df2ec4d7180855e36d63bf9f4c78a82b493402a8aaf5c705285"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/cfeec48e1aa44028bfa47ac784d5f0a7/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/cfeec48e1aa44028bfa47ac784d5f0a7/traces/step-00001/profile.json",
+      "original_sha256": "e7217b04437bb3ba705f2d631685260e2f46c5278694c9f669d9233350b86ba2",
+      "export_sha256": "185db8a8baa490f0612fe9d24bc61d1d308b81a24238351b7583a8d231938ef9"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/cfeec48e1aa44028bfa47ac784d5f0a7/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/cfeec48e1aa44028bfa47ac784d5f0a7/traces/step-00002/profile.json",
+      "original_sha256": "3b17b5dfe71c4b4865031e8d5727b4ec5b0a026b13384e94108ecd8edad61106",
+      "export_sha256": "663395661f7373112638d3e135da25c8ec72c9d9738cec512774808d14369f93"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/cfeec48e1aa44028bfa47ac784d5f0a7/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/cfeec48e1aa44028bfa47ac784d5f0a7/traces/step-00003/profile.json",
+      "original_sha256": "d02fe8f544704c014153d100cf08b14bee03042b30c6d99a06f33c132a528f81",
+      "export_sha256": "4744e32b2061f8d62ae9c65eddf3ea3bcb5fa61e31f1f0ba87f82d867c31a7c5"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/cfeec48e1aa44028bfa47ac784d5f0a7/traces/step-00004/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/cfeec48e1aa44028bfa47ac784d5f0a7/traces/step-00004/profile.json",
+      "original_sha256": "35b57fe8dd8e712faa37c3294f0cad8142d241e9a4ad6189e668378678c6a76f",
+      "export_sha256": "9abaf1c4aeea016abee935d90ad0688eb292e67e7c8a8b54965d02b4602e8a8e"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/cfeec48e1aa44028bfa47ac784d5f0a7/traces/step-00005/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/cfeec48e1aa44028bfa47ac784d5f0a7/traces/step-00005/profile.json",
+      "original_sha256": "890dd776ef12a8725acd369204cacc4db12a11de141b262099447b392c553cb2",
+      "export_sha256": "1d66d799de2fdee083c374b2447d45c851a4a880287b15a8db35fc096b90947f"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/cfeec48e1aa44028bfa47ac784d5f0a7/traces/step-00006/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/cfeec48e1aa44028bfa47ac784d5f0a7/traces/step-00006/profile.json",
+      "original_sha256": "2975fd7063527bd036a3ddf3818bb226f6bf39d5e61d5c7a1bf26fa7489e651c",
+      "export_sha256": "30ba540c0aef300f4b73c21cdaf81192dd011418afdba3879f9b949e93d11782"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/cfeec48e1aa44028bfa47ac784d5f0a7/traces/step-00007/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/cfeec48e1aa44028bfa47ac784d5f0a7/traces/step-00007/profile.json",
+      "original_sha256": "54f0599bcd6e0e85ccdf856bc634f66e8f4429315462c6fdfe79112ee3ba7ceb",
+      "export_sha256": "bb4ab3ffd105a234582dcd7e6e59b52212c48c949fe083963c20881dd22708f1"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/f58a6b47aef541eca4e6fd7933b0adb4/research/objects/01a88dc640748e66104fa5a215b9afa84e1727d7de50b08525f9b8b142dc52f5.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/f58a6b47aef541eca4e6fd7933b0adb4/research/objects/01a88dc640748e66104fa5a215b9afa84e1727d7de50b08525f9b8b142dc52f5.json",
+      "original_sha256": "01a88dc640748e66104fa5a215b9afa84e1727d7de50b08525f9b8b142dc52f5",
+      "export_sha256": "01a88dc640748e66104fa5a215b9afa84e1727d7de50b08525f9b8b142dc52f5"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/f58a6b47aef541eca4e6fd7933b0adb4/research/objects/b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/f58a6b47aef541eca4e6fd7933b0adb4/research/objects/b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6.json",
+      "original_sha256": "b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6",
+      "export_sha256": "b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/f58a6b47aef541eca4e6fd7933b0adb4/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/f58a6b47aef541eca4e6fd7933b0adb4/traces/step-00000/profile.json",
+      "original_sha256": "9c7887c733048615bd3ce791316e103973bb06a2e8d81e42814366304b9e7172",
+      "export_sha256": "0b65ffb5871ee3db2c30fb43113423f2d41c742602062509d88068ad600a4ee4"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/f58a6b47aef541eca4e6fd7933b0adb4/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/f58a6b47aef541eca4e6fd7933b0adb4/traces/step-00001/profile.json",
+      "original_sha256": "843248f0564bdfa5eba4ea401fca3915d51c6cd7c28e71c8e47ffc23ae263844",
+      "export_sha256": "d6e12adeb2d3813516d4826dc9422bfd1d45bffa2d041c96dfc7eee5f0a08546"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/f58a6b47aef541eca4e6fd7933b0adb4/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/f58a6b47aef541eca4e6fd7933b0adb4/traces/step-00002/profile.json",
+      "original_sha256": "8bca921df0745ff8721456b881e550e8b6b4c810b7668630a279488bab7112e5",
+      "export_sha256": "1eff53fd82d97389e7669bc09c41fe6cb0c460e88aafceb1bc9e9bb31be37f73"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/f58a6b47aef541eca4e6fd7933b0adb4/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/f58a6b47aef541eca4e6fd7933b0adb4/traces/step-00003/profile.json",
+      "original_sha256": "79c9271fcaa3a786ea74e2648af7ff3d982f06c3c34336112043e821d0166562",
+      "export_sha256": "8a0a3a73fa35e0f98d3735dd87c6b3fb8917f135145f46836b1d9098cc31ee7c"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/f58a6b47aef541eca4e6fd7933b0adb4/traces/step-00004/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/f58a6b47aef541eca4e6fd7933b0adb4/traces/step-00004/profile.json",
+      "original_sha256": "08df6d0f2f001d904159e9843d8796e662b55d1af8d31026912f904db04a820f",
+      "export_sha256": "98b6ce5fdd88374bbb81cbc57b63a6e42993ece7a2ea8e974a3860de74fa0ca8"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/f58a6b47aef541eca4e6fd7933b0adb4/traces/step-00005/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/f58a6b47aef541eca4e6fd7933b0adb4/traces/step-00005/profile.json",
+      "original_sha256": "6907a8360d0f09bc0ee1da9d03b8da66abcd106a41ee85906151f439e069b962",
+      "export_sha256": "f3c53f577366f856220b8e0491d84b1b96a37ba6c35b5726988c13eb25c45311"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/f58a6b47aef541eca4e6fd7933b0adb4/traces/step-00006/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/f58a6b47aef541eca4e6fd7933b0adb4/traces/step-00006/profile.json",
+      "original_sha256": "e2b64c05a25026659189036dee7f728902443f922fec1ee2b241af666ee7e970",
+      "export_sha256": "2f921324d393f3435ebc342f8faeb9a44b81f511c70a11c018a42de2489946da"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/f58a6b47aef541eca4e6fd7933b0adb4/traces/step-00007/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/f58a6b47aef541eca4e6fd7933b0adb4/traces/step-00007/profile.json",
+      "original_sha256": "5f86ef91328ea4752ca93159f7b9e017b02e6851d91431edbe82699eebae9e45",
+      "export_sha256": "501089d06c4bdb7a92785d6f6dc3cd57e2c868005e960228b170e83c80175f74"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/fb97b90f6d9f49869ffebb2eee0a6132/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/fb97b90f6d9f49869ffebb2eee0a6132/traces/step-00000/profile.json",
+      "original_sha256": "08af0b27870ea7915d34dc346bedf680b04c5b89f627eb517e8389f906f69877",
+      "export_sha256": "ec82dff9a9b80df2ec4d7180855e36d63bf9f4c78a82b493402a8aaf5c705285"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/fb97b90f6d9f49869ffebb2eee0a6132/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/fb97b90f6d9f49869ffebb2eee0a6132/traces/step-00001/profile.json",
+      "original_sha256": "e7217b04437bb3ba705f2d631685260e2f46c5278694c9f669d9233350b86ba2",
+      "export_sha256": "185db8a8baa490f0612fe9d24bc61d1d308b81a24238351b7583a8d231938ef9"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/fb97b90f6d9f49869ffebb2eee0a6132/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/fb97b90f6d9f49869ffebb2eee0a6132/traces/step-00002/profile.json",
+      "original_sha256": "3b17b5dfe71c4b4865031e8d5727b4ec5b0a026b13384e94108ecd8edad61106",
+      "export_sha256": "663395661f7373112638d3e135da25c8ec72c9d9738cec512774808d14369f93"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/fb97b90f6d9f49869ffebb2eee0a6132/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/fb97b90f6d9f49869ffebb2eee0a6132/traces/step-00003/profile.json",
+      "original_sha256": "d02fe8f544704c014153d100cf08b14bee03042b30c6d99a06f33c132a528f81",
+      "export_sha256": "4744e32b2061f8d62ae9c65eddf3ea3bcb5fa61e31f1f0ba87f82d867c31a7c5"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/fec791524fd94f9aa6975acfbe7fbfb0/research/objects/b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/fec791524fd94f9aa6975acfbe7fbfb0/research/objects/b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6.json",
+      "original_sha256": "b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6",
+      "export_sha256": "b219d6a1ed8dca62e1f928c0e864de9894b7a5babaa3c118c5d6decac2cfc9e6"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/fec791524fd94f9aa6975acfbe7fbfb0/research/objects/eebf7e648df6ef3eae6840dba832e879e0116c159ddf9ae0c1797a8092733539.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/fec791524fd94f9aa6975acfbe7fbfb0/research/objects/eebf7e648df6ef3eae6840dba832e879e0116c159ddf9ae0c1797a8092733539.json",
+      "original_sha256": "eebf7e648df6ef3eae6840dba832e879e0116c159ddf9ae0c1797a8092733539",
+      "export_sha256": "eebf7e648df6ef3eae6840dba832e879e0116c159ddf9ae0c1797a8092733539"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/fec791524fd94f9aa6975acfbe7fbfb0/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/fec791524fd94f9aa6975acfbe7fbfb0/traces/step-00000/profile.json",
+      "original_sha256": "2f457be5cae8433257334dad7bc4244fd8bc98860fc6d1d8659e89019402bb03",
+      "export_sha256": "78157c91c1b7bc70d83e666d1b602587fd49b7880f3070e01749c5025c55db07"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/fec791524fd94f9aa6975acfbe7fbfb0/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/fec791524fd94f9aa6975acfbe7fbfb0/traces/step-00001/profile.json",
+      "original_sha256": "2624ab8dc6c2520837c51d3a8e288434afb7acd3a2abac8ff232193e1d871357",
+      "export_sha256": "12544b905823529cc1bc8606293c35ecfbd2947201607a43d77cb9f0a4c09f78"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/fec791524fd94f9aa6975acfbe7fbfb0/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/fec791524fd94f9aa6975acfbe7fbfb0/traces/step-00002/profile.json",
+      "original_sha256": "036feadb7915add627b1e79cbc0cf798cdd6b98ad52511707d767e3be6b8906e",
+      "export_sha256": "f52cfe3027fe652828933035972e269c11b47827beb7691b9b17b3f475d406ae"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/fec791524fd94f9aa6975acfbe7fbfb0/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/fec791524fd94f9aa6975acfbe7fbfb0/traces/step-00003/profile.json",
+      "original_sha256": "db1d70f3c68e380ec395a0ad0a1456ddd1f1f53e15ceb56a783c6d28384ad352",
+      "export_sha256": "6cc60534e22b3cc475fdcf8bb8670539cc13191f5d0d19f39ef5d3d596c1e116"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/fec791524fd94f9aa6975acfbe7fbfb0/traces/step-00004/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/fec791524fd94f9aa6975acfbe7fbfb0/traces/step-00004/profile.json",
+      "original_sha256": "5484adc6b1c7d4e105ada6cd1004cfb22db592ed344ff8838a735fbfd0256683",
+      "export_sha256": "919f0ecd01bda121e6f7bcc1809940efd0c3b5db3c9feef06fa0a82d893ed3eb"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/fec791524fd94f9aa6975acfbe7fbfb0/traces/step-00005/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/fec791524fd94f9aa6975acfbe7fbfb0/traces/step-00005/profile.json",
+      "original_sha256": "ed1fdd3ba8a7b42a89b8ceef924370c7f274adf8083042e8016bf72dda825e0e",
+      "export_sha256": "2213f7a31cd79ea3268c9c7c4b75454241bad90b08069ef1a3658f93afa8eb46"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/fec791524fd94f9aa6975acfbe7fbfb0/traces/step-00006/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/fec791524fd94f9aa6975acfbe7fbfb0/traces/step-00006/profile.json",
+      "original_sha256": "49fe636e456f2e01674bb18570ef82b3e63016dff6ae924d8508df40762dce98",
+      "export_sha256": "342eb032d54756efcd06ef1ffbd9138c46848b7c00ce72c55f34851929194565"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/attempts/fec791524fd94f9aa6975acfbe7fbfb0/traces/step-00007/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/attempts/fec791524fd94f9aa6975acfbe7fbfb0/traces/step-00007/profile.json",
+      "original_sha256": "31d479291e32a5a4524f626c5948e3407c105da07aaa7af58c6929d4eb406bbd",
+      "export_sha256": "f7dbffafcfb87c908894b5d163e36097990ac0e1240933c105fdb715c5e49f85"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/research/objects/027456b8bb4531747a8c87dda874dfae5f49bcd1d5fc6f412ed8a73bb641fb10.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/research/objects/027456b8bb4531747a8c87dda874dfae5f49bcd1d5fc6f412ed8a73bb641fb10.json",
+      "original_sha256": "027456b8bb4531747a8c87dda874dfae5f49bcd1d5fc6f412ed8a73bb641fb10",
+      "export_sha256": "027456b8bb4531747a8c87dda874dfae5f49bcd1d5fc6f412ed8a73bb641fb10"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/research/objects/0b0e88507713fa15ce11f9f1c921afc94d81e4f64ad848c37e3dd0b9f9ca279d.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/research/objects/0b0e88507713fa15ce11f9f1c921afc94d81e4f64ad848c37e3dd0b9f9ca279d.json",
+      "original_sha256": "0b0e88507713fa15ce11f9f1c921afc94d81e4f64ad848c37e3dd0b9f9ca279d",
+      "export_sha256": "0b0e88507713fa15ce11f9f1c921afc94d81e4f64ad848c37e3dd0b9f9ca279d"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/research/objects/107b73c8b690790018a77fbf39d255cfbe71fbf7952ee61363c8bfd577c47461.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/research/objects/107b73c8b690790018a77fbf39d255cfbe71fbf7952ee61363c8bfd577c47461.json",
+      "original_sha256": "107b73c8b690790018a77fbf39d255cfbe71fbf7952ee61363c8bfd577c47461",
+      "export_sha256": "107b73c8b690790018a77fbf39d255cfbe71fbf7952ee61363c8bfd577c47461"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/research/objects/1c5ab0c8c7cdeb3d360153cf1881175a45a35ad652625bcc5baf54cec49cfc8f.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/research/objects/1c5ab0c8c7cdeb3d360153cf1881175a45a35ad652625bcc5baf54cec49cfc8f.json",
+      "original_sha256": "1c5ab0c8c7cdeb3d360153cf1881175a45a35ad652625bcc5baf54cec49cfc8f",
+      "export_sha256": "1c5ab0c8c7cdeb3d360153cf1881175a45a35ad652625bcc5baf54cec49cfc8f"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/research/objects/39743bea35713b2b3abd890f62a2a9764f34a5139e3be7daec6c89c81c7556e9.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/research/objects/39743bea35713b2b3abd890f62a2a9764f34a5139e3be7daec6c89c81c7556e9.json",
+      "original_sha256": "39743bea35713b2b3abd890f62a2a9764f34a5139e3be7daec6c89c81c7556e9",
+      "export_sha256": "39743bea35713b2b3abd890f62a2a9764f34a5139e3be7daec6c89c81c7556e9"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/research/objects/3ed2fd6821e5206950cabfe57c0e633f79b26861ee14077c758fa1d44c7f94bc.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/research/objects/3ed2fd6821e5206950cabfe57c0e633f79b26861ee14077c758fa1d44c7f94bc.json",
+      "original_sha256": "3ed2fd6821e5206950cabfe57c0e633f79b26861ee14077c758fa1d44c7f94bc",
+      "export_sha256": "3ed2fd6821e5206950cabfe57c0e633f79b26861ee14077c758fa1d44c7f94bc"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/research/objects/5b506bf8ddcbb0a1ec14c78d485526f8cb0d5301ddd317278fde28c447435c8d.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/research/objects/5b506bf8ddcbb0a1ec14c78d485526f8cb0d5301ddd317278fde28c447435c8d.json",
+      "original_sha256": "5b506bf8ddcbb0a1ec14c78d485526f8cb0d5301ddd317278fde28c447435c8d",
+      "export_sha256": "5b506bf8ddcbb0a1ec14c78d485526f8cb0d5301ddd317278fde28c447435c8d"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/research/objects/5f579821256c611ba45f236f5ae755291cedad041167f14d75bb2b2329ecaeba.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/research/objects/5f579821256c611ba45f236f5ae755291cedad041167f14d75bb2b2329ecaeba.json",
+      "original_sha256": "5f579821256c611ba45f236f5ae755291cedad041167f14d75bb2b2329ecaeba",
+      "export_sha256": "5f579821256c611ba45f236f5ae755291cedad041167f14d75bb2b2329ecaeba"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/research/objects/6c97342278dd0aae55f97c806de632cbd289bcf9d57b97c5a305cc70acbfc527.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/research/objects/6c97342278dd0aae55f97c806de632cbd289bcf9d57b97c5a305cc70acbfc527.json",
+      "original_sha256": "6c97342278dd0aae55f97c806de632cbd289bcf9d57b97c5a305cc70acbfc527",
+      "export_sha256": "6c97342278dd0aae55f97c806de632cbd289bcf9d57b97c5a305cc70acbfc527"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/research/objects/6c9ffecc801645d560afb8134148a4135d10e850e6a166f33b3b3eccd1f26f01.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/research/objects/6c9ffecc801645d560afb8134148a4135d10e850e6a166f33b3b3eccd1f26f01.json",
+      "original_sha256": "6c9ffecc801645d560afb8134148a4135d10e850e6a166f33b3b3eccd1f26f01",
+      "export_sha256": "6c9ffecc801645d560afb8134148a4135d10e850e6a166f33b3b3eccd1f26f01"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/research/objects/81d1791dbc994b42727b5154b3ab803753e24074df9958b08a7ae68698ecec5a.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/research/objects/81d1791dbc994b42727b5154b3ab803753e24074df9958b08a7ae68698ecec5a.json",
+      "original_sha256": "81d1791dbc994b42727b5154b3ab803753e24074df9958b08a7ae68698ecec5a",
+      "export_sha256": "81d1791dbc994b42727b5154b3ab803753e24074df9958b08a7ae68698ecec5a"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/research/objects/87f8efc88225a76491353bf93456774c99dfe2948f6b68017830f11a83fa3c7a.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/research/objects/87f8efc88225a76491353bf93456774c99dfe2948f6b68017830f11a83fa3c7a.json",
+      "original_sha256": "87f8efc88225a76491353bf93456774c99dfe2948f6b68017830f11a83fa3c7a",
+      "export_sha256": "87f8efc88225a76491353bf93456774c99dfe2948f6b68017830f11a83fa3c7a"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/research/objects/d97fd119248205f821e579ed444e2b922fda51b04aa936c82ebecc799d423928.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/research/objects/d97fd119248205f821e579ed444e2b922fda51b04aa936c82ebecc799d423928.json",
+      "original_sha256": "d97fd119248205f821e579ed444e2b922fda51b04aa936c82ebecc799d423928",
+      "export_sha256": "d97fd119248205f821e579ed444e2b922fda51b04aa936c82ebecc799d423928"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3/store/research/objects/fa7f19c6b076123bc637c4c008636596b1829e41e1f8cf84f65e1f6f2500bce7.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store/research/objects/fa7f19c6b076123bc637c4c008636596b1829e41e1f8cf84f65e1f6f2500bce7.json",
+      "original_sha256": "fa7f19c6b076123bc637c4c008636596b1829e41e1f8cf84f65e1f6f2500bce7",
+      "export_sha256": "fa7f19c6b076123bc637c4c008636596b1829e41e1f8cf84f65e1f6f2500bce7"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3-fp4-validation/child.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3-fp4-validation/child.json",
+      "original_sha256": "84c7bf53702ea20ccb230108b1749517d0956f8081121356639bb5b1bab88b8c",
+      "export_sha256": "84c7bf53702ea20ccb230108b1749517d0956f8081121356639bb5b1bab88b8c"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3-fp4-validation/job.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3-fp4-validation/job.json",
+      "original_sha256": "8bb754a2562c1ccf2ee5ef2ea74e3110f6f42de3bb281f4c58479eb723126be7",
+      "export_sha256": "8bb754a2562c1ccf2ee5ef2ea74e3110f6f42de3bb281f4c58479eb723126be7"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3-fp4-validation/result.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3-fp4-validation/result.json",
+      "original_sha256": "9fa31134946435830eab8a65207932b9948b50baffe0a46d6739e0bf82ae4b29",
+      "export_sha256": "9fa31134946435830eab8a65207932b9948b50baffe0a46d6739e0bf82ae4b29"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3-fp4-validation/store/research/objects/02f8e07dac2450c6257cbbd9ac3311f1b7a46b93410df3cf44d6639ad08d157f.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3-fp4-validation/store/research/objects/02f8e07dac2450c6257cbbd9ac3311f1b7a46b93410df3cf44d6639ad08d157f.json",
+      "original_sha256": "02f8e07dac2450c6257cbbd9ac3311f1b7a46b93410df3cf44d6639ad08d157f",
+      "export_sha256": "02f8e07dac2450c6257cbbd9ac3311f1b7a46b93410df3cf44d6639ad08d157f"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3-fp4-validation/summary.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3-fp4-validation/summary.json",
+      "original_sha256": "75cc41e35d048ee2dad5312a470b0be14d203b5c72c50d4def425316d10ba425",
+      "export_sha256": "75cc41e35d048ee2dad5312a470b0be14d203b5c72c50d4def425316d10ba425"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3-index-00.jsonl",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3-index-00.jsonl",
+      "original_sha256": "59f4242c75f1a15a3d83f65a9ad7829cbec604b9fbbe92368a40d2548f9a6b21",
+      "export_sha256": "59f4242c75f1a15a3d83f65a9ad7829cbec604b9fbbe92368a40d2548f9a6b21"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3-index-00.jsonl.attempts/00-1ab0b6fe97824d6f8a28ce7c3dea4807/job.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3-index-00.jsonl.attempts/00-1ab0b6fe97824d6f8a28ce7c3dea4807/job.json",
+      "original_sha256": "094dc673362097d3a452c3889eb2ca855e9e0a446f9ebafed4ff519147e9ae52",
+      "export_sha256": "094dc673362097d3a452c3889eb2ca855e9e0a446f9ebafed4ff519147e9ae52"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3-index-00.jsonl.attempts/00-1ab0b6fe97824d6f8a28ce7c3dea4807/result.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3-index-00.jsonl.attempts/00-1ab0b6fe97824d6f8a28ce7c3dea4807/result.json",
+      "original_sha256": "7fc01e098348bb65be3611efb9c572fbda90f1ec4693eca3e23c71a848a397da",
+      "export_sha256": "7fc01e098348bb65be3611efb9c572fbda90f1ec4693eca3e23c71a848a397da"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3-index-01.jsonl.attempts/01-6f3d279194bd436d97681555f678c49a/job.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3-index-01.jsonl.attempts/01-6f3d279194bd436d97681555f678c49a/job.json",
+      "original_sha256": "2fd253901216c851c4425c81a24bd33e519fc2728bdfd867a45646025e6a0d5a",
+      "export_sha256": "2fd253901216c851c4425c81a24bd33e519fc2728bdfd867a45646025e6a0d5a"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3-int4-validation/child.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3-int4-validation/child.json",
+      "original_sha256": "a5cc2d431df73e628922a096414825d96eae42c738ad5117c03f31492ab288e2",
+      "export_sha256": "a5cc2d431df73e628922a096414825d96eae42c738ad5117c03f31492ab288e2"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3-int4-validation/job.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3-int4-validation/job.json",
+      "original_sha256": "36fdbf8c474ed344d8772e699d2b8ec118e6346d24cfae9516fe37672aaa57dd",
+      "export_sha256": "36fdbf8c474ed344d8772e699d2b8ec118e6346d24cfae9516fe37672aaa57dd"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3-int4-validation/result.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3-int4-validation/result.json",
+      "original_sha256": "e40fba74e826696198aceb858cec8f118240f9e5bc72c20d174f327fb849dcfb",
+      "export_sha256": "e40fba74e826696198aceb858cec8f118240f9e5bc72c20d174f327fb849dcfb"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3-int4-validation/store/research/objects/7738edefc929b8ffc985443cc33aaced8717db17d3186c1e13eb7877bf841332.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3-int4-validation/store/research/objects/7738edefc929b8ffc985443cc33aaced8717db17d3186c1e13eb7877bf841332.json",
+      "original_sha256": "7738edefc929b8ffc985443cc33aaced8717db17d3186c1e13eb7877bf841332",
+      "export_sha256": "7738edefc929b8ffc985443cc33aaced8717db17d3186c1e13eb7877bf841332"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3-int4-validation/summary.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3-int4-validation/summary.json",
+      "original_sha256": "af512da8171cbcbb3311cb7b28931e45e56b846960786d2093a9d7523de3d506",
+      "export_sha256": "af512da8171cbcbb3311cb7b28931e45e56b846960786d2093a9d7523de3d506"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen3-pilot-timing.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3-pilot-timing.json",
+      "original_sha256": "e5f37ff1c18c8f2bce077664380bbca083c68e7de261be143c05f54c790ca7c5",
+      "export_sha256": "e5f37ff1c18c8f2bce077664380bbca083c68e7de261be143c05f54c790ca7c5"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/manifest.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/manifest.json",
+      "original_sha256": "7c4b7b3fccc5b7d441a105815cc04c44a393c79efe40f268a4640adeff880d38",
+      "export_sha256": "7c4b7b3fccc5b7d441a105815cc04c44a393c79efe40f268a4640adeff880d38"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/03b975faa7b24464a19ea9239e61644e/research/objects/c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/03b975faa7b24464a19ea9239e61644e/research/objects/c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95.json",
+      "original_sha256": "c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95",
+      "export_sha256": "c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/03b975faa7b24464a19ea9239e61644e/research/objects/da251ab2e319c57e9cc54d7595aa876cb6745646787bdea70140c1851cfb9de2.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/03b975faa7b24464a19ea9239e61644e/research/objects/da251ab2e319c57e9cc54d7595aa876cb6745646787bdea70140c1851cfb9de2.json",
+      "original_sha256": "da251ab2e319c57e9cc54d7595aa876cb6745646787bdea70140c1851cfb9de2",
+      "export_sha256": "da251ab2e319c57e9cc54d7595aa876cb6745646787bdea70140c1851cfb9de2"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/03b975faa7b24464a19ea9239e61644e/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/03b975faa7b24464a19ea9239e61644e/traces/step-00000/profile.json",
+      "original_sha256": "d55593ff1481353004cfd038944ee365cda2c4dce8fc66798771181897516e2a",
+      "export_sha256": "03dceabde48bc8866bf907b03e0e1f4f46f219ac0ed9fb2d174fe362d17b445a"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/03b975faa7b24464a19ea9239e61644e/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/03b975faa7b24464a19ea9239e61644e/traces/step-00001/profile.json",
+      "original_sha256": "35ada37b5a7fb6e21a25e9faf9b35c51c058d8811516e983bf9944946d17d32d",
+      "export_sha256": "c96671b2c4b281cde89d1249200eb52d8894d0c80077b2b176065f2af93e98e8"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/03b975faa7b24464a19ea9239e61644e/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/03b975faa7b24464a19ea9239e61644e/traces/step-00002/profile.json",
+      "original_sha256": "171ed6e0143bafa904444bb67c4acefd7ffeddb3b2fe4a5212c3eadeaddb4b45",
+      "export_sha256": "adc13a78a32396e034c4ce9d8c12e0402fcfa44f3083357ef79e7f11dc35d27e"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/03b975faa7b24464a19ea9239e61644e/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/03b975faa7b24464a19ea9239e61644e/traces/step-00003/profile.json",
+      "original_sha256": "84e5982c3ed30c83df9cebf68f6a4f021125fa6e0a78d35c9d34d5d845310a4e",
+      "export_sha256": "cc846e8f51341fbdf0624be4a624bb574bb8ff4c14722e09b10fb8127a6c7aca"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/03b975faa7b24464a19ea9239e61644e/traces/step-00004/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/03b975faa7b24464a19ea9239e61644e/traces/step-00004/profile.json",
+      "original_sha256": "001e533c78edb177d8317f3529b94403fd5ca3eb906e12e839311d12a0c39efd",
+      "export_sha256": "75afe5f5b0d7800f90a770c8b4e3d67949e047faf705d52400a9e889e887cfca"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/03b975faa7b24464a19ea9239e61644e/traces/step-00005/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/03b975faa7b24464a19ea9239e61644e/traces/step-00005/profile.json",
+      "original_sha256": "f46b0afef263f0afdbd1758ee82d02d7f80c62fce82fb0e1d2af94a319f45d48",
+      "export_sha256": "d72cb976ba9e84c0922088c88e4b5edd527a8f524d6dbaa2abc054701f7e5822"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/03b975faa7b24464a19ea9239e61644e/traces/step-00006/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/03b975faa7b24464a19ea9239e61644e/traces/step-00006/profile.json",
+      "original_sha256": "a165922dccdea08ee713b15f7a91deeafeefdb83a1c2621137e5dd77d7e2a9b9",
+      "export_sha256": "b71683c3bcc3e8a66c4582f33bf91eed3388ef969e48b9f0a9db0fd709e42acf"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/03b975faa7b24464a19ea9239e61644e/traces/step-00007/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/03b975faa7b24464a19ea9239e61644e/traces/step-00007/profile.json",
+      "original_sha256": "5d4850e1feb40f517892420e5e68916092d7f0ac91534eadf245dbf2b4d4c570",
+      "export_sha256": "6d634b7a35062c9e8d389845c13a86f487d01d4cf0c88a2fdb808240a2aa7a62"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/09f2891c61bf47b3aef51a78e7625641/research/objects/c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/09f2891c61bf47b3aef51a78e7625641/research/objects/c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95.json",
+      "original_sha256": "c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95",
+      "export_sha256": "c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/09f2891c61bf47b3aef51a78e7625641/research/objects/fb425228fc9631faf1f53e7961037b39b7466bf6081d09a534c42767ce9e6bf7.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/09f2891c61bf47b3aef51a78e7625641/research/objects/fb425228fc9631faf1f53e7961037b39b7466bf6081d09a534c42767ce9e6bf7.json",
+      "original_sha256": "fb425228fc9631faf1f53e7961037b39b7466bf6081d09a534c42767ce9e6bf7",
+      "export_sha256": "fb425228fc9631faf1f53e7961037b39b7466bf6081d09a534c42767ce9e6bf7"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/09f2891c61bf47b3aef51a78e7625641/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/09f2891c61bf47b3aef51a78e7625641/traces/step-00000/profile.json",
+      "original_sha256": "097fbc70003d5b83fff0878fbd69532ae06feabce18e324a644fd6aed2160b75",
+      "export_sha256": "1481ba25da79b841b788c986a8746bf7361821b0e04e2bd54e7c33ab4a3f6bc0"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/09f2891c61bf47b3aef51a78e7625641/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/09f2891c61bf47b3aef51a78e7625641/traces/step-00001/profile.json",
+      "original_sha256": "751d259d2a568de54f0a8ac719859741e8a0555a2ebeca2482c3121a4c791dc1",
+      "export_sha256": "74dc5cab0ef8a98456b1f7e59679e6c0bd3720275f17a867f23b82df055d25ec"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/09f2891c61bf47b3aef51a78e7625641/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/09f2891c61bf47b3aef51a78e7625641/traces/step-00002/profile.json",
+      "original_sha256": "1e7d6000d6f276e6d61e689eb719b76ffd26d79f9310329311a2001f7ea799a1",
+      "export_sha256": "aa4d5a8a176e61df8c1463ec147034f3b615ec1279cf929cd7f4cb7e6b4388d1"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/09f2891c61bf47b3aef51a78e7625641/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/09f2891c61bf47b3aef51a78e7625641/traces/step-00003/profile.json",
+      "original_sha256": "d5b057d5cf1e84cf02e315a922ca2dcfa555d34b38113600f009e8543023f982",
+      "export_sha256": "1f4d52ef9e90f114b752b5fc5bd8f7fc57f9340bb689ec73560e27009eb354c7"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/09f2891c61bf47b3aef51a78e7625641/traces/step-00004/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/09f2891c61bf47b3aef51a78e7625641/traces/step-00004/profile.json",
+      "original_sha256": "9f9292337044fa16a59adb92e3bd9dc1144a2ecf65dfb2673b97c640a7fd0a35",
+      "export_sha256": "935d4ad9f0fda61cce0770b282555680cb503f3693194fc7d2761f70e658c443"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/09f2891c61bf47b3aef51a78e7625641/traces/step-00005/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/09f2891c61bf47b3aef51a78e7625641/traces/step-00005/profile.json",
+      "original_sha256": "9cac032c76774af15cbe742125a17ab678e80d183c6c736b0936a0a22dad507f",
+      "export_sha256": "d4c7ac5555bc82416e63f25f8728d18e96849cf3d743e04a1addfe9930d97171"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/09f2891c61bf47b3aef51a78e7625641/traces/step-00006/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/09f2891c61bf47b3aef51a78e7625641/traces/step-00006/profile.json",
+      "original_sha256": "eae0b55030f7b8c5d1d0fe68aa415532c91f9c907a1829430401c265c155401c",
+      "export_sha256": "bca27736d0852e3b6c48e82d556244508e0e766a7eac2e1c2a938e33048cd4d4"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/09f2891c61bf47b3aef51a78e7625641/traces/step-00007/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/09f2891c61bf47b3aef51a78e7625641/traces/step-00007/profile.json",
+      "original_sha256": "bd0f19d86b506af2e63c3785a1ee2da97adae016602bfd595ffc36ab35b20500",
+      "export_sha256": "44651882e2aaf2b161d5b2e8b48ea8885b2a8b97fa4f0afb3e2fb765e0241c85"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/0f83184b93f445f8a1f8c13c78ad3d83/research/objects/a7d9f4fc37a7a1344c6ef4911393d0516a6b4427b6b41f3f5267f39e025fbfc8.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/0f83184b93f445f8a1f8c13c78ad3d83/research/objects/a7d9f4fc37a7a1344c6ef4911393d0516a6b4427b6b41f3f5267f39e025fbfc8.json",
+      "original_sha256": "a7d9f4fc37a7a1344c6ef4911393d0516a6b4427b6b41f3f5267f39e025fbfc8",
+      "export_sha256": "a7d9f4fc37a7a1344c6ef4911393d0516a6b4427b6b41f3f5267f39e025fbfc8"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/0f83184b93f445f8a1f8c13c78ad3d83/research/objects/c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/0f83184b93f445f8a1f8c13c78ad3d83/research/objects/c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95.json",
+      "original_sha256": "c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95",
+      "export_sha256": "c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/0f83184b93f445f8a1f8c13c78ad3d83/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/0f83184b93f445f8a1f8c13c78ad3d83/traces/step-00000/profile.json",
+      "original_sha256": "097fbc70003d5b83fff0878fbd69532ae06feabce18e324a644fd6aed2160b75",
+      "export_sha256": "1481ba25da79b841b788c986a8746bf7361821b0e04e2bd54e7c33ab4a3f6bc0"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/0f83184b93f445f8a1f8c13c78ad3d83/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/0f83184b93f445f8a1f8c13c78ad3d83/traces/step-00001/profile.json",
+      "original_sha256": "751d259d2a568de54f0a8ac719859741e8a0555a2ebeca2482c3121a4c791dc1",
+      "export_sha256": "74dc5cab0ef8a98456b1f7e59679e6c0bd3720275f17a867f23b82df055d25ec"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/0f83184b93f445f8a1f8c13c78ad3d83/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/0f83184b93f445f8a1f8c13c78ad3d83/traces/step-00002/profile.json",
+      "original_sha256": "1e7d6000d6f276e6d61e689eb719b76ffd26d79f9310329311a2001f7ea799a1",
+      "export_sha256": "aa4d5a8a176e61df8c1463ec147034f3b615ec1279cf929cd7f4cb7e6b4388d1"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/0f83184b93f445f8a1f8c13c78ad3d83/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/0f83184b93f445f8a1f8c13c78ad3d83/traces/step-00003/profile.json",
+      "original_sha256": "d5b057d5cf1e84cf02e315a922ca2dcfa555d34b38113600f009e8543023f982",
+      "export_sha256": "1f4d52ef9e90f114b752b5fc5bd8f7fc57f9340bb689ec73560e27009eb354c7"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/0f83184b93f445f8a1f8c13c78ad3d83/traces/step-00004/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/0f83184b93f445f8a1f8c13c78ad3d83/traces/step-00004/profile.json",
+      "original_sha256": "9f9292337044fa16a59adb92e3bd9dc1144a2ecf65dfb2673b97c640a7fd0a35",
+      "export_sha256": "935d4ad9f0fda61cce0770b282555680cb503f3693194fc7d2761f70e658c443"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/1e6a8a1b93b34c54ae0f1b869b6f2dec/research/objects/0802e71bfac42de49d2ee50bd0071b32a25e7eedc1b270c206dc39cd5c853426.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/1e6a8a1b93b34c54ae0f1b869b6f2dec/research/objects/0802e71bfac42de49d2ee50bd0071b32a25e7eedc1b270c206dc39cd5c853426.json",
+      "original_sha256": "0802e71bfac42de49d2ee50bd0071b32a25e7eedc1b270c206dc39cd5c853426",
+      "export_sha256": "0802e71bfac42de49d2ee50bd0071b32a25e7eedc1b270c206dc39cd5c853426"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/1e6a8a1b93b34c54ae0f1b869b6f2dec/research/objects/c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/1e6a8a1b93b34c54ae0f1b869b6f2dec/research/objects/c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95.json",
+      "original_sha256": "c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95",
+      "export_sha256": "c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/1e6a8a1b93b34c54ae0f1b869b6f2dec/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/1e6a8a1b93b34c54ae0f1b869b6f2dec/traces/step-00000/profile.json",
+      "original_sha256": "f6ee928ef0b1406d8ad7b0824681a0f367383ae03f8080e6c571944713ebd021",
+      "export_sha256": "d0985a08101f125c42c159242f1f80c9d7260642265cf8e4b6ddb9167e94c127"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/1e6a8a1b93b34c54ae0f1b869b6f2dec/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/1e6a8a1b93b34c54ae0f1b869b6f2dec/traces/step-00001/profile.json",
+      "original_sha256": "97fd1927c997e655bea26fa92bafb4769651e78e1bf88de65c9c02be20bafc0f",
+      "export_sha256": "5f86c5a2a4c2b5916b709042066102a67aafa78337c63798166747280e692631"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/1e6a8a1b93b34c54ae0f1b869b6f2dec/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/1e6a8a1b93b34c54ae0f1b869b6f2dec/traces/step-00002/profile.json",
+      "original_sha256": "ced7b48e2e66857942d2550cd41e2c86d419fb8a2c50cf27e138c8d2448d3479",
+      "export_sha256": "c90ea7e78dcb344704c718edcbacc4abc55787c12bf54c15968ade964606af9d"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/1e6a8a1b93b34c54ae0f1b869b6f2dec/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/1e6a8a1b93b34c54ae0f1b869b6f2dec/traces/step-00003/profile.json",
+      "original_sha256": "f72fc4292d79ea360be90e3a9c4bc278a723b11af7f24454760de14ad36cf4ba",
+      "export_sha256": "2073c1746b0262309b3dd7534433206139601c71e2543c00ee74884f6253e608"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/1e6a8a1b93b34c54ae0f1b869b6f2dec/traces/step-00004/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/1e6a8a1b93b34c54ae0f1b869b6f2dec/traces/step-00004/profile.json",
+      "original_sha256": "9f46b319ab500fba761816324ee41398a2023e7b359fcdf1e7134e61f3be073b",
+      "export_sha256": "485d754ec8378359064893b4f0d9e3eb1722d119b5f032e036452d50c85869b4"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/21edbeed115e4646adfb9ba42f4b48a1/research/objects/3c9f774ef1e13bf2ac72fd5fa2109bbeea599952897709eb67a5b50a0ea45c15.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/21edbeed115e4646adfb9ba42f4b48a1/research/objects/3c9f774ef1e13bf2ac72fd5fa2109bbeea599952897709eb67a5b50a0ea45c15.json",
+      "original_sha256": "3c9f774ef1e13bf2ac72fd5fa2109bbeea599952897709eb67a5b50a0ea45c15",
+      "export_sha256": "3c9f774ef1e13bf2ac72fd5fa2109bbeea599952897709eb67a5b50a0ea45c15"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/21edbeed115e4646adfb9ba42f4b48a1/research/objects/c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/21edbeed115e4646adfb9ba42f4b48a1/research/objects/c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95.json",
+      "original_sha256": "c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95",
+      "export_sha256": "c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/21edbeed115e4646adfb9ba42f4b48a1/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/21edbeed115e4646adfb9ba42f4b48a1/traces/step-00000/profile.json",
+      "original_sha256": "c00684121837b1057b39b59b9c1db394cbf348626888506b00944b21d695522f",
+      "export_sha256": "36f157e00fa2e6fe52cfd402e47ef7474cc7a9d31c415e8cf1379dd528b492be"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/21edbeed115e4646adfb9ba42f4b48a1/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/21edbeed115e4646adfb9ba42f4b48a1/traces/step-00001/profile.json",
+      "original_sha256": "e95a4d023661f265093954edb0a621bfff681abf6b9f95c107fc8ac0b1957e67",
+      "export_sha256": "a63243dbafc471f2c2787406df6d93bd7237d7becdd555e901ad98b4accc0bbb"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/21edbeed115e4646adfb9ba42f4b48a1/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/21edbeed115e4646adfb9ba42f4b48a1/traces/step-00002/profile.json",
+      "original_sha256": "ed082ab0c3ee6f7c844a54090cf77c47b3fa3a7361885ae8b2981ae9ca649dea",
+      "export_sha256": "b32cd86c04f3a87e39bea4125f92dc7fc48c62e315acbed177bcefbe98ee1bcb"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/21edbeed115e4646adfb9ba42f4b48a1/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/21edbeed115e4646adfb9ba42f4b48a1/traces/step-00003/profile.json",
+      "original_sha256": "8b51f8e1c529fbec186b100749b5059eebd14d6a5236fca4c93cb95cc772810e",
+      "export_sha256": "a17d308c54e9d652090fac6407e58a34836383c935bfa01d03ff91fc4193b066"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/21edbeed115e4646adfb9ba42f4b48a1/traces/step-00004/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/21edbeed115e4646adfb9ba42f4b48a1/traces/step-00004/profile.json",
+      "original_sha256": "f8b66a5478830f8112d32cdf7efe6eaec6d7dcf48fdfafc5fa8123c5c7c73cea",
+      "export_sha256": "2b3a39857be2d3e43cd1fd57ec97c729ea6cd8af0455114c1be07b9c11787060"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/21edbeed115e4646adfb9ba42f4b48a1/traces/step-00005/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/21edbeed115e4646adfb9ba42f4b48a1/traces/step-00005/profile.json",
+      "original_sha256": "30756b460f83bf1b2fa8b18f65b14d22f24c386a4578a1e8b0e7b91a936c4527",
+      "export_sha256": "4929f02a2d8fbff679926a30d6dacb714200c3031eafea5202cded99c49df947"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/21edbeed115e4646adfb9ba42f4b48a1/traces/step-00006/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/21edbeed115e4646adfb9ba42f4b48a1/traces/step-00006/profile.json",
+      "original_sha256": "5b88b7838b5d14f7f1f532ba5775eb743e7de397b1fe390083a23e65ccb584cc",
+      "export_sha256": "e2e92dedcb67023c7edc362265925a3beabcb653a872e7bd3c3114e9ac91ddca"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/21edbeed115e4646adfb9ba42f4b48a1/traces/step-00007/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/21edbeed115e4646adfb9ba42f4b48a1/traces/step-00007/profile.json",
+      "original_sha256": "74d1c9d6b075a2b78e80024751cd67a7b7854a12a5d7d7e01282afc7007e74b8",
+      "export_sha256": "22d9cfa9c894cfcbcd588ffae5599a1e17ffffa0e01d093b7a03e528735cdd0b"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/d220dc40661e4ec6907f9296edab299b/research/objects/9230b0a064d98c2eb56f7521476dedb1943c56dfe4d9f234ad5a24bd42d49e2e.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/d220dc40661e4ec6907f9296edab299b/research/objects/9230b0a064d98c2eb56f7521476dedb1943c56dfe4d9f234ad5a24bd42d49e2e.json",
+      "original_sha256": "9230b0a064d98c2eb56f7521476dedb1943c56dfe4d9f234ad5a24bd42d49e2e",
+      "export_sha256": "9230b0a064d98c2eb56f7521476dedb1943c56dfe4d9f234ad5a24bd42d49e2e"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/d220dc40661e4ec6907f9296edab299b/research/objects/c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/d220dc40661e4ec6907f9296edab299b/research/objects/c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95.json",
+      "original_sha256": "c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95",
+      "export_sha256": "c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/d220dc40661e4ec6907f9296edab299b/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/d220dc40661e4ec6907f9296edab299b/traces/step-00000/profile.json",
+      "original_sha256": "d55593ff1481353004cfd038944ee365cda2c4dce8fc66798771181897516e2a",
+      "export_sha256": "03dceabde48bc8866bf907b03e0e1f4f46f219ac0ed9fb2d174fe362d17b445a"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/d220dc40661e4ec6907f9296edab299b/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/d220dc40661e4ec6907f9296edab299b/traces/step-00001/profile.json",
+      "original_sha256": "35ada37b5a7fb6e21a25e9faf9b35c51c058d8811516e983bf9944946d17d32d",
+      "export_sha256": "c96671b2c4b281cde89d1249200eb52d8894d0c80077b2b176065f2af93e98e8"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/d220dc40661e4ec6907f9296edab299b/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/d220dc40661e4ec6907f9296edab299b/traces/step-00002/profile.json",
+      "original_sha256": "171ed6e0143bafa904444bb67c4acefd7ffeddb3b2fe4a5212c3eadeaddb4b45",
+      "export_sha256": "adc13a78a32396e034c4ce9d8c12e0402fcfa44f3083357ef79e7f11dc35d27e"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/d220dc40661e4ec6907f9296edab299b/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/d220dc40661e4ec6907f9296edab299b/traces/step-00003/profile.json",
+      "original_sha256": "84e5982c3ed30c83df9cebf68f6a4f021125fa6e0a78d35c9d34d5d845310a4e",
+      "export_sha256": "cc846e8f51341fbdf0624be4a624bb574bb8ff4c14722e09b10fb8127a6c7aca"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/d220dc40661e4ec6907f9296edab299b/traces/step-00004/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/d220dc40661e4ec6907f9296edab299b/traces/step-00004/profile.json",
+      "original_sha256": "001e533c78edb177d8317f3529b94403fd5ca3eb906e12e839311d12a0c39efd",
+      "export_sha256": "75afe5f5b0d7800f90a770c8b4e3d67949e047faf705d52400a9e889e887cfca"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/edbf5e0f0dae408eb2def47045082c61/research/objects/2db64caeabe43b8e53c20de12a5b1066f71d38512921199acda19c63a1c1de5a.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/edbf5e0f0dae408eb2def47045082c61/research/objects/2db64caeabe43b8e53c20de12a5b1066f71d38512921199acda19c63a1c1de5a.json",
+      "original_sha256": "2db64caeabe43b8e53c20de12a5b1066f71d38512921199acda19c63a1c1de5a",
+      "export_sha256": "2db64caeabe43b8e53c20de12a5b1066f71d38512921199acda19c63a1c1de5a"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/edbf5e0f0dae408eb2def47045082c61/research/objects/c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/edbf5e0f0dae408eb2def47045082c61/research/objects/c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95.json",
+      "original_sha256": "c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95",
+      "export_sha256": "c6c630077a8743871f8ba0ded4e0a24ce7990e412f54cbd5243f067a82b4be95"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/edbf5e0f0dae408eb2def47045082c61/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/edbf5e0f0dae408eb2def47045082c61/traces/step-00000/profile.json",
+      "original_sha256": "c00684121837b1057b39b59b9c1db394cbf348626888506b00944b21d695522f",
+      "export_sha256": "36f157e00fa2e6fe52cfd402e47ef7474cc7a9d31c415e8cf1379dd528b492be"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/edbf5e0f0dae408eb2def47045082c61/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/edbf5e0f0dae408eb2def47045082c61/traces/step-00001/profile.json",
+      "original_sha256": "e95a4d023661f265093954edb0a621bfff681abf6b9f95c107fc8ac0b1957e67",
+      "export_sha256": "a63243dbafc471f2c2787406df6d93bd7237d7becdd555e901ad98b4accc0bbb"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/edbf5e0f0dae408eb2def47045082c61/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/edbf5e0f0dae408eb2def47045082c61/traces/step-00002/profile.json",
+      "original_sha256": "ed082ab0c3ee6f7c844a54090cf77c47b3fa3a7361885ae8b2981ae9ca649dea",
+      "export_sha256": "b32cd86c04f3a87e39bea4125f92dc7fc48c62e315acbed177bcefbe98ee1bcb"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/edbf5e0f0dae408eb2def47045082c61/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/edbf5e0f0dae408eb2def47045082c61/traces/step-00003/profile.json",
+      "original_sha256": "8b51f8e1c529fbec186b100749b5059eebd14d6a5236fca4c93cb95cc772810e",
+      "export_sha256": "a17d308c54e9d652090fac6407e58a34836383c935bfa01d03ff91fc4193b066"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/attempts/edbf5e0f0dae408eb2def47045082c61/traces/step-00004/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/attempts/edbf5e0f0dae408eb2def47045082c61/traces/step-00004/profile.json",
+      "original_sha256": "f8b66a5478830f8112d32cdf7efe6eaec6d7dcf48fdfafc5fa8123c5c7c73cea",
+      "export_sha256": "2b3a39857be2d3e43cd1fd57ec97c729ea6cd8af0455114c1be07b9c11787060"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/research/objects/351f8afcabcfbcda69d18d0c6a00164e81ff9be21a8d366bf4a7d4e447cba39e.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/research/objects/351f8afcabcfbcda69d18d0c6a00164e81ff9be21a8d366bf4a7d4e447cba39e.json",
+      "original_sha256": "351f8afcabcfbcda69d18d0c6a00164e81ff9be21a8d366bf4a7d4e447cba39e",
+      "export_sha256": "351f8afcabcfbcda69d18d0c6a00164e81ff9be21a8d366bf4a7d4e447cba39e"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/research/objects/3cd53b4a6c7596fedcf8a91315f2c36567a47dad8625b92bfb25f28c11e09fe3.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/research/objects/3cd53b4a6c7596fedcf8a91315f2c36567a47dad8625b92bfb25f28c11e09fe3.json",
+      "original_sha256": "3cd53b4a6c7596fedcf8a91315f2c36567a47dad8625b92bfb25f28c11e09fe3",
+      "export_sha256": "3cd53b4a6c7596fedcf8a91315f2c36567a47dad8625b92bfb25f28c11e09fe3"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/research/objects/4407c5232245b06271b55dc89ba2d5d9771f218b515554bc5a086ec77e1734bb.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/research/objects/4407c5232245b06271b55dc89ba2d5d9771f218b515554bc5a086ec77e1734bb.json",
+      "original_sha256": "4407c5232245b06271b55dc89ba2d5d9771f218b515554bc5a086ec77e1734bb",
+      "export_sha256": "4407c5232245b06271b55dc89ba2d5d9771f218b515554bc5a086ec77e1734bb"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/research/objects/47306c5edf886a8344ca9c4779eeb1adee55b8e384239cb166bad9123656c328.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/research/objects/47306c5edf886a8344ca9c4779eeb1adee55b8e384239cb166bad9123656c328.json",
+      "original_sha256": "47306c5edf886a8344ca9c4779eeb1adee55b8e384239cb166bad9123656c328",
+      "export_sha256": "47306c5edf886a8344ca9c4779eeb1adee55b8e384239cb166bad9123656c328"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/research/objects/5c70a107a75dc5aafab558684bd852db68ff40cc0e6a972024e28a9417fbfbb7.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/research/objects/5c70a107a75dc5aafab558684bd852db68ff40cc0e6a972024e28a9417fbfbb7.json",
+      "original_sha256": "5c70a107a75dc5aafab558684bd852db68ff40cc0e6a972024e28a9417fbfbb7",
+      "export_sha256": "5c70a107a75dc5aafab558684bd852db68ff40cc0e6a972024e28a9417fbfbb7"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/research/objects/66e2beb1917f2fb8fa42e8aba2b98f0ccc53df7dc21ff593039df39ddab3627e.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/research/objects/66e2beb1917f2fb8fa42e8aba2b98f0ccc53df7dc21ff593039df39ddab3627e.json",
+      "original_sha256": "66e2beb1917f2fb8fa42e8aba2b98f0ccc53df7dc21ff593039df39ddab3627e",
+      "export_sha256": "66e2beb1917f2fb8fa42e8aba2b98f0ccc53df7dc21ff593039df39ddab3627e"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/research/objects/6793969330aed041f3da1c69fb1be843daf85a2d047ae9e0109b2ca9a2873021.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/research/objects/6793969330aed041f3da1c69fb1be843daf85a2d047ae9e0109b2ca9a2873021.json",
+      "original_sha256": "6793969330aed041f3da1c69fb1be843daf85a2d047ae9e0109b2ca9a2873021",
+      "export_sha256": "6793969330aed041f3da1c69fb1be843daf85a2d047ae9e0109b2ca9a2873021"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/research/objects/a952c771557c1263b2b8e33ff60ab38740de8096f7c637a49e483ea8d1f79f47.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/research/objects/a952c771557c1263b2b8e33ff60ab38740de8096f7c637a49e483ea8d1f79f47.json",
+      "original_sha256": "a952c771557c1263b2b8e33ff60ab38740de8096f7c637a49e483ea8d1f79f47",
+      "export_sha256": "a952c771557c1263b2b8e33ff60ab38740de8096f7c637a49e483ea8d1f79f47"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/research/objects/c2c0b2cc0ef039c22e64a7bdcadc2240f19dfc4b4db9df75c1440160558c92db.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/research/objects/c2c0b2cc0ef039c22e64a7bdcadc2240f19dfc4b4db9df75c1440160558c92db.json",
+      "original_sha256": "c2c0b2cc0ef039c22e64a7bdcadc2240f19dfc4b4db9df75c1440160558c92db",
+      "export_sha256": "c2c0b2cc0ef039c22e64a7bdcadc2240f19dfc4b4db9df75c1440160558c92db"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/research/objects/cf2d71dd245300c5627d5f9980202e20d9a0418ff53b8864647fedac656a038c.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/research/objects/cf2d71dd245300c5627d5f9980202e20d9a0418ff53b8864647fedac656a038c.json",
+      "original_sha256": "cf2d71dd245300c5627d5f9980202e20d9a0418ff53b8864647fedac656a038c",
+      "export_sha256": "cf2d71dd245300c5627d5f9980202e20d9a0418ff53b8864647fedac656a038c"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/research/objects/cf35513693741bcb2ae8a548bb2d67ead8e2e3bb4bb4d15f8c3d9255d965f351.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/research/objects/cf35513693741bcb2ae8a548bb2d67ead8e2e3bb4bb4d15f8c3d9255d965f351.json",
+      "original_sha256": "cf35513693741bcb2ae8a548bb2d67ead8e2e3bb4bb4d15f8c3d9255d965f351",
+      "export_sha256": "cf35513693741bcb2ae8a548bb2d67ead8e2e3bb4bb4d15f8c3d9255d965f351"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/research/objects/d7d08476191fb475a0dfcc9d13ad8d27aed4cf9e7dd12223821da56331070c9b.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/research/objects/d7d08476191fb475a0dfcc9d13ad8d27aed4cf9e7dd12223821da56331070c9b.json",
+      "original_sha256": "d7d08476191fb475a0dfcc9d13ad8d27aed4cf9e7dd12223821da56331070c9b",
+      "export_sha256": "d7d08476191fb475a0dfcc9d13ad8d27aed4cf9e7dd12223821da56331070c9b"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/research/objects/e24b31026e5e2b26cafdc86fee5c801b47944aa436eac1b8dc58bf6fe878cc6f.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/research/objects/e24b31026e5e2b26cafdc86fee5c801b47944aa436eac1b8dc58bf6fe878cc6f.json",
+      "original_sha256": "e24b31026e5e2b26cafdc86fee5c801b47944aa436eac1b8dc58bf6fe878cc6f",
+      "export_sha256": "e24b31026e5e2b26cafdc86fee5c801b47944aa436eac1b8dc58bf6fe878cc6f"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35/store/research/objects/e9fe36c80a1365870efc280c99e87030b0a1c577236fb158777f9aa58425d009.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35/store/research/objects/e9fe36c80a1365870efc280c99e87030b0a1c577236fb158777f9aa58425d009.json",
+      "original_sha256": "e9fe36c80a1365870efc280c99e87030b0a1c577236fb158777f9aa58425d009",
+      "export_sha256": "e9fe36c80a1365870efc280c99e87030b0a1c577236fb158777f9aa58425d009"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35-fp4-validation/child.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35-fp4-validation/child.json",
+      "original_sha256": "4a775be8d2eedc6e96e6f47cdcc072d5af9a7180d17cf2a176b9c71140f01f03",
+      "export_sha256": "4a775be8d2eedc6e96e6f47cdcc072d5af9a7180d17cf2a176b9c71140f01f03"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35-fp4-validation/job.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35-fp4-validation/job.json",
+      "original_sha256": "8b052d0005fcded2c70d90edeb8ce886a0dd5b8f507a9cd3dca11582f29c37ef",
+      "export_sha256": "8b052d0005fcded2c70d90edeb8ce886a0dd5b8f507a9cd3dca11582f29c37ef"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35-fp4-validation/result.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35-fp4-validation/result.json",
+      "original_sha256": "9dbe28091aa81f4be5f8483ec4dc647db1f13b0047aeff27c8a48143f6eddb54",
+      "export_sha256": "9dbe28091aa81f4be5f8483ec4dc647db1f13b0047aeff27c8a48143f6eddb54"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35-fp4-validation/store/research/objects/7f4a725d873eab6bd4f58a90333a07167d35fa919d73d5fc71dc794162fcdc69.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35-fp4-validation/store/research/objects/7f4a725d873eab6bd4f58a90333a07167d35fa919d73d5fc71dc794162fcdc69.json",
+      "original_sha256": "7f4a725d873eab6bd4f58a90333a07167d35fa919d73d5fc71dc794162fcdc69",
+      "export_sha256": "7f4a725d873eab6bd4f58a90333a07167d35fa919d73d5fc71dc794162fcdc69"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35-fp4-validation/summary.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35-fp4-validation/summary.json",
+      "original_sha256": "7ecf015feceb475d42ef9b1b0cf9ab579a6fe50ad1f856c02d908f0bcf09b259",
+      "export_sha256": "7ecf015feceb475d42ef9b1b0cf9ab579a6fe50ad1f856c02d908f0bcf09b259"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35-index-00.jsonl",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35-index-00.jsonl",
+      "original_sha256": "b42fad95ff5c0ff24706347eb17352325b2fa47f42e14cc92c78b94e3ba75f48",
+      "export_sha256": "b42fad95ff5c0ff24706347eb17352325b2fa47f42e14cc92c78b94e3ba75f48"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35-index-00.jsonl.attempts/00-ad3be4872e5e4684b1e983e76d895b91/job.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35-index-00.jsonl.attempts/00-ad3be4872e5e4684b1e983e76d895b91/job.json",
+      "original_sha256": "fb0bfd11fedcdb0a4982024a2e177138c222503144d5daed89212b83ce3191b1",
+      "export_sha256": "fb0bfd11fedcdb0a4982024a2e177138c222503144d5daed89212b83ce3191b1"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35-index-00.jsonl.attempts/00-ad3be4872e5e4684b1e983e76d895b91/result.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35-index-00.jsonl.attempts/00-ad3be4872e5e4684b1e983e76d895b91/result.json",
+      "original_sha256": "e25e340472bb4e24f584f08d292b4a33e3cfc95b68106fefb2b45033e015e2cb",
+      "export_sha256": "e25e340472bb4e24f584f08d292b4a33e3cfc95b68106fefb2b45033e015e2cb"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35-int4-validation/child.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35-int4-validation/child.json",
+      "original_sha256": "c2e0c49d5c3e15f0c4f306eee4189a0fe011a6aad0d41f018a11095ee91d3841",
+      "export_sha256": "c2e0c49d5c3e15f0c4f306eee4189a0fe011a6aad0d41f018a11095ee91d3841"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35-int4-validation/job.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35-int4-validation/job.json",
+      "original_sha256": "ba33bec7dbb4b62176339d07abde7e6a239fff925ca7fc34c7ae67d436b337e1",
+      "export_sha256": "ba33bec7dbb4b62176339d07abde7e6a239fff925ca7fc34c7ae67d436b337e1"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35-int4-validation/result.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35-int4-validation/result.json",
+      "original_sha256": "283707393be7ad187fa26a19b025404b6f1ed4d842dd00c4d97e07734fa5062a",
+      "export_sha256": "283707393be7ad187fa26a19b025404b6f1ed4d842dd00c4d97e07734fa5062a"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35-int4-validation/store/research/objects/040bb5fbbde2a0a1f7d0bfc94f56dcee46a04f852b6c7de89b0d9eb79acf9abc.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35-int4-validation/store/research/objects/040bb5fbbde2a0a1f7d0bfc94f56dcee46a04f852b6c7de89b0d9eb79acf9abc.json",
+      "original_sha256": "040bb5fbbde2a0a1f7d0bfc94f56dcee46a04f852b6c7de89b0d9eb79acf9abc",
+      "export_sha256": "040bb5fbbde2a0a1f7d0bfc94f56dcee46a04f852b6c7de89b0d9eb79acf9abc"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35-int4-validation/summary.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35-int4-validation/summary.json",
+      "original_sha256": "233ba46b65778c65e441d1aceac3052baeabb8877b1dd54aec098ad944a28c27",
+      "export_sha256": "233ba46b65778c65e441d1aceac3052baeabb8877b1dd54aec098ad944a28c27"
+    },
+    {
+      "path": "benchmark-window-20261001-01/qwen35-pilot-timing.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen35-pilot-timing.json",
+      "original_sha256": "7818e4584fde81f134f9c9cb0e34b9720d0e9fd8f81da4e36bd7307915457f9b",
+      "export_sha256": "7818e4584fde81f134f9c9cb0e34b9720d0e9fd8f81da4e36bd7307915457f9b"
+    },
+    {
+      "path": "benchmark-window-20261001-01/stores.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/stores.json",
+      "original_sha256": "b8244bbd16b00375b88c87ed016e6e9f9d0833cf942ef61e38957e577cd5ec8d",
+      "export_sha256": "b8244bbd16b00375b88c87ed016e6e9f9d0833cf942ef61e38957e577cd5ec8d"
+    },
+    {
+      "path": "lfm2-01/store/attempts/0c1c80fe6a6e475a8074fd6e9e8b882b/research/objects/3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/0c1c80fe6a6e475a8074fd6e9e8b882b/research/objects/3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991.json",
+      "original_sha256": "3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991",
+      "export_sha256": "3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991"
+    },
+    {
+      "path": "lfm2-01/store/attempts/0c1c80fe6a6e475a8074fd6e9e8b882b/research/objects/a2b880e610fc1aab0c07cbb8f361895ebf51c10f19b557c1a3934c5760d5b86d.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/0c1c80fe6a6e475a8074fd6e9e8b882b/research/objects/a2b880e610fc1aab0c07cbb8f361895ebf51c10f19b557c1a3934c5760d5b86d.json",
+      "original_sha256": "a2b880e610fc1aab0c07cbb8f361895ebf51c10f19b557c1a3934c5760d5b86d",
+      "export_sha256": "a2b880e610fc1aab0c07cbb8f361895ebf51c10f19b557c1a3934c5760d5b86d"
+    },
+    {
+      "path": "lfm2-01/store/attempts/0c1c80fe6a6e475a8074fd6e9e8b882b/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/0c1c80fe6a6e475a8074fd6e9e8b882b/traces/step-00000/profile.json",
+      "original_sha256": "04fa8d20d409c726234f011bc247cdf0792f8f6dd18798beb1a75d1bebdaec8c",
+      "export_sha256": "f16a017715e493e73958939f10bafa662e81e54dd5f5ece378a7a56a581bdb3c"
+    },
+    {
+      "path": "lfm2-01/store/attempts/0c1c80fe6a6e475a8074fd6e9e8b882b/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/0c1c80fe6a6e475a8074fd6e9e8b882b/traces/step-00001/profile.json",
+      "original_sha256": "a20df04e6cee5460ee54198d866bede0386bfd1d1f70113a511be7efbb1f5934",
+      "export_sha256": "a49e3c6283bb450c8bb5eeafcf0b193a6b0cde86e02f1a439b91b8b7932f9408"
+    },
+    {
+      "path": "lfm2-01/store/attempts/0c1c80fe6a6e475a8074fd6e9e8b882b/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/0c1c80fe6a6e475a8074fd6e9e8b882b/traces/step-00002/profile.json",
+      "original_sha256": "e32ee0e0f0a92ea1444a14b5de52a9d989ef135bec029909d2beb87ec0a7e8ae",
+      "export_sha256": "60be1aa99f4d168ecb3697ac108b62b20039f02e3072f243feeafc9c854730b3"
+    },
+    {
+      "path": "lfm2-01/store/attempts/0c1c80fe6a6e475a8074fd6e9e8b882b/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/0c1c80fe6a6e475a8074fd6e9e8b882b/traces/step-00003/profile.json",
+      "original_sha256": "0bd502c10b9b26a4d7e1adb48d6f285ab498c658b6ee59ca6bb5a967f6de0cba",
+      "export_sha256": "296ec2b135018c23cb7f22a534f696858b282aab2ecb502ace3c4432afa5670e"
+    },
+    {
+      "path": "lfm2-01/store/attempts/0c1c80fe6a6e475a8074fd6e9e8b882b/traces/step-00004/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/0c1c80fe6a6e475a8074fd6e9e8b882b/traces/step-00004/profile.json",
+      "original_sha256": "ce3f2b88493c02cb09242480eac9239f87cc2bfd9162e5745c5322bb6b88eea6",
+      "export_sha256": "601b0047ecbbf233353af3ba4af903027c4788aabb69a132bd2cf13828e79b44"
+    },
+    {
+      "path": "lfm2-01/store/attempts/0c1c80fe6a6e475a8074fd6e9e8b882b/traces/step-00005/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/0c1c80fe6a6e475a8074fd6e9e8b882b/traces/step-00005/profile.json",
+      "original_sha256": "64babf4a57a1ae720245c6c8d6e493a1897d770b4625c6f54f3f1ea46285f53f",
+      "export_sha256": "7a8aad994ebee7e2f7689259a5de7174c55d45270cb0b823446fb2f4c5ef3af8"
+    },
+    {
+      "path": "lfm2-01/store/attempts/0c1c80fe6a6e475a8074fd6e9e8b882b/traces/step-00006/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/0c1c80fe6a6e475a8074fd6e9e8b882b/traces/step-00006/profile.json",
+      "original_sha256": "5ad956db97589af21ab73283520f447fa1a39950f92e7ae7ebd3f3eafcbba992",
+      "export_sha256": "390e2bf556911e781d8ad6c82dbb9ef50b501fb1d173f521d363bde899297dd9"
+    },
+    {
+      "path": "lfm2-01/store/attempts/0c1c80fe6a6e475a8074fd6e9e8b882b/traces/step-00007/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/0c1c80fe6a6e475a8074fd6e9e8b882b/traces/step-00007/profile.json",
+      "original_sha256": "5bc8cd18bf9ae26d0add2990a0fb5295fed6d8237f2c2907f484738f25488a89",
+      "export_sha256": "4797fa142fa4b9c6ed229e33ec3479ca5d9d509d2dacaf45b5f7dfb0646b468a"
+    },
+    {
+      "path": "lfm2-01/store/attempts/0c1c80fe6a6e475a8074fd6e9e8b882b/traces/step-00008/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/0c1c80fe6a6e475a8074fd6e9e8b882b/traces/step-00008/profile.json",
+      "original_sha256": "eb29c30837d35d5e3b500fce738068247ffb8b8788bc84ca11887732c1f28185",
+      "export_sha256": "ad53c480aa0479c761d60b10e8fa4e502efc0309afa1c7aa364f5d48b3150100"
+    },
+    {
+      "path": "lfm2-01/store/attempts/0c1c80fe6a6e475a8074fd6e9e8b882b/traces/step-00009/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/0c1c80fe6a6e475a8074fd6e9e8b882b/traces/step-00009/profile.json",
+      "original_sha256": "30396ac832a88ea4628aaca6e91c6d61c11f47814c5b384b0746db1d07793064",
+      "export_sha256": "ba94c74fc91902323f1c4cd6a4653d096f59f7c69c8ab69bb48f351dc3365c29"
+    },
+    {
+      "path": "lfm2-01/store/attempts/1ed6b917cf394c6aa2e0d5dc94a5399c/research/objects/3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/1ed6b917cf394c6aa2e0d5dc94a5399c/research/objects/3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991.json",
+      "original_sha256": "3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991",
+      "export_sha256": "3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991"
+    },
+    {
+      "path": "lfm2-01/store/attempts/1ed6b917cf394c6aa2e0d5dc94a5399c/research/objects/e68eee81ca8ec35c01cde623191e72b46471c73e7ff316b85f750fc8f22128b4.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/1ed6b917cf394c6aa2e0d5dc94a5399c/research/objects/e68eee81ca8ec35c01cde623191e72b46471c73e7ff316b85f750fc8f22128b4.json",
+      "original_sha256": "e68eee81ca8ec35c01cde623191e72b46471c73e7ff316b85f750fc8f22128b4",
+      "export_sha256": "e68eee81ca8ec35c01cde623191e72b46471c73e7ff316b85f750fc8f22128b4"
+    },
+    {
+      "path": "lfm2-01/store/attempts/1ed6b917cf394c6aa2e0d5dc94a5399c/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/1ed6b917cf394c6aa2e0d5dc94a5399c/traces/step-00000/profile.json",
+      "original_sha256": "02329280cb5e402d7c4cc7a2f2019da63f8c5e61cfa25576efdd18fc5b8a0379",
+      "export_sha256": "7cf47e682ab22c01d7c5935b4cd608a25466f7d64327c1de931d25dedd2cc2ab"
+    },
+    {
+      "path": "lfm2-01/store/attempts/1ed6b917cf394c6aa2e0d5dc94a5399c/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/1ed6b917cf394c6aa2e0d5dc94a5399c/traces/step-00001/profile.json",
+      "original_sha256": "8b377e88296d39ce624bb155b95fdf2ff0ba76c274fe81d119edab7329639aaf",
+      "export_sha256": "7f0745ba3852fb05f277aa2a8ccfaa01d5cb6481be5e16097a12d6b72ae2d340"
+    },
+    {
+      "path": "lfm2-01/store/attempts/1ed6b917cf394c6aa2e0d5dc94a5399c/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/1ed6b917cf394c6aa2e0d5dc94a5399c/traces/step-00002/profile.json",
+      "original_sha256": "50a52f6a256560ae860be526d2eb29612d2745fe77544233308630bab0edf6a7",
+      "export_sha256": "d4e055ed34c6174f9502ede5287aa32f7fa963e6bb1d8525be010431217dbfb9"
+    },
+    {
+      "path": "lfm2-01/store/attempts/1ed6b917cf394c6aa2e0d5dc94a5399c/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/1ed6b917cf394c6aa2e0d5dc94a5399c/traces/step-00003/profile.json",
+      "original_sha256": "b9494f01549e331cc659f54d182462fade963d8fa2c16c19ec13a31e7383c55a",
+      "export_sha256": "7d09d25d8a4128209a603982f85fa393044630e0a560a54953c98fe5f6920ab6"
+    },
+    {
+      "path": "lfm2-01/store/attempts/1ed6b917cf394c6aa2e0d5dc94a5399c/traces/step-00004/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/1ed6b917cf394c6aa2e0d5dc94a5399c/traces/step-00004/profile.json",
+      "original_sha256": "79e7add64b6710301964bec1cc8c987ef1b42082e2f759773fe1753ead8d43ad",
+      "export_sha256": "0fde813d5a2d8567bca00693a23b30fd99146dd8e6d917adeaf8c01030b4b364"
+    },
+    {
+      "path": "lfm2-01/store/attempts/1ed6b917cf394c6aa2e0d5dc94a5399c/traces/step-00005/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/1ed6b917cf394c6aa2e0d5dc94a5399c/traces/step-00005/profile.json",
+      "original_sha256": "a3cee023d68148a5a77e3f6859494152fd59c60db93912cb6bd6823762fbcc7d",
+      "export_sha256": "5c494e0fdea56616ce97d0c20ad8fe59b74c1f5086c0002fb7017846c786f4a4"
+    },
+    {
+      "path": "lfm2-01/store/attempts/4eb453f007b641769947d568f465f4e6/research/objects/33e8bc692c234bd4ba281297cf0216b33e7edd0294d195a5e0dc693b7e62a286.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/4eb453f007b641769947d568f465f4e6/research/objects/33e8bc692c234bd4ba281297cf0216b33e7edd0294d195a5e0dc693b7e62a286.json",
+      "original_sha256": "33e8bc692c234bd4ba281297cf0216b33e7edd0294d195a5e0dc693b7e62a286",
+      "export_sha256": "33e8bc692c234bd4ba281297cf0216b33e7edd0294d195a5e0dc693b7e62a286"
+    },
+    {
+      "path": "lfm2-01/store/attempts/4eb453f007b641769947d568f465f4e6/research/objects/3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/4eb453f007b641769947d568f465f4e6/research/objects/3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991.json",
+      "original_sha256": "3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991",
+      "export_sha256": "3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991"
+    },
+    {
+      "path": "lfm2-01/store/attempts/4eb453f007b641769947d568f465f4e6/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/4eb453f007b641769947d568f465f4e6/traces/step-00000/profile.json",
+      "original_sha256": "7a6da8a15df1e3c5631e1805f958ef978e678d95bc3e8c4ab35c49f98bfd1373",
+      "export_sha256": "ce5de7709803f6dfa83a75a3fb7ac01b720232db9ab6f09c650bf04cce4a1c62"
+    },
+    {
+      "path": "lfm2-01/store/attempts/4eb453f007b641769947d568f465f4e6/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/4eb453f007b641769947d568f465f4e6/traces/step-00001/profile.json",
+      "original_sha256": "df47855c0fbc201660770b1cc6e493b89f80aab5b812839eb4c492dede33c2ca",
+      "export_sha256": "cd525ebc3d9141b5d792baabe36a1e30335587e76b28a231cb4e753c4d39abba"
+    },
+    {
+      "path": "lfm2-01/store/attempts/4eb453f007b641769947d568f465f4e6/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/4eb453f007b641769947d568f465f4e6/traces/step-00002/profile.json",
+      "original_sha256": "6a5f03228cbb2a231a99d50f72f50b25374c59cd2f1b6c98168ae20e1522907e",
+      "export_sha256": "e1f433bbd2f6d1ffef367de83523deae102cee3e8a9d761ed151e9a10a891544"
+    },
+    {
+      "path": "lfm2-01/store/attempts/4eb453f007b641769947d568f465f4e6/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/4eb453f007b641769947d568f465f4e6/traces/step-00003/profile.json",
+      "original_sha256": "64124f8d911d2940c34461162e327b8b257896ca5c1b287f62b6dc6c03c2c60f",
+      "export_sha256": "1812303edfaef2b79ab46a49ecae738b61ab495bf20d5db810a81d5ac90d078d"
+    },
+    {
+      "path": "lfm2-01/store/attempts/4eb453f007b641769947d568f465f4e6/traces/step-00004/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/4eb453f007b641769947d568f465f4e6/traces/step-00004/profile.json",
+      "original_sha256": "43938605a62c2a1b636ebb1b28eee7caf912b3456bdab7a3b03af1307c3fb138",
+      "export_sha256": "0e18db44df4654108fbd19e7ec55cbddc5565b3171db2d61855a9873748b73d6"
+    },
+    {
+      "path": "lfm2-01/store/attempts/4eb453f007b641769947d568f465f4e6/traces/step-00005/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/4eb453f007b641769947d568f465f4e6/traces/step-00005/profile.json",
+      "original_sha256": "13130c03f2fbac8c2d6e48c21d49cb9b7d73696b0638a653acaadd55ee165c4e",
+      "export_sha256": "8f1c42a76a0d88bbb23a41566914cdc3e0f9fe9120a42eb709067c053e9488ef"
+    },
+    {
+      "path": "lfm2-01/store/attempts/4eb453f007b641769947d568f465f4e6/traces/step-00006/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/4eb453f007b641769947d568f465f4e6/traces/step-00006/profile.json",
+      "original_sha256": "ef480477df29a176ee2fca2b8a5cf8ce16b28ed36f173f654ab90da24b9f4fc5",
+      "export_sha256": "345ba82f8b9ae19465c83c6c4b4261156c64feff6a60888dc232947ff501cf0a"
+    },
+    {
+      "path": "lfm2-01/store/attempts/4eb453f007b641769947d568f465f4e6/traces/step-00007/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/4eb453f007b641769947d568f465f4e6/traces/step-00007/profile.json",
+      "original_sha256": "b406c069a93eafb5f96cbd389575bf6632212eb9fffe76f7bef165d47f55e340",
+      "export_sha256": "f32f4f182e6af31a379f14a18df59cd0a559ec37a45dfc7e811fa05aa668a54e"
+    },
+    {
+      "path": "lfm2-01/store/attempts/4eb453f007b641769947d568f465f4e6/traces/step-00008/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/4eb453f007b641769947d568f465f4e6/traces/step-00008/profile.json",
+      "original_sha256": "77144c203edcc699e543fbde65bacd72b4dc5c1d95da4165e0d2da63677a31d9",
+      "export_sha256": "61d512076a9a6d1d0d04ddf908ace6834094d6a7e0041da7fbec5d7ce8f2883a"
+    },
+    {
+      "path": "lfm2-01/store/attempts/4eb453f007b641769947d568f465f4e6/traces/step-00009/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/4eb453f007b641769947d568f465f4e6/traces/step-00009/profile.json",
+      "original_sha256": "675ed1c0987c43259cdd7c40fcc8ab6db0afa7eb1767db7f03794da49306e1e7",
+      "export_sha256": "7b001c0a1abcb83bdab40d1e145eb4782a3ed1feae594cfd1da2e70e2583253a"
+    },
+    {
+      "path": "lfm2-01/store/attempts/55da136cddfd4bfdb20b98db273e8c34/research/objects/2e5b002c3c424c5c99e68be7e41ba422972f85289b375d74c899d58c43f52f3a.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/55da136cddfd4bfdb20b98db273e8c34/research/objects/2e5b002c3c424c5c99e68be7e41ba422972f85289b375d74c899d58c43f52f3a.json",
+      "original_sha256": "2e5b002c3c424c5c99e68be7e41ba422972f85289b375d74c899d58c43f52f3a",
+      "export_sha256": "2e5b002c3c424c5c99e68be7e41ba422972f85289b375d74c899d58c43f52f3a"
+    },
+    {
+      "path": "lfm2-01/store/attempts/55da136cddfd4bfdb20b98db273e8c34/research/objects/3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/55da136cddfd4bfdb20b98db273e8c34/research/objects/3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991.json",
+      "original_sha256": "3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991",
+      "export_sha256": "3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991"
+    },
+    {
+      "path": "lfm2-01/store/attempts/55da136cddfd4bfdb20b98db273e8c34/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/55da136cddfd4bfdb20b98db273e8c34/traces/step-00000/profile.json",
+      "original_sha256": "7a6da8a15df1e3c5631e1805f958ef978e678d95bc3e8c4ab35c49f98bfd1373",
+      "export_sha256": "ce5de7709803f6dfa83a75a3fb7ac01b720232db9ab6f09c650bf04cce4a1c62"
+    },
+    {
+      "path": "lfm2-01/store/attempts/55da136cddfd4bfdb20b98db273e8c34/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/55da136cddfd4bfdb20b98db273e8c34/traces/step-00001/profile.json",
+      "original_sha256": "df47855c0fbc201660770b1cc6e493b89f80aab5b812839eb4c492dede33c2ca",
+      "export_sha256": "cd525ebc3d9141b5d792baabe36a1e30335587e76b28a231cb4e753c4d39abba"
+    },
+    {
+      "path": "lfm2-01/store/attempts/55da136cddfd4bfdb20b98db273e8c34/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/55da136cddfd4bfdb20b98db273e8c34/traces/step-00002/profile.json",
+      "original_sha256": "6a5f03228cbb2a231a99d50f72f50b25374c59cd2f1b6c98168ae20e1522907e",
+      "export_sha256": "e1f433bbd2f6d1ffef367de83523deae102cee3e8a9d761ed151e9a10a891544"
+    },
+    {
+      "path": "lfm2-01/store/attempts/55da136cddfd4bfdb20b98db273e8c34/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/55da136cddfd4bfdb20b98db273e8c34/traces/step-00003/profile.json",
+      "original_sha256": "64124f8d911d2940c34461162e327b8b257896ca5c1b287f62b6dc6c03c2c60f",
+      "export_sha256": "1812303edfaef2b79ab46a49ecae738b61ab495bf20d5db810a81d5ac90d078d"
+    },
+    {
+      "path": "lfm2-01/store/attempts/55da136cddfd4bfdb20b98db273e8c34/traces/step-00004/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/55da136cddfd4bfdb20b98db273e8c34/traces/step-00004/profile.json",
+      "original_sha256": "43938605a62c2a1b636ebb1b28eee7caf912b3456bdab7a3b03af1307c3fb138",
+      "export_sha256": "0e18db44df4654108fbd19e7ec55cbddc5565b3171db2d61855a9873748b73d6"
+    },
+    {
+      "path": "lfm2-01/store/attempts/55da136cddfd4bfdb20b98db273e8c34/traces/step-00005/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/55da136cddfd4bfdb20b98db273e8c34/traces/step-00005/profile.json",
+      "original_sha256": "13130c03f2fbac8c2d6e48c21d49cb9b7d73696b0638a653acaadd55ee165c4e",
+      "export_sha256": "8f1c42a76a0d88bbb23a41566914cdc3e0f9fe9120a42eb709067c053e9488ef"
+    },
+    {
+      "path": "lfm2-01/store/attempts/66cc8a0785ba4eff87ad50d772e7fefc/research/objects/3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/66cc8a0785ba4eff87ad50d772e7fefc/research/objects/3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991.json",
+      "original_sha256": "3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991",
+      "export_sha256": "3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991"
+    },
+    {
+      "path": "lfm2-01/store/attempts/66cc8a0785ba4eff87ad50d772e7fefc/research/objects/a3d7160dc9762ef14bc57ac8cf2c05ab0dec9aa899035c5b08d9a751ede8701b.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/66cc8a0785ba4eff87ad50d772e7fefc/research/objects/a3d7160dc9762ef14bc57ac8cf2c05ab0dec9aa899035c5b08d9a751ede8701b.json",
+      "original_sha256": "a3d7160dc9762ef14bc57ac8cf2c05ab0dec9aa899035c5b08d9a751ede8701b",
+      "export_sha256": "a3d7160dc9762ef14bc57ac8cf2c05ab0dec9aa899035c5b08d9a751ede8701b"
+    },
+    {
+      "path": "lfm2-01/store/attempts/66cc8a0785ba4eff87ad50d772e7fefc/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/66cc8a0785ba4eff87ad50d772e7fefc/traces/step-00000/profile.json",
+      "original_sha256": "04fa8d20d409c726234f011bc247cdf0792f8f6dd18798beb1a75d1bebdaec8c",
+      "export_sha256": "f16a017715e493e73958939f10bafa662e81e54dd5f5ece378a7a56a581bdb3c"
+    },
+    {
+      "path": "lfm2-01/store/attempts/66cc8a0785ba4eff87ad50d772e7fefc/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/66cc8a0785ba4eff87ad50d772e7fefc/traces/step-00001/profile.json",
+      "original_sha256": "a20df04e6cee5460ee54198d866bede0386bfd1d1f70113a511be7efbb1f5934",
+      "export_sha256": "a49e3c6283bb450c8bb5eeafcf0b193a6b0cde86e02f1a439b91b8b7932f9408"
+    },
+    {
+      "path": "lfm2-01/store/attempts/66cc8a0785ba4eff87ad50d772e7fefc/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/66cc8a0785ba4eff87ad50d772e7fefc/traces/step-00002/profile.json",
+      "original_sha256": "e32ee0e0f0a92ea1444a14b5de52a9d989ef135bec029909d2beb87ec0a7e8ae",
+      "export_sha256": "60be1aa99f4d168ecb3697ac108b62b20039f02e3072f243feeafc9c854730b3"
+    },
+    {
+      "path": "lfm2-01/store/attempts/66cc8a0785ba4eff87ad50d772e7fefc/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/66cc8a0785ba4eff87ad50d772e7fefc/traces/step-00003/profile.json",
+      "original_sha256": "0bd502c10b9b26a4d7e1adb48d6f285ab498c658b6ee59ca6bb5a967f6de0cba",
+      "export_sha256": "296ec2b135018c23cb7f22a534f696858b282aab2ecb502ace3c4432afa5670e"
+    },
+    {
+      "path": "lfm2-01/store/attempts/66cc8a0785ba4eff87ad50d772e7fefc/traces/step-00004/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/66cc8a0785ba4eff87ad50d772e7fefc/traces/step-00004/profile.json",
+      "original_sha256": "ce3f2b88493c02cb09242480eac9239f87cc2bfd9162e5745c5322bb6b88eea6",
+      "export_sha256": "601b0047ecbbf233353af3ba4af903027c4788aabb69a132bd2cf13828e79b44"
+    },
+    {
+      "path": "lfm2-01/store/attempts/66cc8a0785ba4eff87ad50d772e7fefc/traces/step-00005/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/66cc8a0785ba4eff87ad50d772e7fefc/traces/step-00005/profile.json",
+      "original_sha256": "64babf4a57a1ae720245c6c8d6e493a1897d770b4625c6f54f3f1ea46285f53f",
+      "export_sha256": "7a8aad994ebee7e2f7689259a5de7174c55d45270cb0b823446fb2f4c5ef3af8"
+    },
+    {
+      "path": "lfm2-01/store/attempts/8d7351458b7446cbb81743b9dd1d9064/research/objects/3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/8d7351458b7446cbb81743b9dd1d9064/research/objects/3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991.json",
+      "original_sha256": "3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991",
+      "export_sha256": "3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991"
+    },
+    {
+      "path": "lfm2-01/store/attempts/8d7351458b7446cbb81743b9dd1d9064/research/objects/4271940b98ff29bc34d0174624320e87e47978f7ce0e07546c5244cd3ca4fb8f.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/8d7351458b7446cbb81743b9dd1d9064/research/objects/4271940b98ff29bc34d0174624320e87e47978f7ce0e07546c5244cd3ca4fb8f.json",
+      "original_sha256": "4271940b98ff29bc34d0174624320e87e47978f7ce0e07546c5244cd3ca4fb8f",
+      "export_sha256": "4271940b98ff29bc34d0174624320e87e47978f7ce0e07546c5244cd3ca4fb8f"
+    },
+    {
+      "path": "lfm2-01/store/attempts/8d7351458b7446cbb81743b9dd1d9064/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/8d7351458b7446cbb81743b9dd1d9064/traces/step-00000/profile.json",
+      "original_sha256": "af4f5fcbf9c3eab76079b5f8bbb0d4de2d5d6da7fb2b922bc9b7aff664cb7b15",
+      "export_sha256": "c396e192cc83ec100ecfcb1d3b9738ab7ba6402ee6e562d9a22d17b12022a52b"
+    },
+    {
+      "path": "lfm2-01/store/attempts/8d7351458b7446cbb81743b9dd1d9064/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/8d7351458b7446cbb81743b9dd1d9064/traces/step-00001/profile.json",
+      "original_sha256": "c10a6e92067afe364ab88654e9354abb7e2155e9af04a305a9d43074744932af",
+      "export_sha256": "58135d43b67076e32086e8315418886c1487433f511d1f69570ea9470427290f"
+    },
+    {
+      "path": "lfm2-01/store/attempts/8d7351458b7446cbb81743b9dd1d9064/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/8d7351458b7446cbb81743b9dd1d9064/traces/step-00002/profile.json",
+      "original_sha256": "cc6453e29975674c2180b70339f85475ad57cfdd59777063888f32105dbf866a",
+      "export_sha256": "c39a6d484f3c4be2cfe0e334231e475ed9ab1a769d4788377000d1fcba99dbf2"
+    },
+    {
+      "path": "lfm2-01/store/attempts/8d7351458b7446cbb81743b9dd1d9064/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/8d7351458b7446cbb81743b9dd1d9064/traces/step-00003/profile.json",
+      "original_sha256": "4074300e83e2021409078479cb49f99f98a64efe890939b92a66aea064d2254b",
+      "export_sha256": "6eba61b128cb8c0fc794e688b63b2249a53e55a9bd137ef3d26898878c9c40f3"
+    },
+    {
+      "path": "lfm2-01/store/attempts/8d7351458b7446cbb81743b9dd1d9064/traces/step-00004/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/8d7351458b7446cbb81743b9dd1d9064/traces/step-00004/profile.json",
+      "original_sha256": "e256feea0cc004de412a2d4108dd99525470d16ba42dd58f616e2e2e12735568",
+      "export_sha256": "8e2419dd651e8c1966a5ac5d3afe7ca517dbca7952b75bbef90319a244f76a66"
+    },
+    {
+      "path": "lfm2-01/store/attempts/8d7351458b7446cbb81743b9dd1d9064/traces/step-00005/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/8d7351458b7446cbb81743b9dd1d9064/traces/step-00005/profile.json",
+      "original_sha256": "3fbb61cd2a41d694b0aa2835ffec6f6938206b9b3db09c94359ce940749e67bf",
+      "export_sha256": "d98eb5276e280fed357608d1b716efd0c34b711696185d9f8029732417599d4f"
+    },
+    {
+      "path": "lfm2-01/store/attempts/adc61c2b80e8452b973fdf17535b1d70/research/objects/3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/adc61c2b80e8452b973fdf17535b1d70/research/objects/3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991.json",
+      "original_sha256": "3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991",
+      "export_sha256": "3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991"
+    },
+    {
+      "path": "lfm2-01/store/attempts/adc61c2b80e8452b973fdf17535b1d70/research/objects/90fa017b39ae1c7a7d7cb6aa5a26fbfe4ed7bb499a774fc4643764faa0fe8a8c.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/adc61c2b80e8452b973fdf17535b1d70/research/objects/90fa017b39ae1c7a7d7cb6aa5a26fbfe4ed7bb499a774fc4643764faa0fe8a8c.json",
+      "original_sha256": "90fa017b39ae1c7a7d7cb6aa5a26fbfe4ed7bb499a774fc4643764faa0fe8a8c",
+      "export_sha256": "90fa017b39ae1c7a7d7cb6aa5a26fbfe4ed7bb499a774fc4643764faa0fe8a8c"
+    },
+    {
+      "path": "lfm2-01/store/attempts/adc61c2b80e8452b973fdf17535b1d70/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/adc61c2b80e8452b973fdf17535b1d70/traces/step-00000/profile.json",
+      "original_sha256": "8da83bc34af66083fdb0a491c6fb42ac204b1412a5f95d1cd9aedbc041aa9b03",
+      "export_sha256": "321d391f8c65d8f690fcb26ca45d34029a6af04dfc51174175a250a718b559e3"
+    },
+    {
+      "path": "lfm2-01/store/attempts/adc61c2b80e8452b973fdf17535b1d70/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/adc61c2b80e8452b973fdf17535b1d70/traces/step-00001/profile.json",
+      "original_sha256": "4f77d2a69a09667d35e4ef6f5c96a9ad208d299a7ac599562d109aec04e14348",
+      "export_sha256": "9b333d8ba92bc892c3554b7f2e0b86720580a7994e17ba0e27b1da8d7072f00c"
+    },
+    {
+      "path": "lfm2-01/store/attempts/adc61c2b80e8452b973fdf17535b1d70/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/adc61c2b80e8452b973fdf17535b1d70/traces/step-00002/profile.json",
+      "original_sha256": "b3a7a2490dd0d6ed801d8d8386fa70bbebf4308b1da27b242df187c653741363",
+      "export_sha256": "1ab884ae102d71c173dde675aea6e43480123df5e016174d0446da48e5b6f8b3"
+    },
+    {
+      "path": "lfm2-01/store/attempts/adc61c2b80e8452b973fdf17535b1d70/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/adc61c2b80e8452b973fdf17535b1d70/traces/step-00003/profile.json",
+      "original_sha256": "b952cb368357b806dab1723ca929d88904211884c34bec36585d33fa5855944d",
+      "export_sha256": "78e61cfe543a78fdfa912ab9f117bf7e6ed122650705045b8f12f23ee5b774b2"
+    },
+    {
+      "path": "lfm2-01/store/attempts/adc61c2b80e8452b973fdf17535b1d70/traces/step-00004/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/adc61c2b80e8452b973fdf17535b1d70/traces/step-00004/profile.json",
+      "original_sha256": "1220292082e8a566127e39ee34e6d31aeb952dbca71027408db1b1e7b59a5794",
+      "export_sha256": "da6228c6b8e8eafd87be82db80b13deba15cfda87fde1093790d51e1cb7ac15e"
+    },
+    {
+      "path": "lfm2-01/store/attempts/adc61c2b80e8452b973fdf17535b1d70/traces/step-00005/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/adc61c2b80e8452b973fdf17535b1d70/traces/step-00005/profile.json",
+      "original_sha256": "5b7788dea39bac1f47dbc8286eb9d80828e7191388f28cfeedff1cae0be10d4d",
+      "export_sha256": "0918f982cf35215ed0d22a73bffca5bdb80f68ee1581274199a20b426ba05a48"
+    },
+    {
+      "path": "lfm2-01/store/attempts/adc61c2b80e8452b973fdf17535b1d70/traces/step-00006/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/adc61c2b80e8452b973fdf17535b1d70/traces/step-00006/profile.json",
+      "original_sha256": "76244bae50b9b6ef1db532c288025a3310cc1cd26cc26ad591a1d6e2f4b7a729",
+      "export_sha256": "62fca65204cd9df93bdb00bf87c05e62d86dad0f1ef5c0d50389d4de51aa72be"
+    },
+    {
+      "path": "lfm2-01/store/attempts/adc61c2b80e8452b973fdf17535b1d70/traces/step-00007/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/adc61c2b80e8452b973fdf17535b1d70/traces/step-00007/profile.json",
+      "original_sha256": "280660569c4013c09b587ab116a8c34dfda5219656ce36c6d66dfb8986707626",
+      "export_sha256": "6aa14e13b7cb499b6baa0db084ec22c57e9969612c5d9b7591af95c1170a8bbc"
+    },
+    {
+      "path": "lfm2-01/store/attempts/adc61c2b80e8452b973fdf17535b1d70/traces/step-00008/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/adc61c2b80e8452b973fdf17535b1d70/traces/step-00008/profile.json",
+      "original_sha256": "c290e7d92a602030e7428f30a51bb5a11dbac021a851d272370b45a16946dda8",
+      "export_sha256": "b8fc14b0781f1081454a6bdb0cff00833959d54df0cd52add6ef807b11085416"
+    },
+    {
+      "path": "lfm2-01/store/attempts/adc61c2b80e8452b973fdf17535b1d70/traces/step-00009/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/adc61c2b80e8452b973fdf17535b1d70/traces/step-00009/profile.json",
+      "original_sha256": "1115bccf8990c2ca5468bf75cc53ffd19a4cb52a1df6adb6fc450efd9e3116e2",
+      "export_sha256": "ae39a2a89bcb84c913c85a83b6f306cdaf683f18bbf015610476120c3f6b8e9d"
+    },
+    {
+      "path": "lfm2-01/store/attempts/ae996f4fce5e46e8ab2c5a7215fe1b64/research/objects/0a886728b9ad08e55dcb850a11a44d363d1f6d8db60555ab9c3fac3081f74fa0.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/ae996f4fce5e46e8ab2c5a7215fe1b64/research/objects/0a886728b9ad08e55dcb850a11a44d363d1f6d8db60555ab9c3fac3081f74fa0.json",
+      "original_sha256": "0a886728b9ad08e55dcb850a11a44d363d1f6d8db60555ab9c3fac3081f74fa0",
+      "export_sha256": "0a886728b9ad08e55dcb850a11a44d363d1f6d8db60555ab9c3fac3081f74fa0"
+    },
+    {
+      "path": "lfm2-01/store/attempts/ae996f4fce5e46e8ab2c5a7215fe1b64/research/objects/3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/ae996f4fce5e46e8ab2c5a7215fe1b64/research/objects/3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991.json",
+      "original_sha256": "3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991",
+      "export_sha256": "3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991"
+    },
+    {
+      "path": "lfm2-01/store/attempts/ae996f4fce5e46e8ab2c5a7215fe1b64/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/ae996f4fce5e46e8ab2c5a7215fe1b64/traces/step-00000/profile.json",
+      "original_sha256": "8da83bc34af66083fdb0a491c6fb42ac204b1412a5f95d1cd9aedbc041aa9b03",
+      "export_sha256": "321d391f8c65d8f690fcb26ca45d34029a6af04dfc51174175a250a718b559e3"
+    },
+    {
+      "path": "lfm2-01/store/attempts/ae996f4fce5e46e8ab2c5a7215fe1b64/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/ae996f4fce5e46e8ab2c5a7215fe1b64/traces/step-00001/profile.json",
+      "original_sha256": "4f77d2a69a09667d35e4ef6f5c96a9ad208d299a7ac599562d109aec04e14348",
+      "export_sha256": "9b333d8ba92bc892c3554b7f2e0b86720580a7994e17ba0e27b1da8d7072f00c"
+    },
+    {
+      "path": "lfm2-01/store/attempts/ae996f4fce5e46e8ab2c5a7215fe1b64/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/ae996f4fce5e46e8ab2c5a7215fe1b64/traces/step-00002/profile.json",
+      "original_sha256": "b3a7a2490dd0d6ed801d8d8386fa70bbebf4308b1da27b242df187c653741363",
+      "export_sha256": "1ab884ae102d71c173dde675aea6e43480123df5e016174d0446da48e5b6f8b3"
+    },
+    {
+      "path": "lfm2-01/store/attempts/ae996f4fce5e46e8ab2c5a7215fe1b64/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/ae996f4fce5e46e8ab2c5a7215fe1b64/traces/step-00003/profile.json",
+      "original_sha256": "b952cb368357b806dab1723ca929d88904211884c34bec36585d33fa5855944d",
+      "export_sha256": "78e61cfe543a78fdfa912ab9f117bf7e6ed122650705045b8f12f23ee5b774b2"
+    },
+    {
+      "path": "lfm2-01/store/attempts/ae996f4fce5e46e8ab2c5a7215fe1b64/traces/step-00004/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/ae996f4fce5e46e8ab2c5a7215fe1b64/traces/step-00004/profile.json",
+      "original_sha256": "1220292082e8a566127e39ee34e6d31aeb952dbca71027408db1b1e7b59a5794",
+      "export_sha256": "da6228c6b8e8eafd87be82db80b13deba15cfda87fde1093790d51e1cb7ac15e"
+    },
+    {
+      "path": "lfm2-01/store/attempts/ae996f4fce5e46e8ab2c5a7215fe1b64/traces/step-00005/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/ae996f4fce5e46e8ab2c5a7215fe1b64/traces/step-00005/profile.json",
+      "original_sha256": "5b7788dea39bac1f47dbc8286eb9d80828e7191388f28cfeedff1cae0be10d4d",
+      "export_sha256": "0918f982cf35215ed0d22a73bffca5bdb80f68ee1581274199a20b426ba05a48"
+    },
+    {
+      "path": "lfm2-01/store/attempts/cc3730d20dcd4b38a9f5be4a83a4ca00/research/objects/3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/cc3730d20dcd4b38a9f5be4a83a4ca00/research/objects/3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991.json",
+      "original_sha256": "3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991",
+      "export_sha256": "3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991"
+    },
+    {
+      "path": "lfm2-01/store/attempts/cc3730d20dcd4b38a9f5be4a83a4ca00/research/objects/a50c12e01692c656b327dbdca3e48efc56d3171cd8eceeddd1e5bf8b1ab41f61.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/cc3730d20dcd4b38a9f5be4a83a4ca00/research/objects/a50c12e01692c656b327dbdca3e48efc56d3171cd8eceeddd1e5bf8b1ab41f61.json",
+      "original_sha256": "a50c12e01692c656b327dbdca3e48efc56d3171cd8eceeddd1e5bf8b1ab41f61",
+      "export_sha256": "a50c12e01692c656b327dbdca3e48efc56d3171cd8eceeddd1e5bf8b1ab41f61"
+    },
+    {
+      "path": "lfm2-01/store/attempts/cc3730d20dcd4b38a9f5be4a83a4ca00/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/cc3730d20dcd4b38a9f5be4a83a4ca00/traces/step-00000/profile.json",
+      "original_sha256": "316b436facbedbd0dc33aabddd43e98517afbfbc0fdbdae09700b8ac5f990f14",
+      "export_sha256": "a6844ad597beebb345b55ed79cfcadc75b9312612a5d50b5cd514f56f61721af"
+    },
+    {
+      "path": "lfm2-01/store/attempts/cc3730d20dcd4b38a9f5be4a83a4ca00/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/cc3730d20dcd4b38a9f5be4a83a4ca00/traces/step-00001/profile.json",
+      "original_sha256": "9fd77d36f283a7af70bd7a7e891ae965f2408de30a0842b4c9932e245b13a726",
+      "export_sha256": "0cc405479504b042725f6eb80bc87fa87947971333fed7afdf7d92985d31dcd2"
+    },
+    {
+      "path": "lfm2-01/store/attempts/cc3730d20dcd4b38a9f5be4a83a4ca00/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/cc3730d20dcd4b38a9f5be4a83a4ca00/traces/step-00002/profile.json",
+      "original_sha256": "e9ae447910df9fce8346bb16f4a6ccc490205c7bf3260d8745c24a591d1cede6",
+      "export_sha256": "30b383243af86085c4ccf1267fafeccc44109cf0f7f70d69f9ea6334eae500f3"
+    },
+    {
+      "path": "lfm2-01/store/attempts/cc3730d20dcd4b38a9f5be4a83a4ca00/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/cc3730d20dcd4b38a9f5be4a83a4ca00/traces/step-00003/profile.json",
+      "original_sha256": "8740465d1844de1cc515c6fe359b8a7350e51324cedfa79ebe1ae63e3f432fcb",
+      "export_sha256": "5df9f5cb870dbf906109cbd03a141432efd03e2804aa1831a07996eafd406984"
+    },
+    {
+      "path": "lfm2-01/store/attempts/cc3730d20dcd4b38a9f5be4a83a4ca00/traces/step-00004/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/cc3730d20dcd4b38a9f5be4a83a4ca00/traces/step-00004/profile.json",
+      "original_sha256": "8a25e40723d86e10efa43d53e520b0938ef1aadd65a5289a3a558f5433df032e",
+      "export_sha256": "863c670972f8cc02ce9ad3681212e451f0834e7e973f7975fbee2e227c5ffba9"
+    },
+    {
+      "path": "lfm2-01/store/attempts/cc3730d20dcd4b38a9f5be4a83a4ca00/traces/step-00005/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/cc3730d20dcd4b38a9f5be4a83a4ca00/traces/step-00005/profile.json",
+      "original_sha256": "70e43826a681e5d5ee165a264694f8d02c381d7505d6460cc34f956974b28c84",
+      "export_sha256": "4d0c76798231a3747b00eee5d6da2e9a85224b9ef1e87407aa0047016dae2d9c"
+    },
+    {
+      "path": "lfm2-01/store/attempts/cc3730d20dcd4b38a9f5be4a83a4ca00/traces/step-00006/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/cc3730d20dcd4b38a9f5be4a83a4ca00/traces/step-00006/profile.json",
+      "original_sha256": "fbdb125c61221fa42354e0f874ff5f70672bc49ce255560be8435abfff05a9e2",
+      "export_sha256": "223e50dce6c0eb72aa02daf2cd75a64053ef37cc4e16bb3e653e7d7dbc032d29"
+    },
+    {
+      "path": "lfm2-01/store/attempts/cc3730d20dcd4b38a9f5be4a83a4ca00/traces/step-00007/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/cc3730d20dcd4b38a9f5be4a83a4ca00/traces/step-00007/profile.json",
+      "original_sha256": "09dadcada2c43209c47026db0ed84c76d094bf5d0fe026f251af623a144182cd",
+      "export_sha256": "82e47bd48110d93b4355aa803e3a28d102cf6d32e2caa85b94539c5412b478c8"
+    },
+    {
+      "path": "lfm2-01/store/attempts/cc3730d20dcd4b38a9f5be4a83a4ca00/traces/step-00008/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/cc3730d20dcd4b38a9f5be4a83a4ca00/traces/step-00008/profile.json",
+      "original_sha256": "93583ff72f44e5946746481186e5ccb44a55e655713a093907641b0926e44835",
+      "export_sha256": "14b43d7e37fdd81a80e3c909333c8c21e13711f509db884984e37a40b9a1efbc"
+    },
+    {
+      "path": "lfm2-01/store/attempts/cc3730d20dcd4b38a9f5be4a83a4ca00/traces/step-00009/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/cc3730d20dcd4b38a9f5be4a83a4ca00/traces/step-00009/profile.json",
+      "original_sha256": "e7e45b5e995a7094d69866453985bcc51754f386ac29a1cd9c670c7f184e5f24",
+      "export_sha256": "7fb001750d4e9ea2575e1355f0474ac3951a00582f38317044fe024d019c98a2"
+    },
+    {
+      "path": "lfm2-01/store/attempts/d5366b7fd4b54feab836a2e10ad86118/research/objects/22f035294d16e10326ff0dc2b52711e1668fc9dfffa511bcfc0fa2e577b802d4.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/d5366b7fd4b54feab836a2e10ad86118/research/objects/22f035294d16e10326ff0dc2b52711e1668fc9dfffa511bcfc0fa2e577b802d4.json",
+      "original_sha256": "22f035294d16e10326ff0dc2b52711e1668fc9dfffa511bcfc0fa2e577b802d4",
+      "export_sha256": "22f035294d16e10326ff0dc2b52711e1668fc9dfffa511bcfc0fa2e577b802d4"
+    },
+    {
+      "path": "lfm2-01/store/attempts/d5366b7fd4b54feab836a2e10ad86118/research/objects/3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/d5366b7fd4b54feab836a2e10ad86118/research/objects/3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991.json",
+      "original_sha256": "3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991",
+      "export_sha256": "3d72623310cbaa00702e023260182a0c3a1c94ad50b079287dd5a887e8f3f991"
+    },
+    {
+      "path": "lfm2-01/store/attempts/d5366b7fd4b54feab836a2e10ad86118/traces/step-00000/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/d5366b7fd4b54feab836a2e10ad86118/traces/step-00000/profile.json",
+      "original_sha256": "316b436facbedbd0dc33aabddd43e98517afbfbc0fdbdae09700b8ac5f990f14",
+      "export_sha256": "a6844ad597beebb345b55ed79cfcadc75b9312612a5d50b5cd514f56f61721af"
+    },
+    {
+      "path": "lfm2-01/store/attempts/d5366b7fd4b54feab836a2e10ad86118/traces/step-00001/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/d5366b7fd4b54feab836a2e10ad86118/traces/step-00001/profile.json",
+      "original_sha256": "9fd77d36f283a7af70bd7a7e891ae965f2408de30a0842b4c9932e245b13a726",
+      "export_sha256": "0cc405479504b042725f6eb80bc87fa87947971333fed7afdf7d92985d31dcd2"
+    },
+    {
+      "path": "lfm2-01/store/attempts/d5366b7fd4b54feab836a2e10ad86118/traces/step-00002/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/d5366b7fd4b54feab836a2e10ad86118/traces/step-00002/profile.json",
+      "original_sha256": "e9ae447910df9fce8346bb16f4a6ccc490205c7bf3260d8745c24a591d1cede6",
+      "export_sha256": "30b383243af86085c4ccf1267fafeccc44109cf0f7f70d69f9ea6334eae500f3"
+    },
+    {
+      "path": "lfm2-01/store/attempts/d5366b7fd4b54feab836a2e10ad86118/traces/step-00003/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/d5366b7fd4b54feab836a2e10ad86118/traces/step-00003/profile.json",
+      "original_sha256": "8740465d1844de1cc515c6fe359b8a7350e51324cedfa79ebe1ae63e3f432fcb",
+      "export_sha256": "5df9f5cb870dbf906109cbd03a141432efd03e2804aa1831a07996eafd406984"
+    },
+    {
+      "path": "lfm2-01/store/attempts/d5366b7fd4b54feab836a2e10ad86118/traces/step-00004/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/d5366b7fd4b54feab836a2e10ad86118/traces/step-00004/profile.json",
+      "original_sha256": "8a25e40723d86e10efa43d53e520b0938ef1aadd65a5289a3a558f5433df032e",
+      "export_sha256": "863c670972f8cc02ce9ad3681212e451f0834e7e973f7975fbee2e227c5ffba9"
+    },
+    {
+      "path": "lfm2-01/store/attempts/d5366b7fd4b54feab836a2e10ad86118/traces/step-00005/profile.json.gz",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/attempts/d5366b7fd4b54feab836a2e10ad86118/traces/step-00005/profile.json",
+      "original_sha256": "70e43826a681e5d5ee165a264694f8d02c381d7505d6460cc34f956974b28c84",
+      "export_sha256": "4d0c76798231a3747b00eee5d6da2e9a85224b9ef1e87407aa0047016dae2d9c"
+    },
+    {
+      "path": "lfm2-01/store/research/objects/0c48812d32984f7e8235d192d58d8b5efd4387948647242f7032ccb79bdd333e.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/research/objects/0c48812d32984f7e8235d192d58d8b5efd4387948647242f7032ccb79bdd333e.json",
+      "original_sha256": "0c48812d32984f7e8235d192d58d8b5efd4387948647242f7032ccb79bdd333e",
+      "export_sha256": "0c48812d32984f7e8235d192d58d8b5efd4387948647242f7032ccb79bdd333e"
+    },
+    {
+      "path": "lfm2-01/store/research/objects/322a65f0785d5095f87a6ddd178286f974c0717ee25cde57dcdf644bbe667155.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/research/objects/322a65f0785d5095f87a6ddd178286f974c0717ee25cde57dcdf644bbe667155.json",
+      "original_sha256": "322a65f0785d5095f87a6ddd178286f974c0717ee25cde57dcdf644bbe667155",
+      "export_sha256": "322a65f0785d5095f87a6ddd178286f974c0717ee25cde57dcdf644bbe667155"
+    },
+    {
+      "path": "lfm2-01/store/research/objects/3521605fa606815641c3914afba61213eae6ea0f3b16d95cf757cf1714aabb3b.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/research/objects/3521605fa606815641c3914afba61213eae6ea0f3b16d95cf757cf1714aabb3b.json",
+      "original_sha256": "3521605fa606815641c3914afba61213eae6ea0f3b16d95cf757cf1714aabb3b",
+      "export_sha256": "3521605fa606815641c3914afba61213eae6ea0f3b16d95cf757cf1714aabb3b"
+    },
+    {
+      "path": "lfm2-01/store/research/objects/4915914e2405a1fc3b4fd11ae904539eea431947e105d66d26809fa775ce327c.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/research/objects/4915914e2405a1fc3b4fd11ae904539eea431947e105d66d26809fa775ce327c.json",
+      "original_sha256": "4915914e2405a1fc3b4fd11ae904539eea431947e105d66d26809fa775ce327c",
+      "export_sha256": "4915914e2405a1fc3b4fd11ae904539eea431947e105d66d26809fa775ce327c"
+    },
+    {
+      "path": "lfm2-01/store/research/objects/57bf5b0e6459e5d41e0d6cfc8c179f230c84bf46b4fc16e220a5060ee58745bc.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/research/objects/57bf5b0e6459e5d41e0d6cfc8c179f230c84bf46b4fc16e220a5060ee58745bc.json",
+      "original_sha256": "57bf5b0e6459e5d41e0d6cfc8c179f230c84bf46b4fc16e220a5060ee58745bc",
+      "export_sha256": "57bf5b0e6459e5d41e0d6cfc8c179f230c84bf46b4fc16e220a5060ee58745bc"
+    },
+    {
+      "path": "lfm2-01/store/research/objects/580064f4559e6bff31f9b9560f318b336a7f62b2dd83c2de1f30285886a78b0e.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/research/objects/580064f4559e6bff31f9b9560f318b336a7f62b2dd83c2de1f30285886a78b0e.json",
+      "original_sha256": "580064f4559e6bff31f9b9560f318b336a7f62b2dd83c2de1f30285886a78b0e",
+      "export_sha256": "580064f4559e6bff31f9b9560f318b336a7f62b2dd83c2de1f30285886a78b0e"
+    },
+    {
+      "path": "lfm2-01/store/research/objects/6b4651b4d6eca0fd60af161c3cfe125dde232538d4c91f0de15c096e78cbb4cc.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/research/objects/6b4651b4d6eca0fd60af161c3cfe125dde232538d4c91f0de15c096e78cbb4cc.json",
+      "original_sha256": "6b4651b4d6eca0fd60af161c3cfe125dde232538d4c91f0de15c096e78cbb4cc",
+      "export_sha256": "6b4651b4d6eca0fd60af161c3cfe125dde232538d4c91f0de15c096e78cbb4cc"
+    },
+    {
+      "path": "lfm2-01/store/research/objects/6c55242e953d35b4fde960e4cce09df1cb9c36ff40da02b587503a9042b34ffd.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/research/objects/6c55242e953d35b4fde960e4cce09df1cb9c36ff40da02b587503a9042b34ffd.json",
+      "original_sha256": "6c55242e953d35b4fde960e4cce09df1cb9c36ff40da02b587503a9042b34ffd",
+      "export_sha256": "6c55242e953d35b4fde960e4cce09df1cb9c36ff40da02b587503a9042b34ffd"
+    },
+    {
+      "path": "lfm2-01/store/research/objects/76140e02e7cd8cdbe82a40b33815539a119de19028a2a396d34d9d10e1f6f3ec.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/research/objects/76140e02e7cd8cdbe82a40b33815539a119de19028a2a396d34d9d10e1f6f3ec.json",
+      "original_sha256": "76140e02e7cd8cdbe82a40b33815539a119de19028a2a396d34d9d10e1f6f3ec",
+      "export_sha256": "76140e02e7cd8cdbe82a40b33815539a119de19028a2a396d34d9d10e1f6f3ec"
+    },
+    {
+      "path": "lfm2-01/store/research/objects/76e2a1a31aeaa0cfaecffad074cabb8eeceecf8337da9f14da2098649ba4ecfa.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/research/objects/76e2a1a31aeaa0cfaecffad074cabb8eeceecf8337da9f14da2098649ba4ecfa.json",
+      "original_sha256": "76e2a1a31aeaa0cfaecffad074cabb8eeceecf8337da9f14da2098649ba4ecfa",
+      "export_sha256": "76e2a1a31aeaa0cfaecffad074cabb8eeceecf8337da9f14da2098649ba4ecfa"
+    },
+    {
+      "path": "lfm2-01/store/research/objects/775fe629ad95e07820a9795b3f56113f97bc569ea69fba619e4b269641162dce.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/research/objects/775fe629ad95e07820a9795b3f56113f97bc569ea69fba619e4b269641162dce.json",
+      "original_sha256": "775fe629ad95e07820a9795b3f56113f97bc569ea69fba619e4b269641162dce",
+      "export_sha256": "775fe629ad95e07820a9795b3f56113f97bc569ea69fba619e4b269641162dce"
+    },
+    {
+      "path": "lfm2-01/store/research/objects/7adf1da74444afa399bbf9e5a62710a24a571fcf5661d8d53685f28ef970949f.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/research/objects/7adf1da74444afa399bbf9e5a62710a24a571fcf5661d8d53685f28ef970949f.json",
+      "original_sha256": "7adf1da74444afa399bbf9e5a62710a24a571fcf5661d8d53685f28ef970949f",
+      "export_sha256": "7adf1da74444afa399bbf9e5a62710a24a571fcf5661d8d53685f28ef970949f"
+    },
+    {
+      "path": "lfm2-01/store/research/objects/81ed46f1b48245215d3ad8ec22ee5fc3e09f0b2e54eb18c4c6d18c01f036aea0.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/research/objects/81ed46f1b48245215d3ad8ec22ee5fc3e09f0b2e54eb18c4c6d18c01f036aea0.json",
+      "original_sha256": "81ed46f1b48245215d3ad8ec22ee5fc3e09f0b2e54eb18c4c6d18c01f036aea0",
+      "export_sha256": "81ed46f1b48245215d3ad8ec22ee5fc3e09f0b2e54eb18c4c6d18c01f036aea0"
+    },
+    {
+      "path": "lfm2-01/store/research/objects/8486833b35eeba0ef1ccef4098df5e07360b6ccdb594dcd7eedceae59eae8f52.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/research/objects/8486833b35eeba0ef1ccef4098df5e07360b6ccdb594dcd7eedceae59eae8f52.json",
+      "original_sha256": "8486833b35eeba0ef1ccef4098df5e07360b6ccdb594dcd7eedceae59eae8f52",
+      "export_sha256": "8486833b35eeba0ef1ccef4098df5e07360b6ccdb594dcd7eedceae59eae8f52"
+    },
+    {
+      "path": "lfm2-01/store/research/objects/87a4010ab9ca3798fb045c97037ba5b1d7045c514c5c5b178379d2499ab0c4e1.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/research/objects/87a4010ab9ca3798fb045c97037ba5b1d7045c514c5c5b178379d2499ab0c4e1.json",
+      "original_sha256": "87a4010ab9ca3798fb045c97037ba5b1d7045c514c5c5b178379d2499ab0c4e1",
+      "export_sha256": "87a4010ab9ca3798fb045c97037ba5b1d7045c514c5c5b178379d2499ab0c4e1"
+    },
+    {
+      "path": "lfm2-01/store/research/objects/8ba1c003d57e3eb748da0ef8b533dfd6eaea1b130217c43982e60c22bfa121c6.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/research/objects/8ba1c003d57e3eb748da0ef8b533dfd6eaea1b130217c43982e60c22bfa121c6.json",
+      "original_sha256": "8ba1c003d57e3eb748da0ef8b533dfd6eaea1b130217c43982e60c22bfa121c6",
+      "export_sha256": "8ba1c003d57e3eb748da0ef8b533dfd6eaea1b130217c43982e60c22bfa121c6"
+    },
+    {
+      "path": "lfm2-01/store/research/objects/9b38cca054e247a1ff1ea10a072c2d52c8be88ef4e45d21a5fdda35206de9cd6.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/research/objects/9b38cca054e247a1ff1ea10a072c2d52c8be88ef4e45d21a5fdda35206de9cd6.json",
+      "original_sha256": "9b38cca054e247a1ff1ea10a072c2d52c8be88ef4e45d21a5fdda35206de9cd6",
+      "export_sha256": "9b38cca054e247a1ff1ea10a072c2d52c8be88ef4e45d21a5fdda35206de9cd6"
+    },
+    {
+      "path": "lfm2-01/store/research/objects/a569d40458f1e283c34b14064aec7bb0ac2b9d227e09f262dc16998cb92d013b.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/research/objects/a569d40458f1e283c34b14064aec7bb0ac2b9d227e09f262dc16998cb92d013b.json",
+      "original_sha256": "a569d40458f1e283c34b14064aec7bb0ac2b9d227e09f262dc16998cb92d013b",
+      "export_sha256": "a569d40458f1e283c34b14064aec7bb0ac2b9d227e09f262dc16998cb92d013b"
+    },
+    {
+      "path": "lfm2-01/store/research/objects/ae2a163335416ae8b3a6f857deecb79b32bf415b430294c1af38246fc888369e.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/research/objects/ae2a163335416ae8b3a6f857deecb79b32bf415b430294c1af38246fc888369e.json",
+      "original_sha256": "ae2a163335416ae8b3a6f857deecb79b32bf415b430294c1af38246fc888369e",
+      "export_sha256": "ae2a163335416ae8b3a6f857deecb79b32bf415b430294c1af38246fc888369e"
+    },
+    {
+      "path": "lfm2-01/store/research/objects/f770af923036731a781f50c660b173131f2f3557a6ba65e48604652d9819401f.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-01/store/research/objects/f770af923036731a781f50c660b173131f2f3557a6ba65e48604652d9819401f.json",
+      "original_sha256": "f770af923036731a781f50c660b173131f2f3557a6ba65e48604652d9819401f",
+      "export_sha256": "f770af923036731a781f50c660b173131f2f3557a6ba65e48604652d9819401f"
+    },
+    {
+      "path": "lfm2-performance-manifest.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/lfm2-performance-manifest.json",
+      "original_sha256": "98646373fa1e13d83491057a089bd2262ce5aa686cb49d7c09371ddf056fd701",
+      "export_sha256": "98646373fa1e13d83491057a089bd2262ce5aa686cb49d7c09371ddf056fd701"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/job.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/job.json",
+      "original_sha256": "b60daba61f4d541bc0d867c1c279c382e43542d17abfc4b8acb76da0d4981ec1",
+      "export_sha256": "b60daba61f4d541bc0d867c1c279c382e43542d17abfc4b8acb76da0d4981ec1"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/keeper-status.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/keeper-status.json",
+      "original_sha256": "f151936dde03866de8305c814a673d47d59b930294698b2378df3f46c9a687f2",
+      "export_sha256": "f151936dde03866de8305c814a673d47d59b930294698b2378df3f46c9a687f2"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/qwen3-index-01-preflight.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen3-index-01-preflight.json",
+      "original_sha256": "396f3bbb0c150cab696f1281097defab68f895d144347bd18b6df16e079b7b78",
+      "export_sha256": "396f3bbb0c150cab696f1281097defab68f895d144347bd18b6df16e079b7b78"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/qwen3-index-01.jsonl",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen3-index-01.jsonl",
+      "original_sha256": "8fb64ce5a68dc11faa7d7e5202ebabd36992e6dff7c1a5a7daecafbaca063b94",
+      "export_sha256": "8fb64ce5a68dc11faa7d7e5202ebabd36992e6dff7c1a5a7daecafbaca063b94"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/qwen3-index-01.jsonl.attempts/01-c9fee333cd4e44e4aed41adee6683efa/job.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen3-index-01.jsonl.attempts/01-c9fee333cd4e44e4aed41adee6683efa/job.json",
+      "original_sha256": "1720b46eaa88c80bf46a182cb7a5ed26f8b5e6b39e54c0224def1d3cc5cb6db6",
+      "export_sha256": "1720b46eaa88c80bf46a182cb7a5ed26f8b5e6b39e54c0224def1d3cc5cb6db6"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/qwen3-index-01.jsonl.attempts/01-c9fee333cd4e44e4aed41adee6683efa/result.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen3-index-01.jsonl.attempts/01-c9fee333cd4e44e4aed41adee6683efa/result.json",
+      "original_sha256": "907958ba32821740cb1f5287a3537b3879f2f06c2213d4550ff14655d8b8654f",
+      "export_sha256": "907958ba32821740cb1f5287a3537b3879f2f06c2213d4550ff14655d8b8654f"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/qwen3-index-02-preflight.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen3-index-02-preflight.json",
+      "original_sha256": "d962d2345389465e400a09e7e0adaf301e908fd9f969759f9f977e61c68a973b",
+      "export_sha256": "d962d2345389465e400a09e7e0adaf301e908fd9f969759f9f977e61c68a973b"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/qwen3-index-02.jsonl",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen3-index-02.jsonl",
+      "original_sha256": "fee8db5b3f265ae704ddd9268b28fa7cc5851f30cc2bb587946113fa34114326",
+      "export_sha256": "fee8db5b3f265ae704ddd9268b28fa7cc5851f30cc2bb587946113fa34114326"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/qwen3-index-02.jsonl.attempts/02-f1cadf86c5ae4cd980488fe8f0f02d45/job.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen3-index-02.jsonl.attempts/02-f1cadf86c5ae4cd980488fe8f0f02d45/job.json",
+      "original_sha256": "729c520aef949effe5b368e59486a7093199b97efa9312a81b32899bc76a60ed",
+      "export_sha256": "729c520aef949effe5b368e59486a7093199b97efa9312a81b32899bc76a60ed"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/qwen3-index-02.jsonl.attempts/02-f1cadf86c5ae4cd980488fe8f0f02d45/result.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen3-index-02.jsonl.attempts/02-f1cadf86c5ae4cd980488fe8f0f02d45/result.json",
+      "original_sha256": "3e2e6eb6cd9a7992f4eff0442b735f4a72a9693e28964a380e0681ec73898190",
+      "export_sha256": "3e2e6eb6cd9a7992f4eff0442b735f4a72a9693e28964a380e0681ec73898190"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/qwen3-index-03-preflight.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen3-index-03-preflight.json",
+      "original_sha256": "4c746ea141d9bbf1d5a68ffd53eaf2170c352c7d545aa6270bf178680ebc0437",
+      "export_sha256": "4c746ea141d9bbf1d5a68ffd53eaf2170c352c7d545aa6270bf178680ebc0437"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/qwen3-index-03.jsonl",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen3-index-03.jsonl",
+      "original_sha256": "5a5dad6239b8c91a3823f500205f137b7fc047d06a22dbbb840f520785b1e4f7",
+      "export_sha256": "5a5dad6239b8c91a3823f500205f137b7fc047d06a22dbbb840f520785b1e4f7"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/qwen3-index-03.jsonl.attempts/03-6c34b9c417094aca83557ea32eb5d5cf/job.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen3-index-03.jsonl.attempts/03-6c34b9c417094aca83557ea32eb5d5cf/job.json",
+      "original_sha256": "dbbd794a5e67a69b78958f7a28f3d420b511e94341ea2e353d4ff006f1d8060c",
+      "export_sha256": "dbbd794a5e67a69b78958f7a28f3d420b511e94341ea2e353d4ff006f1d8060c"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/qwen3-index-03.jsonl.attempts/03-6c34b9c417094aca83557ea32eb5d5cf/result.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen3-index-03.jsonl.attempts/03-6c34b9c417094aca83557ea32eb5d5cf/result.json",
+      "original_sha256": "c83099423010d714af6ae436ee9857c4d191d96fdc0dd75cd701592c95b103c2",
+      "export_sha256": "c83099423010d714af6ae436ee9857c4d191d96fdc0dd75cd701592c95b103c2"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/qwen35-index-01-preflight.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen35-index-01-preflight.json",
+      "original_sha256": "c760d033a9d73b188472661324e09452a888912d983757f5b3a9cac8db2187d0",
+      "export_sha256": "c760d033a9d73b188472661324e09452a888912d983757f5b3a9cac8db2187d0"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/qwen35-index-01.jsonl",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen35-index-01.jsonl",
+      "original_sha256": "73adbaeded5490679034a02035d001bc13b0bfbfa3ba0b21deef82f24030e81a",
+      "export_sha256": "73adbaeded5490679034a02035d001bc13b0bfbfa3ba0b21deef82f24030e81a"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/qwen35-index-01.jsonl.attempts/01-be03ccb33c2f46669519bae0133dc808/job.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen35-index-01.jsonl.attempts/01-be03ccb33c2f46669519bae0133dc808/job.json",
+      "original_sha256": "a08ac304226fdce8bbce685ebd54b56ea03001e1afdb4ef471c716530acd3262",
+      "export_sha256": "a08ac304226fdce8bbce685ebd54b56ea03001e1afdb4ef471c716530acd3262"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/qwen35-index-01.jsonl.attempts/01-be03ccb33c2f46669519bae0133dc808/result.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen35-index-01.jsonl.attempts/01-be03ccb33c2f46669519bae0133dc808/result.json",
+      "original_sha256": "fdf61c1417307d4035b5a9e159640572d2b7ef8b178f94adc7c9fd208c32584a",
+      "export_sha256": "fdf61c1417307d4035b5a9e159640572d2b7ef8b178f94adc7c9fd208c32584a"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/qwen35-index-02-preflight.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen35-index-02-preflight.json",
+      "original_sha256": "4ea5754101daa55cf2d0e65aac5c3cb22b8bdb714ef4304e5f907f6dbf8b4771",
+      "export_sha256": "4ea5754101daa55cf2d0e65aac5c3cb22b8bdb714ef4304e5f907f6dbf8b4771"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/qwen35-index-02.jsonl",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen35-index-02.jsonl",
+      "original_sha256": "8778dccb377cb1f1341672581b9b6392ad7e9213d306a4f48cb147eaead04206",
+      "export_sha256": "8778dccb377cb1f1341672581b9b6392ad7e9213d306a4f48cb147eaead04206"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/qwen35-index-02.jsonl.attempts/02-25cad9a0f7c3450f8c16af3d1b47a9de/job.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen35-index-02.jsonl.attempts/02-25cad9a0f7c3450f8c16af3d1b47a9de/job.json",
+      "original_sha256": "6a064a6d25ee993cebe24b74b89b61bc943de4c946838dea64580cbb6f70badb",
+      "export_sha256": "6a064a6d25ee993cebe24b74b89b61bc943de4c946838dea64580cbb6f70badb"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/qwen35-index-02.jsonl.attempts/02-25cad9a0f7c3450f8c16af3d1b47a9de/result.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen35-index-02.jsonl.attempts/02-25cad9a0f7c3450f8c16af3d1b47a9de/result.json",
+      "original_sha256": "7224cf0477b97107aa947a3fe8c5d7629625325dc3c496c404c4b29d63adc9a5",
+      "export_sha256": "7224cf0477b97107aa947a3fe8c5d7629625325dc3c496c404c4b29d63adc9a5"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/qwen35-index-03-preflight.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen35-index-03-preflight.json",
+      "original_sha256": "f2c8a3356c5461e01792d1ef9dda0f02131df73c6f0dc45b6aa4df624360e81b",
+      "export_sha256": "f2c8a3356c5461e01792d1ef9dda0f02131df73c6f0dc45b6aa4df624360e81b"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/qwen35-index-03.jsonl",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen35-index-03.jsonl",
+      "original_sha256": "e05c649a8286c85869e332afdba80f29345933cc34cab6a4d4d6766a33157f4f",
+      "export_sha256": "e05c649a8286c85869e332afdba80f29345933cc34cab6a4d4d6766a33157f4f"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/qwen35-index-03.jsonl.attempts/03-70a6b86ae1bf47bc9a4ff26210edd82a/job.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen35-index-03.jsonl.attempts/03-70a6b86ae1bf47bc9a4ff26210edd82a/job.json",
+      "original_sha256": "9465546bbf328fffb7865295454a2f005478fdc653c8de3dae33cf96befc22ab",
+      "export_sha256": "9465546bbf328fffb7865295454a2f005478fdc653c8de3dae33cf96befc22ab"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/qwen35-index-03.jsonl.attempts/03-70a6b86ae1bf47bc9a4ff26210edd82a/result.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen35-index-03.jsonl.attempts/03-70a6b86ae1bf47bc9a4ff26210edd82a/result.json",
+      "original_sha256": "26f0d6b8acd55f75431bb1ef7eba8affdfc60e962857e113ad3d652ed63812ca",
+      "export_sha256": "26f0d6b8acd55f75431bb1ef7eba8affdfc60e962857e113ad3d652ed63812ca"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/startup-interruption.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/startup-interruption.json",
+      "original_sha256": "2523cedaf4f1a1c1797972e2d39ed4ab699f1affea2783889a58d63f7daa5561",
+      "export_sha256": "2523cedaf4f1a1c1797972e2d39ed4ab699f1affea2783889a58d63f7daa5561"
+    },
+    {
+      "path": "six-benchmarks-20261002-01/terminal.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/terminal.json",
+      "original_sha256": "65a91907964ddfc1460f843686255ea6f75df2e3eebcc5660e2e5180f161a83c",
+      "export_sha256": "65a91907964ddfc1460f843686255ea6f75df2e3eebcc5660e2e5180f161a83c"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/job.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/job.json",
+      "original_sha256": "f2e79051e198bb7662df44e34f4fb872b5e69e0291f1b07d3edd39c32fa7f53e",
+      "export_sha256": "f2e79051e198bb7662df44e34f4fb872b5e69e0291f1b07d3edd39c32fa7f53e"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/keeper-status.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/keeper-status.json",
+      "original_sha256": "f723a3be781aeaf7c14d8f63e2f685eabceddb7b45784a188f349d74b8c33cd7",
+      "export_sha256": "f723a3be781aeaf7c14d8f63e2f685eabceddb7b45784a188f349d74b8c33cd7"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/qwen3-index-04-preflight.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/qwen3-index-04-preflight.json",
+      "original_sha256": "5cb5c17c62a05ba8f0f4dc0589e38183c3e197a688e2102bb073b6bdba5a3f08",
+      "export_sha256": "5cb5c17c62a05ba8f0f4dc0589e38183c3e197a688e2102bb073b6bdba5a3f08"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/qwen3-index-04.jsonl",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/qwen3-index-04.jsonl",
+      "original_sha256": "d908a310e0c5161e9fafc4c1d2b0e411ae4b683cf0563b5f23ab5a851fd74aab",
+      "export_sha256": "d908a310e0c5161e9fafc4c1d2b0e411ae4b683cf0563b5f23ab5a851fd74aab"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/qwen3-index-04.jsonl.attempts/04-cf57b6e4f0a14e1da5495c7ea861ddb7/job.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/qwen3-index-04.jsonl.attempts/04-cf57b6e4f0a14e1da5495c7ea861ddb7/job.json",
+      "original_sha256": "f51b3ccee5e2c542d50020d2e17f34f99a7c3971bbb928932a9168183529cd62",
+      "export_sha256": "f51b3ccee5e2c542d50020d2e17f34f99a7c3971bbb928932a9168183529cd62"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/qwen3-index-04.jsonl.attempts/04-cf57b6e4f0a14e1da5495c7ea861ddb7/result.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/qwen3-index-04.jsonl.attempts/04-cf57b6e4f0a14e1da5495c7ea861ddb7/result.json",
+      "original_sha256": "ea4329492377b7630842afc88071ca2c7052f8af1e31593073b6c67db2a5619d",
+      "export_sha256": "ea4329492377b7630842afc88071ca2c7052f8af1e31593073b6c67db2a5619d"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/qwen3-index-05-preflight.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/qwen3-index-05-preflight.json",
+      "original_sha256": "3a11569ea617d8f326e1fe75472f9b9a63d8c88425c5f4d6d921aea608f5470a",
+      "export_sha256": "3a11569ea617d8f326e1fe75472f9b9a63d8c88425c5f4d6d921aea608f5470a"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/qwen3-index-05.jsonl",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/qwen3-index-05.jsonl",
+      "original_sha256": "be4eb08f3cb668422303586cb31f53dc7fb255a82b3c4f380918f4c07b4a5a76",
+      "export_sha256": "be4eb08f3cb668422303586cb31f53dc7fb255a82b3c4f380918f4c07b4a5a76"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/qwen3-index-05.jsonl.attempts/05-0bfdad387547484da4cdeb6d5fb0df1f/job.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/qwen3-index-05.jsonl.attempts/05-0bfdad387547484da4cdeb6d5fb0df1f/job.json",
+      "original_sha256": "aa6b6677d9686f22b9b2ab325e9e0fc51f340bf3aa857a8f5d6da4d26c35f46d",
+      "export_sha256": "aa6b6677d9686f22b9b2ab325e9e0fc51f340bf3aa857a8f5d6da4d26c35f46d"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/qwen3-index-05.jsonl.attempts/05-0bfdad387547484da4cdeb6d5fb0df1f/result.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/qwen3-index-05.jsonl.attempts/05-0bfdad387547484da4cdeb6d5fb0df1f/result.json",
+      "original_sha256": "d0869892045a9bf6949e97b59daa459407dfb9c638379a7a1366e4f629a49171",
+      "export_sha256": "d0869892045a9bf6949e97b59daa459407dfb9c638379a7a1366e4f629a49171"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/qwen3-index-06-preflight.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/qwen3-index-06-preflight.json",
+      "original_sha256": "eb06f67fe9653e780658d7a5b52a015f813168f4ae357102ee9f16eb9b3985cb",
+      "export_sha256": "eb06f67fe9653e780658d7a5b52a015f813168f4ae357102ee9f16eb9b3985cb"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/qwen3-index-06.jsonl",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/qwen3-index-06.jsonl",
+      "original_sha256": "6b37848b9977bdd28af42aca4d509ae76869937898da740625c34a28ebc2ec8c",
+      "export_sha256": "6b37848b9977bdd28af42aca4d509ae76869937898da740625c34a28ebc2ec8c"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/qwen3-index-06.jsonl.attempts/06-3a06a43ec6554c47a8d89563ec708bbc/job.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/qwen3-index-06.jsonl.attempts/06-3a06a43ec6554c47a8d89563ec708bbc/job.json",
+      "original_sha256": "39cbbe796bd28e5858c110792cc26fb414a8a73949dabf67f707334ad48c4b35",
+      "export_sha256": "39cbbe796bd28e5858c110792cc26fb414a8a73949dabf67f707334ad48c4b35"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/qwen3-index-06.jsonl.attempts/06-3a06a43ec6554c47a8d89563ec708bbc/result.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/qwen3-index-06.jsonl.attempts/06-3a06a43ec6554c47a8d89563ec708bbc/result.json",
+      "original_sha256": "dadf5bf93f550a282245b7f0db889e99af686f91f07040d194045fee1ad7847b",
+      "export_sha256": "dadf5bf93f550a282245b7f0db889e99af686f91f07040d194045fee1ad7847b"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/qwen35-index-04-preflight.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/qwen35-index-04-preflight.json",
+      "original_sha256": "a8d3b02c5cbff295a2e58aab5b0223cc753d10657351bb5a88e13c1411f12e60",
+      "export_sha256": "a8d3b02c5cbff295a2e58aab5b0223cc753d10657351bb5a88e13c1411f12e60"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/qwen35-index-04.jsonl",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/qwen35-index-04.jsonl",
+      "original_sha256": "3d973630a137bd38fd70fc9b01d3e07bf06a59ce67f6961f057d9f08ca4b052f",
+      "export_sha256": "3d973630a137bd38fd70fc9b01d3e07bf06a59ce67f6961f057d9f08ca4b052f"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/qwen35-index-04.jsonl.attempts/04-8b693935b3e4435eb3a938c87d353a2c/job.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/qwen35-index-04.jsonl.attempts/04-8b693935b3e4435eb3a938c87d353a2c/job.json",
+      "original_sha256": "9e7394a6b5a6cb52595717996d3a8f7a5e95da95cbe502d7e0d75f4043efdb98",
+      "export_sha256": "9e7394a6b5a6cb52595717996d3a8f7a5e95da95cbe502d7e0d75f4043efdb98"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/qwen35-index-04.jsonl.attempts/04-8b693935b3e4435eb3a938c87d353a2c/result.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/qwen35-index-04.jsonl.attempts/04-8b693935b3e4435eb3a938c87d353a2c/result.json",
+      "original_sha256": "218bb5c6e2ad0b90614af419b5b2eb43e57d1899242a83cbae50856bd8ed5f44",
+      "export_sha256": "218bb5c6e2ad0b90614af419b5b2eb43e57d1899242a83cbae50856bd8ed5f44"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/qwen35-index-05-preflight.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/qwen35-index-05-preflight.json",
+      "original_sha256": "848fc95dff4fea5ffd6e8ead5b1ffeecc232432074d15f2231b1165b62d0bc87",
+      "export_sha256": "848fc95dff4fea5ffd6e8ead5b1ffeecc232432074d15f2231b1165b62d0bc87"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/qwen35-index-05.jsonl",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/qwen35-index-05.jsonl",
+      "original_sha256": "5242ab666a12d5322bd76f4f97b90ce871d780a90c014f90a5fb91371de9f776",
+      "export_sha256": "5242ab666a12d5322bd76f4f97b90ce871d780a90c014f90a5fb91371de9f776"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/qwen35-index-05.jsonl.attempts/05-e87eb58ce91c46898bad2a23634051c8/job.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/qwen35-index-05.jsonl.attempts/05-e87eb58ce91c46898bad2a23634051c8/job.json",
+      "original_sha256": "cb4802dea9b4279e93afe2803d811e7aef298a1085758be4114ea49d6dc299bc",
+      "export_sha256": "cb4802dea9b4279e93afe2803d811e7aef298a1085758be4114ea49d6dc299bc"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/qwen35-index-05.jsonl.attempts/05-e87eb58ce91c46898bad2a23634051c8/result.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/qwen35-index-05.jsonl.attempts/05-e87eb58ce91c46898bad2a23634051c8/result.json",
+      "original_sha256": "e2b6d200ad3f65a57d565e8c9fc91b44d7a72e9498dfbc2faffeef0cbb471ef3",
+      "export_sha256": "e2b6d200ad3f65a57d565e8c9fc91b44d7a72e9498dfbc2faffeef0cbb471ef3"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/qwen35-index-06-preflight.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/qwen35-index-06-preflight.json",
+      "original_sha256": "0f6632df1cfd6e1db2663f4be1ef6ebba6b89b388f02a3fc821ab16de7890312",
+      "export_sha256": "0f6632df1cfd6e1db2663f4be1ef6ebba6b89b388f02a3fc821ab16de7890312"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/qwen35-index-06.jsonl",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/qwen35-index-06.jsonl",
+      "original_sha256": "dd58401a72751d68e66db6e1ccea28702950118188bef10fd0a07748cadadb28",
+      "export_sha256": "dd58401a72751d68e66db6e1ccea28702950118188bef10fd0a07748cadadb28"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/qwen35-index-06.jsonl.attempts/06-77d8f8fcad5b49cf884da321c32b2c12/job.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/qwen35-index-06.jsonl.attempts/06-77d8f8fcad5b49cf884da321c32b2c12/job.json",
+      "original_sha256": "f5daf8fb22a1edada49913c68c41ca67dfcc28c1366caed75229ad8386e184b5",
+      "export_sha256": "f5daf8fb22a1edada49913c68c41ca67dfcc28c1366caed75229ad8386e184b5"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/qwen35-index-06.jsonl.attempts/06-77d8f8fcad5b49cf884da321c32b2c12/result.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/qwen35-index-06.jsonl.attempts/06-77d8f8fcad5b49cf884da321c32b2c12/result.json",
+      "original_sha256": "5751878913040de6b8ca150bf35959bb150081baa8b1ed50d2cbf19d72bdaecb",
+      "export_sha256": "5751878913040de6b8ca150bf35959bb150081baa8b1ed50d2cbf19d72bdaecb"
+    },
+    {
+      "path": "six-benchmarks-20261003-01/terminal.json",
+      "original_path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261003-01/terminal.json",
+      "original_sha256": "6ab4334167b8f51b2dd6e9fc43c5ecc3ca6a0dd71f773fb3413d7736697c9d5f",
+      "export_sha256": "6ab4334167b8f51b2dd6e9fc43c5ecc3ca6a0dd71f773fb3413d7736697c9d5f"
+    }
+  ],
+  "verified_indices": {
+    "qwen3": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "qwen35": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
+  }
+}
