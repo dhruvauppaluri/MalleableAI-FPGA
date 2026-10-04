@@ -140,7 +140,7 @@ begin
     if (errors == 0)
         $display("PASS: signed INT8 MAC verified with 10000 randomized cases");
     else
-        $display("FAIL: signed INT8 MAC errors=%0d", errors);
+        $fatal(1, "FAIL: signed INT8 MAC errors=%0d", errors);
 
     $finish;
 end

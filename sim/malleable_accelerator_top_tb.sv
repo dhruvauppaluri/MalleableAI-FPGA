@@ -32,6 +32,9 @@ reg [15:0] result_read_addr;
 wire signed [7:0] result_read_data;
 wire result_read_valid;
 wire [15:0] result_count;
+wire [63:0] cycles, tiles, useful_macs, compute_cycles, controller_cycles;
+wire [63:0] configuration_writes, result_reads;
+reg [63:0] saved_cycles;
 
 integer input_values [0:MAX_DIM-1];
 integer weight_values [0:WEIGHT_DEPTH-1];
@@ -74,7 +77,10 @@ malleable_accelerator_top #(
     .result_read_addr(result_read_addr),
     .result_read_data(result_read_data),
     .result_read_valid(result_read_valid),
-    .result_count(result_count)
+    .result_count(result_count),
+    .cycles(cycles), .tiles(tiles), .useful_macs(useful_macs),
+    .compute_cycles(compute_cycles), .controller_cycles(controller_cycles),
+    .configuration_writes(configuration_writes), .result_reads(result_reads)
 );
 
 always #5 clk = ~clk;
@@ -443,6 +449,7 @@ begin
         shift_values[output_index] = 0;
     end
     configure_one_layer(in_count, out_count);
+    cfg_write(3'd6, 0, 3);
     pulse_start();
     pulse_start();
     wait_for_done();
@@ -451,6 +458,19 @@ begin
         $display("ERROR: start while busy did not raise config_error");
         errors = errors + 1;
     end
+    if (tiles != 21 || useful_macs != 63 || compute_cycles != 21 ||
+        cycles != compute_cycles + controller_cycles)
+        $fatal(1,"runtime lane counters incorrect");
+    saved_cycles = cycles;
+    repeat (5) @(negedge clk);
+    if (cycles != saved_cycles) $fatal(1,"idle changed execution cycles");
+    cfg_write(3'd6, 0, 0);
+    pulse_start();
+    if (!config_error || busy) $fatal(1,"zero active lanes accepted");
+    cfg_write(3'd6, 0, LANES+1);
+    pulse_start();
+    if (!config_error || busy) $fatal(1,"excess active lanes accepted");
+    cfg_write(3'd6, 0, LANES);
 
     // The next valid run clears prior sticky errors. Force the accumulator's
     // overflow report to verify top-level propagation independently of the
@@ -480,13 +500,15 @@ begin
         $display("ERROR: reset did not return accelerator to idle");
         errors = errors + 1;
     end
+    if (cycles || tiles || useful_macs || compute_cycles || controller_cycles ||
+        configuration_writes || result_reads) $fatal(1,"reset did not clear counters");
 
     if (errors == 0)
         $display(
             "PASS: autonomous accelerator verified with 1000 dense layers and 100 two-layer networks"
         );
     else
-        $display("FAIL: autonomous accelerator errors=%0d", errors);
+        $fatal(1, "FAIL: autonomous accelerator errors=%0d", errors);
 
     $finish;
 end

@@ -26,3 +26,7 @@ project.sigasi
 # Local research artifacts
 results/*
 !results/.gitkeep
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/

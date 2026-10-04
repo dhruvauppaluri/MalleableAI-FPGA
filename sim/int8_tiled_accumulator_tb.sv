@@ -170,7 +170,7 @@ begin
     if (errors == 0)
         $display("PASS: tiled accumulation verified with 1000 randomized reductions");
     else
-        $display("FAIL: tiled accumulator errors=%0d", errors);
+        $fatal(1, "FAIL: tiled accumulator errors=%0d", errors);
 
     $finish;
 end
