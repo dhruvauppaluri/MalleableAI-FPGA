@@ -1,5 +1,9 @@
 # Agent guidance
 
+## Benchmark collection complete (2026-10-03)
+
+All 20 Qwen3/Qwen3.5 indices verified; LFM ten preserved: 30 total. Final evidence delta: docs/evidence/benchmarks-20261003-complete (base snapshot benchmarks-20261003-14of20). Both complete reports exported, all workers stopped, and 20-minute monitor DELETED at user request. Do not restart benchmarks or consumed held-out evaluations. Next: complete controller quality coverage and predictor/policy evaluation with Qwen3/Qwen3.5 training and LFM held out; then browser, CUDA/hybrid and final release verification per continuation plan. Choose run mode before new heavy work. No full-release pass claimed.
+
 ## Current continuation: final six benchmarks (2026-10-03)
 
 User authorized pushing collected evidence BEFORE dispatching the final six. Evidence snapshot: docs/evidence/benchmarks-20261003-14of20. Verified Qwen3/Qwen3.5 indices 0-6 each; all four format screens complete, LFM ten runs preserved. Next bounded batch: indices 7,8,9 for each model, serially, under perf/six-benchmarks-20261003-02, unit malleable-six-benchmarks-20261003-02. Stop after six; inspect terminal.json and verify all ten indices per model before aggregation. Historical overnight deadlines are not renewed; current authorization is count-limited. No quality or held-out repeats. Do not edit tracked files during execution.

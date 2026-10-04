@@ -1,0 +1,10 @@
+{
+  "qwen3": {
+    "path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/complete-performance-reports-20261003/qwen3-performance.json",
+    "sha256": "067e85ec70dc29d6d14a5d884e1df75e7d257eda81bba5cef3e61f9bd931b325"
+  },
+  "qwen35": {
+    "path": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/complete-performance-reports-20261003/qwen35-performance.json",
+    "sha256": "91367f51fcae9a5eb9d9ad5fe54063a35b6eed9bcc632a340c6adec44d9aa6d8"
+  }
+}
