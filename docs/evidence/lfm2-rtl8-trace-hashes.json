@@ -1,0 +1,131 @@
+{
+ "schema_version": 1,
+ "source_file": "build/zephyrus-jobs/release/20260928T223413Z-b463e746/lfm2-rtl-acceptance-02/result.json",
+ "source_file_sha256": "acaba9212635761ebe87ea8f50f44fa2ce8079c388b4e349e4de798073ea6dcb",
+ "record_id": "d6ba925e57f6d93ccad17e3aaadbafe6b51242f79f92c6d5010c60cd3981d917",
+ "model": "LFM2.5-230M",
+ "prompt": "Once upon a time there was a small",
+ "prompt_format": "raw",
+ "prompt_tokens": 9,
+ "input_token_hash": "39fd77c43213849710465cca5d18b9889beb340e96d8014b973e1e0b7a63f8d6",
+ "generated_token_ids": [
+  7314,
+  14979,
+  1859,
+  1685,
+  27358,
+  23820,
+  810,
+  21281
+ ],
+ "text": " village nestled between rolling hills and spark",
+ "base_model_id": "8d6ac525c1b135ad360d0f9f5a822698bbb257b7408f791e2ca695ae473798b3",
+ "tokenizer_id": "85ba6138043aa10b1a72e679643539f9d995f66a9f791e7c0ca0a6e5161460ae",
+ "variant_id": "17c66490b0ddfeb6a9889fed14e18368d8274042abd5fdcfa05ad60dd82d7e63",
+ "configuration_id": "78a135a7b46ac35b70089341e13593ecf58a67606c959f6f2a14ea1faf4001d3",
+ "context": 128,
+ "personality": "balanced",
+ "wformat": "int8",
+ "build_id": "29f7899f7d6e4f44ddbc42c50f55208f4452172d718f758ef739e73ca5d1cddc",
+ "upstream": "15754e971b55591b91048c4c636023fe59b343e7",
+ "steps_count": 16,
+ "total_cycles": 37603834,
+ "steps": [
+  {
+   "step": 0,
+   "cycles": 2346164,
+   "trace_sha256": "49c10d634e01a0e5f5960de7c8eb56b578b29d786522468a323c91716f45fa4c",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 1,
+   "cycles": 2348595,
+   "trace_sha256": "a579a746f18b8021302494a1baec803de9b9c9bc95e91255a5c66d3bb1ed6e80",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 2,
+   "cycles": 2350343,
+   "trace_sha256": "2b40069a432e01846a471371192c58b93464d3e2f0d7703af71223a4e32f0624",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 3,
+   "cycles": 2350274,
+   "trace_sha256": "2324c26d86a659e077f344c9adf73b7ea56a4dc11bab4e78a9b7cdc554835d71",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 4,
+   "cycles": 2350054,
+   "trace_sha256": "833051afa8f29dc2d09163fdb7ee77e48cdd60fcc4040b21e0f815a72b4fb84c",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 5,
+   "cycles": 2350259,
+   "trace_sha256": "0de34283884ecccd138783dd1c6f57bcdeda2bf3b7838aa5b6f2c29fe108c5a8",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 6,
+   "cycles": 2350515,
+   "trace_sha256": "70accb648d2956fb5e7abf64e7955c9532a4911f114bea421c2b738b298dc6d2",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 7,
+   "cycles": 2350483,
+   "trace_sha256": "34c36d709e9e66c58b7ee8c327159880678097d03bbf042c41db5e307be74c61",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 8,
+   "cycles": 2350496,
+   "trace_sha256": "7e3250364fb47f69292e46abebdee826b399d668010c6c21c04b5310b22b2627",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 9,
+   "cycles": 2350344,
+   "trace_sha256": "2cf3e8c88516e887497fdc22d78bb00db360114d945d132b6ec5a039a09b7d91",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 10,
+   "cycles": 2351247,
+   "trace_sha256": "c2ca41dab9528c166e750004d3192b13359e1a950caf6032c0ea2325028c9615",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 11,
+   "cycles": 2351138,
+   "trace_sha256": "7fdfeb4ddf7a26208915e0d58831cc92ad9f4d5c70fe04ac5027c3dc0f7d4dce",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 12,
+   "cycles": 2350513,
+   "trace_sha256": "1baadf6bb3f4a4387818d23ccd61d746789ddfc444e6500e6cb409a09c272b72",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 13,
+   "cycles": 2350135,
+   "trace_sha256": "b947a349322e28b3debadc3cd1e91817d2dad8ed029118e92f94dcf1ec754b01",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 14,
+   "cycles": 2351694,
+   "trace_sha256": "7457b5feab9c1a04c5573795f7f743de3f2adcc8982a4d0b38e24e861e08f8ff",
+   "validation": "bit-exact-dram-and-tmem"
+  },
+  {
+   "step": 15,
+   "cycles": 2351580,
+   "trace_sha256": "57a65a3f1370d9762264bbabd1b2e2b09b8ded05832291359726393000c4038c",
+   "validation": "bit-exact-dram-and-tmem"
+  }
+ ]
+}

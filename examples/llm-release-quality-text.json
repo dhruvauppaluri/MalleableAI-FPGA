@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "description": "Frozen repository-authored technical-domain suite. Quantized retention evidence, not a general chatbot accuracy benchmark. Separate source documents and target tokens for each split; no model weight training.",
+  "source_files": {
+    "calibration": ["docs/numeric-contract.md"],
+    "validation": ["docs/architecture.md", "docs/ml-contributor-roadmap.md"],
+    "held-out": ["docs/research-roadmap.md", "docs/local-llm-platform.md"]
+  }
+}

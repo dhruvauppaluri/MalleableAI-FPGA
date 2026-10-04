@@ -1,0 +1,8 @@
+{
+  "repository": "https://github.com/FeSens/openTPU",
+  "revision": "15754e971b55591b91048c4c636023fe59b343e7",
+  "license": "Apache-2.0",
+  "vendored": ["opentpu", "rtl", "sim/verilator", "tests", "docs", "tools/data/austen_pp_ch1.txt"],
+  "excluded": [".git", "models", "build", "tools/tourney", "generated tournament outputs"],
+  "patch_log": "PATCHES.md"
+}

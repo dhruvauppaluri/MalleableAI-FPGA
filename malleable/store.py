@@ -51,5 +51,10 @@ class Store:
         return [self.load(row[0]) for row in self.db.execute(
             'SELECT object_id FROM records WHERE kind=? ORDER BY id', (kind,))]
 
+    def entries(self, kind, limit=100):
+        if type(limit) is not int or not 1<=limit<=1000: raise ValueError('invalid record limit')
+        return [dict(self.load(row[0]),record_id=row[0]) for row in self.db.execute(
+            'SELECT object_id FROM records WHERE kind=? ORDER BY id DESC LIMIT ?', (kind,limit))]
+
     def close(self):
         self.db.close()

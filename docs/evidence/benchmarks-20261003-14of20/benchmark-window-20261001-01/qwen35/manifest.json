@@ -1,0 +1,447 @@
+{
+  "schema_version": 2,
+  "model_path": "/home/dhruv/projects/MalleableAI-FPGA/build/models/Qwen3.5-0.8B",
+  "base_model_id": "96c8847b78593ff15008955c68e384f5ff40895e425e487aec30b8173542a857",
+  "tokenizer_id": "58b10b60732220de7cbd044bd711bc5f8a0e172b6e2fb82a910570cab393f093",
+  "seed": 42,
+  "suite": "10-run-real-model-rtl-v2",
+  "quality_evidence_ids": [],
+  "quality_evidence": [],
+  "format_screening_evidence": [
+    {
+      "id": "040bb5fbbde2a0a1f7d0bfc94f56dcee46a04f852b6c7de89b0d9eb79acf9abc",
+      "record": {
+        "schema_version": 1,
+        "base_model_id": "96c8847b78593ff15008955c68e384f5ff40895e425e487aec30b8173542a857",
+        "tokenizer_id": "58b10b60732220de7cbd044bd711bc5f8a0e172b6e2fb82a910570cab393f093",
+        "variant_id": "8525ae6c7f692607384655bb019cb690a3cfcc61cc2088ad5f78eb8f2dc594e7",
+        "wformat": "int4",
+        "head_format": "int8",
+        "personality": "balanced",
+        "split": "validation",
+        "suite_hashes": {
+          "calibration": "6c84ecbbdee5b15dced629af079acfa2123417faa4e2bba687520f61e3462b0a",
+          "validation": "b06635a145643efc79d7ff809f664ca5666049d98eebf81dc84c57b4d5db0ab1",
+          "held-out": "1413f46bb88cd0dddcdcf1d837e0f81b9ab20d4d5f8d6e5e9886e382b691f209"
+        },
+        "suite_file_hash": "bc563627d41c8a012ee736654aeefab3e4dca3b6d40cd70a82d84bd7ef31b11e",
+        "samples": 1024,
+        "float_nll": 4.042121637757435,
+        "candidate_nll": 4.295839930465878,
+        "agreement": 0.7783203125,
+        "configuration_id": "224a2edbf7462eae26e3527b8f0e554e5b13b06987bd557a9a4f983370d559dd",
+        "context": 128,
+        "config": {
+          "S": 1,
+          "D": 128,
+          "MCOLS": 4,
+          "ACT_BLOCKS": 128,
+          "TMEM_WORDS": 65536,
+          "DRAM_BYTES": 1073741824,
+          "IMEM_WORDS": 65536,
+          "LANES": 8,
+          "PAIR": false
+        },
+        "microarchitecture": {
+          "schema_version": 1,
+          "parameters": {
+            "WIN": 16,
+            "RPB": 4,
+            "WPB": 2,
+            "FIFO_DEPTH": 512,
+            "MXU_IMPL": 0,
+            "VPU_CL": 2,
+            "ULANES": 8
+          }
+        },
+        "suite_frozen": true,
+        "target_count": 1024,
+        "floating_reference_id": "2a21352d962f8ddf028e0e25dc7443a25817a44433787246a5e8accbf9d6c9e3",
+        "floating_reference_record": "95a5885e1c0fe26b8459dd9bd79fa040640e162cf0dae80aa49a0870b124e7cc",
+        "toolchain": {
+          "schema_version": 1,
+          "base_model_id": "96c8847b78593ff15008955c68e384f5ff40895e425e487aec30b8173542a857",
+          "tokenizer_id": "58b10b60732220de7cbd044bd711bc5f8a0e172b6e2fb82a910570cab393f093",
+          "suite_file_hash": "bc563627d41c8a012ee736654aeefab3e4dca3b6d40cd70a82d84bd7ef31b11e",
+          "split": "validation",
+          "split_hash": "b06635a145643efc79d7ff809f664ca5666049d98eebf81dc84c57b4d5db0ab1",
+          "dtype": "float32",
+          "attention": "eager",
+          "torch": "2.11.0+cu128",
+          "transformers": "5.17.0",
+          "python": "3.12.3",
+          "contract": "original-local-safetensors-qwen35-rope-restored-v2"
+        },
+        "nll_degradation": 0.06276859418045745,
+        "next_token_agreement": 0.7783203125,
+        "passed": false,
+        "provenance": "measured-isa-versus-original-float",
+        "selectable": false,
+        "derived_candidate": null,
+        "selection_rule": "held-out-only; frozen suite; >=1024 targets; NLL <=5%; next-token agreement >=90%"
+      }
+    },
+    {
+      "id": "7f4a725d873eab6bd4f58a90333a07167d35fa919d73d5fc71dc794162fcdc69",
+      "record": {
+        "schema_version": 1,
+        "base_model_id": "96c8847b78593ff15008955c68e384f5ff40895e425e487aec30b8173542a857",
+        "tokenizer_id": "58b10b60732220de7cbd044bd711bc5f8a0e172b6e2fb82a910570cab393f093",
+        "variant_id": "85233b02ce296a83d235abf6622ad824558798c7f4e66cbf918cd3a17c9fab87",
+        "wformat": "fp4",
+        "head_format": "int8",
+        "personality": "balanced",
+        "split": "validation",
+        "suite_hashes": {
+          "calibration": "6c84ecbbdee5b15dced629af079acfa2123417faa4e2bba687520f61e3462b0a",
+          "validation": "b06635a145643efc79d7ff809f664ca5666049d98eebf81dc84c57b4d5db0ab1",
+          "held-out": "1413f46bb88cd0dddcdcf1d837e0f81b9ab20d4d5f8d6e5e9886e382b691f209"
+        },
+        "suite_file_hash": "bc563627d41c8a012ee736654aeefab3e4dca3b6d40cd70a82d84bd7ef31b11e",
+        "samples": 1024,
+        "float_nll": 4.042121637757435,
+        "candidate_nll": 4.2506615283910945,
+        "agreement": 0.783203125,
+        "configuration_id": "224a2edbf7462eae26e3527b8f0e554e5b13b06987bd557a9a4f983370d559dd",
+        "context": 128,
+        "config": {
+          "S": 1,
+          "D": 128,
+          "MCOLS": 4,
+          "ACT_BLOCKS": 128,
+          "TMEM_WORDS": 65536,
+          "DRAM_BYTES": 1073741824,
+          "IMEM_WORDS": 65536,
+          "LANES": 8,
+          "PAIR": false
+        },
+        "microarchitecture": {
+          "schema_version": 1,
+          "parameters": {
+            "WIN": 16,
+            "RPB": 4,
+            "WPB": 2,
+            "FIFO_DEPTH": 512,
+            "MXU_IMPL": 0,
+            "VPU_CL": 2,
+            "ULANES": 8
+          }
+        },
+        "suite_frozen": true,
+        "target_count": 1024,
+        "floating_reference_id": "2a21352d962f8ddf028e0e25dc7443a25817a44433787246a5e8accbf9d6c9e3",
+        "floating_reference_record": "95a5885e1c0fe26b8459dd9bd79fa040640e162cf0dae80aa49a0870b124e7cc",
+        "toolchain": {
+          "schema_version": 1,
+          "base_model_id": "96c8847b78593ff15008955c68e384f5ff40895e425e487aec30b8173542a857",
+          "tokenizer_id": "58b10b60732220de7cbd044bd711bc5f8a0e172b6e2fb82a910570cab393f093",
+          "suite_file_hash": "bc563627d41c8a012ee736654aeefab3e4dca3b6d40cd70a82d84bd7ef31b11e",
+          "split": "validation",
+          "split_hash": "b06635a145643efc79d7ff809f664ca5666049d98eebf81dc84c57b4d5db0ab1",
+          "dtype": "float32",
+          "attention": "eager",
+          "torch": "2.11.0+cu128",
+          "transformers": "5.17.0",
+          "python": "3.12.3",
+          "contract": "original-local-safetensors-qwen35-rope-restored-v2"
+        },
+        "nll_degradation": 0.05159169102821879,
+        "next_token_agreement": 0.783203125,
+        "passed": false,
+        "provenance": "measured-isa-versus-original-float",
+        "selectable": false,
+        "derived_candidate": null,
+        "selection_rule": "held-out-only; frozen suite; >=1024 targets; NLL <=5%; next-token agreement >=90%"
+      }
+    }
+  ],
+  "fixed_prompt_hashes": {
+    "short-a": "a62ddaac8ddf80e1dfce4b06f103827202ab66a89dee6351c4e97ce02bded6bd",
+    "short-b": "76c9d5daefb89ae75175bead78d96f5a9c626acab80751ad007ef62dcc111ab1"
+  },
+  "runs": [
+    {
+      "workload": "short-a",
+      "personality": "compact",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        32,
+        2526,
+        28758,
+        3790,
+        25822
+      ],
+      "input_token_hash": "a62ddaac8ddf80e1dfce4b06f103827202ab66a89dee6351c4e97ce02bded6bd",
+      "memory_scenario": "baseline",
+      "latency": 20,
+      "stall_percent": 20,
+      "bandwidth_percent": 100,
+      "candidate_case": null,
+      "derived_candidate": null,
+      "variant_id": "dcc3d56681085ed78cc27fc72b8e738a82db11b12fdc410784f1b461a3169a7b",
+      "precision_policy": {
+        "matrix_format": "int8",
+        "head_format": "int8",
+        "arithmetic_contract": "opentpu-isa-v1-fp32-rne-ftz-block-quantized"
+      }
+    },
+    {
+      "workload": "short-a",
+      "personality": "balanced",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        32,
+        2526,
+        28758,
+        3790,
+        25822
+      ],
+      "input_token_hash": "a62ddaac8ddf80e1dfce4b06f103827202ab66a89dee6351c4e97ce02bded6bd",
+      "memory_scenario": "baseline",
+      "latency": 20,
+      "stall_percent": 20,
+      "bandwidth_percent": 100,
+      "candidate_case": null,
+      "derived_candidate": null,
+      "variant_id": "dcc3d56681085ed78cc27fc72b8e738a82db11b12fdc410784f1b461a3169a7b",
+      "precision_policy": {
+        "matrix_format": "int8",
+        "head_format": "int8",
+        "arithmetic_contract": "opentpu-isa-v1-fp32-rne-ftz-block-quantized"
+      }
+    },
+    {
+      "workload": "short-a",
+      "personality": "compute",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        32,
+        2526,
+        28758,
+        3790,
+        25822
+      ],
+      "input_token_hash": "a62ddaac8ddf80e1dfce4b06f103827202ab66a89dee6351c4e97ce02bded6bd",
+      "memory_scenario": "baseline",
+      "latency": 20,
+      "stall_percent": 20,
+      "bandwidth_percent": 100,
+      "candidate_case": null,
+      "derived_candidate": null,
+      "variant_id": "dcc3d56681085ed78cc27fc72b8e738a82db11b12fdc410784f1b461a3169a7b",
+      "precision_policy": {
+        "matrix_format": "int8",
+        "head_format": "int8",
+        "arithmetic_contract": "opentpu-isa-v1-fp32-rne-ftz-block-quantized"
+      }
+    },
+    {
+      "workload": "short-a",
+      "personality": "buffered",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        32,
+        2526,
+        28758,
+        3790,
+        25822
+      ],
+      "input_token_hash": "a62ddaac8ddf80e1dfce4b06f103827202ab66a89dee6351c4e97ce02bded6bd",
+      "memory_scenario": "baseline",
+      "latency": 20,
+      "stall_percent": 20,
+      "bandwidth_percent": 100,
+      "candidate_case": null,
+      "derived_candidate": null,
+      "variant_id": "dcc3d56681085ed78cc27fc72b8e738a82db11b12fdc410784f1b461a3169a7b",
+      "precision_policy": {
+        "matrix_format": "int8",
+        "head_format": "int8",
+        "arithmetic_contract": "opentpu-isa-v1-fp32-rne-ftz-block-quantized"
+      }
+    },
+    {
+      "workload": "short-b",
+      "personality": "compact",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        2014,
+        86384,
+        628,
+        41365,
+        27044,
+        1558,
+        42903,
+        539
+      ],
+      "input_token_hash": "76c9d5daefb89ae75175bead78d96f5a9c626acab80751ad007ef62dcc111ab1",
+      "memory_scenario": "baseline",
+      "latency": 20,
+      "stall_percent": 20,
+      "bandwidth_percent": 100,
+      "candidate_case": null,
+      "derived_candidate": null,
+      "variant_id": "dcc3d56681085ed78cc27fc72b8e738a82db11b12fdc410784f1b461a3169a7b",
+      "precision_policy": {
+        "matrix_format": "int8",
+        "head_format": "int8",
+        "arithmetic_contract": "opentpu-isa-v1-fp32-rne-ftz-block-quantized"
+      }
+    },
+    {
+      "workload": "short-b",
+      "personality": "balanced",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        2014,
+        86384,
+        628,
+        41365,
+        27044,
+        1558,
+        42903,
+        539
+      ],
+      "input_token_hash": "76c9d5daefb89ae75175bead78d96f5a9c626acab80751ad007ef62dcc111ab1",
+      "memory_scenario": "baseline",
+      "latency": 20,
+      "stall_percent": 20,
+      "bandwidth_percent": 100,
+      "candidate_case": null,
+      "derived_candidate": null,
+      "variant_id": "dcc3d56681085ed78cc27fc72b8e738a82db11b12fdc410784f1b461a3169a7b",
+      "precision_policy": {
+        "matrix_format": "int8",
+        "head_format": "int8",
+        "arithmetic_contract": "opentpu-isa-v1-fp32-rne-ftz-block-quantized"
+      }
+    },
+    {
+      "workload": "short-b",
+      "personality": "compute",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        2014,
+        86384,
+        628,
+        41365,
+        27044,
+        1558,
+        42903,
+        539
+      ],
+      "input_token_hash": "76c9d5daefb89ae75175bead78d96f5a9c626acab80751ad007ef62dcc111ab1",
+      "memory_scenario": "baseline",
+      "latency": 20,
+      "stall_percent": 20,
+      "bandwidth_percent": 100,
+      "candidate_case": null,
+      "derived_candidate": null,
+      "variant_id": "dcc3d56681085ed78cc27fc72b8e738a82db11b12fdc410784f1b461a3169a7b",
+      "precision_policy": {
+        "matrix_format": "int8",
+        "head_format": "int8",
+        "arithmetic_contract": "opentpu-isa-v1-fp32-rne-ftz-block-quantized"
+      }
+    },
+    {
+      "workload": "short-b",
+      "personality": "buffered",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        2014,
+        86384,
+        628,
+        41365,
+        27044,
+        1558,
+        42903,
+        539
+      ],
+      "input_token_hash": "76c9d5daefb89ae75175bead78d96f5a9c626acab80751ad007ef62dcc111ab1",
+      "memory_scenario": "baseline",
+      "latency": 20,
+      "stall_percent": 20,
+      "bandwidth_percent": 100,
+      "candidate_case": null,
+      "derived_candidate": null,
+      "variant_id": "dcc3d56681085ed78cc27fc72b8e738a82db11b12fdc410784f1b461a3169a7b",
+      "precision_policy": {
+        "matrix_format": "int8",
+        "head_format": "int8",
+        "arithmetic_contract": "opentpu-isa-v1-fp32-rne-ftz-block-quantized"
+      }
+    },
+    {
+      "workload": "axi-stress",
+      "personality": "balanced",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        32,
+        2526,
+        28758,
+        3790,
+        25822
+      ],
+      "input_token_hash": "a62ddaac8ddf80e1dfce4b06f103827202ab66a89dee6351c4e97ce02bded6bd",
+      "memory_scenario": "stress",
+      "latency": 100,
+      "stall_percent": 50,
+      "bandwidth_percent": 50,
+      "candidate_case": null,
+      "derived_candidate": null,
+      "variant_id": "dcc3d56681085ed78cc27fc72b8e738a82db11b12fdc410784f1b461a3169a7b",
+      "precision_policy": {
+        "matrix_format": "int8",
+        "head_format": "int8",
+        "arithmetic_contract": "opentpu-isa-v1-fp32-rne-ftz-block-quantized"
+      }
+    },
+    {
+      "workload": "axi-stress",
+      "personality": "compute",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        32,
+        2526,
+        28758,
+        3790,
+        25822
+      ],
+      "input_token_hash": "a62ddaac8ddf80e1dfce4b06f103827202ab66a89dee6351c4e97ce02bded6bd",
+      "memory_scenario": "stress",
+      "latency": 100,
+      "stall_percent": 50,
+      "bandwidth_percent": 50,
+      "candidate_case": null,
+      "derived_candidate": null,
+      "variant_id": "dcc3d56681085ed78cc27fc72b8e738a82db11b12fdc410784f1b461a3169a7b",
+      "precision_policy": {
+        "matrix_format": "int8",
+        "head_format": "int8",
+        "arithmetic_contract": "opentpu-isa-v1-fp32-rne-ftz-block-quantized"
+      }
+    }
+  ],
+  "baseline_axi": {
+    "latency": 20,
+    "stall_probability_percent": 20,
+    "bandwidth_percent": 100
+  },
+  "stress_axi": {
+    "latency": 100,
+    "stall_probability_percent": 50,
+    "bandwidth_percent": 50
+  },
+  "controller_approval": "Performance evidence only; matching personality-specific held-out approval required for automatic application."
+}

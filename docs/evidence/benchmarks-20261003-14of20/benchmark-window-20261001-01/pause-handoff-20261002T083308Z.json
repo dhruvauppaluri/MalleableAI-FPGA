@@ -1,0 +1,15 @@
+{
+  "status": "paused-by-user",
+  "created_utc": "2026-10-02T08:33:08.445266+00:00",
+  "completed_indices": {
+    "qwen3": [
+      0
+    ],
+    "qwen35": [
+      0
+    ]
+  },
+  "unit": "malleable-benchmarks-20261001-01",
+  "unit_state": "inactive",
+  "next_action": "Wait for user to resume tomorrow morning and select a fresh run window. Use tools/run_remaining_benchmarks.py with a fresh root and --resume-from this root. Reuse four completed validation screens and verified benchmark indices. Preserve interrupted attempts; restart only unfinished indices. Do not reset historical control.json or repeat held-out evaluations."
+}

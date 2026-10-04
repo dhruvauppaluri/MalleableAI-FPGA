@@ -1,0 +1,1 @@
+{"reason": "WSL shutdown during preflight before job plan or index dispatch; keepalive now running", "retry": "restart preflight only"}
