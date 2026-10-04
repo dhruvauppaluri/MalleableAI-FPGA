@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "description": "Authored development smoke suite, not a comprehensive language benchmark. No split is used for training model weights.",
+  "calibration": [
+    "A clock coordinates the steps of a digital circuit. Registers remember values between clock edges.",
+    "To add two numbers, combine their quantities. Seven plus five is twelve.",
+    "A program reads its input and computes an output. Tests compare that output with an expected result.",
+    "An accelerator can execute many arithmetic operations in parallel. Data must also arrive quickly enough."
+  ],
+  "validation": [
+    "The kettle contains water. Heating the water raises its temperature until it boils.",
+    "A queue stores requests in arrival order. A busy server may make later requests wait.",
+    "A triangle has three sides. A square has four equal sides and four right angles.",
+    "The function returns the sum of its arguments. For inputs three and four, the result is seven.",
+    "Memory holds information for later use. A cache keeps frequently needed information nearby.",
+    "The library opens in the morning. Readers can borrow books and return them later.",
+    "A measurement should include its units. Seconds measure time, while bytes measure stored data.",
+    "If a test fails, inspect the evidence. Changing the expected answer does not fix the underlying defect."
+  ],
+  "held-out": [
+    "A bicycle has two wheels. Pedaling transfers energy through a chain to move the bicycle forward.",
+    "A compiler translates a program into instructions. The machine follows those instructions to produce results.",
+    "Latency measures how long one request takes. Throughput measures how much work finishes over time.",
+    "The garden needs sunlight and water. Healthy roots absorb nutrients from the soil.",
+    "A rectangle's area equals its width multiplied by its height. A width of six and height of three give eighteen.",
+    "An experiment changes one setting while keeping the others fixed. This helps identify the cause of a difference.",
+    "During a storm, the travelers took shelter indoors. They continued their journey when the weather improved.",
+    "A record contains both a result and its provenance. Reproducibility requires knowing which inputs and settings produced it."
+  ]
+}

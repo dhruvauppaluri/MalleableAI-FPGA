@@ -11,7 +11,7 @@ ACCELERATOR_RTL := \
 	rtl/int8_postprocess.sv \
 	rtl/malleable_accelerator_top.sv
 
-.PHONY: all test test-rtl test-host lint synth verify clean
+.PHONY: all test test-rtl test-host lint synth verify verify-llm test-upstream ui clean release-tiny release-check full-release-check verify-evidence
 
 all: verify
 
@@ -50,7 +50,6 @@ $(BUILD_DIR)/int8_postprocess_tb.out: rtl/int8_postprocess.sv sim/int8_postproce
 $(BUILD_DIR)/malleable_accelerator_top_tb.out: $(ACCELERATOR_RTL) sim/malleable_accelerator_top_tb.sv | $(BUILD_DIR)
 	$(IVERILOG) -g2012 -Wall -s malleable_accelerator_top_tb -o $@ $^
 
-
 lint:
 	$(VERILATOR) --lint-only --Wall -Wno-fatal --top-module int8_mac rtl/int8_mac.sv
 	@for lanes in 1 2 4 8; do \
@@ -67,6 +66,37 @@ synth: | $(BUILD_DIR)
 
 verify: test lint synth
 
+test-upstream:
+	PYTHONPATH=third_party/opentpu $(PYTHON) -m pytest -q third_party/opentpu/tests/test_isa.py third_party/opentpu/tests/test_fp.py third_party/opentpu/tests/test_rtl.py third_party/opentpu/tests/test_quant.py third_party/opentpu/tests/test_compiler.py
+	PYTHONPATH=third_party/opentpu $(PYTHON) -m pytest -q third_party/opentpu/tests/test_qwen3.py third_party/opentpu/tests/test_qwen35.py third_party/opentpu/tests/test_lfm2.py -k 'tiny or plan or one_sequence'
+	$(PYTHON) -m pytest -q tests/test_llm_rtl.py
+
+ui:
+	npm --prefix frontend ci
+	npm --prefix frontend run build
+
+verify-llm:
+	$(PYTHON) -c "import torch, transformers, safetensors, fastapi, httpx, pytest"
+	$(MAKE) verify PYTHON=$(PYTHON)
+	$(PYTHON) -m pytest -q tests/test_diagnostics.py tests/test_precision.py tests/test_int8_candidates.py tests/test_candidate_integration.py tests/test_release_implementation.py tests/test_cuda_cache.py
+	$(MAKE) test-upstream PYTHON=$(PYTHON)
+	npm --prefix frontend run check
+	npm --prefix frontend run build
+
+release-tiny:
+	PYTHONPATH=. $(PYTHON) tools/export_tiny_rtl_evidence.py --output $(BUILD_DIR)/release-evidence/tiny
+
+release-check:
+	@test -n "$(RELEASE_MANIFEST)" || (echo 'Set RELEASE_MANIFEST=path/to/standalone.json' && exit 2)
+	$(PYTHON) -m malleable.llm.cli release-check --manifest $(RELEASE_MANIFEST)
+
+full-release-check:
+	@test -n "$(FULL_RELEASE_MANIFEST)" || (echo 'Set FULL_RELEASE_MANIFEST=path/to/full-release.json' && exit 2)
+	$(PYTHON) -m malleable.llm.cli full-release-check --manifest $(FULL_RELEASE_MANIFEST)
+
+verify-evidence:
+	PYTHONPATH=. $(PYTHON) tools/verify_local_release.py --output $(BUILD_DIR)/release-evidence/verification
 
 clean:
-	rm -rf $(BUILD_DIR)
+	rm -f $(BUILD_DIR)/int8_mac_tb.out $(BUILD_DIR)/int8_dot_product_tb.out $(BUILD_DIR)/int8_tiled_accumulator_tb.out $(BUILD_DIR)/int8_postprocess_tb.out $(BUILD_DIR)/malleable_accelerator_top_tb.out
+	@echo 'Checkpoint folders, experiments, traces and unrelated build data are preserved.'

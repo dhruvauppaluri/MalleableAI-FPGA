@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "index": 2,
+  "source": {
+    "commit": "e919d558960162d0caae12f50946e2aa20025274",
+    "status": ""
+  },
+  "command": [
+    "/home/dhruv/projects/MalleableAI-FPGA/.venv/bin/python",
+    "-u",
+    "-m",
+    "malleable.llm.cli",
+    "performance-suite",
+    "--manifest",
+    "/home/dhruv/projects/MalleableAI-FPGA/build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/manifest.json",
+    "--store",
+    "/home/dhruv/projects/MalleableAI-FPGA/build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/benchmark-window-20261001-01/qwen3/store",
+    "--run-index",
+    "2"
+  ],
+  "started_unix": 1790973636.075346,
+  "dispatch_deadline_unix": 1.7976931348623157e+308,
+  "code": 0,
+  "seconds": 2021.9484770298004,
+  "source_unchanged": true,
+  "status": "completed",
+  "attempt": "/home/dhruv/projects/MalleableAI-FPGA/build/zephyrus-jobs/release/20260928T223413Z-b463e746/perf/six-benchmarks-20261002-01/qwen3-index-02.jsonl.attempts/02-f1cadf86c5ae4cd980488fe8f0f02d45"
+}

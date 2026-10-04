@@ -1,5 +1,11 @@
 # Research Roadmap
 
+> Local release update (ADR-0003): standalone *simulation* acceptance now gates
+> the later CUDA baseline/hybrid experiments. Physical fit, power and resource
+> results remain hardware milestones, not prerequisites we pretend to have met.
+> The active implementation/gates are in `docs/local-llm-platform.md`; the
+> staged independent-baseline/comparison principles below still apply.
+
 ## Purpose
 
 The research program has three sequential stages: the original standalone FPGA

@@ -1,0 +1,48 @@
+{
+  "source": {
+    "commit": "e919d558960162d0caae12f50946e2aa20025274",
+    "status": ""
+  },
+  "pid": 437,
+  "mode": "six-index-batch",
+  "maximum_dispatches": 6,
+  "plan": [
+    [
+      "qwen3",
+      1
+    ],
+    [
+      "qwen35",
+      1
+    ],
+    [
+      "qwen3",
+      2
+    ],
+    [
+      "qwen35",
+      2
+    ],
+    [
+      "qwen3",
+      3
+    ],
+    [
+      "qwen35",
+      3
+    ]
+  ],
+  "previous_completed": {
+    "qwen3": [
+      0
+    ],
+    "qwen35": [
+      0
+    ]
+  },
+  "manifest_hashes": {
+    "qwen3": "4762f77610fe17f9ee48d0dfddb2586fb4ff8e1e2c4fbe74a518626e117fa1ee",
+    "qwen35": "7c4b7b3fccc5b7d441a105815cc04c44a393c79efe40f268a4640adeff880d38"
+  },
+  "authorization": "User: do 6 benchmarks at a time and report back before u do the next 6"
+}

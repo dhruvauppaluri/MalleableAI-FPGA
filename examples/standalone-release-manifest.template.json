@@ -1,0 +1,21 @@
+{
+  "schema_version": 3,
+  "tiny_rtl": {"path": "tiny/tiny-release.json", "sha256": "REPLACE_WITH_SHA256"},
+  "models": {
+    "Qwen3-0.6B": {
+      "generation": {"path": "artifacts/Qwen3-0.6B-generation.json", "sha256": "REPLACE_WITH_SHA256"},
+      "held_out_quality": {"path": "artifacts/Qwen3-0.6B-held-out-quality.json", "sha256": "REPLACE_WITH_SHA256"},
+      "quality_suite": {"path": "suites/Qwen3-0.6B-frozen.json", "sha256": "REPLACE_WITH_SHA256"}
+    },
+    "Qwen3.5-0.8B": {
+      "generation": {"path": "artifacts/Qwen3.5-0.8B-generation.json", "sha256": "REPLACE_WITH_SHA256"},
+      "held_out_quality": {"path": "artifacts/Qwen3.5-0.8B-held-out-quality.json", "sha256": "REPLACE_WITH_SHA256"},
+      "quality_suite": {"path": "suites/Qwen3.5-0.8B-frozen.json", "sha256": "REPLACE_WITH_SHA256"}
+    },
+    "LFM2.5-230M": {
+      "generation": {"path": "artifacts/LFM2.5-230M-generation.json", "sha256": "REPLACE_WITH_SHA256"},
+      "held_out_quality": {"path": "artifacts/LFM2.5-230M-held-out-quality.json", "sha256": "REPLACE_WITH_SHA256"},
+      "quality_suite": {"path": "suites/LFM2.5-230M-frozen.json", "sha256": "REPLACE_WITH_SHA256"}
+    }
+  }
+}

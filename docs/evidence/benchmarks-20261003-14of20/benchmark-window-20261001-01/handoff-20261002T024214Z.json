@@ -1,0 +1,22 @@
+{
+  "recorded_utc": "2026-10-02T02:42:14.961661+00:00",
+  "unit": "malleable-benchmarks-20261001-01",
+  "pid": 382,
+  "source": {
+    "commit": "e919d558960162d0caae12f50946e2aa20025274",
+    "status": ""
+  },
+  "control": {
+    "schema_version": 1,
+    "mode": "overnight",
+    "started_unix": 1790908890.6226754,
+    "dispatch_deadline_unix": 1790937690.6226754,
+    "authorization_sha256": "d11a8577ae38cb245d7c6c129a776d6f8589bcbbdd00df088305751c87c686ef",
+    "started_utc": "2026-10-02T02:41:30.622675+00:00"
+  },
+  "deadline_pacific": "2026-10-02T03:41:30.622675-07:00",
+  "windows_sleep_helper_pid": 17428,
+  "scope": "Four raw balanced INT4/FP4 validation prerequisites, then 20 indexed RTL runs; reuse LFM ten",
+  "resume": "Inspect terminal.json, control.json and stage logs before action. No tracked edits while active. Deadline is immutable. Successful results persist; a new authorized window may resume via tools/run_remaining_benchmarks.py --resume-from this root with a fresh root. Do not repeat held-out data.",
+  "status": "qwen3 INT4 validation started"
+}

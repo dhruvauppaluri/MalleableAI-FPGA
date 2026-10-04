@@ -1,0 +1,697 @@
+{
+  "schema_version": 2,
+  "model_path": "/home/dhruv/projects/MalleableAI-FPGA/build/models/Qwen3-0.6B",
+  "base_model_id": "7ab1181d3a2b04ce889880dfc3b94933574441e9c221e950622c39a3ce79a59d",
+  "tokenizer_id": "85efab0083f304a11454dcdba254bafc67d7fd6c3f8a1ef37b6b5fed767981da",
+  "seed": 42,
+  "suite": "10-run-real-model-rtl-v2",
+  "quality_evidence_ids": [],
+  "quality_evidence": [],
+  "format_screening_evidence": [
+    {
+      "id": "7738edefc929b8ffc985443cc33aaced8717db17d3186c1e13eb7877bf841332",
+      "record": {
+        "schema_version": 1,
+        "base_model_id": "7ab1181d3a2b04ce889880dfc3b94933574441e9c221e950622c39a3ce79a59d",
+        "tokenizer_id": "85efab0083f304a11454dcdba254bafc67d7fd6c3f8a1ef37b6b5fed767981da",
+        "variant_id": "ded6c80fbc843f073e758f15cb11c2f02011134ffd82222a5b3c772bd43db750",
+        "wformat": "int4",
+        "head_format": "int8",
+        "personality": "balanced",
+        "split": "validation",
+        "suite_hashes": {
+          "calibration": "ec2b250c8855979b69978fce7a8e5b37b2bbd343a1bf4f04a707e9f1a80e6189",
+          "validation": "a42461abbe57b50e524e9cfb43b5f02efd68491b1e096fcfdde8c193d1d106bb",
+          "held-out": "e61d4e88cd786d72fb8317b8e4ec9da94ba91e965507f38dd0f7feac47e48ba0"
+        },
+        "suite_file_hash": "9bfc83a40d510ecc650f2aab5cb338244f9c3ec174ed7bd87e42370898f72673",
+        "samples": 1024,
+        "float_nll": 4.7024148846068705,
+        "candidate_nll": 4.872436184338703,
+        "agreement": 0.685546875,
+        "configuration_id": "c50589e49736bb3766c59d2a19afe0317be6d6534d71274bb6f53a0f9d068a23",
+        "context": 128,
+        "config": {
+          "S": 1,
+          "D": 128,
+          "MCOLS": 4,
+          "ACT_BLOCKS": 128,
+          "TMEM_WORDS": 65536,
+          "DRAM_BYTES": 536870912,
+          "IMEM_WORDS": 65536,
+          "LANES": 8,
+          "PAIR": false
+        },
+        "microarchitecture": {
+          "schema_version": 1,
+          "parameters": {
+            "WIN": 16,
+            "RPB": 4,
+            "WPB": 2,
+            "FIFO_DEPTH": 512,
+            "MXU_IMPL": 0,
+            "VPU_CL": 2,
+            "ULANES": 8
+          }
+        },
+        "suite_frozen": true,
+        "target_count": 1024,
+        "floating_reference_id": "a5863cdf8e0e61f62265ec3d43b788368b8c08e3048dfd73873fba49e98fc453",
+        "floating_reference_record": "e992cda72e2bac5001306f7254ca16cc80139d4a84bc7524d503cf254044ccb8",
+        "toolchain": {
+          "schema_version": 1,
+          "base_model_id": "7ab1181d3a2b04ce889880dfc3b94933574441e9c221e950622c39a3ce79a59d",
+          "tokenizer_id": "85efab0083f304a11454dcdba254bafc67d7fd6c3f8a1ef37b6b5fed767981da",
+          "suite_file_hash": "9bfc83a40d510ecc650f2aab5cb338244f9c3ec174ed7bd87e42370898f72673",
+          "split": "validation",
+          "split_hash": "a42461abbe57b50e524e9cfb43b5f02efd68491b1e096fcfdde8c193d1d106bb",
+          "dtype": "float32",
+          "attention": "eager",
+          "torch": "2.11.0+cu128",
+          "transformers": "5.17.0",
+          "python": "3.12.3",
+          "contract": "original-local-safetensors-teacher-forced-v1"
+        },
+        "nll_degradation": 0.036156167395690456,
+        "next_token_agreement": 0.685546875,
+        "passed": false,
+        "provenance": "measured-isa-versus-original-float",
+        "selectable": false,
+        "derived_candidate": null,
+        "selection_rule": "held-out-only; frozen suite; >=1024 targets; NLL <=5%; next-token agreement >=90%"
+      }
+    },
+    {
+      "id": "02f8e07dac2450c6257cbbd9ac3311f1b7a46b93410df3cf44d6639ad08d157f",
+      "record": {
+        "schema_version": 1,
+        "base_model_id": "7ab1181d3a2b04ce889880dfc3b94933574441e9c221e950622c39a3ce79a59d",
+        "tokenizer_id": "85efab0083f304a11454dcdba254bafc67d7fd6c3f8a1ef37b6b5fed767981da",
+        "variant_id": "f56c9dfeb7ce227b3a900a86aa5ba34e886cacd2bb9ab00c39af0d95aa964369",
+        "wformat": "fp4",
+        "head_format": "int8",
+        "personality": "balanced",
+        "split": "validation",
+        "suite_hashes": {
+          "calibration": "ec2b250c8855979b69978fce7a8e5b37b2bbd343a1bf4f04a707e9f1a80e6189",
+          "validation": "a42461abbe57b50e524e9cfb43b5f02efd68491b1e096fcfdde8c193d1d106bb",
+          "held-out": "e61d4e88cd786d72fb8317b8e4ec9da94ba91e965507f38dd0f7feac47e48ba0"
+        },
+        "suite_file_hash": "9bfc83a40d510ecc650f2aab5cb338244f9c3ec174ed7bd87e42370898f72673",
+        "samples": 1024,
+        "float_nll": 4.7024148846068705,
+        "candidate_nll": 4.815659643465686,
+        "agreement": 0.7236328125,
+        "configuration_id": "c50589e49736bb3766c59d2a19afe0317be6d6534d71274bb6f53a0f9d068a23",
+        "context": 128,
+        "config": {
+          "S": 1,
+          "D": 128,
+          "MCOLS": 4,
+          "ACT_BLOCKS": 128,
+          "TMEM_WORDS": 65536,
+          "DRAM_BYTES": 536870912,
+          "IMEM_WORDS": 65536,
+          "LANES": 8,
+          "PAIR": false
+        },
+        "microarchitecture": {
+          "schema_version": 1,
+          "parameters": {
+            "WIN": 16,
+            "RPB": 4,
+            "WPB": 2,
+            "FIFO_DEPTH": 512,
+            "MXU_IMPL": 0,
+            "VPU_CL": 2,
+            "ULANES": 8
+          }
+        },
+        "suite_frozen": true,
+        "target_count": 1024,
+        "floating_reference_id": "a5863cdf8e0e61f62265ec3d43b788368b8c08e3048dfd73873fba49e98fc453",
+        "floating_reference_record": "e992cda72e2bac5001306f7254ca16cc80139d4a84bc7524d503cf254044ccb8",
+        "toolchain": {
+          "schema_version": 1,
+          "base_model_id": "7ab1181d3a2b04ce889880dfc3b94933574441e9c221e950622c39a3ce79a59d",
+          "tokenizer_id": "85efab0083f304a11454dcdba254bafc67d7fd6c3f8a1ef37b6b5fed767981da",
+          "suite_file_hash": "9bfc83a40d510ecc650f2aab5cb338244f9c3ec174ed7bd87e42370898f72673",
+          "split": "validation",
+          "split_hash": "a42461abbe57b50e524e9cfb43b5f02efd68491b1e096fcfdde8c193d1d106bb",
+          "dtype": "float32",
+          "attention": "eager",
+          "torch": "2.11.0+cu128",
+          "transformers": "5.17.0",
+          "python": "3.12.3",
+          "contract": "original-local-safetensors-teacher-forced-v1"
+        },
+        "nll_degradation": 0.024082255955236314,
+        "next_token_agreement": 0.7236328125,
+        "passed": false,
+        "provenance": "measured-isa-versus-original-float",
+        "selectable": false,
+        "derived_candidate": null,
+        "selection_rule": "held-out-only; frozen suite; >=1024 targets; NLL <=5%; next-token agreement >=90%"
+      }
+    }
+  ],
+  "fixed_prompt_hashes": {
+    "short-a": "a1e531cadd88a4e6d875da82901375c8fffc485d8c3963becf00ab62a4240c2b",
+    "short-b": "e00a18a9d0c10d2a8f9332b54ae9fdd3e6cd1b5be852f970f522a9de7e9ec079"
+  },
+  "runs": [
+    {
+      "workload": "short-a",
+      "personality": "compact",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        32,
+        2613,
+        29728,
+        3922,
+        26674
+      ],
+      "input_token_hash": "a1e531cadd88a4e6d875da82901375c8fffc485d8c3963becf00ab62a4240c2b",
+      "memory_scenario": "baseline",
+      "latency": 20,
+      "stall_percent": 20,
+      "bandwidth_percent": 100,
+      "candidate_case": "/home/dhruv/projects/MalleableAI-FPGA/build/zephyrus-jobs/release/20260928T223413Z-b463e746/quality-recovery-pilot-01/int8/case-00",
+      "derived_candidate": {
+        "schema_version": 1,
+        "derived_id": "3129232e64ec1532cfb735b48dac385bbeac4a072af98660d0fe85953cd163da",
+        "parameters_id": "3840e2dbae1647c8b47984167fa6ba40fc5f6de044d7a4d905444bac8fbe2a08",
+        "calibration_statistics_id": "0e413dfe4e2718d421621006377b174169c3bb54cf4a4157b3a4e9f0a9e9dbf1",
+        "candidate": {
+          "schema_version": 1,
+          "name": "a0.5-cnone",
+          "strength": 0.5,
+          "clip_percentile": null,
+          "sites": [
+            "attn_input",
+            "mlp_input",
+            "attn_output",
+            "mlp_down",
+            "qk"
+          ],
+          "clip_groups": [
+            "transformer_weights"
+          ],
+          "preserves_unquantized_operation": true,
+          "scale_limit": 256.0,
+          "floor": 1e-06
+        },
+        "screen_result_sha256": "8f5bce23a24d2212e6c733364127a7be600cdd17a54db978f23dc48dbe9fee88"
+      },
+      "variant_id": "16e8f30ea0f88024a7dc3e0ece6f61b4569acd605cd755b3cb0c444a44f21b19",
+      "precision_policy": {
+        "matrix_format": "int8",
+        "head_format": "int8",
+        "arithmetic_contract": "opentpu-isa-v1-fp32-rne-ftz-block-quantized"
+      }
+    },
+    {
+      "workload": "short-a",
+      "personality": "balanced",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        32,
+        2613,
+        29728,
+        3922,
+        26674
+      ],
+      "input_token_hash": "a1e531cadd88a4e6d875da82901375c8fffc485d8c3963becf00ab62a4240c2b",
+      "memory_scenario": "baseline",
+      "latency": 20,
+      "stall_percent": 20,
+      "bandwidth_percent": 100,
+      "candidate_case": "/home/dhruv/projects/MalleableAI-FPGA/build/zephyrus-jobs/release/20260928T223413Z-b463e746/quality-recovery-pilot-01/int8/case-00",
+      "derived_candidate": {
+        "schema_version": 1,
+        "derived_id": "3129232e64ec1532cfb735b48dac385bbeac4a072af98660d0fe85953cd163da",
+        "parameters_id": "3840e2dbae1647c8b47984167fa6ba40fc5f6de044d7a4d905444bac8fbe2a08",
+        "calibration_statistics_id": "0e413dfe4e2718d421621006377b174169c3bb54cf4a4157b3a4e9f0a9e9dbf1",
+        "candidate": {
+          "schema_version": 1,
+          "name": "a0.5-cnone",
+          "strength": 0.5,
+          "clip_percentile": null,
+          "sites": [
+            "attn_input",
+            "mlp_input",
+            "attn_output",
+            "mlp_down",
+            "qk"
+          ],
+          "clip_groups": [
+            "transformer_weights"
+          ],
+          "preserves_unquantized_operation": true,
+          "scale_limit": 256.0,
+          "floor": 1e-06
+        },
+        "screen_result_sha256": "8f5bce23a24d2212e6c733364127a7be600cdd17a54db978f23dc48dbe9fee88"
+      },
+      "variant_id": "16e8f30ea0f88024a7dc3e0ece6f61b4569acd605cd755b3cb0c444a44f21b19",
+      "precision_policy": {
+        "matrix_format": "int8",
+        "head_format": "int8",
+        "arithmetic_contract": "opentpu-isa-v1-fp32-rne-ftz-block-quantized"
+      }
+    },
+    {
+      "workload": "short-a",
+      "personality": "compute",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        32,
+        2613,
+        29728,
+        3922,
+        26674
+      ],
+      "input_token_hash": "a1e531cadd88a4e6d875da82901375c8fffc485d8c3963becf00ab62a4240c2b",
+      "memory_scenario": "baseline",
+      "latency": 20,
+      "stall_percent": 20,
+      "bandwidth_percent": 100,
+      "candidate_case": "/home/dhruv/projects/MalleableAI-FPGA/build/zephyrus-jobs/release/20260928T223413Z-b463e746/quality-recovery-pilot-01/int8/case-00",
+      "derived_candidate": {
+        "schema_version": 1,
+        "derived_id": "3129232e64ec1532cfb735b48dac385bbeac4a072af98660d0fe85953cd163da",
+        "parameters_id": "3840e2dbae1647c8b47984167fa6ba40fc5f6de044d7a4d905444bac8fbe2a08",
+        "calibration_statistics_id": "0e413dfe4e2718d421621006377b174169c3bb54cf4a4157b3a4e9f0a9e9dbf1",
+        "candidate": {
+          "schema_version": 1,
+          "name": "a0.5-cnone",
+          "strength": 0.5,
+          "clip_percentile": null,
+          "sites": [
+            "attn_input",
+            "mlp_input",
+            "attn_output",
+            "mlp_down",
+            "qk"
+          ],
+          "clip_groups": [
+            "transformer_weights"
+          ],
+          "preserves_unquantized_operation": true,
+          "scale_limit": 256.0,
+          "floor": 1e-06
+        },
+        "screen_result_sha256": "8f5bce23a24d2212e6c733364127a7be600cdd17a54db978f23dc48dbe9fee88"
+      },
+      "variant_id": "16e8f30ea0f88024a7dc3e0ece6f61b4569acd605cd755b3cb0c444a44f21b19",
+      "precision_policy": {
+        "matrix_format": "int8",
+        "head_format": "int8",
+        "arithmetic_contract": "opentpu-isa-v1-fp32-rne-ftz-block-quantized"
+      }
+    },
+    {
+      "workload": "short-a",
+      "personality": "buffered",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        32,
+        2613,
+        29728,
+        3922,
+        26674
+      ],
+      "input_token_hash": "a1e531cadd88a4e6d875da82901375c8fffc485d8c3963becf00ab62a4240c2b",
+      "memory_scenario": "baseline",
+      "latency": 20,
+      "stall_percent": 20,
+      "bandwidth_percent": 100,
+      "candidate_case": "/home/dhruv/projects/MalleableAI-FPGA/build/zephyrus-jobs/release/20260928T223413Z-b463e746/quality-recovery-pilot-01/int8/case-00",
+      "derived_candidate": {
+        "schema_version": 1,
+        "derived_id": "3129232e64ec1532cfb735b48dac385bbeac4a072af98660d0fe85953cd163da",
+        "parameters_id": "3840e2dbae1647c8b47984167fa6ba40fc5f6de044d7a4d905444bac8fbe2a08",
+        "calibration_statistics_id": "0e413dfe4e2718d421621006377b174169c3bb54cf4a4157b3a4e9f0a9e9dbf1",
+        "candidate": {
+          "schema_version": 1,
+          "name": "a0.5-cnone",
+          "strength": 0.5,
+          "clip_percentile": null,
+          "sites": [
+            "attn_input",
+            "mlp_input",
+            "attn_output",
+            "mlp_down",
+            "qk"
+          ],
+          "clip_groups": [
+            "transformer_weights"
+          ],
+          "preserves_unquantized_operation": true,
+          "scale_limit": 256.0,
+          "floor": 1e-06
+        },
+        "screen_result_sha256": "8f5bce23a24d2212e6c733364127a7be600cdd17a54db978f23dc48dbe9fee88"
+      },
+      "variant_id": "16e8f30ea0f88024a7dc3e0ece6f61b4569acd605cd755b3cb0c444a44f21b19",
+      "precision_policy": {
+        "matrix_format": "int8",
+        "head_format": "int8",
+        "arithmetic_contract": "opentpu-isa-v1-fp32-rne-ftz-block-quantized"
+      }
+    },
+    {
+      "workload": "short-b",
+      "personality": "compact",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        2082,
+        89462,
+        646,
+        42780,
+        27950,
+        1614,
+        44378,
+        553
+      ],
+      "input_token_hash": "e00a18a9d0c10d2a8f9332b54ae9fdd3e6cd1b5be852f970f522a9de7e9ec079",
+      "memory_scenario": "baseline",
+      "latency": 20,
+      "stall_percent": 20,
+      "bandwidth_percent": 100,
+      "candidate_case": "/home/dhruv/projects/MalleableAI-FPGA/build/zephyrus-jobs/release/20260928T223413Z-b463e746/quality-recovery-pilot-01/int8/case-00",
+      "derived_candidate": {
+        "schema_version": 1,
+        "derived_id": "3129232e64ec1532cfb735b48dac385bbeac4a072af98660d0fe85953cd163da",
+        "parameters_id": "3840e2dbae1647c8b47984167fa6ba40fc5f6de044d7a4d905444bac8fbe2a08",
+        "calibration_statistics_id": "0e413dfe4e2718d421621006377b174169c3bb54cf4a4157b3a4e9f0a9e9dbf1",
+        "candidate": {
+          "schema_version": 1,
+          "name": "a0.5-cnone",
+          "strength": 0.5,
+          "clip_percentile": null,
+          "sites": [
+            "attn_input",
+            "mlp_input",
+            "attn_output",
+            "mlp_down",
+            "qk"
+          ],
+          "clip_groups": [
+            "transformer_weights"
+          ],
+          "preserves_unquantized_operation": true,
+          "scale_limit": 256.0,
+          "floor": 1e-06
+        },
+        "screen_result_sha256": "8f5bce23a24d2212e6c733364127a7be600cdd17a54db978f23dc48dbe9fee88"
+      },
+      "variant_id": "16e8f30ea0f88024a7dc3e0ece6f61b4569acd605cd755b3cb0c444a44f21b19",
+      "precision_policy": {
+        "matrix_format": "int8",
+        "head_format": "int8",
+        "arithmetic_contract": "opentpu-isa-v1-fp32-rne-ftz-block-quantized"
+      }
+    },
+    {
+      "workload": "short-b",
+      "personality": "balanced",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        2082,
+        89462,
+        646,
+        42780,
+        27950,
+        1614,
+        44378,
+        553
+      ],
+      "input_token_hash": "e00a18a9d0c10d2a8f9332b54ae9fdd3e6cd1b5be852f970f522a9de7e9ec079",
+      "memory_scenario": "baseline",
+      "latency": 20,
+      "stall_percent": 20,
+      "bandwidth_percent": 100,
+      "candidate_case": "/home/dhruv/projects/MalleableAI-FPGA/build/zephyrus-jobs/release/20260928T223413Z-b463e746/quality-recovery-pilot-01/int8/case-00",
+      "derived_candidate": {
+        "schema_version": 1,
+        "derived_id": "3129232e64ec1532cfb735b48dac385bbeac4a072af98660d0fe85953cd163da",
+        "parameters_id": "3840e2dbae1647c8b47984167fa6ba40fc5f6de044d7a4d905444bac8fbe2a08",
+        "calibration_statistics_id": "0e413dfe4e2718d421621006377b174169c3bb54cf4a4157b3a4e9f0a9e9dbf1",
+        "candidate": {
+          "schema_version": 1,
+          "name": "a0.5-cnone",
+          "strength": 0.5,
+          "clip_percentile": null,
+          "sites": [
+            "attn_input",
+            "mlp_input",
+            "attn_output",
+            "mlp_down",
+            "qk"
+          ],
+          "clip_groups": [
+            "transformer_weights"
+          ],
+          "preserves_unquantized_operation": true,
+          "scale_limit": 256.0,
+          "floor": 1e-06
+        },
+        "screen_result_sha256": "8f5bce23a24d2212e6c733364127a7be600cdd17a54db978f23dc48dbe9fee88"
+      },
+      "variant_id": "16e8f30ea0f88024a7dc3e0ece6f61b4569acd605cd755b3cb0c444a44f21b19",
+      "precision_policy": {
+        "matrix_format": "int8",
+        "head_format": "int8",
+        "arithmetic_contract": "opentpu-isa-v1-fp32-rne-ftz-block-quantized"
+      }
+    },
+    {
+      "workload": "short-b",
+      "personality": "compute",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        2082,
+        89462,
+        646,
+        42780,
+        27950,
+        1614,
+        44378,
+        553
+      ],
+      "input_token_hash": "e00a18a9d0c10d2a8f9332b54ae9fdd3e6cd1b5be852f970f522a9de7e9ec079",
+      "memory_scenario": "baseline",
+      "latency": 20,
+      "stall_percent": 20,
+      "bandwidth_percent": 100,
+      "candidate_case": "/home/dhruv/projects/MalleableAI-FPGA/build/zephyrus-jobs/release/20260928T223413Z-b463e746/quality-recovery-pilot-01/int8/case-00",
+      "derived_candidate": {
+        "schema_version": 1,
+        "derived_id": "3129232e64ec1532cfb735b48dac385bbeac4a072af98660d0fe85953cd163da",
+        "parameters_id": "3840e2dbae1647c8b47984167fa6ba40fc5f6de044d7a4d905444bac8fbe2a08",
+        "calibration_statistics_id": "0e413dfe4e2718d421621006377b174169c3bb54cf4a4157b3a4e9f0a9e9dbf1",
+        "candidate": {
+          "schema_version": 1,
+          "name": "a0.5-cnone",
+          "strength": 0.5,
+          "clip_percentile": null,
+          "sites": [
+            "attn_input",
+            "mlp_input",
+            "attn_output",
+            "mlp_down",
+            "qk"
+          ],
+          "clip_groups": [
+            "transformer_weights"
+          ],
+          "preserves_unquantized_operation": true,
+          "scale_limit": 256.0,
+          "floor": 1e-06
+        },
+        "screen_result_sha256": "8f5bce23a24d2212e6c733364127a7be600cdd17a54db978f23dc48dbe9fee88"
+      },
+      "variant_id": "16e8f30ea0f88024a7dc3e0ece6f61b4569acd605cd755b3cb0c444a44f21b19",
+      "precision_policy": {
+        "matrix_format": "int8",
+        "head_format": "int8",
+        "arithmetic_contract": "opentpu-isa-v1-fp32-rne-ftz-block-quantized"
+      }
+    },
+    {
+      "workload": "short-b",
+      "personality": "buffered",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        2082,
+        89462,
+        646,
+        42780,
+        27950,
+        1614,
+        44378,
+        553
+      ],
+      "input_token_hash": "e00a18a9d0c10d2a8f9332b54ae9fdd3e6cd1b5be852f970f522a9de7e9ec079",
+      "memory_scenario": "baseline",
+      "latency": 20,
+      "stall_percent": 20,
+      "bandwidth_percent": 100,
+      "candidate_case": "/home/dhruv/projects/MalleableAI-FPGA/build/zephyrus-jobs/release/20260928T223413Z-b463e746/quality-recovery-pilot-01/int8/case-00",
+      "derived_candidate": {
+        "schema_version": 1,
+        "derived_id": "3129232e64ec1532cfb735b48dac385bbeac4a072af98660d0fe85953cd163da",
+        "parameters_id": "3840e2dbae1647c8b47984167fa6ba40fc5f6de044d7a4d905444bac8fbe2a08",
+        "calibration_statistics_id": "0e413dfe4e2718d421621006377b174169c3bb54cf4a4157b3a4e9f0a9e9dbf1",
+        "candidate": {
+          "schema_version": 1,
+          "name": "a0.5-cnone",
+          "strength": 0.5,
+          "clip_percentile": null,
+          "sites": [
+            "attn_input",
+            "mlp_input",
+            "attn_output",
+            "mlp_down",
+            "qk"
+          ],
+          "clip_groups": [
+            "transformer_weights"
+          ],
+          "preserves_unquantized_operation": true,
+          "scale_limit": 256.0,
+          "floor": 1e-06
+        },
+        "screen_result_sha256": "8f5bce23a24d2212e6c733364127a7be600cdd17a54db978f23dc48dbe9fee88"
+      },
+      "variant_id": "16e8f30ea0f88024a7dc3e0ece6f61b4569acd605cd755b3cb0c444a44f21b19",
+      "precision_policy": {
+        "matrix_format": "int8",
+        "head_format": "int8",
+        "arithmetic_contract": "opentpu-isa-v1-fp32-rne-ftz-block-quantized"
+      }
+    },
+    {
+      "workload": "axi-stress",
+      "personality": "balanced",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        32,
+        2613,
+        29728,
+        3922,
+        26674
+      ],
+      "input_token_hash": "a1e531cadd88a4e6d875da82901375c8fffc485d8c3963becf00ab62a4240c2b",
+      "memory_scenario": "stress",
+      "latency": 100,
+      "stall_percent": 50,
+      "bandwidth_percent": 50,
+      "candidate_case": "/home/dhruv/projects/MalleableAI-FPGA/build/zephyrus-jobs/release/20260928T223413Z-b463e746/quality-recovery-pilot-01/int8/case-00",
+      "derived_candidate": {
+        "schema_version": 1,
+        "derived_id": "3129232e64ec1532cfb735b48dac385bbeac4a072af98660d0fe85953cd163da",
+        "parameters_id": "3840e2dbae1647c8b47984167fa6ba40fc5f6de044d7a4d905444bac8fbe2a08",
+        "calibration_statistics_id": "0e413dfe4e2718d421621006377b174169c3bb54cf4a4157b3a4e9f0a9e9dbf1",
+        "candidate": {
+          "schema_version": 1,
+          "name": "a0.5-cnone",
+          "strength": 0.5,
+          "clip_percentile": null,
+          "sites": [
+            "attn_input",
+            "mlp_input",
+            "attn_output",
+            "mlp_down",
+            "qk"
+          ],
+          "clip_groups": [
+            "transformer_weights"
+          ],
+          "preserves_unquantized_operation": true,
+          "scale_limit": 256.0,
+          "floor": 1e-06
+        },
+        "screen_result_sha256": "8f5bce23a24d2212e6c733364127a7be600cdd17a54db978f23dc48dbe9fee88"
+      },
+      "variant_id": "16e8f30ea0f88024a7dc3e0ece6f61b4569acd605cd755b3cb0c444a44f21b19",
+      "precision_policy": {
+        "matrix_format": "int8",
+        "head_format": "int8",
+        "arithmetic_contract": "opentpu-isa-v1-fp32-rne-ftz-block-quantized"
+      }
+    },
+    {
+      "workload": "axi-stress",
+      "personality": "compute",
+      "wformat": "int8",
+      "context": 128,
+      "input_tokens": [
+        32,
+        2613,
+        29728,
+        3922,
+        26674
+      ],
+      "input_token_hash": "a1e531cadd88a4e6d875da82901375c8fffc485d8c3963becf00ab62a4240c2b",
+      "memory_scenario": "stress",
+      "latency": 100,
+      "stall_percent": 50,
+      "bandwidth_percent": 50,
+      "candidate_case": "/home/dhruv/projects/MalleableAI-FPGA/build/zephyrus-jobs/release/20260928T223413Z-b463e746/quality-recovery-pilot-01/int8/case-00",
+      "derived_candidate": {
+        "schema_version": 1,
+        "derived_id": "3129232e64ec1532cfb735b48dac385bbeac4a072af98660d0fe85953cd163da",
+        "parameters_id": "3840e2dbae1647c8b47984167fa6ba40fc5f6de044d7a4d905444bac8fbe2a08",
+        "calibration_statistics_id": "0e413dfe4e2718d421621006377b174169c3bb54cf4a4157b3a4e9f0a9e9dbf1",
+        "candidate": {
+          "schema_version": 1,
+          "name": "a0.5-cnone",
+          "strength": 0.5,
+          "clip_percentile": null,
+          "sites": [
+            "attn_input",
+            "mlp_input",
+            "attn_output",
+            "mlp_down",
+            "qk"
+          ],
+          "clip_groups": [
+            "transformer_weights"
+          ],
+          "preserves_unquantized_operation": true,
+          "scale_limit": 256.0,
+          "floor": 1e-06
+        },
+        "screen_result_sha256": "8f5bce23a24d2212e6c733364127a7be600cdd17a54db978f23dc48dbe9fee88"
+      },
+      "variant_id": "16e8f30ea0f88024a7dc3e0ece6f61b4569acd605cd755b3cb0c444a44f21b19",
+      "precision_policy": {
+        "matrix_format": "int8",
+        "head_format": "int8",
+        "arithmetic_contract": "opentpu-isa-v1-fp32-rne-ftz-block-quantized"
+      }
+    }
+  ],
+  "baseline_axi": {
+    "latency": 20,
+    "stall_probability_percent": 20,
+    "bandwidth_percent": 100
+  },
+  "stress_axi": {
+    "latency": 100,
+    "stall_probability_percent": 50,
+    "bandwidth_percent": 50
+  },
+  "controller_approval": "Performance evidence only; matching personality-specific held-out approval required for automatic application."
+}
