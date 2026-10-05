@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "text_suite_sha256": "1c6dd0ee361b41f25b42acf6fc8bba566b89cd7417ecee5aac63c417a767874b",
+  "source_document_hashes": {
+    "docs/zephyrus-release-progress.md": "6b30e94218f3f4e03628959f5062d0c65f5698703589c8892c46186a7c616739",
+    "docs/model-aware-system.md": "a78f32eda7a7ecb1804f25eb1318e28da2f781938014b9444d12445ab52afd6b",
+    "docs/ssm-platform.md": "63a64b48d727d56b328ee5df631c81bb1c5bad8fd5b0440d6956ca543dea7bfc",
+    "docs/zephyrus-handoff.md": "47d53e69366fdad6b4e3e067fede41da8eedb8388cb798e5bcfa48a2608c7ffc",
+    "docs/release-continuation-20260930.md": "45cdb66986444d9dd4e239a014179bf248811661c752139fd0b2818ec5a64f2e"
+  },
+  "ngram_width": 8,
+  "models": {
+    "LFM2.5-230M": {
+      "suite_sha256": "246a9bb71b584b34fd4a6403beab58e557d1fadfb9b7ff94d52cdd3ab6620630",
+      "prior_suite_sha256": "6d8eaef77ddde547d421e1e084550ceec7b1d036fc293e65ac0cb7b40b943bdb",
+      "split_hashes": {
+        "calibration": "0ea8973c0dc75ddd4e61182842c47c6288a6bcaa49eb9ce3f7e59c31106a1163",
+        "validation": "8d4ff598e0eac8426970d27f65aa017051f3e137ec090361545f99830a783c16",
+        "held-out": "c49daf84e434063277b62ff981ccbf3e12b09ced44cc438379237c6d28f4afc9"
+      },
+      "target_counts": {
+        "calibration": 256,
+        "validation": 1024,
+        "held-out": 1024
+      },
+      "prior_8_token_overlap": 0,
+      "cross_split_8_token_overlap": 0
+    },
+    "Qwen3-0.6B": {
+      "suite_sha256": "d2ae23a50910ee5e17db31d79678b2043c1a5e4cc356fee798327a3ea36d12a7",
+      "prior_suite_sha256": "9bfc83a40d510ecc650f2aab5cb338244f9c3ec174ed7bd87e42370898f72673",
+      "split_hashes": {
+        "calibration": "1f1f6774b624ef2cbb1fd889847e0c6a58bafbc58a090fec5623346c30d2faa6",
+        "validation": "83163854eab8718d5566a850dcc85915a2a2a543b8830ff287ec366169df1a94",
+        "held-out": "cfecd864314d24aa8181c8bb04f0e1399a62d850319d89be06ad1bfd8400b83b"
+      },
+      "target_counts": {
+        "calibration": 256,
+        "validation": 1024,
+        "held-out": 1024
+      },
+      "prior_8_token_overlap": 0,
+      "cross_split_8_token_overlap": 0
+    },
+    "Qwen3.5-0.8B": {
+      "suite_sha256": "5e7b7c68d18fcbdb62276e3e2117ea446417b4f21d1a81a4dd8a27daa43c8c6d",
+      "prior_suite_sha256": "bc563627d41c8a012ee736654aeefab3e4dca3b6d40cd70a82d84bd7ef31b11e",
+      "split_hashes": {
+        "calibration": "14ad0a235e1f632a68a2cc06ba4357315448b8dddc4561aaddac59d448c70f4d",
+        "validation": "61e65498723b5a3c5770807d4dcd06fdbd770464ae42307ac3986bf74ea6f5b5",
+        "held-out": "057746ac53a74438f566a6e8e3cdad4f1e392e09e81a86871f82ae1edc311acf"
+      },
+      "target_counts": {
+        "calibration": 256,
+        "validation": 1024,
+        "held-out": 1024
+      },
+      "prior_8_token_overlap": 0,
+      "cross_split_8_token_overlap": 0
+    }
+  }
+}

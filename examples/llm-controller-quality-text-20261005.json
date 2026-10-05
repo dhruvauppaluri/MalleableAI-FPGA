@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "description": "Controller quality approval suite v1. Repository technical text from source documents excluded from the previous frozen release suite. Frozen before personality validation or held-out scoring; quality retention evidence, not a general language benchmark.",
+  "source_files": {
+    "calibration": [
+      "docs/zephyrus-release-progress.md"
+    ],
+    "validation": [
+      "docs/model-aware-system.md",
+      "docs/ssm-platform.md"
+    ],
+    "held-out": [
+      "docs/zephyrus-handoff.md",
+      "docs/release-continuation-20260930.md"
+    ]
+  }
+}
