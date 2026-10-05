@@ -1,5 +1,9 @@
 # Status
 
+## Cloud controller/predictor audit (2026-10-04)
+
+Codex verified all 30 published indexed fixed-tape RTL benchmark results against their manifests without rerunning them. The offline predictor fitted on Qwen3/Qwen3.5 has 109.85% mean absolute percentage error on held-out LFM2.5; see `docs/evidence/controller-predictor-20261004/`. The exported manifests lack personality-specific quality approvals, and this cloud checkout lacks the original model/quality store and checkpoints. The gated controller evaluation and fast LLM program-selection experiment are **not complete**. ADR-0009 proposes the first fast action and its correctness/cost gates; no runtime change or policy promotion was made. Next: bring over verified quality/model-store metadata, obtain four-personality approvals without repeating consumed held-out runs, freeze switching-cost scenarios, and evaluate the deterministic and learned controllers. No full-release or physical FPGA claim follows from this audit.
+
 ## Benchmark collection complete (2026-10-03)
 
 All 20 Qwen3/Qwen3.5 indices verified; LFM ten preserved: 30 total. Final evidence delta: docs/evidence/benchmarks-20261003-complete (base snapshot benchmarks-20261003-14of20). Both complete reports exported, all workers stopped, and 20-minute monitor DELETED at user request. Do not restart benchmarks or consumed held-out evaluations. Next: complete controller quality coverage and predictor/policy evaluation with Qwen3/Qwen3.5 training and LFM held out; then browser, CUDA/hybrid and final release verification per continuation plan. Choose run mode before new heavy work. No full-release pass claimed.
