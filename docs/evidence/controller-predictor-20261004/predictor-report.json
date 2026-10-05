@@ -7,10 +7,16 @@
   ],
   "held_out_model": "lfm",
   "training_rmse_cycles": 11935450.220470756,
-  "manifest_quality_approved_personalities": {
-    "qwen3": [],
-    "qwen35": [],
-    "lfm": []
+  "handoff_quality_approved_personalities": {
+    "qwen3": [
+      "balanced"
+    ],
+    "qwen35": [
+      "balanced"
+    ],
+    "lfm": [
+      "balanced"
+    ]
   },
   "by_model": {
     "qwen3": {
@@ -275,9 +281,162 @@
       ]
     }
   },
+  "controller_audit": {
+    "qwen3": [
+      {
+        "workload": "short-a",
+        "gated_choice": "balanced/int8",
+        "excluded": {
+          "compact/int8": "missing or failed matched frozen validation quality evidence",
+          "compute/int8": "missing or failed matched frozen validation quality evidence",
+          "buffered/int8": "missing or failed matched frozen validation quality evidence"
+        },
+        "shadow_fastest_personality": "compute",
+        "shadow_predicted_choice": "compute",
+        "measured_cycles": {
+          "compact": 30934852,
+          "balanced": 30714282,
+          "compute": 30621539,
+          "buffered": 30697735
+        },
+        "balanced_to_compute_gain_percent": 0.30195399000373835,
+        "hypothetical_throughput_break_even_overhead_cycles": {
+          "1": 92743,
+          "8": 741944,
+          "32": 2967776,
+          "128": 11871104
+        }
+      },
+      {
+        "workload": "short-b",
+        "gated_choice": "balanced/int8",
+        "excluded": {
+          "compact/int8": "missing or failed matched frozen validation quality evidence",
+          "compute/int8": "missing or failed matched frozen validation quality evidence",
+          "buffered/int8": "missing or failed matched frozen validation quality evidence"
+        },
+        "shadow_fastest_personality": "compute",
+        "shadow_predicted_choice": "compute",
+        "measured_cycles": {
+          "compact": 49497099,
+          "balanced": 49146604,
+          "compute": 48995472,
+          "buffered": 49117208
+        },
+        "balanced_to_compute_gain_percent": 0.3075126004637065,
+        "hypothetical_throughput_break_even_overhead_cycles": {
+          "1": 151132,
+          "8": 1209056,
+          "32": 4836224,
+          "128": 19344896
+        }
+      }
+    ],
+    "qwen35": [
+      {
+        "workload": "short-a",
+        "gated_choice": "balanced/int8",
+        "excluded": {
+          "compact/int8": "missing or failed matched frozen validation quality evidence",
+          "compute/int8": "missing or failed matched frozen validation quality evidence",
+          "buffered/int8": "missing or failed matched frozen validation quality evidence"
+        },
+        "shadow_fastest_personality": "compute",
+        "shadow_predicted_choice": "compute",
+        "measured_cycles": {
+          "compact": 41397271,
+          "balanced": 41239961,
+          "compute": 40009856,
+          "buffered": 41164749
+        },
+        "balanced_to_compute_gain_percent": 2.982798650076318,
+        "hypothetical_throughput_break_even_overhead_cycles": {
+          "1": 1230105,
+          "8": 9840840,
+          "32": 39363360,
+          "128": 157453440
+        }
+      },
+      {
+        "workload": "short-b",
+        "gated_choice": "balanced/int8",
+        "excluded": {
+          "compact/int8": "missing or failed matched frozen validation quality evidence",
+          "compute/int8": "missing or failed matched frozen validation quality evidence",
+          "buffered/int8": "missing or failed matched frozen validation quality evidence"
+        },
+        "shadow_fastest_personality": "compute",
+        "shadow_predicted_choice": "compute",
+        "measured_cycles": {
+          "compact": 66052812,
+          "balanced": 65794321,
+          "compute": 64122837,
+          "buffered": 65672779
+        },
+        "balanced_to_compute_gain_percent": 2.540468500313272,
+        "hypothetical_throughput_break_even_overhead_cycles": {
+          "1": 1671484,
+          "8": 13371872,
+          "32": 53487488,
+          "128": 213949952
+        }
+      }
+    ],
+    "lfm": [
+      {
+        "workload": "short-a",
+        "gated_choice": "balanced/int8",
+        "excluded": {
+          "compact/int8": "missing or failed matched frozen validation quality evidence",
+          "compute/int8": "missing or failed matched frozen validation quality evidence",
+          "buffered/int8": "missing or failed matched frozen validation quality evidence"
+        },
+        "shadow_fastest_personality": "compute",
+        "shadow_predicted_choice": "compute",
+        "measured_cycles": {
+          "compact": 14214874,
+          "balanced": 14091076,
+          "compute": 14058280,
+          "buffered": 14074618
+        },
+        "balanced_to_compute_gain_percent": 0.23274304957265152,
+        "hypothetical_throughput_break_even_overhead_cycles": {
+          "1": 32796,
+          "8": 262368,
+          "32": 1049472,
+          "128": 4197888
+        }
+      },
+      {
+        "workload": "short-b",
+        "gated_choice": "balanced/int8",
+        "excluded": {
+          "compact/int8": "missing or failed matched frozen validation quality evidence",
+          "compute/int8": "missing or failed matched frozen validation quality evidence",
+          "buffered/int8": "missing or failed matched frozen validation quality evidence"
+        },
+        "shadow_fastest_personality": "compute",
+        "shadow_predicted_choice": "compute",
+        "measured_cycles": {
+          "compact": 23696663,
+          "balanced": 23491003,
+          "compute": 23430444,
+          "buffered": 23460308
+        },
+        "balanced_to_compute_gain_percent": 0.2577965700315138,
+        "hypothetical_throughput_break_even_overhead_cycles": {
+          "1": 60559,
+          "8": 484472,
+          "32": 1937888,
+          "128": 7751552
+        }
+      }
+    ]
+  },
   "limitations": [
     "Fixed-tape runs have no generated-token timing or sequential switching evidence.",
-    "Four-personality quality approval is absent from the exported manifests.",
+    "The Zephyrus handoff approves balanced INT8 only; other personalities remain gated.",
+    "Break-even overhead is an analytic threshold, not a measured switching cost.",
     "Physical FPGA timing, power, and runtime changeover costs are unavailable.",
     "No model-specific held-out policy promotion is performed."
   ]
