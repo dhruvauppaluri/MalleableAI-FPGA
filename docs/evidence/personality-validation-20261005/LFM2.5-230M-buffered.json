@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "base_model_id": "8d6ac525c1b135ad360d0f9f5a822698bbb257b7408f791e2ca695ae473798b3",
+  "tokenizer_id": "85ba6138043aa10b1a72e679643539f9d995f66a9f791e7c0ca0a6e5161460ae",
+  "variant_id": "17c66490b0ddfeb6a9889fed14e18368d8274042abd5fdcfa05ad60dd82d7e63",
+  "wformat": "int8",
+  "head_format": "int8",
+  "personality": "buffered",
+  "split": "validation",
+  "suite_hashes": {
+    "calibration": "75628acfc63057755c8e2ee94738bea31b9377d44fa71ba787a3b8797c3e6629",
+    "validation": "fd38c86b0425b8183e2e042e645cd2fd896a267033f44e0cb6d9804d4b512193",
+    "held-out": "57654bc6ac1e4ea4262a5ec03b2149dce075dd29aafcb491edbb01993b80397e"
+  },
+  "suite_file_hash": "6d8eaef77ddde547d421e1e084550ceec7b1d036fc293e65ac0cb7b40b943bdb",
+  "samples": 1024,
+  "float_nll": 6.786830404814614,
+  "candidate_nll": 6.790665701741104,
+  "agreement": 0.9375,
+  "configuration_id": "520a65ecca5e5095aceab7d655e36b0953a2713776f77156860fccef2892bb8a",
+  "context": 128,
+  "config": {
+    "S": 1,
+    "D": 128,
+    "MCOLS": 4,
+    "ACT_BLOCKS": 128,
+    "TMEM_WORDS": 65536,
+    "DRAM_BYTES": 268435456,
+    "IMEM_WORDS": 65536,
+    "LANES": 8,
+    "PAIR": false
+  },
+  "microarchitecture": {
+    "schema_version": 1,
+    "parameters": {
+      "WIN": 16,
+      "RPB": 4,
+      "WPB": 2,
+      "FIFO_DEPTH": 1024,
+      "MXU_IMPL": 0,
+      "VPU_CL": 2,
+      "ULANES": 8
+    }
+  },
+  "suite_frozen": true,
+  "target_count": 1024,
+  "floating_reference_id": "da64bb6adad046fc8adf663511362add391c0c44a8b16512a642e7c68815c8b9",
+  "floating_reference_record": "cf87a1d07d9c31ce1f1e75bab1b7db1ff312d67a178f8b27c45d4e19e4cb8b47",
+  "toolchain": {
+    "schema_version": 1,
+    "base_model_id": "8d6ac525c1b135ad360d0f9f5a822698bbb257b7408f791e2ca695ae473798b3",
+    "tokenizer_id": "85ba6138043aa10b1a72e679643539f9d995f66a9f791e7c0ca0a6e5161460ae",
+    "suite_file_hash": "6d8eaef77ddde547d421e1e084550ceec7b1d036fc293e65ac0cb7b40b943bdb",
+    "split": "validation",
+    "split_hash": "fd38c86b0425b8183e2e042e645cd2fd896a267033f44e0cb6d9804d4b512193",
+    "dtype": "float32",
+    "attention": "eager",
+    "torch": "2.11.0+cpu",
+    "transformers": "5.17.0",
+    "python": "3.12.14",
+    "contract": "original-local-safetensors-teacher-forced-v1"
+  },
+  "nll_degradation": 0.0005651087028444551,
+  "next_token_agreement": 0.9375,
+  "passed": true,
+  "provenance": "measured-isa-versus-original-float",
+  "selectable": false,
+  "derived_candidate": null,
+  "selection_rule": "held-out-only; frozen suite; >=1024 targets; NLL <=5%; next-token agreement >=90%",
+  "record_id": "ea22ada99d4aeb70f6399da26047e32f85a5a140c1b8a87b17a05163ec0b9038"
+}

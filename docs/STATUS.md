@@ -1,5 +1,11 @@
 # Status
 
+## Cloud personality validation (2026-10-05)
+
+All nine new ISA quality evaluations passed on the frozen 1,024-target validation suites: compact, compute, and buffered for each of Qwen3-0.6B, Qwen3.5-0.8B, and LFM2.5-230M. The results and SHA-256 manifest are in `docs/evidence/personality-validation-20261005/`. Each record matches all published fixed-tape benchmark rows for its exact model variant and personality. The 30 completed RTL benchmarks and three consumed held-out evaluations were not rerun.
+
+These are validation-only records (`selectable: false`). Balanced remains the only personality with published held-out approval; automatic program switching stays gated. Next: establish a genuinely untouched held-out approval path for each new configuration, measure program/reload/re-prefill costs, and revisit the predictor's 109.85% LFM held-out error before evaluating or promoting switching policies. No physical FPGA or full-release claim follows from these ISA results.
+
 ## Cloud controller/predictor audit (2026-10-04)
 
 Codex verified all 30 published indexed fixed-tape RTL benchmark results against their manifests without rerunning them. The offline predictor fitted on Qwen3/Qwen3.5 has 109.85% mean absolute percentage error on held-out LFM2.5; see `docs/evidence/controller-predictor-20261004/`. The gated controller evaluation and fast LLM program-selection experiment are **not complete**. ADR-0009 proposes the first fast action and its correctness/cost gates; no runtime change or policy promotion was made. Next: obtain four-personality quality approvals without repeating consumed held-out runs, freeze switching-cost scenarios, and evaluate the deterministic and learned controllers. No full-release or physical FPGA claim follows from this audit.
