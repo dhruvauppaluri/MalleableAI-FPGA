@@ -6,6 +6,7 @@ import sqlite3
 from ..records import identity
 
 DEFAULT_DESIGN='frozen-release-single-evaluation-v1'
+LEDGER_PATH=Path(__file__).resolve().parents[2]/'docs/evidence/controller-quality-continuation-20261006/consumed-ledger.json'
 
 def registry_path():
     return Path(__file__).resolve().parents[2]/'build/zephyrus-jobs/heldout-registry.sqlite3'
@@ -21,9 +22,31 @@ def evaluation_key(record,design=DEFAULT_DESIGN):
         raise ValueError('complete held-out model/tokenizer/variant/configuration/suite/design identity required')
     return fields
 
+def durable_consumption(record,design=DEFAULT_DESIGN):
+    """Return a published consumption tombstone, including lost-workspace claims."""
+    if not LEDGER_PATH.is_file():
+        return None
+    key=evaluation_key(record,design)
+    ledger=json.loads(LEDGER_PATH.read_text())
+    for item in ledger.get('exact_evaluations',[]):
+        if item.get('key')==key:
+            return item
+    for suite in ledger.get('suite_tombstones',[]):
+        if (suite.get('evaluation_design')==design
+            and suite.get('suite_file_hash')==key['suite_file_hash']
+            and suite.get('heldout_split_hash')==key['split_hash']
+            and suite.get('base_model_id')==key['base_model_id']
+            and suite.get('tokenizer_id')==key['tokenizer_id']
+            and suite.get('variant_id')==key['variant_id']
+            and key['configuration_id'] in suite.get('configuration_ids',[])):
+            return suite
+    return None
+
 def consume(record,design=DEFAULT_DESIGN,evidence=None):
     """INSERT is the claim; even failed computations permanently consume it."""
     key=evaluation_key(record,design); digest=identity(key)
+    if durable_consumption(record,design) is not None:
+        raise ValueError('held-out was already claimed in the published durable ledger; a separately documented evaluation design is required')
     path=registry_path(); path.parent.mkdir(parents=True,exist_ok=True)
     payload={'schema_version':1,'key':key,'evaluation_id':digest,
         'claimed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),

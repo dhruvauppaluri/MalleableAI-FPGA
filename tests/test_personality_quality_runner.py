@@ -26,6 +26,16 @@ class PersonalityQualityRunnerTest(unittest.TestCase):
             self.assertIn('quality-candidate-validate', derived)
             self.assertIn('--candidate-case', derived)
 
+    def test_balanced_is_validation_control_only(self):
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            validation = command_for('validation', root / 'model', root / 'suite.json',
+                                     'balanced', root / 'store')
+            self.assertIn('balanced', validation)
+            with self.assertRaisesRegex(ValueError, 'must not be repeated'):
+                command_for('held-out', root / 'model', root / 'suite.json',
+                            'balanced', root / 'store', freeze=root / 'freeze.json')
+
     def test_heldout_attempt_never_restarts_after_prior_dispatch(self):
         for prior in ('job.json', 'heldout-claim.json', 'result.json', 'failure.json'):
             with self.subTest(prior=prior), TemporaryDirectory() as directory:

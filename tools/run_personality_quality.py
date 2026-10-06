@@ -33,8 +33,10 @@ def write_new(path, value):
 def command_for(split, model, suite, personality, store, candidate_case=None, freeze=None):
     if split not in ('validation', 'held-out'):
         raise ValueError('unsupported quality split')
-    if personality not in ('compact', 'compute', 'buffered'):
-        raise ValueError('only the three new personalities are in this campaign')
+    if personality not in ('compact', 'balanced', 'compute', 'buffered'):
+        raise ValueError('unsupported personality')
+    if split == 'held-out' and personality == 'balanced':
+        raise ValueError('balanced held-out is already approved and must not be repeated')
     if split == 'held-out' and freeze is None:
         raise ValueError('held-out dispatch requires its frozen design')
     command = [sys.executable, '-u', '-m', 'malleable.llm.cli',
@@ -197,7 +199,7 @@ def main():
     parser.add_argument('--root', type=Path, required=True)
     parser.add_argument('--model', type=Path, required=True)
     parser.add_argument('--suite', type=Path, required=True)
-    parser.add_argument('--personality', choices=('compact', 'compute', 'buffered'), required=True)
+    parser.add_argument('--personality', choices=('compact', 'balanced', 'compute', 'buffered'), required=True)
     parser.add_argument('--candidate-case', type=Path)
     parser.add_argument('--authorization', default='user-requested-controller-quality-campaign')
     args = parser.parse_args()

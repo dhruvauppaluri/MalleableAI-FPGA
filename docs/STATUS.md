@@ -1,5 +1,18 @@
 # Status
 
+## Fresh controller-quality continuation (2026-10-06)
+
+The previous cloud workspace and its ignored controller-quality results are
+inaccessible. Treat every prior held-out dispatch as consumed. The durable ledger
+at `docs/evidence/controller-quality-continuation-20261006/consumed-ledger.json`
+records the three published balanced claims, tombstones all 12 designs on the
+2026-10-05 controller suite, and bars reuse of the unknown ADR-based recovery
+suite. A new independent campaign will run 12 same-suite validations and at most
+nine exactly-once held-out checks for compact/compute/buffered. Balanced held-out,
+the 30 RTL benchmarks, and every consumed suite remain untouched. Automatic
+switching stays gated while quality, transition-cost, predictor, and policy gates
+remain open.
+
 ## Cloud personality validation (2026-10-05)
 
 All nine new ISA quality evaluations passed on the frozen 1,024-target validation suites: compact, compute, and buffered for each of Qwen3-0.6B, Qwen3.5-0.8B, and LFM2.5-230M. The results and SHA-256 manifest are in `docs/evidence/personality-validation-20261005/`. Each record matches all published fixed-tape benchmark rows for its exact model variant and personality. The 30 completed RTL benchmarks and three consumed held-out evaluations were not rerun.
