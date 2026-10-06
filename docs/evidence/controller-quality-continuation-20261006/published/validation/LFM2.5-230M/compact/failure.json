@@ -1,0 +1,5 @@
+{
+  "status": "failed",
+  "elapsed_seconds": 1008.1755237070001,
+  "traceback": "Traceback (most recent call last):\n  File \"/workspace/MalleableAI-FPGA/tools/run_personality_quality.py\", line 152, in run_quality\n    raise ValueError('source, suite, model, or tokenizer changed during evaluation')\nValueError: source, suite, model, or tokenizer changed during evaluation\n"
+}

@@ -21,3 +21,14 @@ its held-out split must not be repeated. Each of the nine new held-out designs i
 claimed exactly once before scoring. Results are published incrementally, including
 failures and interrupted claims. Automatic switching remains gated regardless of
 quality outcome until transition costs and controller non-regression evidence exist.
+
+## Snapshot 01: LFM validation
+
+All four LFM2.5-230M validation controls passed on the independent suite at
+93.6523% agreement and approximately +0.04494% NLL degradation. Compact's
+calculation completed on `cafee61` but the wrapper initially rejected its own
+untracked cache; the published recovery revalidated the sole completed result,
+suite, model, record identity, and gate without inference. The other three ran
+after the cache route was corrected on `b8da3c2`. The snapshot also preserves the
+two memory-killed Qwen compact validation attempts. No held-out split was opened.
+See `snapshots/01-lfm-validation.json` and `published/validation/`.

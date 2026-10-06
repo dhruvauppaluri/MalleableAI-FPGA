@@ -13,6 +13,11 @@ the 30 RTL benchmarks, and every consumed suite remain untouched. Automatic
 switching stays gated while quality, transition-cost, predictor, and policy gates
 remain open.
 
+Snapshot 01 is published: all four LFM validation controls pass at 93.6523%
+agreement and about +0.04494% NLL degradation. The ledger also records two
+memory-killed Qwen validation attempts; they consumed no held-out claim and will
+use distinct retry roots. No held-out partition has been opened in this campaign.
+
 ## Cloud personality validation (2026-10-05)
 
 All nine new ISA quality evaluations passed on the frozen 1,024-target validation suites: compact, compute, and buffered for each of Qwen3-0.6B, Qwen3.5-0.8B, and LFM2.5-230M. The results and SHA-256 manifest are in `docs/evidence/personality-validation-20261005/`. Each record matches all published fixed-tape benchmark rows for its exact model variant and personality. The 30 completed RTL benchmarks and three consumed held-out evaluations were not rerun.
