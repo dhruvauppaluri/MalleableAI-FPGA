@@ -6,6 +6,7 @@ import unittest
 from tempfile import TemporaryDirectory
 
 from tools.run_personality_quality import command_for, freeze_design, run_quality
+from tools.recover_completed_validation import logged_result
 
 
 class PersonalityQualityRunnerTest(unittest.TestCase):
@@ -35,6 +36,15 @@ class PersonalityQualityRunnerTest(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'must not be repeated'):
                 command_for('held-out', root / 'model', root / 'suite.json',
                             'balanced', root / 'store', freeze=root / 'freeze.json')
+
+    def test_recovery_requires_exactly_one_completed_result_event(self):
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / 'worker.log'
+            path.write_text('noise\n' + json.dumps({'kind': 'result', 'payload': {'record_id': 'r'}}) + '\n')
+            self.assertEqual(logged_result(path), {'record_id': 'r'})
+            path.write_text(path.read_text() + json.dumps({'kind': 'result', 'payload': {}}) + '\n')
+            with self.assertRaisesRegex(ValueError, 'exactly one'):
+                logged_result(path)
 
     def test_heldout_attempt_never_restarts_after_prior_dispatch(self):
         for prior in ('job.json', 'heldout-claim.json', 'result.json', 'failure.json'):
