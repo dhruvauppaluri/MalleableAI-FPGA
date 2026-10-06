@@ -3,15 +3,13 @@
   "description": "Independent controller quality campaign v2. Repository technical text excluded from both earlier frozen quality suites and from the inaccessible ADR-based recovery attempt. Frozen before model scoring; quality-retention evidence, not a general language benchmark.",
   "source_files": {
     "calibration": [
-      "docs/qwen35-diagnostic-site-map.md"
+      "docs/controller-calibration-protocol-20261006.md"
     ],
     "validation": [
-      "docs/qwen3-quality-recovery.md",
-      "docs/qwen3-precision-attribution-results.md"
+      "docs/controller-validation-notes-20261006.md"
     ],
     "held-out": [
-      "docs/qwen3-int8-candidates.md",
-      "docs/cursor-quality-continuation.md"
+      "docs/controller-heldout-notes-20261006.md"
     ]
   }
 }

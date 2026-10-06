@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "text_suite_sha256": "778fee224b5e104d1a8f3dd9d0ed28a99b06d1ac00d5b684b56f08dee55c31d3",
+  "source_document_hashes": {
+    "docs/controller-calibration-protocol-20261006.md": "80d7acfeacab8aa6d1d1b1ab6b7fdbdb370b85278c585f65e7353883d35cab4d",
+    "docs/controller-validation-notes-20261006.md": "0267f53e8cd8de44062d52bcf0284b5b98588916e26d572423e502e2e268b40e",
+    "docs/controller-heldout-notes-20261006.md": "ec4bba7a68349e2be4220aa18728622e32e6fb9fe792a1759ffbca9e2783fca3"
+  },
+  "ngram_width": 8,
+  "prior_campaigns": [
+    "docs/evidence/cloud-handoff-20261004/standalone-v3/models",
+    "docs/evidence/controller-quality-20261005/suites"
+  ],
+  "models": {
+    "LFM2.5-230M": {
+      "suite_sha256": "79b85037d18d511c4560d31ca24323a67fc378f2cc696c433473c7e37d136b7e",
+      "split_hashes": {
+        "calibration": "0edaf0515cb3e8a2b57e03942f3f0226128907d03920606c3916bcf8601b0ada",
+        "validation": "ba4e0a31304e4f40f7e6c68c377077616edc420d9fa6cf97579283e96dc89509",
+        "held-out": "ac92595ff4d60d59284565df6759cebfbb522a0618328ff2117dd7c6b69d7b31"
+      },
+      "target_counts": {
+        "calibration": 256,
+        "validation": 1024,
+        "held-out": 1024
+      },
+      "overlaps": {
+        "calibration": {
+          "prior": 0,
+          "cross_split": 0
+        },
+        "validation": {
+          "prior": 0,
+          "cross_split": 0
+        },
+        "held-out": {
+          "prior": 0,
+          "cross_split": 0
+        }
+      }
+    },
+    "Qwen3-0.6B": {
+      "suite_sha256": "66ba350bb19e2de8dd374a08153dd4c5f87d36c95291a1ffc9a583ddfae8b316",
+      "split_hashes": {
+        "calibration": "674c3862e37b002b2edc7e5f701237bb5f5af725fd53c15196f47305210c6fd9",
+        "validation": "14c94e28a243b02be463b4b404ef72e9b50732ac6a91d68bac6755a1a3c8ea6c",
+        "held-out": "3c6eada53bea49062fa22cf385cee12ebb6f2d853be83f02a5441084373e15f7"
+      },
+      "target_counts": {
+        "calibration": 256,
+        "validation": 1024,
+        "held-out": 1024
+      },
+      "overlaps": {
+        "calibration": {
+          "prior": 0,
+          "cross_split": 0
+        },
+        "validation": {
+          "prior": 0,
+          "cross_split": 0
+        },
+        "held-out": {
+          "prior": 0,
+          "cross_split": 0
+        }
+      }
+    },
+    "Qwen3.5-0.8B": {
+      "suite_sha256": "0a4bdbf836261875dd3b0f9e54bf2ad14beffea7ed0b9a9cf75dce40669ffc5b",
+      "split_hashes": {
+        "calibration": "8e3c62fec1e831e217f43758c064845c191d984205f386082b2067766f351e6f",
+        "validation": "d850cdefbc83a6ebd8f4632726cc3f72a2f7ad2e7a90b2ce3a2c7079735a90fc",
+        "held-out": "431aaf3a88ff77d14141b69cac90ef4135ddb2d76cc8fe2babd7e964883455cd"
+      },
+      "target_counts": {
+        "calibration": 256,
+        "validation": 1024,
+        "held-out": 1024
+      },
+      "overlaps": {
+        "calibration": {
+          "prior": 0,
+          "cross_split": 0
+        },
+        "validation": {
+          "prior": 0,
+          "cross_split": 0
+        },
+        "held-out": {
+          "prior": 0,
+          "cross_split": 0
+        }
+      }
+    }
+  }
+}

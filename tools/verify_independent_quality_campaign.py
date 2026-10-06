@@ -21,6 +21,16 @@ def source_names(path):
     return {name for split in SPLITS for name in data['source_files'][split]}
 
 
+def suite_path(root, model):
+    flat = root / f'{model}.json'
+    packaged = root / model / 'quality-suite.json'
+    if flat.is_file():
+        return flat
+    if packaged.is_file():
+        return packaged
+    raise ValueError(f'missing prior suite for {model}: {root}')
+
+
 def verify(new_root, prior_roots, text_suite, prior_text_suites):
     source = json.loads(text_suite.read_text())
     names = [name for split in SPLITS for name in source['source_files'][split]]
@@ -39,7 +49,7 @@ def verify(new_root, prior_roots, text_suite, prior_text_suites):
         if (data.get('source_text_sha256') != report['text_suite_sha256']
             or data.get('source_document_hashes') != sources):
             raise ValueError(f'{model}: text source hash mismatch')
-        prior = [frozen_suite(root / f'{model}.json')[0] for root in prior_roots]
+        prior = [frozen_suite(suite_path(root, model))[0] for root in prior_roots]
         prior_grams = set().union(*(grams(item, SPLITS) for item in prior))
         overlaps = {}
         for split in SPLITS:
@@ -64,9 +74,17 @@ def main():
     parser.add_argument('--prior-root', type=Path, action='append', required=True)
     parser.add_argument('--text-suite', type=Path, required=True)
     parser.add_argument('--prior-text-suite', type=Path, action='append', required=True)
+    parser.add_argument('--output', type=Path)
     args = parser.parse_args()
-    print(json.dumps(verify(args.new_root, args.prior_root, args.text_suite,
-                            args.prior_text_suite), indent=2))
+    report = verify(args.new_root, args.prior_root, args.text_suite,
+                    args.prior_text_suite)
+    rendered = json.dumps(report, indent=2) + '\n'
+    if args.output:
+        if args.output.exists():
+            raise ValueError('refusing to overwrite an existing campaign manifest')
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(rendered)
+    print(rendered, end='')
 
 
 if __name__ == '__main__':
