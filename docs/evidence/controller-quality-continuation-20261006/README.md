@@ -74,3 +74,12 @@ row-independent matrices in bounded chunks. A 5,001-row comparison confirmed
 the chunked INT8 data and scale arrays are bit-identical to whole-matrix
 quantization, and the tiny Qwen3.5 reset/state test passes. See
 `snapshots/05-qwen35-candidate-memory-recovery.json`.
+
+## Snapshot 06: Qwen3.5 compact validation
+
+The third distinct compact attempt completed after bounded image construction
+and passed at 95.9961% agreement and approximately +0.03861% NLL degradation.
+No held-out split was opened. Subsequent ISA scoring uses bounded eight-row
+causal programs that return every intermediate logit; a tiny Qwen3.5 comparison
+confirmed all eight outputs are bit-identical to eight one-token decode calls.
+See `snapshots/06-qwen35-compact-validation.json`.

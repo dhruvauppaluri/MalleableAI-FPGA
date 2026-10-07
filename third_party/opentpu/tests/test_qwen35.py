@@ -99,6 +99,18 @@ def test_tiny_reset_clears_state_and_conv_ring(tiny):
     assert all(np.array_equal(x, y) for x, y in zip(a, b))
 
 
+def test_tiny_all_row_logits_are_bit_exact(tiny):
+    """Every requested multi-row logit equals one-token decode, not only the last row."""
+    _, W, spec = tiny
+    toks = [int(t) for t in np.random.default_rng(3).integers(0, 1000, 8)]
+    one = Engine(spec, W, cap=128)
+    expected = np.array([one.step(t) for t in toks])
+    rows = Engine(spec, W, cap=128, rows=len(toks))
+    actual = rows.run_rows([(0, i) for i in range(len(toks))], toks,
+                           list(range(len(toks))))
+    assert np.array_equal(actual, expected)
+
+
 def test_one_sequence_only(tiny):
     _, W, spec = tiny
     with pytest.raises(ValueError, match="one sequence"):
