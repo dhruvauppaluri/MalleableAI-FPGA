@@ -75,6 +75,21 @@ class PersonalityQualityRunnerTest(unittest.TestCase):
                 freeze_design(args, {}, None, {})
             self.assertFalse((root / 'held-out').exists())
 
+    def test_recovered_validation_requires_original_failure_and_logged_result(self):
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            stage = root / 'validation'
+            stage.mkdir()
+            (stage / 'summary.json').write_text(json.dumps({
+                'status': 'completed-after-cache-path-recovery', 'passed': True,
+                'wrapper_failure_sha256': 'incorrect'}))
+            (stage / 'result.json').write_text('{}')
+            (stage / 'failure.json').write_text('{}')
+            args = SimpleNamespace(root=root)
+            with self.assertRaisesRegex(ValueError, 'lineage mismatch'):
+                freeze_design(args, {}, None, {})
+            self.assertFalse((root / 'held-out').exists())
+
 
 if __name__ == '__main__':
     unittest.main()

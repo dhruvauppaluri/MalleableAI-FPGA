@@ -190,7 +190,16 @@ def freeze_design(args, info, derived, source):
     summary = json.loads((validation / 'summary.json').read_text())
     result_file = validation / 'result.json'
     result = json.loads(result_file.read_text())
-    if (summary.get('status') != 'completed' or summary.get('passed') is not True
+    status = summary.get('status')
+    if status == 'completed-after-cache-path-recovery':
+        from tools.recover_completed_validation import logged_result
+        failure_path = validation / 'failure.json'
+        if (not failure_path.is_file()
+            or summary.get('wrapper_failure_sha256') != digest(failure_path)
+            or logged_result(validation / 'worker.log') != result):
+            raise ValueError('audited recovered validation lineage mismatch')
+    if (status not in ('completed', 'completed-after-cache-path-recovery')
+        or summary.get('passed') is not True
         or summary.get('result_sha256') != digest(result_file)):
         raise ValueError('passing hash-verified validation is required')
     check_result(result, split='validation', info=info, suite=args.suite,
