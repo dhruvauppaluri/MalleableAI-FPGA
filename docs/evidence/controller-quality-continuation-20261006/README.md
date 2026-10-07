@@ -32,3 +32,13 @@ suite, model, record identity, and gate without inference. The other three ran
 after the cache route was corrected on `b8da3c2`. The snapshot also preserves the
 two memory-killed Qwen compact validation attempts. No held-out split was opened.
 See `snapshots/01-lfm-validation.json` and `published/validation/`.
+
+## Snapshot 02: Qwen3 validation, partial
+
+Compact, balanced, and compute passed the independent validation suite at
+92.9688% agreement and approximately -0.04618% NLL degradation. The snapshot
+also preserves the original memory-killed compact attempt and a buffered attempt
+that reached 768 of 1,024 candidate targets before its detached output pipe
+closed. Both are validation-only infrastructure failures: neither opened or
+claimed held-out data. Buffered will use a distinct retry root. No held-out split
+has been opened. See `snapshots/02-qwen3-validation.json`.

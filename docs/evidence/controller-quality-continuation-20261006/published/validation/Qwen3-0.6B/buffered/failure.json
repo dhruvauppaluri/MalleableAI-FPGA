@@ -1,0 +1,5 @@
+{
+  "status": "failed",
+  "elapsed_seconds": 1968.8633811580003,
+  "traceback": "Traceback (most recent call last):\n  File \"/workspace/MalleableAI-FPGA/tools/run_personality_quality.py\", line 143, in run_quality\n    print(json.dumps({'phase': args.phase, 'personality': args.personality,\nBrokenPipeError: [Errno 32] Broken pipe\n"
+}
