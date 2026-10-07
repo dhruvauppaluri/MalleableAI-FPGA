@@ -109,3 +109,10 @@ agreement and +0.03861% NLL degradation. The exact personality compiled a
 four-row ISA width; its completed result records that width. This is a
 same-suite control and does not reopen balanced held-out approval. See
 `snapshots/09-qwen35-balanced-validation.json`.
+
+## Snapshot 10: Qwen3.5 compute validation
+
+Compute passed the same frozen validation suite at 95.9961% agreement and
++0.03861% NLL degradation, with a compiled four-row ISA width. Three of four
+Qwen3.5 personalities now have passing independent validation. See
+`snapshots/10-qwen35-compute-validation.json`.
