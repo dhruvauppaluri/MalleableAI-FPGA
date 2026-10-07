@@ -152,3 +152,11 @@ freeze, claim, result, and summary artifacts are published under
 `published/held-out/LFM2.5-230M/`; both consumed keys are in the durable ledger.
 With compact, all three missing LFM personalities now have reviewable quality
 approval. Transition costs and policy gates still block automatic switching.
+
+## Snapshot 16: Qwen3 compact held-out
+
+Qwen3 compact was frozen and claimed once on the independent suite. It passed
+1,024 held-out targets at 94.0430% agreement and +0.03373% NLL degradation.
+The freeze, claim, result, and summary are published under
+`published/held-out/Qwen3-0.6B/compact-retry-01/`; the exact claim is in the
+consumed ledger. Automatic switching remains gated.
