@@ -190,3 +190,14 @@ Compute passed its separate exact-once held-out evaluation on 1,024 targets
 at 95.8984% agreement and -0.06073% NLL degradation. Its freeze, claim,
 result, and summary are published under `published/held-out/Qwen3.5-0.8B/compute/`
 and the consumed ledger includes the claim. Automatic switching remains gated.
+
+## Snapshot 21: Qwen3.5 buffered held-out and campaign completion
+
+Buffered passed its separate exact-once held-out evaluation on 1,024 targets
+at 95.8984% agreement and -0.06073% NLL degradation. Its freeze, claim,
+result, and summary are under `published/held-out/Qwen3.5-0.8B/buffered/`.
+The ledger now contains the three preserved balanced approvals and all nine
+new compact, compute, and buffered approvals. All 12 independent validation
+controls and all nine new held-out evaluations passed. The seven failed or
+interrupted validation infrastructure attempts remain published. No previous
+held-out suite or RTL benchmark was rerun. Automatic switching remains gated.
