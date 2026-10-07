@@ -175,3 +175,11 @@ Buffered passed its own exact-once held-out claim at 94.0430% agreement and
 +0.03373% NLL degradation on 1,024 targets. The consumed ledger and
 `published/held-out/Qwen3-0.6B/buffered-retry-01/` now complete the three
 missing Qwen3 quality approvals. Automatic switching remains gated.
+
+## Snapshot 19: Qwen3.5 compact held-out
+
+Qwen3.5 compact passed its frozen exact-once held-out evaluation on 1,024
+targets at 95.8984% agreement and -0.06073% NLL degradation. Its freeze,
+claim, result, and summary are under
+`published/held-out/Qwen3.5-0.8B/compact-retry-03/`; the consumed ledger has
+the exact evaluation identity. Automatic switching remains gated.

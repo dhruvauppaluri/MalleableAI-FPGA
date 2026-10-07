@@ -153,6 +153,24 @@
       "claimed_utc": "2026-10-07T20:16:47.423986+00:00",
       "result_sha256": "77ee03f76cca17ce30c97e1dad950981c13ce26950b92f171c0506e684576cea",
       "failure_sha256": null
+    },
+    {
+      "evaluation_id": "cfaea31f10006def7ead5bada9d3a5b010465fce75cbe61f7e139b391b08c9cb",
+      "key": {
+        "base_model_id": "96c8847b78593ff15008955c68e384f5ff40895e425e487aec30b8173542a857",
+        "tokenizer_id": "58b10b60732220de7cbd044bd711bc5f8a0e172b6e2fb82a910570cab393f093",
+        "variant_id": "dcc3d56681085ed78cc27fc72b8e738a82db11b12fdc410784f1b461a3169a7b",
+        "suite_file_hash": "0a4bdbf836261875dd3b0f9e54bf2ad14beffea7ed0b9a9cf75dce40669ffc5b",
+        "configuration_id": "3ce81ba931f66b8ef1acb331141c69770f66d406e8bcaf95a8ad2b02e2bbbb43",
+        "split": "held-out",
+        "split_hash": "431aaf3a88ff77d14141b69cac90ef4135ddb2d76cc8fe2babd7e964883455cd",
+        "evaluation_design": "frozen-release-single-evaluation-v1"
+      },
+      "status": "consumed-published",
+      "freeze_id": "724fc1e7c43b90f3ea51c9c94b4e6e4906c18ea00b1505d0b7d55048c4a57bb5",
+      "claimed_utc": "2026-10-07T20:44:52.282469+00:00",
+      "result_sha256": "d21fbbb5064564e5be5ae602258ede841773965b0e8d11e7139c7c7457f7d7a6",
+      "failure_sha256": null
     }
   ],
   "suite_tombstones": [

@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "source": {
+    "commit": "2bc6f78e2781477d6ccbeab1223ed1b5892f4eda",
+    "status": ""
+  },
+  "started_utc": "2026-10-07T20:44:48.309446+00:00",
+  "model": "/workspace/MalleableAI-FPGA/build/models/Qwen3.5-0.8B",
+  "model_id": "96c8847b78593ff15008955c68e384f5ff40895e425e487aec30b8173542a857",
+  "suite": "/workspace/MalleableAI-FPGA/docs/evidence/controller-quality-continuation-20261006/suites/Qwen3.5-0.8B.json",
+  "suite_sha256": "0a4bdbf836261875dd3b0f9e54bf2ad14beffea7ed0b9a9cf75dce40669ffc5b",
+  "personality": "compact",
+  "command": [
+    "/workspace/MalleableAI-FPGA/.venv/bin/python",
+    "-u",
+    "-m",
+    "malleable.llm.cli",
+    "quality",
+    "--model",
+    "/workspace/MalleableAI-FPGA/build/models/Qwen3.5-0.8B",
+    "--suite",
+    "/workspace/MalleableAI-FPGA/docs/evidence/controller-quality-continuation-20261006/suites/Qwen3.5-0.8B.json",
+    "--split",
+    "held-out",
+    "--context",
+    "128",
+    "--personality",
+    "compact",
+    "--wformat",
+    "int8",
+    "--max-host-gib",
+    "16",
+    "--store",
+    "/workspace/MalleableAI-FPGA/build/controller-quality-20261006/runs/Qwen3.5-0.8B/compact-retry-03/held-out/store",
+    "--candidate-freeze",
+    "/workspace/MalleableAI-FPGA/build/controller-quality-20261006/runs/Qwen3.5-0.8B/compact-retry-03/held-out/freeze.json"
+  ],
+  "freeze_id": "724fc1e7c43b90f3ea51c9c94b4e6e4906c18ea00b1505d0b7d55048c4a57bb5",
+  "authorization": "user-requested-independent-controller-quality-20261006"
+}
