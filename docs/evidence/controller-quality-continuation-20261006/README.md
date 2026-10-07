@@ -125,3 +125,12 @@ The 19 attempted validation roots include seven preserved infrastructure failure
 or interruptions. Only the nine compact, compute, and buffered designs are
 eligible for new held-out claims; balanced's published held-out approvals are
 never repeated. See `snapshots/11-all-validation-complete.json`.
+
+## Snapshot 12: held-out preflight
+
+The independent suite, complete validation matrix, frozen source, and durable
+prior-consumption ledger are published before any new held-out claim. The
+held-out snapshot publisher checks each validation, freeze, exact-once claim,
+terminal result or failure, and artifact hash before appending a claim to the
+durable ledger. The preflight snapshot has zero new claims. Automatic switching
+remains gated. See `snapshots/12-heldout-preflight.json`.

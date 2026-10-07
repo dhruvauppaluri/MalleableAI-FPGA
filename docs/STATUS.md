@@ -68,6 +68,11 @@ including Qwen3.5 buffered at 95.9961% agreement and +0.03861% NLL degradation.
 Seven failed/interrupted validation roots remain visible. The nine new
 alternatives are ready for individually frozen, exactly-once held-out review.
 
+Snapshot 12 is a zero-claim held-out preflight. The publisher verifies and
+copies freeze, claim, result, and failure artifacts, and appends each consumed
+evaluation key to the durable ledger after the attempt ends. Automatic switching
+remains gated.
+
 ## Cloud personality validation (2026-10-05)
 
 All nine new ISA quality evaluations passed on the frozen 1,024-target validation suites: compact, compute, and buffered for each of Qwen3-0.6B, Qwen3.5-0.8B, and LFM2.5-230M. The results and SHA-256 manifest are in `docs/evidence/personality-validation-20261005/`. Each record matches all published fixed-tape benchmark rows for its exact model variant and personality. The 30 completed RTL benchmarks and three consumed held-out evaluations were not rerun.

@@ -57,7 +57,12 @@
       "variant_id": "17c66490b0ddfeb6a9889fed14e18368d8274042abd5fdcfa05ad60dd82d7e63",
       "suite_file_hash": "246a9bb71b584b34fd4a6403beab58e557d1fadfb9b7ff94d52cdd3ab6620630",
       "heldout_split_hash": "c49daf84e434063277b62ff981ccbf3e12b09ced44cc438379237c6d28f4afc9",
-      "configuration_ids": ["5dd7194c2c4f463800b4ff3e95678ce8824200f80e6be88d497cc3fdec61a5d2", "78a135a7b46ac35b70089341e13593ecf58a67606c959f6f2a14ea1faf4001d3", "e687db4af6221c554f056270d1330a94ba32dc1251952da08e87f14a98d202bf", "520a65ecca5e5095aceab7d655e36b0953a2713776f77156860fccef2892bb8a"],
+      "configuration_ids": [
+        "5dd7194c2c4f463800b4ff3e95678ce8824200f80e6be88d497cc3fdec61a5d2",
+        "78a135a7b46ac35b70089341e13593ecf58a67606c959f6f2a14ea1faf4001d3",
+        "e687db4af6221c554f056270d1330a94ba32dc1251952da08e87f14a98d202bf",
+        "520a65ecca5e5095aceab7d655e36b0953a2713776f77156860fccef2892bb8a"
+      ],
       "evaluation_design": "frozen-release-single-evaluation-v1"
     },
     {
@@ -69,7 +74,12 @@
       "variant_id": "16e8f30ea0f88024a7dc3e0ece6f61b4569acd605cd755b3cb0c444a44f21b19",
       "suite_file_hash": "d2ae23a50910ee5e17db31d79678b2043c1a5e4cc356fee798327a3ea36d12a7",
       "heldout_split_hash": "cfecd864314d24aa8181c8bb04f0e1399a62d850319d89be06ad1bfd8400b83b",
-      "configuration_ids": ["3ce81ba931f66b8ef1acb331141c69770f66d406e8bcaf95a8ad2b02e2bbbb43", "224a2edbf7462eae26e3527b8f0e554e5b13b06987bd557a9a4f983370d559dd", "fc9e120604dc94aa417769274bb5beb395005a3ef973f25e75f06eb1ab73ee5a", "063288b3c52160dc01fc0ce85a9c440cde762bff015840c0f0f0f52bce9a3f52"],
+      "configuration_ids": [
+        "3ce81ba931f66b8ef1acb331141c69770f66d406e8bcaf95a8ad2b02e2bbbb43",
+        "224a2edbf7462eae26e3527b8f0e554e5b13b06987bd557a9a4f983370d559dd",
+        "fc9e120604dc94aa417769274bb5beb395005a3ef973f25e75f06eb1ab73ee5a",
+        "063288b3c52160dc01fc0ce85a9c440cde762bff015840c0f0f0f52bce9a3f52"
+      ],
       "evaluation_design": "frozen-release-single-evaluation-v1"
     },
     {
@@ -81,7 +91,12 @@
       "variant_id": "dcc3d56681085ed78cc27fc72b8e738a82db11b12fdc410784f1b461a3169a7b",
       "suite_file_hash": "5e7b7c68d18fcbdb62276e3e2117ea446417b4f21d1a81a4dd8a27daa43c8c6d",
       "heldout_split_hash": "057746ac53a74438f566a6e8e3cdad4f1e392e09e81a86871f82ae1edc311acf",
-      "configuration_ids": ["3ce81ba931f66b8ef1acb331141c69770f66d406e8bcaf95a8ad2b02e2bbbb43", "224a2edbf7462eae26e3527b8f0e554e5b13b06987bd557a9a4f983370d559dd", "fc9e120604dc94aa417769274bb5beb395005a3ef973f25e75f06eb1ab73ee5a", "063288b3c52160dc01fc0ce85a9c440cde762bff015840c0f0f0f52bce9a3f52"],
+      "configuration_ids": [
+        "3ce81ba931f66b8ef1acb331141c69770f66d406e8bcaf95a8ad2b02e2bbbb43",
+        "224a2edbf7462eae26e3527b8f0e554e5b13b06987bd557a9a4f983370d559dd",
+        "fc9e120604dc94aa417769274bb5beb395005a3ef973f25e75f06eb1ab73ee5a",
+        "063288b3c52160dc01fc0ce85a9c440cde762bff015840c0f0f0f52bce9a3f52"
+      ],
       "evaluation_design": "frozen-release-single-evaluation-v1"
     }
   ],
@@ -89,7 +104,11 @@
     {
       "campaign": "controller-quality-recovery-20261006-inaccessible",
       "status": "consumed-identity-unavailable",
-      "configurations": ["LFM2.5-230M/compute", "Qwen3-0.6B/compact", "Qwen3.5-0.8B/compact"],
+      "configurations": [
+        "LFM2.5-230M/compute",
+        "Qwen3-0.6B/compact",
+        "Qwen3.5-0.8B/compact"
+      ],
       "source_boundary": "The recovery held-out text used two docs/adr documents. All docs/adr sources are barred from replacement campaigns because the exact pair and hashes are inaccessible."
     }
   ]
