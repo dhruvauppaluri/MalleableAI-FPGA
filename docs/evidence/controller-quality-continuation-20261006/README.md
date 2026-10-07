@@ -168,3 +168,10 @@ agreement and +0.03373% NLL degradation on 1,024 targets. Its freeze and
 terminal evidence are published under `published/held-out/Qwen3-0.6B/compute/`
 and the consumed ledger includes the claim. The environment restarted during
 scoring, but the original worker completed; the held-out split was not retried.
+
+## Snapshot 18: Qwen3 buffered held-out
+
+Buffered passed its own exact-once held-out claim at 94.0430% agreement and
++0.03373% NLL degradation on 1,024 targets. The consumed ledger and
+`published/held-out/Qwen3-0.6B/buffered-retry-01/` now complete the three
+missing Qwen3 quality approvals. Automatic switching remains gated.

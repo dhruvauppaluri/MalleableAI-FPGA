@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "key": {
+    "base_model_id": "7ab1181d3a2b04ce889880dfc3b94933574441e9c221e950622c39a3ce79a59d",
+    "tokenizer_id": "85efab0083f304a11454dcdba254bafc67d7fd6c3f8a1ef37b6b5fed767981da",
+    "variant_id": "16e8f30ea0f88024a7dc3e0ece6f61b4569acd605cd755b3cb0c444a44f21b19",
+    "suite_file_hash": "66ba350bb19e2de8dd374a08153dd4c5f87d36c95291a1ffc9a583ddfae8b316",
+    "configuration_id": "063288b3c52160dc01fc0ce85a9c440cde762bff015840c0f0f0f52bce9a3f52",
+    "split": "held-out",
+    "split_hash": "3c6eada53bea49062fa22cf385cee12ebb6f2d853be83f02a5441084373e15f7",
+    "evaluation_design": "frozen-release-single-evaluation-v1"
+  },
+  "evaluation_id": "756d4285c627a0583d9526aba5f9e5429c4e2b61b755905f2b209ff0d62bebcf",
+  "claimed_utc": "2026-10-07T20:16:47.423986+00:00",
+  "freeze_id": "31ec1505a721c4c70fc0d8ba5cf5ad93c42b9f302d0080d3175c3b80d0be1280",
+  "evidence": null,
+  "status": "consumed"
+}
