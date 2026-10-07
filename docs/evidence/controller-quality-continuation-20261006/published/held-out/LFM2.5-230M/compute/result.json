@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "base_model_id": "8d6ac525c1b135ad360d0f9f5a822698bbb257b7408f791e2ca695ae473798b3",
+  "tokenizer_id": "85ba6138043aa10b1a72e679643539f9d995f66a9f791e7c0ca0a6e5161460ae",
+  "variant_id": "17c66490b0ddfeb6a9889fed14e18368d8274042abd5fdcfa05ad60dd82d7e63",
+  "wformat": "int8",
+  "head_format": "int8",
+  "personality": "compute",
+  "split": "held-out",
+  "suite_hashes": {
+    "calibration": "0edaf0515cb3e8a2b57e03942f3f0226128907d03920606c3916bcf8601b0ada",
+    "validation": "ba4e0a31304e4f40f7e6c68c377077616edc420d9fa6cf97579283e96dc89509",
+    "held-out": "ac92595ff4d60d59284565df6759cebfbb522a0618328ff2117dd7c6b69d7b31"
+  },
+  "suite_file_hash": "79b85037d18d511c4560d31ca24323a67fc378f2cc696c433473c7e37d136b7e",
+  "samples": 1024,
+  "float_nll": 7.049413918288289,
+  "candidate_nll": 7.0559157489494675,
+  "agreement": 0.9296875,
+  "configuration_id": "e687db4af6221c554f056270d1330a94ba32dc1251952da08e87f14a98d202bf",
+  "context": 128,
+  "config": {
+    "S": 1,
+    "D": 128,
+    "MCOLS": 8,
+    "ACT_BLOCKS": 128,
+    "TMEM_WORDS": 65536,
+    "DRAM_BYTES": 268435456,
+    "IMEM_WORDS": 65536,
+    "LANES": 16,
+    "PAIR": false
+  },
+  "microarchitecture": {
+    "schema_version": 1,
+    "parameters": {
+      "WIN": 16,
+      "RPB": 4,
+      "WPB": 2,
+      "FIFO_DEPTH": 512,
+      "MXU_IMPL": 0,
+      "VPU_CL": 4,
+      "ULANES": 16
+    }
+  },
+  "suite_frozen": true,
+  "target_count": 1024,
+  "floating_reference_id": "5ad421e881283d86700f7734d25c97bb4907e7018efaaad9416032c880c53979",
+  "floating_reference_record": "9f289eab8729378813531060836e91deb7dda3f081bca3cbd5963303aba5d96d",
+  "toolchain": {
+    "schema_version": 1,
+    "base_model_id": "8d6ac525c1b135ad360d0f9f5a822698bbb257b7408f791e2ca695ae473798b3",
+    "tokenizer_id": "85ba6138043aa10b1a72e679643539f9d995f66a9f791e7c0ca0a6e5161460ae",
+    "suite_file_hash": "79b85037d18d511c4560d31ca24323a67fc378f2cc696c433473c7e37d136b7e",
+    "split": "held-out",
+    "split_hash": "ac92595ff4d60d59284565df6759cebfbb522a0618328ff2117dd7c6b69d7b31",
+    "dtype": "float32",
+    "attention": "eager",
+    "torch": "2.14.1+cu130",
+    "transformers": "5.19.0",
+    "python": "3.12.14",
+    "contract": "original-local-safetensors-teacher-forced-v1"
+  },
+  "candidate_isa_rows": 8,
+  "nll_degradation": 0.000922322158486177,
+  "next_token_agreement": 0.9296875,
+  "passed": true,
+  "provenance": "measured-isa-versus-original-float",
+  "selectable": true,
+  "derived_candidate": null,
+  "selection_rule": "held-out-only; frozen suite; >=1024 targets; NLL <=5%; next-token agreement >=90%",
+  "candidate_freeze_id": "cd55b81d65132b7930b511dd924c99587d234b505dc62790bd87f70ab68bf7ea",
+  "record_id": "56f1663f1eee7b42f18f006ff768fa856e790e862d5119065986c11f492d751c"
+}
