@@ -1,5 +1,27 @@
 # Status
 
+## Current controller result (2026-10-07)
+
+The independent quality campaign is complete in draft PR #9. All 12
+same-suite validation controls and all nine new exactly-once held-out
+evaluations passed; the durable ledger contains those nine claims plus the
+three published balanced approvals. Seven validation infrastructure failures
+or interruptions remain visible. Earlier consumed suites and all 30 RTL
+benchmarks were preserved without reruns. See
+`docs/evidence/controller-quality-continuation-20261006/README.md` and its
+append-only snapshots 01–21.
+
+The offline predictor/controller continuation verified and reused the 30
+published benchmark rows. The Qwen-trained ridge predictor still has 109.85%
+LFM mean absolute percentage error. Compute is retrospectively fastest on
+the nine fixed tapes, but its largest gain over balanced is 2.98%. Across
+declared synthetic episodes, the learned, fixed, heuristic, predictor, and
+safety-constrained exhaustive methods all retained balanced; no learned-policy
+superiority was shown. See `docs/evidence/controller-predictor-20261007/`.
+The LFM rows were inspected in an earlier audit, so this continuation is
+exploratory. Physical transition costs remain unmeasured. Automatic program
+switching and policy promotion remain gated; full release is incomplete.
+
 ## Fresh controller-quality continuation (2026-10-06)
 
 The previous cloud workspace and its ignored controller-quality results are

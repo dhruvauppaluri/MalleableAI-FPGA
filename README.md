@@ -16,30 +16,34 @@ path is retired; historical records and user data are preserved.
 
 ## Where we are
 
-The release is **incomplete**. Implemented interfaces are not completed
-acceptance evidence. Recorded Mac baseline results (September 28, 2026):
+The release is **incomplete**. The current controller status is in
+[docs/STATUS.md](docs/STATUS.md), with the independent quality campaign in
+[its evidence ledger](docs/evidence/controller-quality-continuation-20261006/README.md)
+and the [offline predictor/controller audit](docs/evidence/controller-predictor-20261007/README.md).
+The table below combines the recorded Mac baseline with the newer cloud evidence:
 
 | Area | Current evidence |
 | --- | --- |
 | Dense RTL | Simulation, Verilator lint, and Yosys structural checks pass. |
 | Checkpoint-free LLM suite | `make verify-llm` passed upstream, personality/format, host, and UI event tests plus the frontend build. |
 | Tiny-model full RTL | Durable 100-token sequence: 100/100 steps bit-exact. |
-| Qwen3-0.6B INT8/balanced | Fresh short-prompt + eight-token RTL run matched ISA execution/state. Held-out quality failed: 83.5% next-token agreement versus the required 90%, despite passing NLL degradation. Not selectable. |
-| Qwen3.5-0.8B / LFM2.5-230M | Real-checkpoint RTL acceptance and quality gates remain outstanding. |
+| Qwen3-0.6B INT8 personalities | Published fixed-tape RTL rows and all four held-out quality approvals are reviewable. Compact, compute, and buffered passed a fresh independent exactly-once campaign; balanced retains its prior published approval. |
+| Qwen3.5-0.8B / LFM2.5-230M INT8 personalities | All four personalities per model have published held-out quality approval, and their indexed RTL benchmark rows are preserved. |
 | Workbench | Service and React UI exist; complete browser/accessibility acceptance remains outstanding. |
-| Optimization / learning | Infrastructure exists; staged real-model benchmarks and held-out predictor/RL evaluations remain outstanding. RL superiority is not established. |
+| Optimization / learning | All 30 indexed RTL benchmarks were verified without reruns. The Qwen-trained predictor has 109.85% LFM error; an offline learned-policy audit retained balanced and showed no superiority. Automatic switching stays gated. |
 | CUDA / hybrid | Commands are gated; Zephyrus acceptance evidence remains outstanding. |
 
 [docs/STATUS.md](docs/STATUS.md) is the authoritative handoff with evidence paths,
-caveats, and open tasks. Work is on `codex/local-llm-platform` in
-[draft PR #3](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/3), targeting
-the dense-baseline branch. No automatic merge to `main`.
+caveats, and open tasks. The current controller continuation is in
+[draft PR #9](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/9), following
+the [PR #8 Zephyrus handoff](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/8).
+No automatic merge to `main`.
 
 Newer Zephyrus work passed checkpoint-free verification, browser checks, CUDA
 cache tests, and CI; this is not official CUDA/hybrid release acceptance.
-Qwen3 quality recovery is now active: the frozen 128-target baseline pilot
-achieved 83.59% agreement and 0.62% NLL degradation. It remains below the quality
-gate and is diagnostic evidence, not the required 1,024-target held-out approval.
+The earlier frozen 128-target Qwen3 baseline pilot achieved 83.59% agreement
+and 0.62% NLL degradation. It remains historical diagnostic evidence; the
+later independent 1,024-target held-out approvals are linked above.
 See [the approved recovery plan](docs/qwen3-quality-recovery.md) and
 [precision attribution findings](docs/qwen3-precision-attribution-results.md).
 The user-approved recovery scope permits targeted LLM precision and matching
