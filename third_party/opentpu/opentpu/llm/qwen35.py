@@ -408,9 +408,14 @@ class Image:
 
         def put_q(addr_pair, parts, fmt=self.wformat):
             for s, p in enumerate(parts):
-                q, sc = Q.quantize_mxu(p, fmt, D)
-                put(s, addr_pair[0], q)
-                put(s, addr_pair[1], sc)
+                # Quantization is independent by row. Bound the temporary
+                # arrays for Qwen3.5's 248k-row embedding while retaining the
+                # exact packed row order and scale addresses.
+                p = np.asarray(p)
+                for start in range(0, p.shape[0], 2048):
+                    q, sc = Q.quantize_mxu(p[start:start + 2048], fmt, D)
+                    put(s, addr_pair[0] + start * q.shape[1], q)
+                    put(s, addr_pair[1] + start * sc.shape[1] * sc.dtype.itemsize, sc)
 
         def rows(a, k):
             return [a[s * k:(s + 1) * k] for s in range(S)]

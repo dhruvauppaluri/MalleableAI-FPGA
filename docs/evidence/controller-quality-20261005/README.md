@@ -1,0 +1,11 @@
+# Controller personality quality campaign
+
+This preflight freezes new model-specific ISA quality suites before evaluating the nine compact, compute, and buffered INT8 configurations. It preserves the completed 30 fixed-tape RTL benchmarks and the three consumed balanced held-out evaluations. It does not grant automatic switching approval by itself.
+
+The authored source manifest is `examples/llm-controller-quality-text-20261005.json`. None of its five source documents appears in the previous release suite. `suite-manifest.json` records the source-file hashes, each tokenized suite hash, split hashes, and 256/1,024/1,024 calibration/validation/held-out target counts. `tools/verify_controller_quality_suites.py` checked zero shared 8-token sequences between every new split and every prior split, and between the new splits. The held-out split must not be used to tune a model, candidate, controller, or threshold after this freeze.
+
+The three frozen token suites are under `suites/`. The exact SHA-256 values in `suite-manifest.json` must match the ignored copies used by the runner under `build/controller-quality-20261005/suites/`. The pinned model downloads and the rebuilt calibrated Qwen3 candidate remain under ignored `build/`; no model weights are stored here.
+
+`tools/run_personality_quality.py` accepts `validation`, `freeze`, and `held-out` phases for one model and personality. It records the source commit, command, suite hash, process ID, full worker log, quality record, and terminal summary in a unique ignored attempt root. A held-out dispatch requires a passing exact validation freeze and a clean unchanged source commit. The repository registry claims the held-out design before any scoring, so a failed or interrupted attempt is not retried on the same design. Qwen3 uses `--candidate-case build/cloud-handoff/qwen3-candidate/case-00`; Qwen3.5 and LFM use raw INT8.
+
+Run all nine validations first. Freeze every passing exact configuration before inspecting any new held-out result. Only then dispatch its held-out evaluation once. The quality gate is at least 90% next-token agreement and at most 5% NLL degradation on at least 1,024 targets. A failure blocks that configuration; it is never used for tuning against this held-out split. Hardware switching costs and predictor/controller policy evaluation are separate gates.

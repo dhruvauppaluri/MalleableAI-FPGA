@@ -1,5 +1,122 @@
 # Status
 
+## Current controller result (2026-10-07)
+
+The independent quality campaign is complete in draft PR #9. All 12
+same-suite validation controls and all nine new exactly-once held-out
+evaluations passed; the durable ledger contains those nine claims plus the
+three published balanced approvals. Seven validation infrastructure failures
+or interruptions remain visible. Earlier consumed suites and all 30 RTL
+benchmarks were preserved without reruns. See
+`docs/evidence/controller-quality-continuation-20261006/README.md` and its
+append-only snapshots 01–21.
+
+The offline predictor/controller continuation verified and reused the 30
+published benchmark rows. The Qwen-trained ridge predictor still has 109.85%
+LFM mean absolute percentage error. Compute is retrospectively fastest on
+the nine fixed tapes, but its largest gain over balanced is 2.98%. Across
+declared synthetic episodes, the learned, fixed, heuristic, predictor, and
+safety-constrained exhaustive methods all retained balanced; no learned-policy
+superiority was shown. See `docs/evidence/controller-predictor-20261007/`.
+The LFM rows were inspected in an earlier audit, so this continuation is
+exploratory. Physical transition costs remain unmeasured. Automatic program
+switching and policy promotion remain gated; full release is incomplete.
+
+## Fresh controller-quality continuation (2026-10-06)
+
+The previous cloud workspace and its ignored controller-quality results are
+inaccessible. Treat every prior held-out dispatch as consumed. The durable ledger
+at `docs/evidence/controller-quality-continuation-20261006/consumed-ledger.json`
+records the three published balanced claims, tombstones all 12 designs on the
+2026-10-05 controller suite, and bars reuse of the unknown ADR-based recovery
+suite. A new independent campaign will run 12 same-suite validations and at most
+nine exactly-once held-out checks for compact/compute/buffered. Balanced held-out,
+the 30 RTL benchmarks, and every consumed suite remain untouched. Automatic
+switching stays gated while quality, transition-cost, predictor, and policy gates
+remain open.
+
+Snapshot 01 is published: all four LFM validation controls pass at 93.6523%
+agreement and about +0.04494% NLL degradation. The ledger also records two
+memory-killed Qwen validation attempts; they consumed no held-out claim and will
+use distinct retry roots. No held-out partition has been opened in this campaign.
+
+Snapshot 02 is published: Qwen3 compact, balanced, and compute pass at 92.9688%
+agreement and about -0.04618% NLL degradation. A buffered attempt stopped at
+768/1,024 candidate targets after its detached output pipe closed; the failure is
+preserved and will use a distinct validation retry root. No held-out partition
+was opened or claimed.
+
+Snapshot 03 completes Qwen3 validation: the distinct buffered retry passed at
+92.9688% agreement and about -0.04618% NLL degradation. All four Qwen3 controls
+now pass; the interrupted attempt remains published. Held-out remains unopened.
+
+Snapshot 04 records the serial Qwen3.5 compact retry: its exact floating
+reference completed, but candidate construction exceeded the no-swap host and
+was OOM-killed. No held-out data was opened. The content-addressed reference is
+now reusable from an explicit ignored-build cache so later attempts need not
+retain or reconstruct the float model beside the ISA image.
+
+Snapshot 05 preserves a second Qwen3.5 compact validation-only OOM, this time
+isolating peak use to whole-embedding candidate quantization. The vendored image
+builder now performs equivalent row-independent quantization in bounded chunks;
+bit-exact chunk comparison and a tiny Qwen3.5 state/reset test pass. Held-out
+remains unopened.
+
+Snapshot 06 publishes a passing Qwen3.5 compact validation at 95.9961%
+agreement and about +0.03861% NLL degradation. Eight-row ISA scoring is verified
+bit-exact against one-row decode for every returned logit. No held-out data has
+been opened.
+
+Snapshot 07 records a Qwen3.5 balanced validation-only TMEM rejection at the
+eight-row width. The evaluator now precompiles widths 8/4/2/1 for the exact
+personality, uses the widest legal width, and records that choice. No quality
+target or held-out partition was consumed by this compiler rejection.
+
+Snapshot 08 records a distinct Qwen3.5 balanced validation attempt stopped at
+256 targets by detached-PTY `OSError(EIO)`. No held-out split was opened. The
+best-effort reporter now tolerates all stdout `OSError`s, with unit coverage;
+durable result/failure files remain authoritative.
+
+Snapshot 09 publishes passing Qwen3.5 balanced validation: 95.9961% agreement,
++0.03861% NLL degradation, and an exact compiled four-row ISA width. Balanced
+held-out approval was not repeated.
+
+Snapshot 10 publishes passing Qwen3.5 compute validation: 95.9961% agreement
+and about +0.03861% NLL degradation. Buffered remains the final Qwen3.5
+validation control before eligible held-out dispatches.
+
+Snapshot 11 completes the independent validation matrix: all 12 controls pass,
+including Qwen3.5 buffered at 95.9961% agreement and +0.03861% NLL degradation.
+Seven failed/interrupted validation roots remain visible. The nine new
+alternatives are ready for individually frozen, exactly-once held-out review.
+
+Snapshot 12 is a zero-claim held-out preflight. The publisher verifies and
+copies freeze, claim, result, and failure artifacts, and appends each consumed
+evaluation key to the durable ledger after the attempt ends. Automatic switching
+remains gated.
+
+Snapshot 13 publishes LFM compact's exactly-once held-out approval: 92.9688%
+agreement and +0.09223% NLL degradation on 1,024 targets. Its freeze, claim,
+result, and consumed key are reviewable. Eight alternative-personality claims
+remain; automatic switching stays gated.
+
+Snapshots 14–15 publish LFM compute and buffered held-out approvals at 92.9688%
+agreement and +0.09223% NLL degradation each. Compact, compute, and buffered
+are now reviewable for LFM on the new independent suite. Six Qwen alternative
+claims remain; automatic switching stays gated.
+
+## Cloud personality validation (2026-10-05)
+
+All nine new ISA quality evaluations passed on the frozen 1,024-target validation suites: compact, compute, and buffered for each of Qwen3-0.6B, Qwen3.5-0.8B, and LFM2.5-230M. The results and SHA-256 manifest are in `docs/evidence/personality-validation-20261005/`. Each record matches all published fixed-tape benchmark rows for its exact model variant and personality. The 30 completed RTL benchmarks and three consumed held-out evaluations were not rerun.
+
+These are validation-only records (`selectable: false`). Balanced remains the only personality with published held-out approval; automatic program switching stays gated. Next: establish a genuinely untouched held-out approval path for each new configuration, measure program/reload/re-prefill costs, and revisit the predictor's 109.85% LFM held-out error before evaluating or promoting switching policies. No physical FPGA or full-release claim follows from these ISA results.
+
+## Cloud controller/predictor audit (2026-10-04)
+
+Codex verified all 30 published indexed fixed-tape RTL benchmark results against their manifests without rerunning them. The offline predictor fitted on Qwen3/Qwen3.5 has 109.85% mean absolute percentage error on held-out LFM2.5; see `docs/evidence/controller-predictor-20261004/`. The gated controller evaluation and fast LLM program-selection experiment are **not complete**. ADR-0009 proposes the first fast action and its correctness/cost gates; no runtime change or policy promotion was made. Next: obtain four-personality quality approvals without repeating consumed held-out runs, freeze switching-cost scenarios, and evaluate the deterministic and learned controllers. No full-release or physical FPGA claim follows from this audit.
+
+PR #8's eleven-part handoff archive was fetched and merged locally without losing commit `d1b0ca4`. Its gzip SHA-256 and all 34 Zephyrus files verified. The new offline controller audit uses its three balanced validation records: all six short-workload decisions retain balanced and exclude the other personalities for missing matching quality approval. Performance-only compute choices are recorded separately; they are not deployable approvals. The handoff does not include original model weights or program-switching measurements, and no consumed evaluation or benchmark was rerun. The verified handoff supersedes the earlier statement that balanced quality records were unavailable; four-personality approval and sequential episode/cost evidence remain missing.
+
 ## Benchmark collection complete (2026-10-03)
 
 All 20 Qwen3/Qwen3.5 indices verified; LFM ten preserved: 30 total. Final evidence delta: docs/evidence/benchmarks-20261003-complete (base snapshot benchmarks-20261003-14of20). Both complete reports exported, all workers stopped, and 20-minute monitor DELETED at user request. Do not restart benchmarks or consumed held-out evaluations. Next: complete controller quality coverage and predictor/policy evaluation with Qwen3/Qwen3.5 training and LFM held out; then browser, CUDA/hybrid and final release verification per continuation plan. Choose run mode before new heavy work. No full-release pass claimed.

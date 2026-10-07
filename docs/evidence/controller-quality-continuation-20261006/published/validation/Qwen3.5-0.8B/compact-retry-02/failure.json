@@ -1,0 +1,5 @@
+{
+  "status": "failed",
+  "elapsed_seconds": 14.985715836999589,
+  "traceback": "Traceback (most recent call last):\n  File \"/workspace/MalleableAI-FPGA/tools/run_personality_quality.py\", line 161, in run_quality\n    raise RuntimeError(f'quality worker exit {code}; see {stage / \"worker.log\"}')\nRuntimeError: quality worker exit -9; see /workspace/MalleableAI-FPGA/build/controller-quality-20261006/runs/Qwen3.5-0.8B/compact-retry-02/validation/worker.log\n"
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "key": {
+    "base_model_id": "8d6ac525c1b135ad360d0f9f5a822698bbb257b7408f791e2ca695ae473798b3",
+    "tokenizer_id": "85ba6138043aa10b1a72e679643539f9d995f66a9f791e7c0ca0a6e5161460ae",
+    "variant_id": "17c66490b0ddfeb6a9889fed14e18368d8274042abd5fdcfa05ad60dd82d7e63",
+    "suite_file_hash": "79b85037d18d511c4560d31ca24323a67fc378f2cc696c433473c7e37d136b7e",
+    "configuration_id": "5dd7194c2c4f463800b4ff3e95678ce8824200f80e6be88d497cc3fdec61a5d2",
+    "split": "held-out",
+    "split_hash": "ac92595ff4d60d59284565df6759cebfbb522a0618328ff2117dd7c6b69d7b31",
+    "evaluation_design": "frozen-release-single-evaluation-v1"
+  },
+  "evaluation_id": "acddb5821c8ced9b790d484ffaaf719cc7aaac1887ab9478d689eeb0bf3a04a0",
+  "claimed_utc": "2026-10-07T18:51:41.084650+00:00",
+  "freeze_id": "278d80bd7e13980f05cd1b283ad4ba1f32c6b08801a7a739c6e5fa067ade7be0",
+  "evidence": null,
+  "status": "consumed"
+}

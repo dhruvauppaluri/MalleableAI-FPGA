@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-05T08:52:04.791197+00:00",
+  "split": "validation",
+  "target_count_per_trial": 1024,
+  "model_count": 3,
+  "trial_count": 9,
+  "records": [
+    {
+      "model": "LFM2.5-230M",
+      "personality": "compact",
+      "record": "LFM2.5-230M-compact.json",
+      "sha256": "fdf2dc66e0cbe8ebf4abff235210007202cf0794347edaf94a52a3fd44331ce8",
+      "record_id": "4f1b1a9fdac036d4d034c4185d47321105b3bb9809b6754fe7bda6207e1f8a7d",
+      "configuration_id": "5dd7194c2c4f463800b4ff3e95678ce8824200f80e6be88d497cc3fdec61a5d2",
+      "matching_benchmark_indices": [
+        0,
+        4
+      ],
+      "agreement": 0.9375,
+      "nll_degradation": 0.0005651087028444551,
+      "passed": true,
+      "selectable": false
+    },
+    {
+      "model": "LFM2.5-230M",
+      "personality": "compute",
+      "record": "LFM2.5-230M-compute.json",
+      "sha256": "886f081bb99c793e2e469d9600222df9a238df6018bce892da9048279fceb28b",
+      "record_id": "014a9b40a827f3ac94599ea5b258996467970010be1ddf836ca502e5f4cd28b7",
+      "configuration_id": "e687db4af6221c554f056270d1330a94ba32dc1251952da08e87f14a98d202bf",
+      "matching_benchmark_indices": [
+        2,
+        6,
+        9
+      ],
+      "agreement": 0.9375,
+      "nll_degradation": 0.0005651087028444551,
+      "passed": true,
+      "selectable": false
+    },
+    {
+      "model": "LFM2.5-230M",
+      "personality": "buffered",
+      "record": "LFM2.5-230M-buffered.json",
+      "sha256": "17d4cc8e8f19e0c15676681e647c3c9633658d1668ad929fb5cbef94d23bee89",
+      "record_id": "ea22ada99d4aeb70f6399da26047e32f85a5a140c1b8a87b17a05163ec0b9038",
+      "configuration_id": "520a65ecca5e5095aceab7d655e36b0953a2713776f77156860fccef2892bb8a",
+      "matching_benchmark_indices": [
+        3,
+        7
+      ],
+      "agreement": 0.9375,
+      "nll_degradation": 0.0005651087028444551,
+      "passed": true,
+      "selectable": false
+    },
+    {
+      "model": "Qwen3-0.6B",
+      "personality": "compact",
+      "record": "Qwen3-0.6B-compact.json",
+      "sha256": "d3b704ce46aa810741059ab000e9fb98e630e6f1afad377e1a1af3d6a755e566",
+      "record_id": "9ced7fd29ab99d2dc53578082243cb0810bc472dcb04e99421c0dd88b2f9d6c3",
+      "configuration_id": "3ce81ba931f66b8ef1acb331141c69770f66d406e8bcaf95a8ad2b02e2bbbb43",
+      "matching_benchmark_indices": [
+        0,
+        4
+      ],
+      "agreement": 0.9404296875,
+      "nll_degradation": 4.370375650525276e-05,
+      "passed": true,
+      "selectable": false
+    },
+    {
+      "model": "Qwen3-0.6B",
+      "personality": "compute",
+      "record": "Qwen3-0.6B-compute.json",
+      "sha256": "a157c2e0b0a6e0efbbba3f73861f54fc4ee67352ce86615592c9688a59845e7d",
+      "record_id": "e8d3de593a6aeee0fe9b41eb8fecdcf3378005dcc2014641dcb91e6166d90a8b",
+      "configuration_id": "fc9e120604dc94aa417769274bb5beb395005a3ef973f25e75f06eb1ab73ee5a",
+      "matching_benchmark_indices": [
+        2,
+        6,
+        9
+      ],
+      "agreement": 0.9404296875,
+      "nll_degradation": 4.370375650525276e-05,
+      "passed": true,
+      "selectable": false
+    },
+    {
+      "model": "Qwen3-0.6B",
+      "personality": "buffered",
+      "record": "Qwen3-0.6B-buffered.json",
+      "sha256": "ee82b3b5dbdbbd2e945822d4c92c58dd4e9e8c911bbe1c584b25f621bcc0f540",
+      "record_id": "c3bd284a553045f01492964c8471778eacf27bff6b2ee474fb67a8ac72141e5e",
+      "configuration_id": "063288b3c52160dc01fc0ce85a9c440cde762bff015840c0f0f0f52bce9a3f52",
+      "matching_benchmark_indices": [
+        3,
+        7
+      ],
+      "agreement": 0.9404296875,
+      "nll_degradation": 4.370375650525276e-05,
+      "passed": true,
+      "selectable": false
+    },
+    {
+      "model": "Qwen3.5-0.8B",
+      "personality": "compact",
+      "record": "Qwen3.5-0.8B-compact.json",
+      "sha256": "bf95f224fd36dc1811f0946694ac99e63c0138d2cc7d5bb8a20aae6193cb8f00",
+      "record_id": "c0b295cae780edb347a3ec54f7e79ebd06b0ba75ba82da06171b3a1ca11a5cf9",
+      "configuration_id": "3ce81ba931f66b8ef1acb331141c69770f66d406e8bcaf95a8ad2b02e2bbbb43",
+      "matching_benchmark_indices": [
+        0,
+        4
+      ],
+      "agreement": 0.9677734375,
+      "nll_degradation": -0.0015067392629616147,
+      "passed": true,
+      "selectable": false
+    },
+    {
+      "model": "Qwen3.5-0.8B",
+      "personality": "compute",
+      "record": "Qwen3.5-0.8B-compute.json",
+      "sha256": "89b9371e4d5bf7b4f42001fe9d1bf06326f8d2aa8eab5ab4bf67ee71c08f1ab3",
+      "record_id": "eba1ffb8d058db090a07e45a26c3c7593eec98988bcd1de46e7e174a9e929f45",
+      "configuration_id": "fc9e120604dc94aa417769274bb5beb395005a3ef973f25e75f06eb1ab73ee5a",
+      "matching_benchmark_indices": [
+        2,
+        6,
+        9
+      ],
+      "agreement": 0.9677734375,
+      "nll_degradation": -0.0015067392629616147,
+      "passed": true,
+      "selectable": false
+    },
+    {
+      "model": "Qwen3.5-0.8B",
+      "personality": "buffered",
+      "record": "Qwen3.5-0.8B-buffered.json",
+      "sha256": "ac8099ea76676e003d38a0a684abab6d02fe8efdee4e503445bdb76af987a407",
+      "record_id": "c0013bffdc92694e4163c756aaaf64339af0ebfa8e023dd71e739b1bbf35a2be",
+      "configuration_id": "063288b3c52160dc01fc0ce85a9c440cde762bff015840c0f0f0f52bce9a3f52",
+      "matching_benchmark_indices": [
+        3,
+        7
+      ],
+      "agreement": 0.9677734375,
+      "nll_degradation": -0.0015067392629616147,
+      "passed": true,
+      "selectable": false
+    }
+  ]
+}

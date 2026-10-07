@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "split": "validation",
+  "personality": "compute",
+  "record_id": "6682ff0edd0d15a296f9a8e1786407e859923dd5f1c79d27bf8e311edde30d91",
+  "result_sha256": "def40733590a8363e1d3285ef15bfd03c3adabbf9eedf218ae31e259d2839960",
+  "agreement": 0.9365234375,
+  "nll_degradation": 0.0004494450799364255,
+  "passed": true,
+  "selectable": false,
+  "target_count": 1024,
+  "configuration_id": "e687db4af6221c554f056270d1330a94ba32dc1251952da08e87f14a98d202bf",
+  "elapsed_seconds": 1029.9813800879997
+}

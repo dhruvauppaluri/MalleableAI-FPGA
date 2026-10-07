@@ -1,4 +1,5 @@
 """Quality is evidence, not an inferred consequence of bit-exact arithmetic."""
+import gc
 import json
 import math
 from pathlib import Path
@@ -156,11 +157,29 @@ def evaluate(model,path,wformat='int8',split='validation',personality='balanced'
             del original,logits
         else: reference_record=identity(cached)
     finally: cache.close()
+    # Qwen3.5's reference and ISA candidate cannot coexist on small no-swap
+    # workers. Reference records are complete at this boundary; release any
+    # framework cycles before constructing the ISA image.
+    gc.collect()
     if derived:
         from .candidates import apply_derived_candidate
         W=apply_derived_candidate(W,derived)
+    # Multi-row ISA programs stream the same weights once for several causal
+    # rows and return every intermediate logit. The ISA contract is bit-exact
+    # with one-row decode; keep the batch deliberately small for IMEM/TMEM and
+    # host-memory bounds.
+    candidate_rows=8
     engine=Engine(spec,W,cap=context,cfg=cfg,
-                  backend='isa',rows=1,pipeline=False,wformat=wformat,head_format='int8')
+                  backend='isa',rows=candidate_rows,pipeline=False,wformat=wformat,head_format='int8')
+    from opentpu.compiler import CompileError
+    for width in (8,4,2,1):
+        try:
+            engine.image.compile_rows([(0,i) for i in range(width)],list(range(width)),
+                                      engine.block)
+            candidate_rows=width
+            break
+        except CompileError:
+            if width==1: raise
     fnll=qnll=agree=count=0
     def nll(logits,target):
         x=logits.astype(np.float64); peak=x.max()
@@ -171,12 +190,17 @@ def evaluate(model,path,wformat='int8',split='validation',personality='balanced'
             if len(reference['nll'])!=len(row)-1 or len(reference['top1'])!=len(row)-1:
                 raise ValueError('invalid cached reference dimensions')
             engine.reset()
-            for i,token in enumerate(row[:-1]):
-                q=engine.step(token)[:spec.vocab]
-                if not np.isfinite(q).all(): raise ValueError('non-finite candidate logits')
-                fnll+=reference['nll'][i]; qnll+=nll(q,row[i+1]); agree+=int(reference['top1'][i]==q.argmax()); count+=1
-                if count%16==0: emit('quality-progress',{'phase':'candidate','completed_targets':count,
-                    'total_targets':sum(len(r)-1 for r in data[split])})
+            tokens=row[:-1]
+            for start in range(0,len(tokens),candidate_rows):
+                part=tokens[start:start+candidate_rows]
+                logits=engine.run_rows([(0,start+i) for i in range(len(part))],part,
+                                       list(range(len(part))))[:,:spec.vocab]
+                if not np.isfinite(logits).all(): raise ValueError('non-finite candidate logits')
+                for offset,q in enumerate(logits):
+                    i=start+offset
+                    fnll+=reference['nll'][i]; qnll+=nll(q,row[i+1]); agree+=int(reference['top1'][i]==q.argmax()); count+=1
+                    if count%16==0: emit('quality-progress',{'phase':'candidate','completed_targets':count,
+                        'total_targets':sum(len(r)-1 for r in data[split])})
     checks=gate(fnll/count,qnll/count,agree/count)
     target_count=sum(len(row)-1 for row in data[split])
     is_frozen=data.get('freeze')=={'split_hashes':hashes,'target_counts':{
@@ -194,6 +218,7 @@ def evaluate(model,path,wformat='int8',split='validation',personality='balanced'
         context=context,config=cfg.__dict__,microarchitecture={'schema_version':1,'parameters':PERSONALITIES[personality].uarch},
         suite_frozen=is_frozen, target_count=target_count,
         floating_reference_id=reference_id,floating_reference_record=reference_record,toolchain=provenance,
+        candidate_isa_rows=candidate_rows,
         **checks,provenance='measured-isa-versus-original-float',selectable=selectable,
         derived_candidate=candidate_record,
         selection_rule='held-out-only; frozen suite; >=1024 targets; NLL <=5%; next-token agreement >=90%')

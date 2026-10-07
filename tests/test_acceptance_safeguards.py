@@ -75,6 +75,18 @@ def test_atomic_claim_survives_copy_source_change_and_failed_attempt(tmp_path):
     assert heldout.evaluation_key(first)==heldout.evaluation_key(changed)
     with pytest.raises(ValueError,match='complete held-out'):heldout.consume({'freeze_id':'only'})
 
+def test_published_consumption_ledger_blocks_rehydrated_balanced_claim():
+    record={
+        'base_model_id':'7ab1181d3a2b04ce889880dfc3b94933574441e9c221e950622c39a3ce79a59d',
+        'tokenizer_id':'85efab0083f304a11454dcdba254bafc67d7fd6c3f8a1ef37b6b5fed767981da',
+        'variant_id':'16e8f30ea0f88024a7dc3e0ece6f61b4569acd605cd755b3cb0c444a44f21b19',
+        'suite_file_hash':'9bfc83a40d510ecc650f2aab5cb338244f9c3ec174ed7bd87e42370898f72673',
+        'configuration':{'configuration_id':'224a2edbf7462eae26e3527b8f0e554e5b13b06987bd557a9a4f983370d559dd'},
+        'suite_hashes':{'held-out':'e61d4e88cd786d72fb8317b8e4ec9da94ba91e965507f38dd0f7feac47e48ba0'}}
+    assert heldout.durable_consumption(record)['status']=='consumed-published'
+    with pytest.raises(ValueError,match='published durable ledger'):
+        heldout.consume(record)
+
 def test_concurrent_claim_has_exactly_one_winner():
     def claim(_):
         try:heldout.consume(record());return True

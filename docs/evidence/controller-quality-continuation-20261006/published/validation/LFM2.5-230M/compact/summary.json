@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "status": "completed-after-cache-path-recovery",
+  "recovered_utc": "2026-10-06T20:42:37.170454+00:00",
+  "split": "validation",
+  "personality": "compact",
+  "record_id": "582ae755cf5cf6c0fffd5c5eba58202c662292c8bf50a531f64dfaa53852f302",
+  "result_sha256": "67d7811ec9ce85d80586a57dd59cf818bf4a72b33599b33ac5ab0176d84c097a",
+  "agreement": 0.9365234375,
+  "nll_degradation": 0.00044944582251965257,
+  "passed": true,
+  "selectable": false,
+  "target_count": 1024,
+  "configuration_id": "5dd7194c2c4f463800b4ff3e95678ce8824200f80e6be88d497cc3fdec61a5d2",
+  "wrapper_failure_sha256": "33ec6a55bb705083b50137e54a3567cc1628839f1e5345ce250861f208c5893b"
+}

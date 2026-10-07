@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "base_model_id": "96c8847b78593ff15008955c68e384f5ff40895e425e487aec30b8173542a857",
+  "tokenizer_id": "58b10b60732220de7cbd044bd711bc5f8a0e172b6e2fb82a910570cab393f093",
+  "variant_id": "dcc3d56681085ed78cc27fc72b8e738a82db11b12fdc410784f1b461a3169a7b",
+  "wformat": "int8",
+  "head_format": "int8",
+  "personality": "compact",
+  "split": "validation",
+  "suite_hashes": {
+    "calibration": "8e3c62fec1e831e217f43758c064845c191d984205f386082b2067766f351e6f",
+    "validation": "d850cdefbc83a6ebd8f4632726cc3f72a2f7ad2e7a90b2ce3a2c7079735a90fc",
+    "held-out": "431aaf3a88ff77d14141b69cac90ef4135ddb2d76cc8fe2babd7e964883455cd"
+  },
+  "suite_file_hash": "0a4bdbf836261875dd3b0f9e54bf2ad14beffea7ed0b9a9cf75dce40669ffc5b",
+  "samples": 1024,
+  "float_nll": 4.962200562339365,
+  "candidate_nll": 4.964116240420237,
+  "agreement": 0.9599609375,
+  "configuration_id": "3ce81ba931f66b8ef1acb331141c69770f66d406e8bcaf95a8ad2b02e2bbbb43",
+  "context": 128,
+  "config": {
+    "S": 1,
+    "D": 128,
+    "MCOLS": 2,
+    "ACT_BLOCKS": 128,
+    "TMEM_WORDS": 65536,
+    "DRAM_BYTES": 1073741824,
+    "IMEM_WORDS": 65536,
+    "LANES": 8,
+    "PAIR": false
+  },
+  "microarchitecture": {
+    "schema_version": 1,
+    "parameters": {
+      "WIN": 16,
+      "RPB": 4,
+      "WPB": 2,
+      "FIFO_DEPTH": 128,
+      "MXU_IMPL": 0,
+      "VPU_CL": 2,
+      "ULANES": 8
+    }
+  },
+  "suite_frozen": true,
+  "target_count": 1024,
+  "floating_reference_id": "078fa2138db253b367871305a719e8961a46315c51e19b4080c7ce7505cdf0a2",
+  "floating_reference_record": "42b21ad14107b81e21812a39a29ea00b6f1127920ec3deefd2f7427500a376dc",
+  "toolchain": {
+    "schema_version": 1,
+    "base_model_id": "96c8847b78593ff15008955c68e384f5ff40895e425e487aec30b8173542a857",
+    "tokenizer_id": "58b10b60732220de7cbd044bd711bc5f8a0e172b6e2fb82a910570cab393f093",
+    "suite_file_hash": "0a4bdbf836261875dd3b0f9e54bf2ad14beffea7ed0b9a9cf75dce40669ffc5b",
+    "split": "validation",
+    "split_hash": "d850cdefbc83a6ebd8f4632726cc3f72a2f7ad2e7a90b2ce3a2c7079735a90fc",
+    "dtype": "float32",
+    "attention": "eager",
+    "torch": "2.14.1+cu130",
+    "transformers": "5.19.0",
+    "python": "3.12.14",
+    "contract": "original-local-safetensors-qwen35-rope-restored-v2"
+  },
+  "nll_degradation": 0.00038605414206989495,
+  "next_token_agreement": 0.9599609375,
+  "passed": true,
+  "provenance": "measured-isa-versus-original-float",
+  "selectable": false,
+  "derived_candidate": null,
+  "selection_rule": "held-out-only; frozen suite; >=1024 targets; NLL <=5%; next-token agreement >=90%",
+  "record_id": "987029555dc4bff90678f1bc9602b46d724fe144adb0575dd38dca84cc84b194"
+}

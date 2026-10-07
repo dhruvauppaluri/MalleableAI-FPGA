@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "source": {
+    "commit": "0139d78e4a38dca54d6ef7ee73310598124960e1",
+    "status": ""
+  },
+  "started_utc": "2026-10-07T18:51:38.781402+00:00",
+  "model": "/workspace/MalleableAI-FPGA/build/models/LFM2.5-230M",
+  "model_id": "8d6ac525c1b135ad360d0f9f5a822698bbb257b7408f791e2ca695ae473798b3",
+  "suite": "/workspace/MalleableAI-FPGA/docs/evidence/controller-quality-continuation-20261006/suites/LFM2.5-230M.json",
+  "suite_sha256": "79b85037d18d511c4560d31ca24323a67fc378f2cc696c433473c7e37d136b7e",
+  "personality": "compact",
+  "command": [
+    "/workspace/MalleableAI-FPGA/.venv/bin/python",
+    "-u",
+    "-m",
+    "malleable.llm.cli",
+    "quality",
+    "--model",
+    "/workspace/MalleableAI-FPGA/build/models/LFM2.5-230M",
+    "--suite",
+    "/workspace/MalleableAI-FPGA/docs/evidence/controller-quality-continuation-20261006/suites/LFM2.5-230M.json",
+    "--split",
+    "held-out",
+    "--context",
+    "128",
+    "--personality",
+    "compact",
+    "--wformat",
+    "int8",
+    "--max-host-gib",
+    "16",
+    "--store",
+    "/workspace/MalleableAI-FPGA/build/controller-quality-20261006/runs/LFM2.5-230M/compact/held-out/store",
+    "--candidate-freeze",
+    "/workspace/MalleableAI-FPGA/build/controller-quality-20261006/runs/LFM2.5-230M/compact/held-out/freeze.json"
+  ],
+  "freeze_id": "278d80bd7e13980f05cd1b283ad4ba1f32c6b08801a7a739c6e5fa067ade7be0",
+  "authorization": "user-requested-independent-controller-quality-20261006"
+}

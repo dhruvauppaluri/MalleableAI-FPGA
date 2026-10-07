@@ -1,0 +1,443 @@
+{
+  "schema_version": 1,
+  "provenance": "offline-prediction-versus-published-rtl-cycles",
+  "training_models": [
+    "qwen3",
+    "qwen35"
+  ],
+  "held_out_model": "lfm",
+  "training_rmse_cycles": 11935450.220470756,
+  "handoff_quality_approved_personalities": {
+    "qwen3": [
+      "balanced"
+    ],
+    "qwen35": [
+      "balanced"
+    ],
+    "lfm": [
+      "balanced"
+    ]
+  },
+  "by_model": {
+    "qwen3": {
+      "count": 10,
+      "mean_absolute_percentage_error": 25.58431143081273,
+      "worst_absolute_percentage_error": 51.715756314201776,
+      "samples": [
+        {
+          "index": 0,
+          "personality": "compact",
+          "scenario": "baseline",
+          "measured_cycles": 30934852,
+          "predicted_cycles": 46876920.73930025,
+          "absolute_percentage_error": 51.53433007954993
+        },
+        {
+          "index": 1,
+          "personality": "balanced",
+          "scenario": "baseline",
+          "measured_cycles": 30714282,
+          "predicted_cycles": 46507176.160743825,
+          "absolute_percentage_error": 51.41873139259392
+        },
+        {
+          "index": 2,
+          "personality": "compute",
+          "scenario": "baseline",
+          "measured_cycles": 30621539,
+          "predicted_cycles": 45974890.212543495,
+          "absolute_percentage_error": 50.13905804193413
+        },
+        {
+          "index": 3,
+          "personality": "buffered",
+          "scenario": "baseline",
+          "measured_cycles": 30697735,
+          "predicted_cycles": 46573300.82657943,
+          "absolute_percentage_error": 51.715756314201776
+        },
+        {
+          "index": 4,
+          "personality": "compact",
+          "scenario": "baseline",
+          "measured_cycles": 49497099,
+          "predicted_cycles": 47059515.99524564,
+          "absolute_percentage_error": 4.924698727806971
+        },
+        {
+          "index": 5,
+          "personality": "balanced",
+          "scenario": "baseline",
+          "measured_cycles": 49146604,
+          "predicted_cycles": 46689771.41668922,
+          "absolute_percentage_error": 4.998987485098223
+        },
+        {
+          "index": 6,
+          "personality": "compute",
+          "scenario": "baseline",
+          "measured_cycles": 48995472,
+          "predicted_cycles": 46157485.46848888,
+          "absolute_percentage_error": 5.792344507898854
+        },
+        {
+          "index": 7,
+          "personality": "buffered",
+          "scenario": "baseline",
+          "measured_cycles": 49117208,
+          "predicted_cycles": 46755896.08252482,
+          "absolute_percentage_error": 4.807504362778883
+        },
+        {
+          "index": 8,
+          "personality": "balanced",
+          "scenario": "stress",
+          "measured_cycles": 57013790,
+          "predicted_cycles": 65973644.84427914,
+          "absolute_percentage_error": 15.715241600811208
+        },
+        {
+          "index": 9,
+          "personality": "compute",
+          "scenario": "stress",
+          "measured_cycles": 57006425,
+          "predicted_cycles": 65441358.8960788,
+          "absolute_percentage_error": 14.79646179545341
+        }
+      ]
+    },
+    "qwen35": {
+      "count": 10,
+      "mean_absolute_percentage_error": 19.207676049840657,
+      "worst_absolute_percentage_error": 29.03677596020906,
+      "samples": [
+        {
+          "index": 0,
+          "personality": "compact",
+          "scenario": "baseline",
+          "measured_cycles": 41397271,
+          "predicted_cycles": 46876920.73930025,
+          "absolute_percentage_error": 13.23674147336971
+        },
+        {
+          "index": 1,
+          "personality": "balanced",
+          "scenario": "baseline",
+          "measured_cycles": 41239961,
+          "predicted_cycles": 46507176.160743825,
+          "absolute_percentage_error": 12.772114795995623
+        },
+        {
+          "index": 2,
+          "personality": "compute",
+          "scenario": "baseline",
+          "measured_cycles": 40009856,
+          "predicted_cycles": 45974890.212543495,
+          "absolute_percentage_error": 14.908911975447985
+        },
+        {
+          "index": 3,
+          "personality": "buffered",
+          "scenario": "baseline",
+          "measured_cycles": 41164749,
+          "predicted_cycles": 46573300.82657943,
+          "absolute_percentage_error": 13.13879461910342
+        },
+        {
+          "index": 4,
+          "personality": "compact",
+          "scenario": "baseline",
+          "measured_cycles": 66052812,
+          "predicted_cycles": 47059515.99524564,
+          "absolute_percentage_error": 28.754712221418156
+        },
+        {
+          "index": 5,
+          "personality": "balanced",
+          "scenario": "baseline",
+          "measured_cycles": 65794321,
+          "predicted_cycles": 46689771.41668922,
+          "absolute_percentage_error": 29.03677596020906
+        },
+        {
+          "index": 6,
+          "personality": "compute",
+          "scenario": "baseline",
+          "measured_cycles": 64122837,
+          "predicted_cycles": 46157485.46848888,
+          "absolute_percentage_error": 28.017087783422806
+        },
+        {
+          "index": 7,
+          "personality": "buffered",
+          "scenario": "baseline",
+          "measured_cycles": 65672779,
+          "predicted_cycles": 46755896.08252482,
+          "absolute_percentage_error": 28.804754733274162
+        },
+        {
+          "index": 8,
+          "personality": "balanced",
+          "scenario": "stress",
+          "measured_cycles": 74453879,
+          "predicted_cycles": 65973644.84427914,
+          "absolute_percentage_error": 11.38991583732106
+        },
+        {
+          "index": 9,
+          "personality": "compute",
+          "scenario": "stress",
+          "measured_cycles": 74379508,
+          "predicted_cycles": 65441358.8960788,
+          "absolute_percentage_error": 12.016951098844588
+        }
+      ]
+    },
+    "lfm": {
+      "count": 10,
+      "mean_absolute_percentage_error": 109.84997267680583,
+      "worst_absolute_percentage_error": 161.75402857948626,
+      "samples": [
+        {
+          "index": 0,
+          "personality": "compact",
+          "scenario": "baseline",
+          "measured_cycles": 14214874,
+          "predicted_cycles": 37144499.53489434,
+          "absolute_percentage_error": 161.30727247314567
+        },
+        {
+          "index": 1,
+          "personality": "balanced",
+          "scenario": "baseline",
+          "measured_cycles": 14091076,
+          "predicted_cycles": 36774754.956337914,
+          "absolute_percentage_error": 160.97904060937515
+        },
+        {
+          "index": 2,
+          "personality": "compute",
+          "scenario": "baseline",
+          "measured_cycles": 14058280,
+          "predicted_cycles": 36242469.00813758,
+          "absolute_percentage_error": 157.80158744979883
+        },
+        {
+          "index": 3,
+          "personality": "buffered",
+          "scenario": "baseline",
+          "measured_cycles": 14074618,
+          "predicted_cycles": 36840879.62217352,
+          "absolute_percentage_error": 161.75402857948626
+        },
+        {
+          "index": 4,
+          "personality": "compact",
+          "scenario": "baseline",
+          "measured_cycles": 23696663,
+          "predicted_cycles": 37387959.876154855,
+          "absolute_percentage_error": 57.77732027566436
+        },
+        {
+          "index": 5,
+          "personality": "balanced",
+          "scenario": "baseline",
+          "measured_cycles": 23491003,
+          "predicted_cycles": 37018215.29759843,
+          "absolute_percentage_error": 57.58465186692297
+        },
+        {
+          "index": 6,
+          "personality": "compute",
+          "scenario": "baseline",
+          "measured_cycles": 23430444,
+          "predicted_cycles": 36485929.3493981,
+          "absolute_percentage_error": 55.72017905165646
+        },
+        {
+          "index": 7,
+          "personality": "buffered",
+          "scenario": "baseline",
+          "measured_cycles": 23460308,
+          "predicted_cycles": 37084339.96343404,
+          "absolute_percentage_error": 58.072690108902414
+        },
+        {
+          "index": 8,
+          "personality": "balanced",
+          "scenario": "stress",
+          "measured_cycles": 26196184,
+          "predicted_cycles": 56241223.63987323,
+          "absolute_percentage_error": 114.69242863721382
+        },
+        {
+          "index": 9,
+          "personality": "compute",
+          "scenario": "stress",
+          "measured_cycles": 26177717,
+          "predicted_cycles": 55708937.69167289,
+          "absolute_percentage_error": 112.81052771589246
+        }
+      ]
+    }
+  },
+  "controller_audit": {
+    "qwen3": [
+      {
+        "workload": "short-a",
+        "gated_choice": "balanced/int8",
+        "excluded": {
+          "compact/int8": "missing or failed matched frozen validation quality evidence",
+          "compute/int8": "missing or failed matched frozen validation quality evidence",
+          "buffered/int8": "missing or failed matched frozen validation quality evidence"
+        },
+        "shadow_fastest_personality": "compute",
+        "shadow_predicted_choice": "compute",
+        "measured_cycles": {
+          "compact": 30934852,
+          "balanced": 30714282,
+          "compute": 30621539,
+          "buffered": 30697735
+        },
+        "balanced_to_compute_gain_percent": 0.30195399000373835,
+        "hypothetical_throughput_break_even_overhead_cycles": {
+          "1": 92743,
+          "8": 741944,
+          "32": 2967776,
+          "128": 11871104
+        }
+      },
+      {
+        "workload": "short-b",
+        "gated_choice": "balanced/int8",
+        "excluded": {
+          "compact/int8": "missing or failed matched frozen validation quality evidence",
+          "compute/int8": "missing or failed matched frozen validation quality evidence",
+          "buffered/int8": "missing or failed matched frozen validation quality evidence"
+        },
+        "shadow_fastest_personality": "compute",
+        "shadow_predicted_choice": "compute",
+        "measured_cycles": {
+          "compact": 49497099,
+          "balanced": 49146604,
+          "compute": 48995472,
+          "buffered": 49117208
+        },
+        "balanced_to_compute_gain_percent": 0.3075126004637065,
+        "hypothetical_throughput_break_even_overhead_cycles": {
+          "1": 151132,
+          "8": 1209056,
+          "32": 4836224,
+          "128": 19344896
+        }
+      }
+    ],
+    "qwen35": [
+      {
+        "workload": "short-a",
+        "gated_choice": "balanced/int8",
+        "excluded": {
+          "compact/int8": "missing or failed matched frozen validation quality evidence",
+          "compute/int8": "missing or failed matched frozen validation quality evidence",
+          "buffered/int8": "missing or failed matched frozen validation quality evidence"
+        },
+        "shadow_fastest_personality": "compute",
+        "shadow_predicted_choice": "compute",
+        "measured_cycles": {
+          "compact": 41397271,
+          "balanced": 41239961,
+          "compute": 40009856,
+          "buffered": 41164749
+        },
+        "balanced_to_compute_gain_percent": 2.982798650076318,
+        "hypothetical_throughput_break_even_overhead_cycles": {
+          "1": 1230105,
+          "8": 9840840,
+          "32": 39363360,
+          "128": 157453440
+        }
+      },
+      {
+        "workload": "short-b",
+        "gated_choice": "balanced/int8",
+        "excluded": {
+          "compact/int8": "missing or failed matched frozen validation quality evidence",
+          "compute/int8": "missing or failed matched frozen validation quality evidence",
+          "buffered/int8": "missing or failed matched frozen validation quality evidence"
+        },
+        "shadow_fastest_personality": "compute",
+        "shadow_predicted_choice": "compute",
+        "measured_cycles": {
+          "compact": 66052812,
+          "balanced": 65794321,
+          "compute": 64122837,
+          "buffered": 65672779
+        },
+        "balanced_to_compute_gain_percent": 2.540468500313272,
+        "hypothetical_throughput_break_even_overhead_cycles": {
+          "1": 1671484,
+          "8": 13371872,
+          "32": 53487488,
+          "128": 213949952
+        }
+      }
+    ],
+    "lfm": [
+      {
+        "workload": "short-a",
+        "gated_choice": "balanced/int8",
+        "excluded": {
+          "compact/int8": "missing or failed matched frozen validation quality evidence",
+          "compute/int8": "missing or failed matched frozen validation quality evidence",
+          "buffered/int8": "missing or failed matched frozen validation quality evidence"
+        },
+        "shadow_fastest_personality": "compute",
+        "shadow_predicted_choice": "compute",
+        "measured_cycles": {
+          "compact": 14214874,
+          "balanced": 14091076,
+          "compute": 14058280,
+          "buffered": 14074618
+        },
+        "balanced_to_compute_gain_percent": 0.23274304957265152,
+        "hypothetical_throughput_break_even_overhead_cycles": {
+          "1": 32796,
+          "8": 262368,
+          "32": 1049472,
+          "128": 4197888
+        }
+      },
+      {
+        "workload": "short-b",
+        "gated_choice": "balanced/int8",
+        "excluded": {
+          "compact/int8": "missing or failed matched frozen validation quality evidence",
+          "compute/int8": "missing or failed matched frozen validation quality evidence",
+          "buffered/int8": "missing or failed matched frozen validation quality evidence"
+        },
+        "shadow_fastest_personality": "compute",
+        "shadow_predicted_choice": "compute",
+        "measured_cycles": {
+          "compact": 23696663,
+          "balanced": 23491003,
+          "compute": 23430444,
+          "buffered": 23460308
+        },
+        "balanced_to_compute_gain_percent": 0.2577965700315138,
+        "hypothetical_throughput_break_even_overhead_cycles": {
+          "1": 60559,
+          "8": 484472,
+          "32": 1937888,
+          "128": 7751552
+        }
+      }
+    ]
+  },
+  "limitations": [
+    "Fixed-tape runs have no generated-token timing or sequential switching evidence.",
+    "The Zephyrus handoff approves balanced INT8 only; other personalities remain gated.",
+    "Break-even overhead is an analytic threshold, not a measured switching cost.",
+    "Physical FPGA timing, power, and runtime changeover costs are unavailable.",
+    "No model-specific held-out policy promotion is performed."
+  ]
+}

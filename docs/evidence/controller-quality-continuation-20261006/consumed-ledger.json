@@ -1,0 +1,277 @@
+{
+  "schema_version": 1,
+  "kind": "durable-heldout-consumption-ledger",
+  "created_utc": "2026-10-06T20:15:00Z",
+  "policy": "A claim consumes its exact held-out design even when its result is failed, interrupted, unpublished, or inaccessible.",
+  "exact_evaluations": [
+    {
+      "evaluation_id": "33bfab392a65e7de9579fdc3a7c7159ad241acc40f46d3a6b3cdc6f988a4d5fd",
+      "status": "consumed-published",
+      "key": {
+        "base_model_id": "7ab1181d3a2b04ce889880dfc3b94933574441e9c221e950622c39a3ce79a59d",
+        "tokenizer_id": "85efab0083f304a11454dcdba254bafc67d7fd6c3f8a1ef37b6b5fed767981da",
+        "variant_id": "16e8f30ea0f88024a7dc3e0ece6f61b4569acd605cd755b3cb0c444a44f21b19",
+        "suite_file_hash": "9bfc83a40d510ecc650f2aab5cb338244f9c3ec174ed7bd87e42370898f72673",
+        "configuration_id": "224a2edbf7462eae26e3527b8f0e554e5b13b06987bd557a9a4f983370d559dd",
+        "split": "held-out",
+        "split_hash": "e61d4e88cd786d72fb8317b8e4ec9da94ba91e965507f38dd0f7feac47e48ba0",
+        "evaluation_design": "frozen-release-single-evaluation-v1"
+      }
+    },
+    {
+      "evaluation_id": "470f3313d69bc22302c63954eec2128490da4876f39b8ef11fd7ff026391eabb",
+      "status": "consumed-published",
+      "key": {
+        "base_model_id": "8d6ac525c1b135ad360d0f9f5a822698bbb257b7408f791e2ca695ae473798b3",
+        "tokenizer_id": "85ba6138043aa10b1a72e679643539f9d995f66a9f791e7c0ca0a6e5161460ae",
+        "variant_id": "17c66490b0ddfeb6a9889fed14e18368d8274042abd5fdcfa05ad60dd82d7e63",
+        "suite_file_hash": "6d8eaef77ddde547d421e1e084550ceec7b1d036fc293e65ac0cb7b40b943bdb",
+        "configuration_id": "78a135a7b46ac35b70089341e13593ecf58a67606c959f6f2a14ea1faf4001d3",
+        "split": "held-out",
+        "split_hash": "57654bc6ac1e4ea4262a5ec03b2149dce075dd29aafcb491edbb01993b80397e",
+        "evaluation_design": "frozen-release-single-evaluation-v1"
+      }
+    },
+    {
+      "evaluation_id": "baf95d720a4383a34ea83df051378bc27eff799ed39304ff938e30b239108f18",
+      "status": "consumed-published",
+      "key": {
+        "base_model_id": "96c8847b78593ff15008955c68e384f5ff40895e425e487aec30b8173542a857",
+        "tokenizer_id": "58b10b60732220de7cbd044bd711bc5f8a0e172b6e2fb82a910570cab393f093",
+        "variant_id": "dcc3d56681085ed78cc27fc72b8e738a82db11b12fdc410784f1b461a3169a7b",
+        "suite_file_hash": "bc563627d41c8a012ee736654aeefab3e4dca3b6d40cd70a82d84bd7ef31b11e",
+        "configuration_id": "224a2edbf7462eae26e3527b8f0e554e5b13b06987bd557a9a4f983370d559dd",
+        "split": "held-out",
+        "split_hash": "1413f46bb88cd0dddcdcf1d837e0f81b9ab20d4d5f8d6e5e9886e382b691f209",
+        "evaluation_design": "frozen-release-single-evaluation-v1"
+      }
+    },
+    {
+      "evaluation_id": "acddb5821c8ced9b790d484ffaaf719cc7aaac1887ab9478d689eeb0bf3a04a0",
+      "key": {
+        "base_model_id": "8d6ac525c1b135ad360d0f9f5a822698bbb257b7408f791e2ca695ae473798b3",
+        "tokenizer_id": "85ba6138043aa10b1a72e679643539f9d995f66a9f791e7c0ca0a6e5161460ae",
+        "variant_id": "17c66490b0ddfeb6a9889fed14e18368d8274042abd5fdcfa05ad60dd82d7e63",
+        "suite_file_hash": "79b85037d18d511c4560d31ca24323a67fc378f2cc696c433473c7e37d136b7e",
+        "configuration_id": "5dd7194c2c4f463800b4ff3e95678ce8824200f80e6be88d497cc3fdec61a5d2",
+        "split": "held-out",
+        "split_hash": "ac92595ff4d60d59284565df6759cebfbb522a0618328ff2117dd7c6b69d7b31",
+        "evaluation_design": "frozen-release-single-evaluation-v1"
+      },
+      "status": "consumed-published",
+      "freeze_id": "278d80bd7e13980f05cd1b283ad4ba1f32c6b08801a7a739c6e5fa067ade7be0",
+      "claimed_utc": "2026-10-07T18:51:41.084650+00:00",
+      "result_sha256": "6fde764a23659c51e6ec87e3adcb0d147bec858b8c492bea543255bba2c7e581",
+      "failure_sha256": null
+    },
+    {
+      "evaluation_id": "f87e2513bc5547fef6eda9f424c14dbca56d2993f1e0fafac39e453dad29e7aa",
+      "key": {
+        "base_model_id": "8d6ac525c1b135ad360d0f9f5a822698bbb257b7408f791e2ca695ae473798b3",
+        "tokenizer_id": "85ba6138043aa10b1a72e679643539f9d995f66a9f791e7c0ca0a6e5161460ae",
+        "variant_id": "17c66490b0ddfeb6a9889fed14e18368d8274042abd5fdcfa05ad60dd82d7e63",
+        "suite_file_hash": "79b85037d18d511c4560d31ca24323a67fc378f2cc696c433473c7e37d136b7e",
+        "configuration_id": "e687db4af6221c554f056270d1330a94ba32dc1251952da08e87f14a98d202bf",
+        "split": "held-out",
+        "split_hash": "ac92595ff4d60d59284565df6759cebfbb522a0618328ff2117dd7c6b69d7b31",
+        "evaluation_design": "frozen-release-single-evaluation-v1"
+      },
+      "status": "consumed-published",
+      "freeze_id": "cd55b81d65132b7930b511dd924c99587d234b505dc62790bd87f70ab68bf7ea",
+      "claimed_utc": "2026-10-07T19:01:10.079291+00:00",
+      "result_sha256": "c4e8711e8ebd3774cc4c49f828c8e142ccee2772a0b17da4b98895512b749d90",
+      "failure_sha256": null
+    },
+    {
+      "evaluation_id": "d44df5659604dcca4ce7cd5405847490f1005201d7435737efe305a4e9985a47",
+      "key": {
+        "base_model_id": "8d6ac525c1b135ad360d0f9f5a822698bbb257b7408f791e2ca695ae473798b3",
+        "tokenizer_id": "85ba6138043aa10b1a72e679643539f9d995f66a9f791e7c0ca0a6e5161460ae",
+        "variant_id": "17c66490b0ddfeb6a9889fed14e18368d8274042abd5fdcfa05ad60dd82d7e63",
+        "suite_file_hash": "79b85037d18d511c4560d31ca24323a67fc378f2cc696c433473c7e37d136b7e",
+        "configuration_id": "520a65ecca5e5095aceab7d655e36b0953a2713776f77156860fccef2892bb8a",
+        "split": "held-out",
+        "split_hash": "ac92595ff4d60d59284565df6759cebfbb522a0618328ff2117dd7c6b69d7b31",
+        "evaluation_design": "frozen-release-single-evaluation-v1"
+      },
+      "status": "consumed-published",
+      "freeze_id": "2932bb677105216012e4b5a1c0b71aae3baea8e2d61f51c329ec60d881ab72e8",
+      "claimed_utc": "2026-10-07T19:10:47.388809+00:00",
+      "result_sha256": "360f8d63eaa00657472ee1bcfe7570bd916c83e101959beaeeb12da71798724e",
+      "failure_sha256": null
+    },
+    {
+      "evaluation_id": "b31ae330c4469754fe6f519993e2a906ad14886e0e544d3bf542fdf6186acd68",
+      "key": {
+        "base_model_id": "7ab1181d3a2b04ce889880dfc3b94933574441e9c221e950622c39a3ce79a59d",
+        "tokenizer_id": "85efab0083f304a11454dcdba254bafc67d7fd6c3f8a1ef37b6b5fed767981da",
+        "variant_id": "16e8f30ea0f88024a7dc3e0ece6f61b4569acd605cd755b3cb0c444a44f21b19",
+        "suite_file_hash": "66ba350bb19e2de8dd374a08153dd4c5f87d36c95291a1ffc9a583ddfae8b316",
+        "configuration_id": "3ce81ba931f66b8ef1acb331141c69770f66d406e8bcaf95a8ad2b02e2bbbb43",
+        "split": "held-out",
+        "split_hash": "3c6eada53bea49062fa22cf385cee12ebb6f2d853be83f02a5441084373e15f7",
+        "evaluation_design": "frozen-release-single-evaluation-v1"
+      },
+      "status": "consumed-published",
+      "freeze_id": "46f3f0f1c4b48bc4ea24903d13c63ac9472c4a75c1951a00d249581f67597c13",
+      "claimed_utc": "2026-10-07T19:19:31.676716+00:00",
+      "result_sha256": "fea38605f13fef049e0e4595b4c5172dc4b4457e3523663daab0d3595debe2df",
+      "failure_sha256": null
+    },
+    {
+      "evaluation_id": "b829f6b36d234a5bf71859c129854ebfb2a827eb99f0e76ae8e0b323a3a91b3b",
+      "key": {
+        "base_model_id": "7ab1181d3a2b04ce889880dfc3b94933574441e9c221e950622c39a3ce79a59d",
+        "tokenizer_id": "85efab0083f304a11454dcdba254bafc67d7fd6c3f8a1ef37b6b5fed767981da",
+        "variant_id": "16e8f30ea0f88024a7dc3e0ece6f61b4569acd605cd755b3cb0c444a44f21b19",
+        "suite_file_hash": "66ba350bb19e2de8dd374a08153dd4c5f87d36c95291a1ffc9a583ddfae8b316",
+        "configuration_id": "fc9e120604dc94aa417769274bb5beb395005a3ef973f25e75f06eb1ab73ee5a",
+        "split": "held-out",
+        "split_hash": "3c6eada53bea49062fa22cf385cee12ebb6f2d853be83f02a5441084373e15f7",
+        "evaluation_design": "frozen-release-single-evaluation-v1"
+      },
+      "status": "consumed-published",
+      "freeze_id": "e147b76f74ee25aba0c78c16c49c73d50fa7769db6d515773fece06bab9eed3e",
+      "claimed_utc": "2026-10-07T19:48:26.360405+00:00",
+      "result_sha256": "5650d1a3f4669b51ace2d2c1ce81996fd484c9a7f4fe6ede8cb7026de0bed6e3",
+      "failure_sha256": null
+    },
+    {
+      "evaluation_id": "756d4285c627a0583d9526aba5f9e5429c4e2b61b755905f2b209ff0d62bebcf",
+      "key": {
+        "base_model_id": "7ab1181d3a2b04ce889880dfc3b94933574441e9c221e950622c39a3ce79a59d",
+        "tokenizer_id": "85efab0083f304a11454dcdba254bafc67d7fd6c3f8a1ef37b6b5fed767981da",
+        "variant_id": "16e8f30ea0f88024a7dc3e0ece6f61b4569acd605cd755b3cb0c444a44f21b19",
+        "suite_file_hash": "66ba350bb19e2de8dd374a08153dd4c5f87d36c95291a1ffc9a583ddfae8b316",
+        "configuration_id": "063288b3c52160dc01fc0ce85a9c440cde762bff015840c0f0f0f52bce9a3f52",
+        "split": "held-out",
+        "split_hash": "3c6eada53bea49062fa22cf385cee12ebb6f2d853be83f02a5441084373e15f7",
+        "evaluation_design": "frozen-release-single-evaluation-v1"
+      },
+      "status": "consumed-published",
+      "freeze_id": "31ec1505a721c4c70fc0d8ba5cf5ad93c42b9f302d0080d3175c3b80d0be1280",
+      "claimed_utc": "2026-10-07T20:16:47.423986+00:00",
+      "result_sha256": "77ee03f76cca17ce30c97e1dad950981c13ce26950b92f171c0506e684576cea",
+      "failure_sha256": null
+    },
+    {
+      "evaluation_id": "cfaea31f10006def7ead5bada9d3a5b010465fce75cbe61f7e139b391b08c9cb",
+      "key": {
+        "base_model_id": "96c8847b78593ff15008955c68e384f5ff40895e425e487aec30b8173542a857",
+        "tokenizer_id": "58b10b60732220de7cbd044bd711bc5f8a0e172b6e2fb82a910570cab393f093",
+        "variant_id": "dcc3d56681085ed78cc27fc72b8e738a82db11b12fdc410784f1b461a3169a7b",
+        "suite_file_hash": "0a4bdbf836261875dd3b0f9e54bf2ad14beffea7ed0b9a9cf75dce40669ffc5b",
+        "configuration_id": "3ce81ba931f66b8ef1acb331141c69770f66d406e8bcaf95a8ad2b02e2bbbb43",
+        "split": "held-out",
+        "split_hash": "431aaf3a88ff77d14141b69cac90ef4135ddb2d76cc8fe2babd7e964883455cd",
+        "evaluation_design": "frozen-release-single-evaluation-v1"
+      },
+      "status": "consumed-published",
+      "freeze_id": "724fc1e7c43b90f3ea51c9c94b4e6e4906c18ea00b1505d0b7d55048c4a57bb5",
+      "claimed_utc": "2026-10-07T20:44:52.282469+00:00",
+      "result_sha256": "d21fbbb5064564e5be5ae602258ede841773965b0e8d11e7139c7c7457f7d7a6",
+      "failure_sha256": null
+    },
+    {
+      "evaluation_id": "c29820dd37a8e1ee65dae717199786a64ec45728ace6aa6bf023bf51c6ae8d88",
+      "key": {
+        "base_model_id": "96c8847b78593ff15008955c68e384f5ff40895e425e487aec30b8173542a857",
+        "tokenizer_id": "58b10b60732220de7cbd044bd711bc5f8a0e172b6e2fb82a910570cab393f093",
+        "variant_id": "dcc3d56681085ed78cc27fc72b8e738a82db11b12fdc410784f1b461a3169a7b",
+        "suite_file_hash": "0a4bdbf836261875dd3b0f9e54bf2ad14beffea7ed0b9a9cf75dce40669ffc5b",
+        "configuration_id": "fc9e120604dc94aa417769274bb5beb395005a3ef973f25e75f06eb1ab73ee5a",
+        "split": "held-out",
+        "split_hash": "431aaf3a88ff77d14141b69cac90ef4135ddb2d76cc8fe2babd7e964883455cd",
+        "evaluation_design": "frozen-release-single-evaluation-v1"
+      },
+      "status": "consumed-published",
+      "freeze_id": "0b3e7987e05873fbdaae9ffda80c564a0e4c8024db3a54107560577c5e8ed47c",
+      "claimed_utc": "2026-10-07T22:06:54.326104+00:00",
+      "result_sha256": "758cd1cbcef8fd9a49359a8a71a2d4d6e22b780473477957e6e8275b89ceacf9",
+      "failure_sha256": null
+    },
+    {
+      "evaluation_id": "8e0f8ce90025749553674da326874c6e8484de505384372c5bdb76c0e86f9aea",
+      "key": {
+        "base_model_id": "96c8847b78593ff15008955c68e384f5ff40895e425e487aec30b8173542a857",
+        "tokenizer_id": "58b10b60732220de7cbd044bd711bc5f8a0e172b6e2fb82a910570cab393f093",
+        "variant_id": "dcc3d56681085ed78cc27fc72b8e738a82db11b12fdc410784f1b461a3169a7b",
+        "suite_file_hash": "0a4bdbf836261875dd3b0f9e54bf2ad14beffea7ed0b9a9cf75dce40669ffc5b",
+        "configuration_id": "063288b3c52160dc01fc0ce85a9c440cde762bff015840c0f0f0f52bce9a3f52",
+        "split": "held-out",
+        "split_hash": "431aaf3a88ff77d14141b69cac90ef4135ddb2d76cc8fe2babd7e964883455cd",
+        "evaluation_design": "frozen-release-single-evaluation-v1"
+      },
+      "status": "consumed-published",
+      "freeze_id": "4363b397d5a262805a6986b39c81e3c44d681122ee45926a86a56b22a84ab2ec",
+      "claimed_utc": "2026-10-07T22:53:12.473114+00:00",
+      "result_sha256": "e8c8c88ade96361c8cecc017a0a79ec31a9c2da360f69f419de0ce71f063d60d",
+      "failure_sha256": null
+    }
+  ],
+  "suite_tombstones": [
+    {
+      "campaign": "controller-quality-20261005-inaccessible",
+      "status": "consumed-unpublished-workspace-lost",
+      "model": "LFM2.5-230M",
+      "base_model_id": "8d6ac525c1b135ad360d0f9f5a822698bbb257b7408f791e2ca695ae473798b3",
+      "tokenizer_id": "85ba6138043aa10b1a72e679643539f9d995f66a9f791e7c0ca0a6e5161460ae",
+      "variant_id": "17c66490b0ddfeb6a9889fed14e18368d8274042abd5fdcfa05ad60dd82d7e63",
+      "suite_file_hash": "246a9bb71b584b34fd4a6403beab58e557d1fadfb9b7ff94d52cdd3ab6620630",
+      "heldout_split_hash": "c49daf84e434063277b62ff981ccbf3e12b09ced44cc438379237c6d28f4afc9",
+      "configuration_ids": [
+        "5dd7194c2c4f463800b4ff3e95678ce8824200f80e6be88d497cc3fdec61a5d2",
+        "78a135a7b46ac35b70089341e13593ecf58a67606c959f6f2a14ea1faf4001d3",
+        "e687db4af6221c554f056270d1330a94ba32dc1251952da08e87f14a98d202bf",
+        "520a65ecca5e5095aceab7d655e36b0953a2713776f77156860fccef2892bb8a"
+      ],
+      "evaluation_design": "frozen-release-single-evaluation-v1"
+    },
+    {
+      "campaign": "controller-quality-20261005-inaccessible",
+      "status": "consumed-unpublished-workspace-lost",
+      "model": "Qwen3-0.6B",
+      "base_model_id": "7ab1181d3a2b04ce889880dfc3b94933574441e9c221e950622c39a3ce79a59d",
+      "tokenizer_id": "85efab0083f304a11454dcdba254bafc67d7fd6c3f8a1ef37b6b5fed767981da",
+      "variant_id": "16e8f30ea0f88024a7dc3e0ece6f61b4569acd605cd755b3cb0c444a44f21b19",
+      "suite_file_hash": "d2ae23a50910ee5e17db31d79678b2043c1a5e4cc356fee798327a3ea36d12a7",
+      "heldout_split_hash": "cfecd864314d24aa8181c8bb04f0e1399a62d850319d89be06ad1bfd8400b83b",
+      "configuration_ids": [
+        "3ce81ba931f66b8ef1acb331141c69770f66d406e8bcaf95a8ad2b02e2bbbb43",
+        "224a2edbf7462eae26e3527b8f0e554e5b13b06987bd557a9a4f983370d559dd",
+        "fc9e120604dc94aa417769274bb5beb395005a3ef973f25e75f06eb1ab73ee5a",
+        "063288b3c52160dc01fc0ce85a9c440cde762bff015840c0f0f0f52bce9a3f52"
+      ],
+      "evaluation_design": "frozen-release-single-evaluation-v1"
+    },
+    {
+      "campaign": "controller-quality-20261005-inaccessible",
+      "status": "consumed-unpublished-workspace-lost",
+      "model": "Qwen3.5-0.8B",
+      "base_model_id": "96c8847b78593ff15008955c68e384f5ff40895e425e487aec30b8173542a857",
+      "tokenizer_id": "58b10b60732220de7cbd044bd711bc5f8a0e172b6e2fb82a910570cab393f093",
+      "variant_id": "dcc3d56681085ed78cc27fc72b8e738a82db11b12fdc410784f1b461a3169a7b",
+      "suite_file_hash": "5e7b7c68d18fcbdb62276e3e2117ea446417b4f21d1a81a4dd8a27daa43c8c6d",
+      "heldout_split_hash": "057746ac53a74438f566a6e8e3cdad4f1e392e09e81a86871f82ae1edc311acf",
+      "configuration_ids": [
+        "3ce81ba931f66b8ef1acb331141c69770f66d406e8bcaf95a8ad2b02e2bbbb43",
+        "224a2edbf7462eae26e3527b8f0e554e5b13b06987bd557a9a4f983370d559dd",
+        "fc9e120604dc94aa417769274bb5beb395005a3ef973f25e75f06eb1ab73ee5a",
+        "063288b3c52160dc01fc0ce85a9c440cde762bff015840c0f0f0f52bce9a3f52"
+      ],
+      "evaluation_design": "frozen-release-single-evaluation-v1"
+    }
+  ],
+  "unrecoverable_claims": [
+    {
+      "campaign": "controller-quality-recovery-20261006-inaccessible",
+      "status": "consumed-identity-unavailable",
+      "configurations": [
+        "LFM2.5-230M/compute",
+        "Qwen3-0.6B/compact",
+        "Qwen3.5-0.8B/compact"
+      ],
+      "source_boundary": "The recovery held-out text used two docs/adr documents. All docs/adr sources are barred from replacement campaigns because the exact pair and hashes are inaccessible."
+    }
+  ]
+}

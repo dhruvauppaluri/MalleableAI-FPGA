@@ -1,0 +1,86 @@
+{
+  "schema_version": 2,
+  "kind": "candidate-heldout-freeze",
+  "source": {
+    "commit": "a59bf1c42a2400d9d3d0afd04b2faf30029c56d2",
+    "status": ""
+  },
+  "base_model_id": "8d6ac525c1b135ad360d0f9f5a822698bbb257b7408f791e2ca695ae473798b3",
+  "tokenizer_id": "85ba6138043aa10b1a72e679643539f9d995f66a9f791e7c0ca0a6e5161460ae",
+  "weight_files": {
+    "model.safetensors": "f630da86651136c9aee893b04b7542007e90fdd718355358e57e7ecc31517cfd"
+  },
+  "tokenizer_files": {
+    "tokenizer.json": "df1d8d5ec5d091b460562ffd545e4a5e91d17d4a0db7ebe733be34ed374377bd",
+    "tokenizer_config.json": "75c287923e252b08b0a0f1c367bbe557ab23a681d0b71c5a34e0932ddbe2f5ee",
+    "generation_config.json": "4f88574c47c3215f7f952e1f520d1df7387422dde0345655228fb7b3fde6858c",
+    "chat_template.jinja": "c5b67247c9f736f6c40eaa91ae1ef27dc67f5b041eedaadb97a1bea5030fb0ff"
+  },
+  "derived_candidate": null,
+  "derived_tensor_file_sha256": null,
+  "suite_file_hash": "79b85037d18d511c4560d31ca24323a67fc378f2cc696c433473c7e37d136b7e",
+  "suite_hashes": {
+    "calibration": "0edaf0515cb3e8a2b57e03942f3f0226128907d03920606c3916bcf8601b0ada",
+    "validation": "ba4e0a31304e4f40f7e6c68c377077616edc420d9fa6cf97579283e96dc89509",
+    "held-out": "ac92595ff4d60d59284565df6759cebfbb522a0618328ff2117dd7c6b69d7b31"
+  },
+  "target_counts": {
+    "calibration": 256,
+    "validation": 1024,
+    "held-out": 1024
+  },
+  "configuration": {
+    "context": 128,
+    "personality": "compute",
+    "wformat": "int8",
+    "head_format": "int8",
+    "configuration_id": "e687db4af6221c554f056270d1330a94ba32dc1251952da08e87f14a98d202bf",
+    "config": {
+      "S": 1,
+      "D": 128,
+      "MCOLS": 8,
+      "ACT_BLOCKS": 128,
+      "TMEM_WORDS": 65536,
+      "DRAM_BYTES": 268435456,
+      "IMEM_WORDS": 65536,
+      "LANES": 16,
+      "PAIR": false
+    },
+    "microarchitecture": {
+      "schema_version": 1,
+      "parameters": {
+        "WIN": 16,
+        "RPB": 4,
+        "WPB": 2,
+        "FIFO_DEPTH": 512,
+        "MXU_IMPL": 0,
+        "VPU_CL": 4,
+        "ULANES": 16
+      }
+    }
+  },
+  "variant_id": "17c66490b0ddfeb6a9889fed14e18368d8274042abd5fdcfa05ad60dd82d7e63",
+  "validation": {
+    "result_sha256": "def40733590a8363e1d3285ef15bfd03c3adabbf9eedf218ae31e259d2839960",
+    "record_id": "6682ff0edd0d15a296f9a8e1786407e859923dd5f1c79d27bf8e311edde30d91",
+    "agreement": 0.9365234375,
+    "float_nll": 7.079860719274746,
+    "candidate_nll": 7.083042727841659,
+    "target_count": 1024,
+    "toolchain": {
+      "schema_version": 1,
+      "base_model_id": "8d6ac525c1b135ad360d0f9f5a822698bbb257b7408f791e2ca695ae473798b3",
+      "tokenizer_id": "85ba6138043aa10b1a72e679643539f9d995f66a9f791e7c0ca0a6e5161460ae",
+      "suite_file_hash": "79b85037d18d511c4560d31ca24323a67fc378f2cc696c433473c7e37d136b7e",
+      "split": "validation",
+      "split_hash": "ba4e0a31304e4f40f7e6c68c377077616edc420d9fa6cf97579283e96dc89509",
+      "dtype": "float32",
+      "attention": "eager",
+      "torch": "2.14.1+cu130",
+      "transformers": "5.19.0",
+      "python": "3.12.14",
+      "contract": "original-local-safetensors-teacher-forced-v1"
+    }
+  },
+  "freeze_id": "cd55b81d65132b7930b511dd924c99587d234b505dc62790bd87f70ab68bf7ea"
+}

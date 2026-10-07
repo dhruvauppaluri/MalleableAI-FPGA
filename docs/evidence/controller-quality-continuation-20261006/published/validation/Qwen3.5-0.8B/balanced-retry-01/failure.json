@@ -1,0 +1,5 @@
+{
+  "status": "failed",
+  "elapsed_seconds": 697.328270086,
+  "traceback": "Traceback (most recent call last):\n  File \"/workspace/MalleableAI-FPGA/tools/run_personality_quality.py\", line 157, in run_quality\n    report({'phase': args.phase, 'personality': args.personality,\n  File \"/workspace/MalleableAI-FPGA/tools/run_personality_quality.py\", line 36, in report\n    print(json.dumps(value), flush=True)\nOSError: [Errno 5] Input/output error\n"
+}
