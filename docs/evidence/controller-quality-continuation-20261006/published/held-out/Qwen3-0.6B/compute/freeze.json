@@ -1,0 +1,112 @@
+{
+  "schema_version": 2,
+  "kind": "candidate-heldout-freeze",
+  "source": {
+    "commit": "665d8b9f66ac01ddd0dcec00f4a8717747a5e352",
+    "status": ""
+  },
+  "base_model_id": "7ab1181d3a2b04ce889880dfc3b94933574441e9c221e950622c39a3ce79a59d",
+  "tokenizer_id": "85efab0083f304a11454dcdba254bafc67d7fd6c3f8a1ef37b6b5fed767981da",
+  "weight_files": {
+    "model.safetensors": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b"
+  },
+  "tokenizer_files": {
+    "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+    "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+    "generation_config.json": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2",
+    "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+    "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5"
+  },
+  "derived_candidate": {
+    "schema_version": 1,
+    "derived_id": "3129232e64ec1532cfb735b48dac385bbeac4a072af98660d0fe85953cd163da",
+    "parameters_id": "3840e2dbae1647c8b47984167fa6ba40fc5f6de044d7a4d905444bac8fbe2a08",
+    "calibration_statistics_id": "0e413dfe4e2718d421621006377b174169c3bb54cf4a4157b3a4e9f0a9e9dbf1",
+    "candidate": {
+      "schema_version": 1,
+      "name": "a0.5-cnone",
+      "strength": 0.5,
+      "clip_percentile": null,
+      "sites": [
+        "attn_input",
+        "mlp_input",
+        "attn_output",
+        "mlp_down",
+        "qk"
+      ],
+      "clip_groups": [
+        "transformer_weights"
+      ],
+      "preserves_unquantized_operation": true,
+      "scale_limit": 256.0,
+      "floor": 1e-06
+    },
+    "screen_result_sha256": "8f5bce23a24d2212e6c733364127a7be600cdd17a54db978f23dc48dbe9fee88"
+  },
+  "derived_tensor_file_sha256": "26afbcadb893b0f7871f548702f029fa85a8d3f6808a22b1cd032a6fb6e555ad",
+  "suite_file_hash": "66ba350bb19e2de8dd374a08153dd4c5f87d36c95291a1ffc9a583ddfae8b316",
+  "suite_hashes": {
+    "calibration": "674c3862e37b002b2edc7e5f701237bb5f5af725fd53c15196f47305210c6fd9",
+    "validation": "14c94e28a243b02be463b4b404ef72e9b50732ac6a91d68bac6755a1a3c8ea6c",
+    "held-out": "3c6eada53bea49062fa22cf385cee12ebb6f2d853be83f02a5441084373e15f7"
+  },
+  "target_counts": {
+    "calibration": 256,
+    "validation": 1024,
+    "held-out": 1024
+  },
+  "configuration": {
+    "context": 128,
+    "personality": "compute",
+    "wformat": "int8",
+    "head_format": "int8",
+    "configuration_id": "fc9e120604dc94aa417769274bb5beb395005a3ef973f25e75f06eb1ab73ee5a",
+    "config": {
+      "S": 1,
+      "D": 128,
+      "MCOLS": 8,
+      "ACT_BLOCKS": 128,
+      "TMEM_WORDS": 65536,
+      "DRAM_BYTES": 1073741824,
+      "IMEM_WORDS": 65536,
+      "LANES": 16,
+      "PAIR": false
+    },
+    "microarchitecture": {
+      "schema_version": 1,
+      "parameters": {
+        "WIN": 16,
+        "RPB": 4,
+        "WPB": 2,
+        "FIFO_DEPTH": 512,
+        "MXU_IMPL": 0,
+        "VPU_CL": 4,
+        "ULANES": 16
+      }
+    }
+  },
+  "variant_id": "16e8f30ea0f88024a7dc3e0ece6f61b4569acd605cd755b3cb0c444a44f21b19",
+  "validation": {
+    "result_sha256": "39473f9d58a566abf8d398aa57f4ff15f12abcf5f7a2efc94d56baf5b0168364",
+    "record_id": "7b2cef74672163e38d7a8d114ccf0dc132a22ca97c4424d370b66749f44db025",
+    "agreement": 0.9296875,
+    "float_nll": 5.288650110767061,
+    "candidate_nll": 5.286207626543159,
+    "target_count": 1024,
+    "toolchain": {
+      "schema_version": 1,
+      "base_model_id": "7ab1181d3a2b04ce889880dfc3b94933574441e9c221e950622c39a3ce79a59d",
+      "tokenizer_id": "85efab0083f304a11454dcdba254bafc67d7fd6c3f8a1ef37b6b5fed767981da",
+      "suite_file_hash": "66ba350bb19e2de8dd374a08153dd4c5f87d36c95291a1ffc9a583ddfae8b316",
+      "split": "validation",
+      "split_hash": "14c94e28a243b02be463b4b404ef72e9b50732ac6a91d68bac6755a1a3c8ea6c",
+      "dtype": "float32",
+      "attention": "eager",
+      "torch": "2.14.1+cu130",
+      "transformers": "5.19.0",
+      "python": "3.12.14",
+      "contract": "original-local-safetensors-teacher-forced-v1"
+    }
+  },
+  "freeze_id": "e147b76f74ee25aba0c78c16c49c73d50fa7769db6d515773fece06bab9eed3e"
+}

@@ -160,3 +160,11 @@ Qwen3 compact was frozen and claimed once on the independent suite. It passed
 The freeze, claim, result, and summary are published under
 `published/held-out/Qwen3-0.6B/compact-retry-01/`; the exact claim is in the
 consumed ledger. Automatic switching remains gated.
+
+## Snapshot 17: Qwen3 compute held-out
+
+Qwen3 compute passed its separate exact-once held-out claim at 94.0430%
+agreement and +0.03373% NLL degradation on 1,024 targets. Its freeze and
+terminal evidence are published under `published/held-out/Qwen3-0.6B/compute/`
+and the consumed ledger includes the claim. The environment restarted during
+scoring, but the original worker completed; the held-out split was not retried.
