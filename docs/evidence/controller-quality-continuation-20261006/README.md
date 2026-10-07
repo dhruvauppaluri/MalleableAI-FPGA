@@ -51,3 +51,15 @@ balanced, and compute. All four Qwen3 controls now pass the independent suite.
 The interrupted buffered attempt remains visible; it was not overwritten or
 reclassified. No held-out split has been opened. See
 `snapshots/03-qwen3-validation-complete.json`.
+
+## Snapshot 04: Qwen3.5 memory recovery boundary
+
+The first serial Qwen3.5 compact retry completed and durably cached all eight
+floating-reference rows, then was OOM-killed while constructing the ISA
+candidate. It opened no held-out split. The cache is content-addressed and bound
+to the exact model, tokenizer, split, suite, dtype, attention implementation,
+framework versions, and reference contract. Subsequent distinct validation
+attempts may reuse that verified reference cache so the float model and ISA
+image never coexist. The runner now accepts an explicit ignored-build cache
+path, and explicitly collects the released reference model before ISA image
+construction. See `snapshots/04-qwen35-memory-recovery.json`.

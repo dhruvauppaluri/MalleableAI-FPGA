@@ -26,6 +26,7 @@ def main():
     p.add_argument('--precision-policy'); p.add_argument('--diagnostic-panel')
     p.add_argument('--panel-selection',choices=['prefix','spread'],default='prefix')
     p.add_argument('--candidate-case'); p.add_argument('--candidate-freeze')
+    p.add_argument('--reference-cache')
     p.add_argument('--depth',type=int,default=4); p.add_argument('--dtype',choices=['float16','float32'],default='float16')
     for name,default,typ in [('prompt','Hello',str),('prompt_format','chat',str),('max_new',16,int),('context',2048,int),
         ('seed',0,int),('backend','rtl',str),('personality','balanced',str),('wformat','int8',str),
@@ -134,7 +135,8 @@ def main():
                 if a.command=='quality-candidate-validate' and not a.candidate_case:
                     raise ValueError('--candidate-case is required')
                 result=evaluate(a.model,a.suite,a.wformat,a.split,a.personality,a.max_host_gib,
-                    cache_root=Path(a.store)/'floating-references',emit=emit,context=a.context,
+                    cache_root=Path(a.reference_cache) if a.reference_cache else Path(a.store)/'floating-references',
+                    emit=emit,context=a.context,
                     candidate_case=a.candidate_case if a.command=='quality-candidate-validate' else None,
                     candidate_freeze=a.candidate_freeze)
                 kind=('llm-quality' if a.candidate_freeze else 'llm-candidate-validation') if a.command=='quality-candidate-validate' else 'llm-quality'

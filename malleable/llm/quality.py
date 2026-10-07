@@ -1,4 +1,5 @@
 """Quality is evidence, not an inferred consequence of bit-exact arithmetic."""
+import gc
 import json
 import math
 from pathlib import Path
@@ -156,6 +157,10 @@ def evaluate(model,path,wformat='int8',split='validation',personality='balanced'
             del original,logits
         else: reference_record=identity(cached)
     finally: cache.close()
+    # Qwen3.5's reference and ISA candidate cannot coexist on small no-swap
+    # workers. Reference records are complete at this boundary; release any
+    # framework cycles before constructing the ISA image.
+    gc.collect()
     if derived:
         from .candidates import apply_derived_candidate
         W=apply_derived_candidate(W,derived)

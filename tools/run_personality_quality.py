@@ -40,7 +40,8 @@ def report(value):
         pass
 
 
-def command_for(split, model, suite, personality, store, candidate_case=None, freeze=None):
+def command_for(split, model, suite, personality, store, candidate_case=None, freeze=None,
+                reference_cache=None):
     if split not in ('validation', 'held-out'):
         raise ValueError('unsupported quality split')
     if personality not in ('compact', 'balanced', 'compute', 'buffered'):
@@ -54,6 +55,8 @@ def command_for(split, model, suite, personality, store, candidate_case=None, fr
                '--model', str(model), '--suite', str(suite), '--split', split,
                '--context', '128', '--personality', personality,
                '--wformat', 'int8', '--max-host-gib', '16', '--store', str(store)]
+    if reference_cache:
+        command += ['--reference-cache', str(reference_cache)]
     if candidate_case:
         command += ['--candidate-case', str(candidate_case)]
     if freeze:
@@ -121,7 +124,8 @@ def run_quality(args, info, derived, source):
     initial = inspect(args.model, 128)
     suite_sha = digest(args.suite)
     command = command_for(args.phase, args.model, args.suite, args.personality,
-                          stage / 'store', args.candidate_case, freeze_path)
+                          stage / 'store', args.candidate_case, freeze_path,
+                          args.reference_cache)
     started = time.monotonic()
     write_new(stage / 'job.json', {'schema_version': 1, 'source': source,
               'started_utc': datetime.now(timezone.utc).isoformat(),
@@ -211,6 +215,7 @@ def main():
     parser.add_argument('--suite', type=Path, required=True)
     parser.add_argument('--personality', choices=('compact', 'balanced', 'compute', 'buffered'), required=True)
     parser.add_argument('--candidate-case', type=Path)
+    parser.add_argument('--reference-cache', type=Path)
     parser.add_argument('--authorization', default='user-requested-controller-quality-campaign')
     args = parser.parse_args()
     os.chdir(ROOT)
@@ -218,8 +223,11 @@ def main():
     args.model = args.model.resolve()
     args.suite = args.suite.resolve()
     args.candidate_case = args.candidate_case.resolve() if args.candidate_case else None
+    args.reference_cache = args.reference_cache.resolve() if args.reference_cache else None
     if not args.root.is_relative_to(ROOT / 'build'):
         raise ValueError('attempt root must be in ignored build/')
+    if args.reference_cache and not args.reference_cache.is_relative_to(ROOT / 'build'):
+        raise ValueError('reference cache must be in ignored build/')
     source = checked_source()
     info = inspect(args.model, 128)
     if not info['supported']:
