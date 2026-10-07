@@ -183,3 +183,10 @@ targets at 95.8984% agreement and -0.06073% NLL degradation. Its freeze,
 claim, result, and summary are under
 `published/held-out/Qwen3.5-0.8B/compact-retry-03/`; the consumed ledger has
 the exact evaluation identity. Automatic switching remains gated.
+
+## Snapshot 20: Qwen3.5 compute held-out
+
+Compute passed its separate exact-once held-out evaluation on 1,024 targets
+at 95.8984% agreement and -0.06073% NLL degradation. Its freeze, claim,
+result, and summary are published under `published/held-out/Qwen3.5-0.8B/compute/`
+and the consumed ledger includes the claim. Automatic switching remains gated.
