@@ -171,6 +171,15 @@ def evaluate(model,path,wformat='int8',split='validation',personality='balanced'
     candidate_rows=8
     engine=Engine(spec,W,cap=context,cfg=cfg,
                   backend='isa',rows=candidate_rows,pipeline=False,wformat=wformat,head_format='int8')
+    from opentpu.compiler import CompileError
+    for width in (8,4,2,1):
+        try:
+            engine.image.compile_rows([(0,i) for i in range(width)],list(range(width)),
+                                      engine.block)
+            candidate_rows=width
+            break
+        except CompileError:
+            if width==1: raise
     fnll=qnll=agree=count=0
     def nll(logits,target):
         x=logits.astype(np.float64); peak=x.max()
@@ -209,6 +218,7 @@ def evaluate(model,path,wformat='int8',split='validation',personality='balanced'
         context=context,config=cfg.__dict__,microarchitecture={'schema_version':1,'parameters':PERSONALITIES[personality].uarch},
         suite_frozen=is_frozen, target_count=target_count,
         floating_reference_id=reference_id,floating_reference_record=reference_record,toolchain=provenance,
+        candidate_isa_rows=candidate_rows,
         **checks,provenance='measured-isa-versus-original-float',selectable=selectable,
         derived_candidate=candidate_record,
         selection_rule='held-out-only; frozen suite; >=1024 targets; NLL <=5%; next-token agreement >=90%')

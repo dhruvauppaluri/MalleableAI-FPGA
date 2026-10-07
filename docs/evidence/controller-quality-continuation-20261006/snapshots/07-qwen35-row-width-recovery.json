@@ -1,0 +1,251 @@
+{
+  "schema_version": 1,
+  "kind": "append-only-quality-campaign-snapshot",
+  "snapshot": "07-qwen35-row-width-recovery",
+  "created_utc": "2026-10-07T07:01:36.568255+00:00",
+  "automatic_switching": "gated",
+  "heldout_opened": false,
+  "attempts": [
+    {
+      "model": "LFM2.5-230M",
+      "attempt": "balanced",
+      "phase": "validation",
+      "personality": "balanced",
+      "source": {
+        "commit": "b8da3c2c49a686c4a13500f0e09bc224f6d868ce",
+        "status": ""
+      },
+      "job_sha256": "c37ddf3d0301862caf6b3952305eb7604c8db1348a667b7b9deed4bd3e6ce6f6",
+      "status": "completed",
+      "record_id": "515ad68e336a23f44fe00ad19e32d96fe2b0bdc4559d9e7f50c4aa93ae70e17b",
+      "result_sha256": "59f87ee1650df45376a36fb621865638ac4818947aacbcb2c72d4bd26bc1df3a",
+      "agreement": 0.9365234375,
+      "nll_degradation": 0.0004494450799364255,
+      "passed": true,
+      "configuration_id": "78a135a7b46ac35b70089341e13593ecf58a67606c959f6f2a14ea1faf4001d3"
+    },
+    {
+      "model": "LFM2.5-230M",
+      "attempt": "buffered",
+      "phase": "validation",
+      "personality": "buffered",
+      "source": {
+        "commit": "b8da3c2c49a686c4a13500f0e09bc224f6d868ce",
+        "status": ""
+      },
+      "job_sha256": "0fb64eca9389fe9d9b1ab64e545beeea61fd098bbc1b5308c21d84db20d58bad",
+      "status": "completed",
+      "record_id": "5a2b65e52dc09dc4950fc4e3b7a12ea5de529b83632833d6662f3af6fd20f08a",
+      "result_sha256": "85db239dd7e1a99ad4f0472a1e9990af81cbb0bc0bbc84d7b14ecfddda31fa31",
+      "agreement": 0.9365234375,
+      "nll_degradation": 0.0004494450799364255,
+      "passed": true,
+      "configuration_id": "520a65ecca5e5095aceab7d655e36b0953a2713776f77156860fccef2892bb8a"
+    },
+    {
+      "model": "LFM2.5-230M",
+      "attempt": "compact",
+      "phase": "validation",
+      "personality": "compact",
+      "source": {
+        "commit": "cafee61dd5bc97412d9bc0be11a482e915c84852",
+        "status": ""
+      },
+      "job_sha256": "b10ceb1ac1f5615ab7b0fb7fef114359e925303ad625f523fa5b2f526c51f603",
+      "status": "completed-after-cache-path-recovery",
+      "record_id": "582ae755cf5cf6c0fffd5c5eba58202c662292c8bf50a531f64dfaa53852f302",
+      "result_sha256": "67d7811ec9ce85d80586a57dd59cf818bf4a72b33599b33ac5ab0176d84c097a",
+      "agreement": 0.9365234375,
+      "nll_degradation": 0.00044944582251965257,
+      "passed": true,
+      "configuration_id": "5dd7194c2c4f463800b4ff3e95678ce8824200f80e6be88d497cc3fdec61a5d2",
+      "failure_sha256": "33ec6a55bb705083b50137e54a3567cc1628839f1e5345ce250861f208c5893b"
+    },
+    {
+      "model": "LFM2.5-230M",
+      "attempt": "compute",
+      "phase": "validation",
+      "personality": "compute",
+      "source": {
+        "commit": "b8da3c2c49a686c4a13500f0e09bc224f6d868ce",
+        "status": ""
+      },
+      "job_sha256": "de7f8bc74d18bbd5c829ccd93e36170c2cc6142081f6fbfbcb4959b29559bf59",
+      "status": "completed",
+      "record_id": "6682ff0edd0d15a296f9a8e1786407e859923dd5f1c79d27bf8e311edde30d91",
+      "result_sha256": "def40733590a8363e1d3285ef15bfd03c3adabbf9eedf218ae31e259d2839960",
+      "agreement": 0.9365234375,
+      "nll_degradation": 0.0004494450799364255,
+      "passed": true,
+      "configuration_id": "e687db4af6221c554f056270d1330a94ba32dc1251952da08e87f14a98d202bf"
+    },
+    {
+      "model": "Qwen3-0.6B",
+      "attempt": "balanced",
+      "phase": "validation",
+      "personality": "balanced",
+      "source": {
+        "commit": "a08f67fbdc4851eba1c760f09a2a8251ab249091",
+        "status": ""
+      },
+      "job_sha256": "7e9129a094b4e8d6ef4c4b4fe495fc2050a7de76195aac6158107f525d10371a",
+      "status": "completed",
+      "record_id": "51555699975131197b82556cf086e7fd7b3ca07b87a7241a3135072d61c5f8a6",
+      "result_sha256": "2c786bdfab8efe3106a7431c1db4ebb6829441fb1a96fb90da54552e16d2977d",
+      "agreement": 0.9296875,
+      "nll_degradation": -0.0004618350945413339,
+      "passed": true,
+      "configuration_id": "224a2edbf7462eae26e3527b8f0e554e5b13b06987bd557a9a4f983370d559dd"
+    },
+    {
+      "model": "Qwen3-0.6B",
+      "attempt": "buffered",
+      "phase": "validation",
+      "personality": "buffered",
+      "source": {
+        "commit": "a08f67fbdc4851eba1c760f09a2a8251ab249091",
+        "status": ""
+      },
+      "job_sha256": "964c960f508715b4242202bef630757cbb92ba9d615390b155e7e2b18b4854de",
+      "status": "failed-validation-attempt",
+      "failure_sha256": "00267a2135da811fe0966adc8547b681ccd7bec2a7386f60772a99d62762de4d"
+    },
+    {
+      "model": "Qwen3-0.6B",
+      "attempt": "buffered-retry-01",
+      "phase": "validation",
+      "personality": "buffered",
+      "source": {
+        "commit": "e7b07c948b962b927d8996e55d4d2477134dd13b",
+        "status": ""
+      },
+      "job_sha256": "79a4c2707d2fbb57ac7e420ee2abb890cba8dcd9f64912a8faa9d35947f255e7",
+      "status": "completed",
+      "record_id": "8865501560c14e9238a027db137c4b16f2888e24403ebe1d00c8070da0db124e",
+      "result_sha256": "94e2c57747f592fa70e871e7f5fe54f20a0b7a012553776463d060403d419b39",
+      "agreement": 0.9296875,
+      "nll_degradation": -0.0004618350945413339,
+      "passed": true,
+      "configuration_id": "063288b3c52160dc01fc0ce85a9c440cde762bff015840c0f0f0f52bce9a3f52"
+    },
+    {
+      "model": "Qwen3-0.6B",
+      "attempt": "compact",
+      "phase": "validation",
+      "personality": "compact",
+      "source": {
+        "commit": "cafee61dd5bc97412d9bc0be11a482e915c84852",
+        "status": ""
+      },
+      "job_sha256": "68c1e80ebfd9341bca504a4638496be774c84babadb6db7c6a79d74043a60ac0",
+      "status": "failed-validation-attempt",
+      "failure_sha256": "0c5e4765a4aa84f2105012a1ba32902412397fe2a529033354c4122af0c6b8d6"
+    },
+    {
+      "model": "Qwen3-0.6B",
+      "attempt": "compact-retry-01",
+      "phase": "validation",
+      "personality": "compact",
+      "source": {
+        "commit": "a08f67fbdc4851eba1c760f09a2a8251ab249091",
+        "status": ""
+      },
+      "job_sha256": "3b4b6009a53722a177950009f5ad57237f8eb5b70703d5ace81447f62757b636",
+      "status": "completed",
+      "record_id": "a96844693a8a88c53dca40c0473841b2eeb69183e3100c1c84068cad06118aee",
+      "result_sha256": "e9f7cee37fccfe7dd2e4fea67503aa6294f5a4cff035324b68b4209ca103d7c0",
+      "agreement": 0.9296875,
+      "nll_degradation": -0.0004618350945413339,
+      "passed": true,
+      "configuration_id": "3ce81ba931f66b8ef1acb331141c69770f66d406e8bcaf95a8ad2b02e2bbbb43"
+    },
+    {
+      "model": "Qwen3-0.6B",
+      "attempt": "compute",
+      "phase": "validation",
+      "personality": "compute",
+      "source": {
+        "commit": "a08f67fbdc4851eba1c760f09a2a8251ab249091",
+        "status": ""
+      },
+      "job_sha256": "f055eabc426ed6c912f4291761b5950175763ad1f03c3ddbe9c89ef663e8487b",
+      "status": "completed",
+      "record_id": "7b2cef74672163e38d7a8d114ccf0dc132a22ca97c4424d370b66749f44db025",
+      "result_sha256": "39473f9d58a566abf8d398aa57f4ff15f12abcf5f7a2efc94d56baf5b0168364",
+      "agreement": 0.9296875,
+      "nll_degradation": -0.0004618350945413339,
+      "passed": true,
+      "configuration_id": "fc9e120604dc94aa417769274bb5beb395005a3ef973f25e75f06eb1ab73ee5a"
+    },
+    {
+      "model": "Qwen3.5-0.8B",
+      "attempt": "balanced",
+      "phase": "validation",
+      "personality": "balanced",
+      "source": {
+        "commit": "589d1048e6addc408caeb79c5a63386078c1a718",
+        "status": ""
+      },
+      "job_sha256": "0edc1df483c70ce2b20f8f7ae490bb02c278380d9e6bd35c8b7ed7117dd954f4",
+      "status": "failed-validation-attempt",
+      "failure_sha256": "2ee2e29ff929a5ec489d7f26582d223d9f59dfc3886ac6a2a65c7efa21bf6ff8"
+    },
+    {
+      "model": "Qwen3.5-0.8B",
+      "attempt": "compact",
+      "phase": "validation",
+      "personality": "compact",
+      "source": {
+        "commit": "cafee61dd5bc97412d9bc0be11a482e915c84852",
+        "status": ""
+      },
+      "job_sha256": "926e25664c344ccb7a8732b66c5905d4cf3808c61594755033e908620937f984",
+      "status": "failed-validation-attempt",
+      "failure_sha256": "9885ef504414a866233a0d9bba9d82a8e5ff973a64cd3b7cd6331a1cfd7444c3"
+    },
+    {
+      "model": "Qwen3.5-0.8B",
+      "attempt": "compact-retry-01",
+      "phase": "validation",
+      "personality": "compact",
+      "source": {
+        "commit": "6803585a7950e85b394e0faa87de8d067c924e2a",
+        "status": ""
+      },
+      "job_sha256": "a12a7ecab0592ad298b736d17ac8efa2c91feb4ee04b03c951f8319136a498f0",
+      "status": "failed-validation-attempt",
+      "failure_sha256": "cba47ba2033690701140f1af1df24140c1bd290dc6380d4722a3e0c38a6f0f2f"
+    },
+    {
+      "model": "Qwen3.5-0.8B",
+      "attempt": "compact-retry-02",
+      "phase": "validation",
+      "personality": "compact",
+      "source": {
+        "commit": "0c7a686daa72df213ad79be12791a8968962ff3d",
+        "status": ""
+      },
+      "job_sha256": "169b75b8ea03d361830dd25ae18ee244e691f8e42dd8d9c6c1e5d888a15eabfe",
+      "status": "failed-validation-attempt",
+      "failure_sha256": "0397d5da2650bbd8d7d94c58e7e73a01b06281b345d0bbb7889956fd75bfa9bb"
+    },
+    {
+      "model": "Qwen3.5-0.8B",
+      "attempt": "compact-retry-03",
+      "phase": "validation",
+      "personality": "compact",
+      "source": {
+        "commit": "393b71c6366ad178c19a38c3e243379e8198c0c3",
+        "status": ""
+      },
+      "job_sha256": "a2dee1e1baa2abe04abee547c1ec1d4509ca323650442e08305c31a9ef1a1469",
+      "status": "completed",
+      "record_id": "987029555dc4bff90678f1bc9602b46d724fe144adb0575dd38dca84cc84b194",
+      "result_sha256": "8526baf42c1678cf144adc03292e190186ef7ea8800703335ea74662e6ed3b65",
+      "agreement": 0.9599609375,
+      "nll_degradation": 0.00038605414206989495,
+      "passed": true,
+      "configuration_id": "3ce81ba931f66b8ef1acb331141c69770f66d406e8bcaf95a8ad2b02e2bbbb43"
+    }
+  ]
+}

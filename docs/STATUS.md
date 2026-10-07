@@ -45,6 +45,11 @@ agreement and about +0.03861% NLL degradation. Eight-row ISA scoring is verified
 bit-exact against one-row decode for every returned logit. No held-out data has
 been opened.
 
+Snapshot 07 records a Qwen3.5 balanced validation-only TMEM rejection at the
+eight-row width. The evaluator now precompiles widths 8/4/2/1 for the exact
+personality, uses the widest legal width, and records that choice. No quality
+target or held-out partition was consumed by this compiler rejection.
+
 ## Cloud personality validation (2026-10-05)
 
 All nine new ISA quality evaluations passed on the frozen 1,024-target validation suites: compact, compute, and buffered for each of Qwen3-0.6B, Qwen3.5-0.8B, and LFM2.5-230M. The results and SHA-256 manifest are in `docs/evidence/personality-validation-20261005/`. Each record matches all published fixed-tape benchmark rows for its exact model variant and personality. The 30 completed RTL benchmarks and three consumed held-out evaluations were not rerun.

@@ -83,3 +83,12 @@ No held-out split was opened. Subsequent ISA scoring uses bounded eight-row
 causal programs that return every intermediate logit; a tiny Qwen3.5 comparison
 confirmed all eight outputs are bit-identical to eight one-token decode calls.
 See `snapshots/06-qwen35-compact-validation.json`.
+
+## Snapshot 07: personality-specific ISA row width
+
+The first Qwen3.5 balanced attempt under multi-row scoring was rejected by the
+compiler because eight rows exceed that personality's TMEM. It scored no target
+and opened no held-out split. ISA scoring now compiles candidate widths 8, 4, 2,
+and 1 for the exact personality before scoring, selects the widest legal width,
+and records it in the result. See
+`snapshots/07-qwen35-row-width-recovery.json`.
