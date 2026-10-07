@@ -34,7 +34,7 @@ def report(value):
     """Best-effort progress reporting must never determine attempt outcome."""
     try:
         print(json.dumps(value), flush=True)
-    except BrokenPipeError:
+    except OSError:
         # A detached supervisor may stop reading while the worker is healthy.
         # Durable job, worker, result, and failure records remain authoritative.
         pass

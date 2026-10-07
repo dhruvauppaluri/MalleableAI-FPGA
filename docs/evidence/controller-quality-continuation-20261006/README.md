@@ -92,3 +92,12 @@ and opened no held-out split. ISA scoring now compiles candidate widths 8, 4, 2,
 and 1 for the exact personality before scoring, selects the widest legal width,
 and records it in the result. See
 `snapshots/07-qwen35-row-width-recovery.json`.
+
+## Snapshot 08: detached PTY recovery
+
+The distinct balanced retry reached 256 targets before a detached PTY made its
+best-effort progress print raise `OSError(EIO)`. The attempt is preserved as a
+validation-only infrastructure failure and opened no held-out split. Progress
+reporting now ignores stdout `OSError`s as well as ordinary broken pipes; a unit
+test covers this boundary. Durable files remain authoritative. See
+`snapshots/08-qwen35-detached-pty-recovery.json`.

@@ -4,12 +4,17 @@ from pathlib import Path
 from types import SimpleNamespace
 import unittest
 from tempfile import TemporaryDirectory
+from unittest.mock import patch
 
-from tools.run_personality_quality import command_for, freeze_design, run_quality
+from tools.run_personality_quality import command_for, freeze_design, report, run_quality
 from tools.recover_completed_validation import logged_result
 
 
 class PersonalityQualityRunnerTest(unittest.TestCase):
+    def test_progress_transport_errors_do_not_fail_attempt(self):
+        with patch('builtins.print', side_effect=OSError(5, 'detached PTY')):
+            report({'completed_targets': 128})
+
     def test_heldout_command_requires_freeze_and_keeps_raw_candidate_distinct(self):
         with TemporaryDirectory() as directory:
             root = Path(directory)
