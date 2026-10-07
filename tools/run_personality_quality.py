@@ -30,6 +30,16 @@ def write_new(path, value):
         stream.write('\n')
 
 
+def report(value):
+    """Best-effort progress reporting must never determine attempt outcome."""
+    try:
+        print(json.dumps(value), flush=True)
+    except BrokenPipeError:
+        # A detached supervisor may stop reading while the worker is healthy.
+        # Durable job, worker, result, and failure records remain authoritative.
+        pass
+
+
 def command_for(split, model, suite, personality, store, candidate_case=None, freeze=None):
     if split not in ('validation', 'held-out'):
         raise ValueError('unsupported quality split')
@@ -140,8 +150,8 @@ def run_quality(args, info, derived, source):
                     payload = event.get('payload', {})
                     completed = payload.get('completed_targets')
                     if completed and completed % 128 == 0:
-                        print(json.dumps({'phase': args.phase, 'personality': args.personality,
-                                          'completed_targets': completed}), flush=True)
+                        report({'phase': args.phase, 'personality': args.personality,
+                                'completed_targets': completed})
             code = process.wait()
         if code or result is None:
             raise RuntimeError(f'quality worker exit {code}; see {stage / "worker.log"}')
@@ -163,7 +173,7 @@ def run_quality(args, info, derived, source):
                    'configuration_id': result['configuration_id'],
                    'elapsed_seconds': time.monotonic() - started}
         write_new(stage / 'summary.json', summary)
-        print(json.dumps(summary), flush=True)
+        report(summary)
     except BaseException:
         write_new(stage / 'failure.json', {'status': 'failed',
                   'elapsed_seconds': time.monotonic() - started,
@@ -189,8 +199,8 @@ def freeze_design(args, info, derived, source):
               'freeze_sha256': digest(stage / 'freeze.json'),
               'validation_record_id': result['record_id'],
               'configuration_id': result['configuration_id']})
-    print(json.dumps({'status': 'frozen', 'personality': args.personality,
-                      'freeze_id': freeze['freeze_id']}), flush=True)
+    report({'status': 'frozen', 'personality': args.personality,
+            'freeze_id': freeze['freeze_id']})
 
 
 def main():

@@ -42,3 +42,12 @@ that reached 768 of 1,024 candidate targets before its detached output pipe
 closed. Both are validation-only infrastructure failures: neither opened or
 claimed held-out data. Buffered will use a distinct retry root. No held-out split
 has been opened. See `snapshots/02-qwen3-validation.json`.
+
+## Snapshot 03: Qwen3 validation complete
+
+The distinct buffered retry completed and passed with the same 92.9688%
+agreement and approximately -0.04618% NLL degradation as Qwen3 compact,
+balanced, and compute. All four Qwen3 controls now pass the independent suite.
+The interrupted buffered attempt remains visible; it was not overwritten or
+reclassified. No held-out split has been opened. See
+`snapshots/03-qwen3-validation-complete.json`.
