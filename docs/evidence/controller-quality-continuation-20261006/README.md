@@ -63,3 +63,14 @@ attempts may reuse that verified reference cache so the float model and ISA
 image never coexist. The runner now accepts an explicit ignored-build cache
 path, and explicitly collects the released reference model before ISA image
 construction. See `snapshots/04-qwen35-memory-recovery.json`.
+
+## Snapshot 05: bounded Qwen3.5 image construction
+
+Reusing the verified float reference proved that Qwen3.5 candidate image
+construction itself exceeded memory. The second distinct retry is preserved as
+a validation-only OOM failure. Its failure occurred before target scoring and
+opened no held-out split. The vendored Qwen3.5 image builder now quantizes
+row-independent matrices in bounded chunks. A 5,001-row comparison confirmed
+the chunked INT8 data and scale arrays are bit-identical to whole-matrix
+quantization, and the tiny Qwen3.5 reset/state test passes. See
+`snapshots/05-qwen35-candidate-memory-recovery.json`.

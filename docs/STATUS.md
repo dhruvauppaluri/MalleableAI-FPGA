@@ -34,6 +34,12 @@ was OOM-killed. No held-out data was opened. The content-addressed reference is
 now reusable from an explicit ignored-build cache so later attempts need not
 retain or reconstruct the float model beside the ISA image.
 
+Snapshot 05 preserves a second Qwen3.5 compact validation-only OOM, this time
+isolating peak use to whole-embedding candidate quantization. The vendored image
+builder now performs equivalent row-independent quantization in bounded chunks;
+bit-exact chunk comparison and a tiny Qwen3.5 state/reset test pass. Held-out
+remains unopened.
+
 ## Cloud personality validation (2026-10-05)
 
 All nine new ISA quality evaluations passed on the frozen 1,024-target validation suites: compact, compute, and buffered for each of Qwen3-0.6B, Qwen3.5-0.8B, and LFM2.5-230M. The results and SHA-256 manifest are in `docs/evidence/personality-validation-20261005/`. Each record matches all published fixed-tape benchmark rows for its exact model variant and personality. The 30 completed RTL benchmarks and three consumed held-out evaluations were not rerun.
