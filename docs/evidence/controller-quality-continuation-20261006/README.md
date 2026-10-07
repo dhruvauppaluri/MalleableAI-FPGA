@@ -143,3 +143,12 @@ and passed 1,024 held-out targets at 92.9688% agreement and +0.09223% NLL
 degradation. The freeze, atomic claim, selectable result, and summary hashes are
 published under `published/held-out/`. The consumed key is appended to the
 durable ledger. See `snapshots/13-lfm-compact-heldout.json`.
+
+## Snapshots 14–15: LFM compute and buffered held-out
+
+Both configurations were frozen and claimed separately, then passed 1,024
+held-out targets at 92.9688% agreement and +0.09223% NLL degradation. Their
+freeze, claim, result, and summary artifacts are published under
+`published/held-out/LFM2.5-230M/`; both consumed keys are in the durable ledger.
+With compact, all three missing LFM personalities now have reviewable quality
+approval. Transition costs and policy gates still block automatic switching.

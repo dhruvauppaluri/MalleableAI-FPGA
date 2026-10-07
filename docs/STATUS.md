@@ -78,6 +78,11 @@ agreement and +0.09223% NLL degradation on 1,024 targets. Its freeze, claim,
 result, and consumed key are reviewable. Eight alternative-personality claims
 remain; automatic switching stays gated.
 
+Snapshots 14–15 publish LFM compute and buffered held-out approvals at 92.9688%
+agreement and +0.09223% NLL degradation each. Compact, compute, and buffered
+are now reviewable for LFM on the new independent suite. Six Qwen alternative
+claims remain; automatic switching stays gated.
+
 ## Cloud personality validation (2026-10-05)
 
 All nine new ISA quality evaluations passed on the frozen 1,024-target validation suites: compact, compute, and buffered for each of Qwen3-0.6B, Qwen3.5-0.8B, and LFM2.5-230M. The results and SHA-256 manifest are in `docs/evidence/personality-validation-20261005/`. Each record matches all published fixed-tape benchmark rows for its exact model variant and personality. The 30 completed RTL benchmarks and three consumed held-out evaluations were not rerun.
