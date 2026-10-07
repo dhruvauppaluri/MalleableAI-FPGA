@@ -73,6 +73,11 @@ copies freeze, claim, result, and failure artifacts, and appends each consumed
 evaluation key to the durable ledger after the attempt ends. Automatic switching
 remains gated.
 
+Snapshot 13 publishes LFM compact's exactly-once held-out approval: 92.9688%
+agreement and +0.09223% NLL degradation on 1,024 targets. Its freeze, claim,
+result, and consumed key are reviewable. Eight alternative-personality claims
+remain; automatic switching stays gated.
+
 ## Cloud personality validation (2026-10-05)
 
 All nine new ISA quality evaluations passed on the frozen 1,024-target validation suites: compact, compute, and buffered for each of Qwen3-0.6B, Qwen3.5-0.8B, and LFM2.5-230M. The results and SHA-256 manifest are in `docs/evidence/personality-validation-20261005/`. Each record matches all published fixed-tape benchmark rows for its exact model variant and personality. The 30 completed RTL benchmarks and three consumed held-out evaluations were not rerun.

@@ -134,3 +134,12 @@ held-out snapshot publisher checks each validation, freeze, exact-once claim,
 terminal result or failure, and artifact hash before appending a claim to the
 durable ledger. The preflight snapshot has zero new claims. Automatic switching
 remains gated. See `snapshots/12-heldout-preflight.json`.
+
+## Snapshot 13: LFM compact held-out
+
+LFM2.5 compact was frozen at source `0139d78`, claimed exactly once as evaluation
+`acddb5821c8ced9b790d484ffaaf719cc7aaac1887ab9478d689eeb0bf3a04a0`,
+and passed 1,024 held-out targets at 92.9688% agreement and +0.09223% NLL
+degradation. The freeze, atomic claim, selectable result, and summary hashes are
+published under `published/held-out/`. The consumed key is appended to the
+durable ledger. See `snapshots/13-lfm-compact-heldout.json`.
