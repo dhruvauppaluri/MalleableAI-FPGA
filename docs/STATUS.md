@@ -55,6 +55,10 @@ Snapshot 08 records a distinct Qwen3.5 balanced validation attempt stopped at
 best-effort reporter now tolerates all stdout `OSError`s, with unit coverage;
 durable result/failure files remain authoritative.
 
+Snapshot 09 publishes passing Qwen3.5 balanced validation: 95.9961% agreement,
++0.03861% NLL degradation, and an exact compiled four-row ISA width. Balanced
+held-out approval was not repeated.
+
 ## Cloud personality validation (2026-10-05)
 
 All nine new ISA quality evaluations passed on the frozen 1,024-target validation suites: compact, compute, and buffered for each of Qwen3-0.6B, Qwen3.5-0.8B, and LFM2.5-230M. The results and SHA-256 manifest are in `docs/evidence/personality-validation-20261005/`. Each record matches all published fixed-tape benchmark rows for its exact model variant and personality. The 30 completed RTL benchmarks and three consumed held-out evaluations were not rerun.

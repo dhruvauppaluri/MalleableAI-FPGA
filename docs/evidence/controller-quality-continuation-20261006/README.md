@@ -101,3 +101,11 @@ validation-only infrastructure failure and opened no held-out split. Progress
 reporting now ignores stdout `OSError`s as well as ordinary broken pipes; a unit
 test covers this boundary. Durable files remain authoritative. See
 `snapshots/08-qwen35-detached-pty-recovery.json`.
+
+## Snapshot 09: Qwen3.5 balanced validation
+
+The second balanced retry passed the independent validation suite at 95.9961%
+agreement and +0.03861% NLL degradation. The exact personality compiled a
+four-row ISA width; its completed result records that width. This is a
+same-suite control and does not reopen balanced held-out approval. See
+`snapshots/09-qwen35-balanced-validation.json`.
