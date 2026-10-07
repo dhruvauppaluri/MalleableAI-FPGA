@@ -116,3 +116,12 @@ Compute passed the same frozen validation suite at 95.9961% agreement and
 +0.03861% NLL degradation, with a compiled four-row ISA width. Three of four
 Qwen3.5 personalities now have passing independent validation. See
 `snapshots/10-qwen35-compute-validation.json`.
+
+## Snapshot 11: all independent validations complete
+
+Qwen3.5 buffered passed at 95.9961% agreement and +0.03861% NLL degradation.
+All 12 model/personality validation controls now pass on the independent suite.
+The 19 attempted validation roots include seven preserved infrastructure failures
+or interruptions. Only the nine compact, compute, and buffered designs are
+eligible for new held-out claims; balanced's published held-out approvals are
+never repeated. See `snapshots/11-all-validation-complete.json`.

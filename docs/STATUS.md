@@ -63,6 +63,11 @@ Snapshot 10 publishes passing Qwen3.5 compute validation: 95.9961% agreement
 and about +0.03861% NLL degradation. Buffered remains the final Qwen3.5
 validation control before eligible held-out dispatches.
 
+Snapshot 11 completes the independent validation matrix: all 12 controls pass,
+including Qwen3.5 buffered at 95.9961% agreement and +0.03861% NLL degradation.
+Seven failed/interrupted validation roots remain visible. The nine new
+alternatives are ready for individually frozen, exactly-once held-out review.
+
 ## Cloud personality validation (2026-10-05)
 
 All nine new ISA quality evaluations passed on the frozen 1,024-target validation suites: compact, compute, and buffered for each of Qwen3-0.6B, Qwen3.5-0.8B, and LFM2.5-230M. The results and SHA-256 manifest are in `docs/evidence/personality-validation-20261005/`. Each record matches all published fixed-tape benchmark rows for its exact model variant and personality. The 30 completed RTL benchmarks and three consumed held-out evaluations were not rerun.
