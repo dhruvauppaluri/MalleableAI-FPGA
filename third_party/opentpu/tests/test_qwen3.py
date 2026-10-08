@@ -122,6 +122,31 @@ def test_tiny_shared_mlp_storage_matches_isa(tiny):
         shared.image.build(untied)
 
 
+def test_tiny_shared_mlp_process_compile(tiny):
+    """The decode compile worker receives the shared storage descriptors."""
+    from opentpu.llm.qwen3 import IsaBackend
+
+    class ProcessIsa(IsaBackend):
+        runs_words = True
+
+    _, W, spec = tiny
+    tied = dict(W)
+    for name in ("gate", "up"):
+        tied[f"model.layers.1.mlp.{name}_proj.weight"] = tied[
+            f"model.layers.0.mlp.{name}_proj.weight"]
+    direct = Engine(spec, tied, cap=128, rows=1, pipeline=False,
+                    shared_matrices=("wg", "wu"))
+    compiled = Engine(spec, tied, cap=128, rows=1, pipeline=True,
+                      backend=ProcessIsa, shared_matrices=("wg", "wu"))
+    try:
+        for token in (3, 5):
+            assert np.array_equal(direct.step(token).view(np.uint32),
+                                  compiled.step(token).view(np.uint32))
+    finally:
+        compiled._drain()
+        compiled._pool.shutdown(wait=True)
+
+
 def test_tiny_shared_mlp_storage_matches_rtl(tiny, have_verilator):
     """The RTL sees the same outputs and state after shared-weight relocation."""
     import json

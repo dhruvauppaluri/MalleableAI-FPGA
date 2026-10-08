@@ -2,6 +2,13 @@
   "schema_version": 1,
   "kind": "tiny-synthetic-training-diagnostic",
   "release_quality_claim": false,
+  "software": {
+    "torch": "2.14.1+cu130",
+    "transformers": "5.19.0",
+    "numpy": "2.5.3",
+    "device": "cpu",
+    "torch_num_threads": 2
+  },
   "data": {
     "generator": "arithmetic-token-sequences-v1",
     "train_seeds": [
@@ -19,6 +26,10 @@
     "batch": 8,
     "learning_rate": 0.003,
     "distillation_temperature": 2.0,
+    "initialization_seeds": {
+      "teacher": 11,
+      "students": 17
+    },
     "student_start": "identical initial values; layer 1 gate/up equal layer 0"
   },
   "teacher": {
