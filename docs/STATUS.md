@@ -1,5 +1,16 @@
 # Status
 
+## Policy correction implementation (2026-10-08)
+
+Codex implemented a separate conservative recommendation layer, explicit future
+compiler-feature contract and local exactly-once campaign claim primitive.
+Read-only audits verified all 30 existing rows: ten architecture feature
+collisions; exploratory relative baseline errors 0.10/0.88/0.15 percentage points.
+Nine focused tests pass. See `docs/policy-correction-20261008.md` for precise
+scope and remaining work. New RTL campaign, compiler extraction, calibrated
+predictor and DQN repair remain open; physical transition measurements are
+unavailable. No fresh held-out dispatch or automatic switching occurred.
+
 ## Model-hardware co-design pilot (2026-10-08)
 
 The experimental Qwen3 gate/up shared-matrix image path, matched tiny training
