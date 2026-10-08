@@ -91,8 +91,9 @@ class Spec:
             raise ValueError("model does not map onto this openTPU config: " + "; ".join(bad))
 
     def image(self, cfg: Config, cap: int, batch: int = 1, rows: int = 1,
-              wformat: str = "int8", head_format: str | None = None) -> "Image":
-        return Image(self, cfg, cap, batch, rows, wformat, head_format)
+              wformat: str = "int8", head_format: str | None = None,
+              shared_matrices=()) -> "Image":
+        return Image(self, cfg, cap, batch, rows, wformat, head_format, shared_matrices)
 
 
 def load_weights(model_dir) -> dict:
@@ -282,7 +283,8 @@ class Image:
     """
 
     def __init__(self, spec: Spec, cfg: Config, cap: int, batch: int = 1, rows: int = 1,
-                 wformat: str = "int8", head_format: str | None = None):
+                 wformat: str = "int8", head_format: str | None = None,
+                 shared_matrices=()):
         spec.check(cfg)
         if cap % cfg.D:
             raise ValueError("KV capacity must be a multiple of D")
@@ -290,6 +292,9 @@ class Image:
         H, d, F_ = spec.hidden, spec.head_dim, spec.ffn
         self.spec, self.cfg, self.cap = spec, cfg, cap
         self.wformat, self.head_format = wformat, head_format or wformat
+        self.shared_matrices = frozenset(shared_matrices)
+        if self.shared_matrices - {'wg', 'wu'}:
+            raise ValueError("only gate and up projections support shared storage")
         rb = lambda k: Q.row_bytes(k, wformat, D)                       # noqa: E731
         self.batch, self.rows = batch, rows
         self.nq_loc, self.nkv_loc = spec.n_q // S, spec.n_kv // S
@@ -306,7 +311,8 @@ class Image:
                      "wv": (self.nkv_loc * d, H), "wo": (self.h_loc, spec.n_q * d),
                      "wg": (self.f_loc, H), "wu": (self.f_loc, H)}
         for name, (n, k) in self.mats.items():
-            L[name] = (lb.alloc(n * rb(k)), lb.alloc(4 * n * (k // D)))
+            if name not in self.shared_matrices:
+                L[name] = (lb.alloc(n * rb(k)), lb.alloc(4 * n * (k // D)))
         # W_down in column parts of the MLP's F chunk: each down MM streams one part, whose
         # scales are then contiguous (with row-major scales every row would cost a DRAM beat)
         self.dchunk = _chunk(self.f_loc, D, D if wformat == "int8" else 2 * D)
@@ -321,6 +327,10 @@ class Image:
         head = cap * d + 4 * cap * (d // D) + d * cap + 4 * cap   # k, k scales, v^T, v scales
         self.kv_bytes = spec.layers * self.nkv_loc * head         # per sequence
         b.next = self.layer0 + spec.layers * self.LS
+        self.shared_offsets = {}
+        for name in sorted(self.shared_matrices):
+            n, k = self.mats[name]
+            self.shared_offsets[name] = (b.alloc(n * rb(k)), b.alloc(4 * n * (k // D)))
         self.head = (b.alloc(self.v_loc * Q.row_bytes(H, self.head_format, D)),
                      b.alloc(4 * self.v_loc * (H // D)))
         self.nbytes = b.next
@@ -333,6 +343,12 @@ class Image:
         """DRAM images (one per slice) with every weight quantized in place, KV cache empty."""
         spec, cfg = self.spec, self.cfg
         S, D, d = cfg.S, cfg.D, spec.head_dim
+        for name in self.shared_matrices:
+            key = {'wg': 'mlp.gate_proj.weight', 'wu': 'mlp.up_proj.weight'}[name]
+            first = W[f'model.layers.0.{key}']
+            if any(not np.array_equal(first, W[f'model.layers.{i}.{key}'])
+                   for i in range(1, spec.layers)):
+                raise ValueError(f'{name} was declared shared but layer weights differ')
         imgs = [np.zeros(self.nbytes, np.uint8) for _ in range(S)]
 
         def put(s, addr, a):
@@ -370,8 +386,13 @@ class Image:
             put_q(Lo["wk"], rows(wk, self.nkv_loc * d))
             put_q(Lo["wv"], rows(wv, self.nkv_loc * d))
             put_q(Lo["wo"], rows(wo, self.h_loc))
-            put_q(Lo["wg"], rows(W[p + "mlp.gate_proj.weight"], self.f_loc))
-            put_q(Lo["wu"], rows(W[p + "mlp.up_proj.weight"], self.f_loc))
+            for name, key in (("wg", "mlp.gate_proj.weight"),
+                              ("wu", "mlp.up_proj.weight")):
+                if name in self.shared_matrices:
+                    if i == 0:
+                        put_q(self.shared_offsets[name], rows(W[p + key], self.f_loc))
+                else:
+                    put_q(Lo[name], rows(W[p + key], self.f_loc))
             C = self.dchunk
             for j, pair in enumerate(self.lofs["wd"]):
                 put_q((base + pair[0], base + pair[1]),
@@ -414,8 +435,13 @@ class Image:
                 kn=Tensor(off + lofs["kn"], (d,), (1,)))
             fm, wf = self.wformat, Q.mxu_wf(self.wformat)
             for name, (n, k) in self.mats.items():
-                da, sa = lofs[name]
-                setattr(ns, name, QTensor(off + da, off + sa, (n, k), Q.row_bytes(k, fm, D),
+                if name in self.shared_matrices:
+                    da, sa = self.shared_offsets[name]
+                    data, scale = Affine.of(da), Affine.of(sa)
+                else:
+                    da, sa = lofs[name]
+                    data, scale = off + da, off + sa
+                setattr(ns, name, QTensor(data, scale, (n, k), Q.row_bytes(k, fm, D),
                                           4 * (k // D), D, wf=wf))
             C, n = self.dchunk, self.h_loc
             rc = Q.row_bytes(C, fm, D)
@@ -694,10 +720,11 @@ def _lm_head_rows(x, m, spec, logit_rows):
 
 # =============================================================================== engine
 def device_config(spec: Spec, cap: int, batch: int = 1, rows: int = 1, wformat: str = "int8",
-                  head_format: str | None = None, **kw) -> Config:
+                  head_format: str | None = None, shared_matrices=(), **kw) -> Config:
     """The design configuration with DRAM sized for this model (power of two MiB)."""
+    options = {'shared_matrices': shared_matrices} if shared_matrices else {}
     probe = spec.image(design_config(DRAM_BYTES=1 << 40, **kw), cap, batch, rows, wformat,
-                       head_format)
+                       head_format, **options)
     size = 1 << max(20, (probe.nbytes - 1).bit_length())
     return design_config(DRAM_BYTES=size, **kw)
 
@@ -723,9 +750,12 @@ class IsaBackend:
 _WORKER: tuple | None = None                # (image, block) in the compile worker process
 
 
-def _worker_init(spec, cfg, cap, batch, rows, block, wformat, head_format) -> None:
+def _worker_init(spec, cfg, cap, batch, rows, block, wformat, head_format,
+                 shared_matrices) -> None:
     global _WORKER
-    _WORKER = (spec.image(cfg, cap, batch, rows, wformat, head_format), block)
+    options = {'shared_matrices': shared_matrices} if shared_matrices else {}
+    _WORKER = (spec.image(cfg, cap, batch, rows, wformat, head_format,
+                          **options), block)
     _exit_with_parent()
 
 
@@ -813,12 +843,15 @@ class Engine:
     def __init__(self, spec: Spec, W: dict, cap: int = 4096, cfg: Config | None = None,
                  backend="isa", block: int = ATTN_BLOCK, batch: int = 1,
                  rows: int = PREFILL_ROWS, pipeline: bool | str | None = None,
-                 wformat: str = "int8", head_format: str | None = None):
+                 wformat: str = "int8", head_format: str | None = None,
+                 shared_matrices=()):
         self.spec, self.cap, self.block = spec, cap, block
         self.batch, self.rows = batch, max(rows, batch)
         wkw = dict(wformat=wformat, head_format=head_format)
-        self.cfg = cfg or device_config(spec, cap, batch=batch, rows=self.rows, **wkw)
-        self.image = spec.image(self.cfg, cap, batch, self.rows, **wkw)
+        self.cfg = cfg or device_config(spec, cap, batch=batch, rows=self.rows,
+                                        shared_matrices=shared_matrices, **wkw)
+        options = {'shared_matrices': shared_matrices} if shared_matrices else {}
+        self.image = spec.image(self.cfg, cap, batch, self.rows, **wkw, **options)
         self.embed = np.asarray(W["model.embed_tokens.weight"], np.float32)
         images = self.image.build(W)
         self.backend = IsaBackend(self.cfg, images) if backend == "isa" else backend(
@@ -855,7 +888,8 @@ class Engine:
         self._pool = ProcessPoolExecutor(
             self._ahead, mp_context=mp.get_context("spawn"), initializer=_worker_init,
             initargs=(self.spec, self.cfg, self.cap, self.batch, self.rows, self.block,
-                      self.image.wformat, self.image.head_format))
+                      self.image.wformat, self.image.head_format,
+                      tuple(sorted(getattr(self.image, 'shared_matrices', ())))))
         self._ready = self._pool.submit(_worker_ready)
 
     def _take(self, key, fn, *args):

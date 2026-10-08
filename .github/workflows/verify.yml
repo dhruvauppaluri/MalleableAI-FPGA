@@ -36,4 +36,62 @@ jobs:
           npm --prefix frontend ci
 
       - name: Verify RTL and host integration
+        env:
+          MALLEABLE_SHARED_RTL_REPORT: build/model-hardware-codesign/tiny-rtl.json
         run: make verify-llm PYTHON=.venv/bin/python
+      - name: Preserve shared-weight RTL pilot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tiny-shared-weight-rtl
+          path: build/model-hardware-codesign/tiny-rtl.json
+          if-no-files-found: ignore
+
+  publish-shared-weight-pilot:
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    needs: verification
+    runs-on: ubuntu-24.04
+    permissions:
+      actions: read
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: tiny-shared-weight-rtl
+          path: pilot
+      - name: Prepare reviewable RTL counters
+        env:
+          RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          report = json.loads(Path('pilot/tiny-rtl.json').read_text())
+          ordinary, shared = (report['cases'][name] for name in ('ordinary', 'shared'))
+          assert report['rtl_isa_logits_and_dram_bit_exact']
+          assert report['ordinary_shared_logits_bit_exact']
+          lines = [
+              'Tiny shared-weight RTL pilot from [CI run](' + os.environ['RUN_URL'] + ').',
+              'Head commit: `' + os.environ['HEAD_SHA'] + '`.',
+              '',
+              '| Measure | Ordinary layout | Shared layout |',
+              '| --- | ---: | ---: |',
+              f"| Image bytes | {ordinary['image_bytes']:,} | {shared['image_bytes']:,} |",
+              f"| RTL cycles | {ordinary['cycles']:,} | {shared['cycles']:,} |",
+              f"| AXI read bytes | {ordinary['axi_read_bytes']:,} | {shared['axi_read_bytes']:,} |",
+              '',
+              'RTL and ISA logits/DRAM state were bit exact in both layouts; the two layouts also returned identical logits.',
+              'This random two-layer pilot is separate from the 30 published benchmark tapes and is not a physical FPGA measurement.',
+              'The trained synthetic student still misses its predeclared quality diagnostic gate; no controller or release promotion follows.',
+          ]
+          Path('/tmp/pilot-comment.json').write_text(json.dumps({'body': '\n'.join(lines)}))
+          PY
+      - name: Publish counters to this PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: gh api -X POST "repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/comments" --input /tmp/pilot-comment.json

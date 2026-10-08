@@ -1,5 +1,19 @@
 # Status
 
+## Model-hardware co-design pilot (2026-10-08)
+
+The experimental Qwen3 gate/up shared-matrix image path, matched tiny training
+diagnostic, read-only feasibility audit, and passing tiny RTL pilot are in
+`docs/evidence/model-hardware-codesign-20261008/`. The projected balanced
+Qwen3-0.6B INT8 image is 28.11% smaller if a newly trained checkpoint ties
+those matrices. The tiny shared student has lower synthetic validation NLL than
+the ordinary control but misses its frozen 90% teacher-agreement gate (89.24%).
+The new random tiny RTL pilot measured 12,361 versus 12,384 cycles and
+1,996,224 versus 1,992,256 AXI read bytes for ordinary versus shared layout:
+no speedup. This does not change approved model quality, the 30 published
+benchmarks, or the controller; automatic switching stays gated.
+
+
 ## Current controller result (2026-10-07)
 
 The independent quality campaign is complete in draft PR #9. All 12
@@ -663,6 +677,7 @@ Per-index summed RTL cycles: 14214874, 14091076, 14058280, 14074618, 23696663, 2
 
 | Status | Owner | Item | Notes |
 | --- | --- | --- | --- |
+| done | Codex | Experimental model-hardware matrix reuse | [Draft PR #10](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/10): compiler/ISA and tiny RTL pilot pass; tied student misses frozen synthetic quality gate and measured RTL cycles do not improve. Opt-in experiment only; no release integration or policy promotion. |
 | done | Cursor (local, Zephyrus) | Qwen3 quality recovery and precision attribution | Qwen3 candidate + LFM2.5 standalone gates (validation/held-out/RTL8 + 10-run perf) done; tiny RTL + trace-hash evidence in docs/evidence/. Qwen3.5 raw validation FAIL 78.125%; no candidate path yet. Remaining: Qwen3/Qwen3.5 perf (20 runs), controller/predictor episodes, workbench/browser, final verify-llm/release-check. No new heavy jobs after 2026-09-30T01:03:40Z unless user extends. |
 | in progress | Codex | Zephyrus release completion implementation | Standalone schema-v3 passed; five safeguards fixed and all three models accepted. Remaining: performance/controller/browser/CUDA/full-release evidence. No active job; choose next heavy-batch mode. |
 | done | Codex | Bit-accurate dense golden model and tiny-network cross-check | [PR #1](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/1), `malleable/model.py`. Framework calibration remains separate. |
