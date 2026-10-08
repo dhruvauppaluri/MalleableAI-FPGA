@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "kind": "tiny-random-tied-qwen3-rtl-pilot-summary",
+  "provenance": "measured-rtl-simulation",
+  "source_head_sha": "7a231405450b3c9b3be11fd920fb93fd963f2bcf",
+  "ci_run_url": "https://github.com/dhruvauppaluri/MalleableAI-FPGA/actions/runs/37828047041",
+  "ci_artifact_name": "tiny-shared-weight-rtl",
+  "published_counter_comment_url": "https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/10#issuecomment-6067737086",
+  "rtl_isa_logits_and_dram_bit_exact": true,
+  "ordinary_shared_logits_bit_exact": true,
+  "ordinary": {
+    "image_bytes": 1023488,
+    "cycles": 12361,
+    "axi_read_bytes": 1996224
+  },
+  "shared": {
+    "image_bytes": 888320,
+    "cycles": 12384,
+    "axi_read_bytes": 1992256
+  },
+  "interpretation": "13.21% smaller tiny image, 0.199% fewer simulated AXI read bytes, 0.186% more cycles; no demonstrated speedup or release-quality approval."
+}

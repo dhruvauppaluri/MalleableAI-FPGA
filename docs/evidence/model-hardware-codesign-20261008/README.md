@@ -32,6 +32,8 @@ It is an experiment. The approved pretrained models, published quality evidence,
 | Tiny diagnostic validation NLL | 0.52165 | 0.49537 | Synthetic token arithmetic only |
 | Tiny agreement with teacher's top token | 87.75% | 89.24% | Shared misses the predeclared 90% diagnostic gate |
 | Tiny image bytes | 428,544 | 365,056 | The tied matrices occupy one region |
+| New random tiny RTL cycles | 12,361 | 12,384 | Shared takes 0.186% more cycles |
+| New random tiny RTL AXI read bytes | 1,996,224 | 1,992,256 | Shared reads 0.199% fewer bytes |
 
 For the tiny tied checkpoint, the ordinary and shared ISA layouts produced
 bit-exact logits over eight diagnostic tokens. The focused ISA test also checks
@@ -44,17 +46,23 @@ layout outputs. The shared student meets the first and third conditions, but
 **fails** the second. This candidate must not move to real-model training or
 an independent quality campaign on the strength of this result.
 
-The CI tiny RTL test runs a new two-layer random tied workload under the AXI
-simulator. It compares ordinary and shared logits, each RTL run with its ISA
-state, and instruction counts. CI exports a `tiny-shared-weight-rtl` JSON
-artifact containing cycles and AXI reads. This is a new pilot workload, not
-one of the 30 published benchmark tapes. RTL performance and physical FPGA
-benefit are **pending** until that artifact is reviewed and published here.
+The CI tiny RTL test ran a new two-layer random tied workload under the AXI
+simulator. It compared ordinary and shared logits, each RTL run with its ISA
+state, and instruction counts. The [passing CI run](https://github.com/dhruvauppaluri/MalleableAI-FPGA/actions/runs/37828047041)
+uploaded the complete `tiny-shared-weight-rtl` JSON artifact and
+[published its counters to PR #10](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/10#issuecomment-6067737086).
+`tiny-rtl-summary.json` captures the same numbers and provenance. This is a
+new pilot workload, not one of the 30 published benchmark tapes. Its small
+traffic difference did not yield a cycle improvement. It does not measure a
+physical FPGA or a controller transition.
 
 ## Decision
 
 Keep `shared_matrices` opt-in and require equality of all declared shared
-weights before image construction. Do not apply it to the pretrained model or
-promote it as a controller personality. Automatic program switching remains
-gated. A later candidate needs a frozen architecture and fresh independent
-quality and performance evaluations; the consumed suites cannot be reused.
+weights before image construction. The approved Qwen3 checkpoint's layer 0
+and layer 1 gate/up matrices are [unequal](https://github.com/dhruvauppaluri/MalleableAI-FPGA/pull/10#issuecomment-6066992602).
+Do not apply this candidate to the pretrained model or promote it as a
+controller personality: the tiny training gate failed and the RTL pilot shows
+no speedup. Automatic program switching remains gated. A later candidate
+needs a frozen architecture and fresh independent quality and performance
+evaluations; the consumed suites cannot be reused.
