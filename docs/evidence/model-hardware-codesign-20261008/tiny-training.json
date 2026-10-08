@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "kind": "tiny-synthetic-training-diagnostic",
+  "release_quality_claim": false,
+  "data": {
+    "generator": "arithmetic-token-sequences-v1",
+    "train_seeds": [
+      101,
+      202
+    ],
+    "validation_seed": 303,
+    "validation_sequences": 128,
+    "sequence_length": 32,
+    "vocabulary": 128
+  },
+  "training": {
+    "teacher_steps": 300,
+    "student_steps": 300,
+    "batch": 8,
+    "learning_rate": 0.003,
+    "distillation_temperature": 2.0,
+    "student_start": "identical initial values; layer 1 gate/up equal layer 0"
+  },
+  "teacher": {
+    "nll": 0.5492012942990949,
+    "next_token_accuracy": 0.8417338709677419,
+    "teacher_next_token_agreement": 1.0,
+    "targets": 3968,
+    "weight_sha256": "b6b3b141674c928dbeebce59e774f4fa526a61adba63454a4369257d42ee4695"
+  },
+  "ordinary_student": {
+    "nll": 0.521654155946547,
+    "next_token_accuracy": 0.8618951612903226,
+    "teacher_next_token_agreement": 0.8775201612903226,
+    "targets": 3968,
+    "weight_sha256": "0f8806caeea0dca2a6ffba4a14854bd616ce7a91c76c31628b7ce9d312f92283"
+  },
+  "shared_student": {
+    "nll": 0.49537249918906917,
+    "next_token_accuracy": 0.8679435483870968,
+    "teacher_next_token_agreement": 0.8923891129032258,
+    "targets": 3968,
+    "weight_sha256": "a8d81d7ebc6d2700bd0fe9fb24610a5c96bcc9136e71e73d163fe93683eacdb1"
+  },
+  "acceptance_rule_frozen_before_scoring": {
+    "shared_nll_at_most_105_percent_of_ordinary": true,
+    "shared_teacher_agreement_at_least_90_percent": true,
+    "isa_layout_outputs_bit_exact": true
+  },
+  "passed_diagnostic_gate": false,
+  "isa_layout_outputs_bit_exact": true,
+  "ordinary_image_bytes": 428544,
+  "shared_image_bytes": 365056,
+  "limitations": [
+    "Synthetic token arithmetic does not measure language usefulness.",
+    "This is a tiny Qwen-compatible diagnostic, not the pretrained Qwen3-0.6B checkpoint.",
+    "An initial run scored this same synthetic validation seed, then failed when constructing the ISA config. This rerun is diagnostic only and cannot be treated as independent held-out evidence.",
+    "ISA equivalence does not establish RTL timing or physical FPGA benefit.",
+    "No consumed quality suite or benchmark was opened or rerun."
+  ]
+}

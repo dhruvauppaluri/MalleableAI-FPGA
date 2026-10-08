@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "kind": "read-only-model-hardware-reuse-feasibility",
+  "model": "Qwen3-0.6B",
+  "model_config_sha256": "660db3b73d788119c04535e48cf9be5f55bc3100841a718637ae695b442f27dd",
+  "personality": "balanced",
+  "context": 128,
+  "weight_format": "int8",
+  "architecture": {
+    "layers": 28,
+    "hidden": 1024,
+    "ffn": 3072,
+    "vocab": 151936,
+    "matrix_shapes_per_slice": {
+      "wq": [
+        2048,
+        1024
+      ],
+      "wk": [
+        1024,
+        1024
+      ],
+      "wv": [
+        1024,
+        1024
+      ],
+      "wo": [
+        1024,
+        2048
+      ],
+      "wg": [
+        3072,
+        1024
+      ],
+      "wu": [
+        3072,
+        1024
+      ]
+    }
+  },
+  "candidate": {
+    "shared_projections": [
+      "mlp.gate_proj",
+      "mlp.up_proj"
+    ],
+    "sharing_scope": "all layers; requires an explicitly trained tied checkpoint",
+    "original_image_bytes": 623138816,
+    "shared_image_bytes": 447961088,
+    "saved_image_bytes": 175177728,
+    "saved_image_fraction": 0.28112151498519394,
+    "minimum_configured_dram_bytes": [
+      1073741824,
+      536870912
+    ],
+    "original_layer_stride_bytes": 16502784,
+    "shared_layer_stride_bytes": 10014720,
+    "decode_program_instructions": [
+      444,
+      444
+    ],
+    "decode_program_mm_instructions": [
+      70,
+      70
+    ]
+  },
+  "published_benchmark_rows": {
+    "short-a/compact": {
+      "row_id": "f66280e9cc41e5bfc786e0bd107269e113674d8e27f2de9b7f8c9c0033637220",
+      "cycles": 30934852,
+      "axi_read_bytes": 3101717504,
+      "rtl_derived_dram_bound_fraction_median": 0.7620291534331323,
+      "steps": 5
+    },
+    "short-a/balanced": {
+      "row_id": "c76474a98ece59e956be14c925422b3b7c6a578ad226544afcbba4eb0abc2246",
+      "cycles": 30714282,
+      "axi_read_bytes": 3101095104,
+      "rtl_derived_dram_bound_fraction_median": 0.7675163154841318,
+      "steps": 5
+    },
+    "short-a/compute": {
+      "row_id": "9d9056c29af0602a8e2a8605b2de0c84e20e9d1c66742a671bffdee769648d75",
+      "cycles": 30621539,
+      "axi_read_bytes": 3100694464,
+      "rtl_derived_dram_bound_fraction_median": 0.7697980556360201,
+      "steps": 5
+    },
+    "short-a/buffered": {
+      "row_id": "200a9e44ff3b381ec17e9ec1c54742f08ad0b54d67b3708f1741fc8ef0c97a3e",
+      "cycles": 30697735,
+      "axi_read_bytes": 3101139200,
+      "rtl_derived_dram_bound_fraction_median": 0.7679078035267249,
+      "steps": 5
+    },
+    "short-b/compact": {
+      "row_id": "0c6d7860287ae2de691396e93eb9e9e20ca458cd2b6eb095df5fd67b9d4a4b46",
+      "cycles": 49497099,
+      "axi_read_bytes": 4963028928,
+      "rtl_derived_dram_bound_fraction_median": 0.762045341120778,
+      "steps": 8
+    },
+    "short-b/balanced": {
+      "row_id": "199efbe9c38b1e8d85769545266ae2e3ece59e175f85376363f4eefd5c4ad419",
+      "cycles": 49146604,
+      "axi_read_bytes": 4962107648,
+      "rtl_derived_dram_bound_fraction_median": 0.7675007966428556,
+      "steps": 8
+    },
+    "short-b/compute": {
+      "row_id": "5e543fffd16e5937d14a8ac796a2b32e7efe1a5f233d982bbf377fea52a4ac5d",
+      "cycles": 48995472,
+      "axi_read_bytes": 4961469312,
+      "rtl_derived_dram_bound_fraction_median": 0.7698298575590251,
+      "steps": 8
+    },
+    "short-b/buffered": {
+      "row_id": "de52511fc904bf73faf99765284affd6c79cb7fdb1b59a79eb52791dcbe1cab5",
+      "cycles": 49117208,
+      "axi_read_bytes": 4962146624,
+      "rtl_derived_dram_bound_fraction_median": 0.7679344079858812,
+      "steps": 8
+    },
+    "axi-stress/balanced": {
+      "row_id": "b9bf2c8f1bca26c9ea85f75b0ba1730d883518032be10c7d030cabb3ca5593b7",
+      "cycles": 57013790,
+      "axi_read_bytes": 3097643072,
+      "rtl_derived_dram_bound_fraction_median": 0.41343960008000785,
+      "steps": 5
+    },
+    "axi-stress/compute": {
+      "row_id": "09faee25b0fe527bda39310f24bbd07e6e3b525035a286245b9f7de7886a9aec",
+      "cycles": 57006425,
+      "axi_read_bytes": 3097478720,
+      "rtl_derived_dram_bound_fraction_median": 0.41352335308376614,
+      "steps": 5
+    }
+  },
+  "interpretation": [
+    "The storage saving is an image-layout projection, not a trained-model result.",
+    "The same MM program count means the tied design still performs the matrix operations.",
+    "Aggregate AXI bytes do not identify weight fetches or prove runtime savings.",
+    "The physical FPGA and its transition costs are unavailable here."
+  ]
+}

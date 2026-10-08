@@ -36,4 +36,13 @@ jobs:
           npm --prefix frontend ci
 
       - name: Verify RTL and host integration
+        env:
+          MALLEABLE_SHARED_RTL_REPORT: build/model-hardware-codesign/tiny-rtl.json
         run: make verify-llm PYTHON=.venv/bin/python
+      - name: Preserve shared-weight RTL pilot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tiny-shared-weight-rtl
+          path: build/model-hardware-codesign/tiny-rtl.json
+          if-no-files-found: ignore

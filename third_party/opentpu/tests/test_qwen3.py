@@ -92,6 +92,92 @@ def test_tiny_reset_reuses_cache(tiny):
     assert all(np.array_equal(x, y) for x, y in zip(a, b))
 
 
+def test_tiny_shared_mlp_storage_matches_isa(tiny):
+    """A tied student may store gate/up once without changing its execution."""
+    _, W, spec = tiny
+    tied = dict(W)
+    for name in ("gate", "up"):
+        tied[f"model.layers.1.mlp.{name}_proj.weight"] = tied[
+            f"model.layers.0.mlp.{name}_proj.weight"]
+    ordinary = Engine(spec, tied, cap=128, rows=1, pipeline=False)
+    shared = Engine(spec, tied, cap=128, rows=1, pipeline=False,
+                    shared_matrices=("wg", "wu"))
+    assert shared.image.nbytes < ordinary.image.nbytes
+    assert len(shared.image.compile_step(0)[0]) == len(ordinary.image.compile_step(0)[0])
+    for token in (3, 5, 7):
+        assert np.array_equal(ordinary.step(token).view(np.uint32),
+                              shared.step(token).view(np.uint32))
+    for i in range(spec.layers):
+        for name in ("k", "vt"):
+            def cache(eng):
+                addr = (eng.image.layer0 + i * eng.image.LS
+                        + eng.image.lofs["kvs"][0][0][name])
+                size = eng.cap * spec.head_dim
+                return eng.backend.machine.slices[0].dram[addr:addr + size]
+            assert np.array_equal(cache(ordinary), cache(shared))
+    untied = dict(tied)
+    untied["model.layers.1.mlp.gate_proj.weight"] = W[
+        "model.layers.1.mlp.gate_proj.weight"]
+    with pytest.raises(ValueError, match="declared shared"):
+        shared.image.build(untied)
+
+
+def test_tiny_shared_mlp_storage_matches_rtl(tiny, have_verilator):
+    """The RTL sees the same outputs and state after shared-weight relocation."""
+    import json
+    import os
+    from opentpu.llm.rtl_backend import RtlBackend
+    _, W, spec = tiny
+    tied = dict(W)
+    for name in ("gate", "up"):
+        tied[f"model.layers.1.mlp.{name}_proj.weight"] = tied[
+            f"model.layers.0.mlp.{name}_proj.weight"]
+    observed = []
+    for names in ((), ("wg", "wu")):
+        eng = Engine(spec, tied, cap=128, rows=1, pipeline=False,
+                     shared_matrices=names)
+        eng.step(3)
+        n = eng.image.nbytes
+        rtl = RtlBackend(eng.cfg, [s.dram[:n] for s in eng.backend.machine.slices],
+                         axi=True)
+        isa = eng.backend
+        expected = eng.step(5)
+        eng.backend, eng.pos = rtl, eng.pos - 1
+        actual = eng.step(5)
+        assert np.array_equal(expected.view(np.uint32), actual.view(np.uint32))
+        assert np.array_equal(isa.machine.slices[0].dram[:n], rtl.drams[0][:n])
+        observed.append((actual, eng.stats[-1], n))
+    assert np.array_equal(observed[0][0].view(np.uint32), observed[1][0].view(np.uint32))
+    assert observed[0][1]["instructions"] == observed[1][1]["instructions"]
+    if report_path := os.environ.get("MALLEABLE_SHARED_RTL_REPORT"):
+        cases = {}
+        for name, (_, stats, nbytes) in zip(("ordinary", "shared"), observed):
+            cases[name] = {
+                "image_bytes": nbytes,
+                "cycles": stats["cycles"],
+                "instructions": stats["instructions"],
+                "axi_reads": stats["axi_reads"],
+                "axi_read_bytes": 64 * sum(beats for _, beats in stats["axi_reads"]),
+                "axi_detail": stats["axi_detail"],
+            }
+        path = Path(report_path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps({
+            "schema_version": 1,
+            "kind": "tiny-random-tied-qwen3-rtl-pilot",
+            "source_sha": os.environ.get("GITHUB_SHA"),
+            "config": {"cap": 128, "rows": 1, "axi": True, "seed": 0},
+            "rtl_isa_logits_and_dram_bit_exact": True,
+            "ordinary_shared_logits_bit_exact": True,
+            "cases": cases,
+            "limitations": [
+                "This random two-layer pilot is not the pretrained Qwen3-0.6B model.",
+                "RTL simulation does not measure a physical FPGA or controller transition cost.",
+                "The 30 published RTL benchmark runs were not repeated.",
+            ],
+        }, indent=2) + "\n")
+
+
 @pytest.mark.skipif(not REAL.exists(), reason="models/Qwen3-0.6B not downloaded")
 def test_qwen3_0_6b_greedy_matches_hf():
     tok = transformers.AutoTokenizer.from_pretrained(REAL)
