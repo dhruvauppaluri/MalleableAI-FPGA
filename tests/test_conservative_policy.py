@@ -8,13 +8,15 @@ class ConservativePolicyTests(unittest.TestCase):
     def decision(self, *, overhead=10, horizon=8, provenance='measured-physical-upper-bound',
                  context='context', residence=1, intervals=None, eligible=None):
         transition = dict(provenance=provenance, platform_id='board', context_id=context,
+                          source_image_id='image-balanced', destination_image_id='image-compute',
                           evidence_id='synthetic-test-only', components={k: 0 for k in COMPONENTS})
         transition['components']['program'] = overhead
         return recommend('balanced', intervals or {'balanced': (100, 110), 'compute': (70, 80)},
                          {('balanced', 'compute'): transition}, eligible or {'balanced', 'compute'},
                          DecisionWindow(remaining_requests=horizon, objective='throughput',
                                         residence_windows=residence),
-                         platform_id='board', context_id='context')
+                         platform_id='board', context_id='context',
+                         image_ids={'balanced':'image-balanced','compute':'image-compute'})
 
     def test_profitable_recommendation_never_activates(self):
         result = self.decision()

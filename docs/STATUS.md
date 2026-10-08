@@ -1,5 +1,17 @@
 # Status
 
+## Policy completion work in progress (Codex, 2026-10-08)
+
+Compiler extraction, grouped calibrated predictor, corrected policy
+training/evaluation, transition evidence validation and fresh campaign freeze
+code are implemented on PR #11. Five new DQN training seeds on inspected
+published rows all scored 1.0 relative to fixed balanced; no profitable action
+passed the safety filter. A fresh 12-case development pilot is prepared but no
+new RTL execution or held-out claim occurred: this host lacks Verilator and no
+F2 board backend exists. The physical F2 setup route is in
+`docs/aws-f2-setup-and-connection.md`. Prior evidence and consumption remain
+immutable; activation remains gated.
+
 ## Policy correction implementation (2026-10-08)
 
 Codex implemented a separate conservative recommendation layer, explicit future

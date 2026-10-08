@@ -1,5 +1,47 @@
 # Policy correction execution, 2026-10-08
 
+## Second implementation milestone
+
+`policy_features.extract` now compiles exact serial token positions for all
+supported OpenTPU model specs and records static instruction counts, layout byte
+estimates, architecture dimensions and source/configuration/workload identities.
+The serial runtime supports one batch and one active row. Loop bodies are counted
+once, so these are static code counts rather than dynamic operation counts.
+
+`relative_predictor` fits balanced log cycles and paired personality log ratios
+with training-only standardization and ridge penalties. Separate workload groups
+calibrate a group-max log-residual interval. When there are too few calibration
+groups for a finite split-conformal quantile, it explicitly abstains. This
+estimator has not been fitted on new performance data; independent model-family
+coverage is unproven.
+
+`policy_learning_v3` replaces the legacy observation/replay for diagnostics:
+the state includes predicted service, objective, horizon, residence, eligibility,
+uncertainty and per-action transition costs. TD bootstrap masks use the actual
+safety-filtered legal set. Replay credits the executed action and records every
+proposed action and rejection reason. It is a separate checkpoint schema and
+does not load legacy DQN weights. Five genuinely separate training seeds were
+run on the previously published rows. All returned mean relative cost 1.0
+against fixed balanced on six LFM episodes; 870–888 proposals per seed were
+rejected, and no seed executed a switch. Deterministic, predictor and oracle
+also scored 1.0. These are exploratory results with assumed switching costs;
+they cannot promote a policy. The report is
+`docs/evidence/policy-correction-20261008/policy-v3-exploratory.json`.
+
+`transition_measurement.aggregate` validates board-clock stage timestamps,
+driver/trace IDs, image/platform/context lineage and every transition component.
+It reports observed maxima plus a reserve, expressly without a tail guarantee.
+No board measurements exist yet. The conservative recommendation also binds
+exact source and destination image IDs. The AWS F2 setup and Codex connection
+path is in `docs/aws-f2-setup-and-connection.md`.
+
+`freeze_policy_pilot` generates 12 fresh, paired, INT8 short-prefill cases across
+the three approved model families and four personalities. It rejects all 30
+published tape identities and requires matched prior held-out quality approval.
+This is a development pilot, not an independent policy test. The existing
+execution host lacks Verilator and the repository has no F2 board backend, so
+the pilot has not been dispatched. No claim or held-out attempt was consumed.
+
 ## Implemented milestone
 
 The old predictor, DQN checkpoint, and published evidence are preserved.

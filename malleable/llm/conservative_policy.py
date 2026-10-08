@@ -20,7 +20,7 @@ def _number(value, positive=False):
 
 
 def recommend(current, intervals, transitions, eligible, window, *,
-              platform_id, context_id, margin=.05, minimum_residence=1):
+              platform_id, context_id, image_ids=None, margin=.05, minimum_residence=1):
     """Compare candidate upper cost against current lower cost.
 
     intervals map action to (lower, upper) cycles. Transition records bind
@@ -33,6 +33,8 @@ def recommend(current, intervals, transitions, eligible, window, *,
         raise ValueError('invalid margin or residence')
     if not platform_id or not context_id or current not in eligible:
         raise ValueError('current eligibility and platform/context required')
+    if image_ids is None or set(image_ids) != set(intervals) or any(not v for v in image_ids.values()):
+        raise ValueError('exact image identities required for every action')
     for bounds in intervals.values():
         if len(bounds) != 2 or _number(bounds[0], True) > _number(bounds[1], True):
             raise ValueError('ordered positive service interval required')
@@ -54,6 +56,8 @@ def recommend(current, intervals, transitions, eligible, window, *,
             reason = 'missing-measured-transition'
         elif (record.get('platform_id'), record.get('context_id')) != (platform_id, context_id):
             reason = 'transition-lineage-mismatch'
+        elif (record.get('source_image_id'), record.get('destination_image_id')) != (image_ids[current], image_ids[action]):
+            reason = 'transition-image-mismatch'
         elif not record.get('evidence_id'):
             reason = 'missing-transition-evidence'
         else:
