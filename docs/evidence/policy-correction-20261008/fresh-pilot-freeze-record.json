@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "campaign_id": "policy-short-prefill-pilot-v1",
+  "manifest_id": "2bddeb2bfbd1fe26e907dbd349abde0bcd8c14d2aa53d3e10fd97bc766647c32",
+  "source_id": "38687e4",
+  "case_count": 12,
+  "matched_personality_groups": 3,
+  "split": "development-pilot",
+  "status": "frozen-not-dispatched",
+  "claims": [],
+  "result_count": 0,
+  "excluded_published_performance_rows": 30,
+  "previous_quality_consumption_unchanged": true,
+  "automatic_switching_allowed": false
+}
