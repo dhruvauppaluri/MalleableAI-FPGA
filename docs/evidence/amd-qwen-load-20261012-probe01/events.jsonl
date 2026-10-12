@@ -1,0 +1,7 @@
+{"phase": "importing_libraries", "elapsed_seconds": 0.001, "max_rss_kib": 17408}
+{"phase": "libraries_imported", "elapsed_seconds": 4.031, "max_rss_kib": 890880, "torch": "2.9.1+gitff65f5b", "hip": "7.2.53211-e1a6bc5663"}
+{"phase": "gpu_detected", "elapsed_seconds": 4.187, "max_rss_kib": 903532, "gpu": "AMD Radeon Graphics", "gpu_total_bytes": 51522830336}
+{"phase": "load_settings_set", "elapsed_seconds": 4.188, "max_rss_kib": 903532, "deterministic_algorithms": true, "allow_tf32": false}
+{"phase": "cpu_load_started", "elapsed_seconds": 4.189, "max_rss_kib": 903532}
+{"phase": "cpu_load_completed", "elapsed_seconds": 5.991, "max_rss_kib": 5294100}
+{"phase": "gpu_transfer_started", "elapsed_seconds": 5.993, "max_rss_kib": 5294100}
