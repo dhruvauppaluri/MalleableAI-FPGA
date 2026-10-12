@@ -119,6 +119,9 @@ def load_inputs(freeze):
     for split in ("train", "dev"):
         if digest(freeze[f"{split}_path"]) != freeze[f"{split}_file_sha256"]:
             raise ValueError(f"{split} text changed since freeze")
+    if freeze.get("corpus_manifest_path"):
+        if digest(freeze["corpus_manifest_path"]) != freeze["corpus_manifest_sha256"]:
+            raise ValueError("corpus provenance manifest changed since freeze")
     train_docs = documents(freeze["train_path"])
     dev_docs = documents(freeze["dev_path"])
     if {key for key, _ in train_docs} & {key for key, _ in dev_docs}:
@@ -170,6 +173,17 @@ def freeze_inputs(args):
         "heldout_opened": False,
         "compiler_selective_pair_layout_supported": False,
     }
+    corpus_manifest = train_path.parent / "corpus-manifest.json"
+    if train_path.parent == dev_path.parent and corpus_manifest.is_file():
+        provenance = json.loads(corpus_manifest.read_text())
+        files = provenance.get("files", {})
+        if (files.get(train_path.name, {}).get("sha256") !=
+                manifest["train_file_sha256"] or
+                files.get(dev_path.name, {}).get("sha256") !=
+                manifest["dev_file_sha256"]):
+            raise ValueError("corpus manifest hashes do not match text inputs")
+        manifest["corpus_manifest_path"] = str(corpus_manifest)
+        manifest["corpus_manifest_sha256"] = digest(corpus_manifest)
     train, dev = load_inputs(manifest)
     for split, data in (("train", train), ("dev", dev)):
         manifest[f"{split}_token_sha256"] = hashlib.sha256(
