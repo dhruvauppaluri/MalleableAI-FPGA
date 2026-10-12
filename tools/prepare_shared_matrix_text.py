@@ -37,16 +37,23 @@ def main():
     revision = HfApi(token=False).dataset_info(
         REPOSITORY, revision="main").sha
     files = {}
+    seen_documents = set()
     for split, limit in LIMITS.items():
         dataset = load_dataset(REPOSITORY, CONFIGURATION,
                                split=split, revision=revision)
         destination = root / ("dev.jsonl" if split == "validation" else "train.jsonl")
         count = 0
+        duplicates_skipped = 0
         with destination.open("x", encoding="utf-8") as stream:
             for row in dataset:
                 value = row["text"].strip()
                 if len(value) < 64:
                     continue
+                key = hashlib.sha256(value.encode()).hexdigest()
+                if key in seen_documents:
+                    duplicates_skipped += 1
+                    continue
+                seen_documents.add(key)
                 stream.write(json.dumps({"text": value}, ensure_ascii=False) + "\n")
                 count += 1
                 if count == limit:
@@ -55,7 +62,8 @@ def main():
             os.fsync(stream.fileno())
         if count < 100:
             raise RuntimeError(f"{split} supplied only {count} usable records")
-        files[destination.name] = {"sha256": digest(destination), "records": count}
+        files[destination.name] = {"sha256": digest(destination), "records": count,
+                                   "duplicates_skipped": duplicates_skipped}
     manifest = {
         "schema_version": 1,
         "kind": "shared-matrix-real-text-development-corpus",
