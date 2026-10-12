@@ -1,6 +1,6 @@
 # Status
 
-## Shared-matrix real-text pilot prepared (2026-10-12)
+## Shared-matrix real-text pilot interrupted (2026-10-12)
 
 The Radeon Cloud fresh-seed tiny diagnostic is published in
 `docs/evidence/model-hardware-codesign-20261012/`. Its frozen absolute 90%
@@ -15,9 +15,16 @@ specified in `docs/shared-matrix-real-text-pilot.md` and implemented by
 uses fresh pinned real text, preserves equal student starting weights, and
 reports task quality plus teacher-correct/teacher-wrong disagreements.
 Local tiny-model training and real checkpoint/tokenizer freeze paths passed.
-No Radeon real-model training, independent held-out evaluation, selective-pair
-compiler layout, RTL benchmark, or F2 measurement has been run. Automatic
-switching remains gated.
+The first Radeon real-model attempt was claimed and force-stopped after at
+least 27 minutes with no step-10 milestone. Its matching freeze, claim, and
+corpus manifest are published in
+`docs/evidence/shared-matrix-real-text-20261012-attempt01/`. No training
+result or development score was recovered; the number of steps completed is
+unknown. This attempt is consumed. The runner now records phase and per-step
+progress, and a new paid attempt needs an external process timeout and a new
+freeze/claim root. No independent held-out evaluation, selective-pair compiler
+layout, RTL benchmark, or F2 measurement has been run. Automatic switching
+remains gated.
 
 ## Policy completion work in progress (Codex, 2026-10-08)
 
