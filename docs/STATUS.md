@@ -1,5 +1,24 @@
 # Status
 
+## Shared-matrix real-text pilot prepared (2026-10-12)
+
+The Radeon Cloud fresh-seed tiny diagnostic is published in
+`docs/evidence/model-hardware-codesign-20261012/`. Its frozen absolute 90%
+teacher-agreement gate failed: the shared student reached 88.23%, while the
+ordinary control reached 87.35%. Shared NLL was 0.626% higher, task accuracy
+was 0.101 percentage points higher, and host ISA image size was 14.81% lower.
+The attempt and seeds are consumed; no real-model or board claim follows.
+
+A new prospective, 20-minute matched Qwen3-0.6B train/development pilot is
+specified in `docs/shared-matrix-real-text-pilot.md` and implemented by
+`tools/run_shared_matrix_finetune.py`. It ties one adjacent layer pair,
+uses fresh pinned real text, preserves equal student starting weights, and
+reports task quality plus teacher-correct/teacher-wrong disagreements.
+Local tiny-model training and real checkpoint/tokenizer freeze paths passed.
+No Radeon real-model training, independent held-out evaluation, selective-pair
+compiler layout, RTL benchmark, or F2 measurement has been run. Automatic
+switching remains gated.
+
 ## Policy completion work in progress (Codex, 2026-10-08)
 
 Compiler extraction, grouped calibrated predictor, corrected policy
