@@ -34,6 +34,13 @@ The underlying node/driver cause remains unknown. No independent held-out evalua
 selective-pair compiler layout, RTL benchmark, or F2 measurement has been run.
 Automatic switching remains gated.
 
+The next paid Radeon session is gated by the standalone tiny/64 MiB transfer
+check in `docs/amd-radeon-cost-gated-recovery.md`. It tries the default mode
+first and SDMA-disabled mode only if the default copy fails, each in a new
+bounded root. No checkpoint download or Qwen training is justified before a
+basic GPU transfer and a one-model forward pass complete. The prior notebook
+instance was destroyed by the operator; no fresh AMD execution is recorded.
+
 ## Policy completion work in progress (Codex, 2026-10-08)
 
 Compiler extraction, grouped calibrated predictor, corrected policy
