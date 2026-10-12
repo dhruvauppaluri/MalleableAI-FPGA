@@ -2,7 +2,7 @@
   "schema_version": 1,
   "attempt_id": "amd-shared-matrix-20261012-01",
   "state": "consumed_completed",
-  "provenance": "user-pasted Radeon Cloud terminal output; full JSON artifact pending upload",
+  "provenance": "User-pasted Radeon Cloud terminal output and complete JSON report; files published without rerunning the attempt.",
   "source_branch": "codex/policy-correction",
   "source_commit": "unverified_from_terminal",
   "command": "python tools/run_amd_shared_matrix_diagnostic.py --output /workspace/amd-shared-matrix-20261012-01.json",
@@ -33,7 +33,8 @@
     "shared_teacher_agreement_at_least_90_percent": true,
     "isa_layout_outputs_bit_exact": true
   },
-  "interpretation": "The teacher-agreement condition failed; ordinary-student teacher agreement and complete report remain unavailable until the JSON is uploaded.",
+  "interpretation": "Frozen 90% teacher-agreement condition failed. Shared agreement 88.2308% exceeded ordinary agreement 87.3488% by 0.8821 percentage points; sharing did not cause the absolute agreement shortfall in this comparison. Shared NLL was 0.6259% above ordinary, within the 5% condition. ISA outputs were bit-exact.",
   "automatic_switching_allowed": false,
-  "repeat_policy": "Do not rerun this attempt or reuse its seed set."
+  "repeat_policy": "Do not rerun this attempt or reuse its seed set.",
+  "full_report": "docs/evidence/model-hardware-codesign-20261012/amd-shared-matrix-attempt-01.json"
 }
