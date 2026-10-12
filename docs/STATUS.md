@@ -25,8 +25,12 @@ with phase logging and an external five-minute cap, stopped during
 a development score or completed training, and both attempts are consumed.
 The container reported no memory-limit kill for attempt 02. A smaller
 CPU-load/GPU-transfer/forward probe is prepared in
-`docs/amd-qwen-load-probe.md`; do not start another paired training attempt
-until the slow phase is diagnosed. No independent held-out evaluation,
+`docs/amd-qwen-load-probe.md`. That probe then loaded Qwen3 into CPU memory
+in about 1.8 seconds but stalled moving it to the Radeon GPU; a separate
+64 MiB CPU-to-GPU tensor copy also exceeded 45 seconds. The exact observations
+are in `docs/evidence/amd-qwen-load-20261012-probe01/`. Do not start another
+paired training attempt on this instance until a basic tensor transfer works.
+The underlying node/driver cause remains unknown. No independent held-out evaluation,
 selective-pair compiler layout, RTL benchmark, or F2 measurement has been run.
 Automatic switching remains gated.
 
