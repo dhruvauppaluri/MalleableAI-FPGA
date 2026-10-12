@@ -58,6 +58,16 @@ modified projections as local safetensors. It writes either `result.json` or
 `failure.json`; the attempt directory must never be reused. No release
 held-out split is accepted by the runner.
 
+The first Radeon attempt was force-stopped after at least 27 minutes with no
+step-10 output. Its claim and matching freeze/corpus manifests are preserved in
+`docs/evidence/shared-matrix-real-text-20261012-attempt01/`. The exact slow
+operation and number of completed steps are unknown; this is not a quality
+result. That attempt directory is consumed. The runner now writes phase and
+per-step events to `progress.jsonl` and standard output. The internal 20-minute
+limit is checked between operations, so it is not a hard process deadline.
+Use an external timeout around any new paid attempt and inspect its progress
+file before deciding whether another attempt is justified.
+
 ## Bounded Radeon Cloud procedure
 
 Run these commands in the notebook terminal, one at a time. The model
@@ -75,16 +85,19 @@ python tools/run_shared_matrix_finetune.py freeze \
   --model /workspace/shared-models-01/Qwen3-0.6B \
   --train-jsonl /workspace/shared-text-01/train.jsonl \
   --dev-jsonl /workspace/shared-text-01/dev.jsonl \
-  --output /workspace/shared-pair-freeze-01.json
-python tools/run_shared_matrix_finetune.py run \
-  --freeze /workspace/shared-pair-freeze-01.json \
-  --output-dir /workspace/shared-pair-attempt-01
-cat /workspace/shared-pair-attempt-01/result.json
+  --output /workspace/shared-pair-freeze-02.json
+timeout --signal=INT --kill-after=30s 25m \
+  python -u tools/run_shared_matrix_finetune.py run \
+  --freeze /workspace/shared-pair-freeze-02.json \
+  --output-dir /workspace/shared-pair-attempt-02
+cat /workspace/shared-pair-attempt-02/result.json
 ```
 
 If a command fails, preserve its output and any `failure.json`; do not
 rerun the same attempt directory. Publish the freeze, corpus manifest,
-result/failure JSON, and hashes of the two projection files. Keep model
+`progress.jsonl`, result/failure JSON, and hashes of the two projection files.
+An external kill may leave only the claim and progress file; record that
+interruption without inferring model quality. Keep model
 weights and corpus files out of the repository. The only independent
 held-out evaluation would be designed and frozen after the development
 candidate is selected. Do not reuse any consumed quality suite or the 30
