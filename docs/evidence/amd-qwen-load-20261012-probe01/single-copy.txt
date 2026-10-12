@@ -1,0 +1,7 @@
+Command: timeout --signal=INT --kill-after=10s 45s python -u -
+Tensor: torch.ones(16_777_216, dtype=torch.float32), then x.to("cuda") and torch.cuda.synchronize()
+GPU: AMD Radeon Graphics
+CPU tensor ready: 0.15 seconds
+No GPU copy completion line printed.
+copy_probe_exit_status=130
+Afterward: rocm-smi GPU use 0%, VRAM allocated 0%; no matching training/probe process.
