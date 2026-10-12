@@ -338,7 +338,19 @@ def run(args):
     })
     started = time.monotonic()
     deadline = started + recipe["max_wall_minutes"] * 60
+    progress_path = out / "progress.jsonl"
+    def progress(phase, **details):
+        event = {"phase": phase, "elapsed_seconds": round(time.monotonic() - started, 3),
+                 **details}
+        with progress_path.open("a") as stream:
+            stream.write(json.dumps(event, allow_nan=False) + "\n")
+            stream.flush()
+            os.fsync(stream.fileno())
+        print(json.dumps(event, allow_nan=False), flush=True)
+
     try:
+        progress("claimed", steps_planned=recipe["steps"],
+                 wall_budget_seconds=recipe["max_wall_minutes"] * 60)
         torch.manual_seed(recipe["seed"])
         random.seed(recipe["seed"])
         torch.use_deterministic_algorithms(True)
@@ -350,13 +362,19 @@ def run(args):
             return AutoModelForCausalLM.from_pretrained(
                 model_path, local_files_only=True, trust_remote_code=False,
                 dtype=torch.float32).to(device)
+        progress("loading_teacher")
         teacher = load()
+        progress("teacher_loaded")
         teacher.eval()
         for parameter in teacher.parameters():
             parameter.requires_grad_(False)
+        progress("loading_ordinary")
         ordinary = load()
+        progress("ordinary_loaded")
         ordinary_trainable = select_projections(ordinary, recipe, False)
+        progress("loading_shared")
         shared = load()
+        progress("shared_loaded")
         shared_trainable = select_projections(shared, recipe, True)
         ordinary_state, shared_state = ordinary.state_dict(), shared.state_dict()
         if ordinary_state.keys() != shared_state.keys() or any(
@@ -382,6 +400,7 @@ def run(args):
         for step in range(recipe["steps"]):
             if time.monotonic() > deadline:
                 raise TimeoutError("frozen wall-clock budget reached before scoring")
+            progress("training_step_started", step=step + 1)
             indices = [order[(step * recipe["batch_size"] + j) % len(order)]
                        for j in range(recipe["batch_size"])]
             batch = torch.tensor([train[i] for i in indices],
@@ -399,14 +418,14 @@ def run(args):
                 shared, optimizers["shared"], inputs, targets,
                 reference, recipe, amp)
             losses.append([ordinary_loss, shared_loss])
-            if (step + 1) % 10 == 0:
-                print(json.dumps({"step": step + 1,
-                                  "ordinary_loss": ordinary_loss,
-                                  "shared_loss": shared_loss}), flush=True)
+            progress("training_step_completed", step=step + 1,
+                     ordinary_loss=ordinary_loss, shared_loss=shared_loss)
         if time.monotonic() > deadline:
             raise TimeoutError("frozen wall-clock budget reached before scoring")
+        progress("scoring_started", sequences=len(dev))
         metrics = score_models(teacher, ordinary, shared, dev, recipe, device,
                                amp, deadline)
+        progress("scoring_completed")
         ordinary_metrics, shared_metrics = metrics["ordinary"], metrics["shared"]
         gate = (shared_metrics["nll"] <=
                 recipe["dev_nll_relative_limit"] * ordinary_metrics["nll"] and
@@ -451,6 +470,7 @@ def run(args):
             "compiler_selective_pair_layout_supported": False,
         }
         write_new(out / "result.json", report)
+        progress("completed", passed_development_gate=gate)
         print(json.dumps({"result": str(out / "result.json"),
                           "passed_development_gate": gate,
                           "ordinary_nll": ordinary_metrics["nll"],
@@ -459,6 +479,7 @@ def run(args):
                           "shared_accuracy": shared_metrics["next_token_accuracy"],
                           "wall_seconds": report["wall_seconds"]}), flush=True)
     except BaseException as error:
+        progress("failed", error_type=type(error).__name__, error=str(error))
         write_new(out / "failure.json", {
             "state": "failed_or_budget_stopped",
             "error_type": type(error).__name__,
