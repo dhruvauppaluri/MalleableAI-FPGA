@@ -18,13 +18,17 @@ Local tiny-model training and real checkpoint/tokenizer freeze paths passed.
 The first Radeon real-model attempt was claimed and force-stopped after at
 least 27 minutes with no step-10 milestone. Its matching freeze, claim, and
 corpus manifest are published in
-`docs/evidence/shared-matrix-real-text-20261012-attempt01/`. No training
-result or development score was recovered; the number of steps completed is
-unknown. This attempt is consumed. The runner now records phase and per-step
-progress, and a new paid attempt needs an external process timeout and a new
-freeze/claim root. No independent held-out evaluation, selective-pair compiler
-layout, RTL benchmark, or F2 measurement has been run. Automatic switching
-remains gated.
+`docs/evidence/shared-matrix-real-text-20261012-attempt01/`. A second attempt,
+with phase logging and an external five-minute cap, stopped during
+`loading_teacher`; its freeze, claim, and progress are published in
+`docs/evidence/shared-matrix-real-text-20261012-attempt02/`. Neither produced
+a development score or completed training, and both attempts are consumed.
+The container reported no memory-limit kill for attempt 02. A smaller
+CPU-load/GPU-transfer/forward probe is prepared in
+`docs/amd-qwen-load-probe.md`; do not start another paired training attempt
+until the slow phase is diagnosed. No independent held-out evaluation,
+selective-pair compiler layout, RTL benchmark, or F2 measurement has been run.
+Automatic switching remains gated.
 
 ## Policy completion work in progress (Codex, 2026-10-08)
 
