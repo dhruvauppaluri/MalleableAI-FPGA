@@ -75,9 +75,20 @@ It failed the frozen development gate: shared NLL 7.375570 versus ordinary
 unchanged teacher (NLL 3.724158, accuracy 38.9404%). See
 `docs/evidence/shared-matrix-real-text-20261013-attempt03/` for the freeze,
 claim, progress, result, and projection hashes. Do not repeat attempts 01–03.
-The next diagnostic should record pretraining quality immediately after
-copying a candidate pair, and screen layer pairs on development data before
-another full tied-training attempt. Automatic switching remains gated.
+The zero-step screen then scored all 27 adjacent gate/up copies on the same
+frozen development set. The 0→1 copy caused +255.18% NLL and -36.743 accuracy
+points immediately. Pair 12→13 was least damaging by NLL (+2.684%, -1.733
+accuracy points); see `docs/evidence/shared-matrix-pair-screen-20261013-01/`.
+This is development selection, not independent quality evidence.
+
+The next prospectively selected recipe uses pair 12→13 with the same 40-step
+matched training budget and equal student starting weights. It retains the
+ordinary-control comparison and adds an untouched-teacher anchor: shared
+development NLL must be at most 105% of teacher NLL and teacher next-token
+agreement must be at least 90%. Both checks are necessary to avoid passing
+when both students are damaged. The result will still be developmental because
+pair 12→13 was selected on this same corpus. It cannot approve a checkpoint
+or automatic switching.
 
 ## Bounded Radeon Cloud procedure
 
@@ -87,6 +98,8 @@ remaining credits before launch and destroy the Radeon instance after saving
 the small JSON result. Downloading and preparation also consume instance time.
 Replace `NEXT` below with a fresh attempt identifier after reviewing the
 attempt-03 failure; the existing attempt directories cannot be reused.
+For the screened 12→13 follow-up, use `04` and add the two layer arguments
+shown here. The prior 0→1 run used the default arguments.
 
 ```sh
 git clone --depth 1 --branch codex/policy-correction https://github.com/dhruvauppaluri/MalleableAI-FPGA.git
@@ -98,6 +111,7 @@ python tools/run_shared_matrix_finetune.py freeze \
   --model /workspace/shared-models-01/Qwen3-0.6B \
   --train-jsonl /workspace/shared-text-01/train.jsonl \
   --dev-jsonl /workspace/shared-text-01/dev.jsonl \
+  --source-layer 12 --target-layer 13 \
   --output /workspace/shared-pair-freeze-NEXT.json
 timeout --signal=INT --kill-after=30s 25m \
   python -u tools/run_shared_matrix_finetune.py run \
