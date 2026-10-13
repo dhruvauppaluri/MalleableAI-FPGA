@@ -6,6 +6,7 @@ import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
 from run_shared_matrix_finetune import development_gate, recipe_for_pair
+from screen_shared_matrix_projections import choose_panel
 
 
 class PairSelectionTests(unittest.TestCase):
@@ -39,6 +40,14 @@ class PairSelectionTests(unittest.TestCase):
         self.assertTrue(development_gate(metrics, recipe)["passed"])
         metrics["shared"]["next_token_accuracy"] = 0.36
         self.assertFalse(development_gate(metrics, recipe)["passed"])
+
+    def test_projection_screen_requires_teacher_preservation(self):
+        gate = {"panel": "gate_proj", "nll": 3.8,
+                "nll_change_percent": 2.0, "teacher_agreement": 0.89}
+        up = {"panel": "up_proj", "nll": 3.85,
+              "nll_change_percent": 3.0, "teacher_agreement": 0.91}
+        self.assertEqual(choose_panel([gate, up])["panel"], "up_proj")
+        self.assertIsNone(choose_panel([gate]))
 
 
 if __name__ == "__main__":
