@@ -1,5 +1,16 @@
 # Status
 
+## Screen-selected 12→13 development follow-up prepared (2026-10-13)
+
+The completed 27-pair development screen selected 12→13 by lowest NLL.
+`tools/run_shared_matrix_finetune.py` now supports a fresh 12→13 freeze with
+the same 40-step paired ordinary/shared recipe. Its development gate requires
+both the matched-control checks and shared NLL <=105% of the untouched teacher
+plus >=90% teacher next-token agreement. Three focused gate/selection tests
+pass. Fresh freeze/attempt 04 is prepared but has not run or claimed an output
+root. The selection corpus is reused only for development. No release held-out
+suite, hardware benchmark, or automatic switching approval is implied.
+
 ## Shared-matrix real-text development attempt 03 completed and failed (2026-10-13)
 
 A fresh Radeon Cloud notebook passed the default four-byte/64 MiB host-to-GPU
