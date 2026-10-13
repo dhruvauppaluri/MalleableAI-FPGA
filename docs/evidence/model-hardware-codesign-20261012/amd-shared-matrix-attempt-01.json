@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "kind": "fresh-seed-amd-gpu-synthetic-diagnostic",
+  "release_quality_claim": false,
+  "automatic_switching_allowed": false,
+  "device": {
+    "pytorch": "2.9.1+gitff65f5b",
+    "hip": "7.2.53211-e1a6bc5663",
+    "name": "AMD Radeon Graphics",
+    "memory_bytes": 51522830336,
+    "transformers": "4.57.6"
+  },
+  "data": {
+    "generator": "arithmetic-token-sequences-v1",
+    "seeds": {
+      "teacher_init": 411,
+      "teacher_train": 4101,
+      "student_init": 417,
+      "student_train": 4202,
+      "validation": 4303
+    },
+    "train_steps": {
+      "teacher": 300,
+      "student_each": 300
+    },
+    "validation_sequences": 128,
+    "sequence_length": 32,
+    "vocabulary": 128
+  },
+  "training": {
+    "batch": 8,
+    "learning_rate": 0.003,
+    "student_start": "ordinary and shared start identical; layer 1 gate/up equal layer 0"
+  },
+  "teacher": {
+    "nll": 0.5292908991536787,
+    "next_token_accuracy": 0.8462701612903226,
+    "teacher_next_token_agreement": 1.0,
+    "targets": 3968,
+    "weight_sha256": "ad5868f686a7d0cd5fefa30894cf84fae98c055a49fe2770e6c4f857acf60f81"
+  },
+  "ordinary_student": {
+    "nll": 0.4944560335528466,
+    "next_token_accuracy": 0.8641633064516129,
+    "teacher_next_token_agreement": 0.8734879032258065,
+    "targets": 3968,
+    "weight_sha256": "3915296ee556ca300896f0b759f9334d9660f2f873b6091ece3d22b3cb72878f"
+  },
+  "shared_student": {
+    "nll": 0.4975506278776353,
+    "next_token_accuracy": 0.8651713709677419,
+    "teacher_next_token_agreement": 0.8823084677419355,
+    "targets": 3968,
+    "weight_sha256": "0a1d62ed976e225c7b4bf5331a2e10753ed3ebb885fa53b5b2d85bffe0638a72"
+  },
+  "frozen_diagnostic_rule": {
+    "shared_nll_at_most_105_percent_of_ordinary": true,
+    "shared_teacher_agreement_at_least_90_percent": true,
+    "isa_layout_outputs_bit_exact": true
+  },
+  "passed_diagnostic_gate": false,
+  "isa_layout_outputs_bit_exact": true,
+  "ordinary_image_bytes": 428544,
+  "shared_image_bytes": 365056,
+  "limitations": [
+    "Synthetic task, not the pretrained Qwen3-0.6B checkpoint.",
+    "A fresh synthetic seed is not a release held-out evaluation.",
+    "GPU training does not establish FPGA timing or switching benefit.",
+    "This report is distinct from the earlier CPU diagnostic."
+  ]
+}

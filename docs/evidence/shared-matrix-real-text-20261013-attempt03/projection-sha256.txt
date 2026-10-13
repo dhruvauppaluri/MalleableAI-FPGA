@@ -1,0 +1,2 @@
+12b808e0e248b83932e5f3a1d66e554520f140485a2984a401f072dc72ae7720  shared-pair-attempt-03/ordinary-projections.safetensors
+b4d5614b2ac33bdeb2308e0ca8b945fca5d27365d1c550db8887bf626dc284b3  shared-pair-attempt-03/shared-projections.safetensors

@@ -1,5 +1,130 @@
 # Status
 
+## Zephyrus single-projection screen ready (2026-10-12 PT)
+
+`tools/screen_shared_matrix_projections.py` prospectively freezes a CUDA-only
+development comparison of gate-only and up-only layer-12→13 copies. It checks
+the pinned Qwen3 checkpoint and the exact earlier WikiText development file
+and token hashes, claims a fresh output root once, and requires >=90% teacher
+agreement and <=5% NLL increase to select a panel. It does not rerun the
+consumed both-projection scan or open release held-out data. Four focused
+selection/gate tests pass. The operator's Windows/WSL procedure is in
+`docs/zephyrus-shared-matrix-projection-screen.md`. No local CUDA result is
+recorded yet; no further Radeon training recipe is selected. Automatic
+switching remains gated.
+
+## Screen-selected 12→13 development follow-up failed teacher agreement (2026-10-13)
+
+The completed 27-pair development screen selected 12→13 by lowest NLL.
+`tools/run_shared_matrix_finetune.py` now supports a fresh 12→13 freeze with
+the same 40-step paired ordinary/shared recipe. Its development gate requires
+both the matched-control checks and shared NLL <=105% of the untouched teacher
+plus >=90% teacher next-token agreement. Three focused gate/selection tests
+pass. Fresh freeze/attempt 04 completed all 40 steps and development scoring
+in 15.903 seconds. Shared NLL 3.618630 versus ordinary 3.591713 (+0.749%),
+and accuracy 38.9404% versus 39.1846% (-0.244 points), passed the matched
+control check. Shared NLL was 2.834% below the teacher, but teacher agreement
+was only 81.8604%, failing the predeclared 90% anchor. The ordinary control
+also had 81.8115% agreement. The combined development gate failed. The claim,
+freeze, result and progress are published in
+`docs/evidence/shared-matrix-real-text-20261013-attempt04/`. Attempts 01–04
+and the pair screen are consumed. The selection corpus was reused only for
+development. No release held-out suite, hardware benchmark, or automatic
+switching approval follows.
+
+## Shared-matrix real-text development attempt 03 completed and failed (2026-10-13)
+
+A fresh Radeon Cloud notebook passed the default four-byte/64 MiB host-to-GPU
+copies and loaded/transferred/ran a Qwen3-0.6B forward pass in 2.72 seconds.
+The checks are published in `docs/evidence/amd-radeon-healthy-node-20261013/`.
+The pinned WikiText development corpus reproduced the earlier train/dev file
+hashes. Fresh freeze and attempt 03 completed 40 matched training steps and
+development scoring in 16.393 seconds. The full result and immutable claim are
+published in `docs/evidence/shared-matrix-real-text-20261013-attempt03/`.
+Shared NLL was 7.375570 versus ordinary 6.732002 (+9.56%); shared accuracy
+was 12.2559% versus ordinary 15.4785% (-3.223 points). Both missed the
+untouched teacher's 3.724158 NLL and 38.9404% accuracy by a wide margin.
+The frozen development gate failed. Copying layer-0 gate/up into layer 1 for
+both students is a plausible major source of damage, pending a zero-step
+baseline and layer-pair screen. No release held-out test, RTL benchmark, or
+physical F2 run occurred. Attempts 01, 02 and 03 remain consumed; automatic
+switching stays gated.
+`tools/screen_shared_matrix_pairs.py` completed an exclusive zero-step
+development screen of all 27 adjacent pairs in 33.844 seconds. The direct
+0→1 copy caused +255.18% NLL and -36.743 accuracy points before training,
+confirming a major cause of attempt 03's common regression. The least damaging
+pair by NLL was 12→13 at +2.684% NLL and -1.733 accuracy points. Full
+claim/results are published in
+`docs/evidence/shared-matrix-pair-screen-20261013-01/`. No pair met both a
+5% NLL and one-point accuracy descriptive comparison with the untouched model.
+This is development selection evidence only; a new prospective training
+recipe and later independent quality suite are still required. Automatic
+switching remains gated.
+
+## Shared-matrix real-text pilot interrupted (2026-10-12)
+
+The Radeon Cloud fresh-seed tiny diagnostic is published in
+`docs/evidence/model-hardware-codesign-20261012/`. Its frozen absolute 90%
+teacher-agreement gate failed: the shared student reached 88.23%, while the
+ordinary control reached 87.35%. Shared NLL was 0.626% higher, task accuracy
+was 0.101 percentage points higher, and host ISA image size was 14.81% lower.
+The attempt and seeds are consumed; no real-model or board claim follows.
+
+A new prospective, 20-minute matched Qwen3-0.6B train/development pilot is
+specified in `docs/shared-matrix-real-text-pilot.md` and implemented by
+`tools/run_shared_matrix_finetune.py`. It ties one adjacent layer pair,
+uses fresh pinned real text, preserves equal student starting weights, and
+reports task quality plus teacher-correct/teacher-wrong disagreements.
+Local tiny-model training and real checkpoint/tokenizer freeze paths passed.
+The first Radeon real-model attempt was claimed and force-stopped after at
+least 27 minutes with no step-10 milestone. Its matching freeze, claim, and
+corpus manifest are published in
+`docs/evidence/shared-matrix-real-text-20261012-attempt01/`. A second attempt,
+with phase logging and an external five-minute cap, stopped during
+`loading_teacher`; its freeze, claim, and progress are published in
+`docs/evidence/shared-matrix-real-text-20261012-attempt02/`. Neither produced
+a development score or completed training, and both attempts are consumed.
+The container reported no memory-limit kill for attempt 02. A smaller
+CPU-load/GPU-transfer/forward probe is prepared in
+`docs/amd-qwen-load-probe.md`. That probe then loaded Qwen3 into CPU memory
+in about 1.8 seconds but stalled moving it to the Radeon GPU; a separate
+64 MiB CPU-to-GPU tensor copy also exceeded 45 seconds. The exact observations
+are in `docs/evidence/amd-qwen-load-20261012-probe01/`. Do not start another
+paired training attempt on this instance until a basic tensor transfer works.
+The underlying node/driver cause remains unknown. No independent held-out evaluation,
+selective-pair compiler layout, RTL benchmark, or F2 measurement has been run.
+Automatic switching remains gated.
+
+The next paid Radeon session is gated by the standalone tiny/64 MiB transfer
+check in `docs/amd-radeon-cost-gated-recovery.md`. It tries the default mode
+first and SDMA-disabled mode only if the default copy fails, each in a new
+bounded root. No checkpoint download or Qwen training is justified before a
+basic GPU transfer and a one-model forward pass complete. The prior notebook
+instance was destroyed by the operator; no fresh AMD execution is recorded.
+
+## Policy completion work in progress (Codex, 2026-10-08)
+
+Compiler extraction, grouped calibrated predictor, corrected policy
+training/evaluation, transition evidence validation and fresh campaign freeze
+code are implemented on PR #11. Five new DQN training seeds on inspected
+published rows all scored 1.0 relative to fixed balanced; no profitable action
+passed the safety filter. A fresh 12-case development pilot is prepared but no
+new RTL execution or held-out claim occurred: this host lacks Verilator and no
+F2 board backend exists. The physical F2 setup route is in
+`docs/aws-f2-setup-and-connection.md`. Prior evidence and consumption remain
+immutable; activation remains gated.
+
+## Policy correction implementation (2026-10-08)
+
+Codex implemented a separate conservative recommendation layer, explicit future
+compiler-feature contract and local exactly-once campaign claim primitive.
+Read-only audits verified all 30 existing rows: ten architecture feature
+collisions; exploratory relative baseline errors 0.10/0.88/0.15 percentage points.
+Nine focused tests pass. See `docs/policy-correction-20261008.md` for precise
+scope and remaining work. New RTL campaign, compiler extraction, calibrated
+predictor and DQN repair remain open; physical transition measurements are
+unavailable. No fresh held-out dispatch or automatic switching occurred.
+
 ## Model-hardware co-design pilot (2026-10-08)
 
 The experimental Qwen3 gate/up shared-matrix image path, matched tiny training

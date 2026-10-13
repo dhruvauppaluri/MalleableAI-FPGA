@@ -1,0 +1,213 @@
+{
+  "automatic_switching_allowed": false,
+  "calibrated_intervals": false,
+  "folds": [
+    {
+      "estimates": {
+        "balanced": 1.0,
+        "buffered": 0.998434782232891,
+        "compact": 1.0063418074465247,
+        "compute": 0.9975473019019792
+      },
+      "excluded_model": "qwen3",
+      "samples": [
+        {
+          "error_percentage_points": 0.08395422591269686,
+          "model": "qwen3",
+          "personality": "compact",
+          "predicted_ratio": 1.0063418074465247,
+          "ratio": 1.0071813497056517,
+          "workload": "short-a"
+        },
+        {
+          "error_percentage_points": 0.05668418020164934,
+          "model": "qwen3",
+          "personality": "compute",
+          "predicted_ratio": 0.9975473019019792,
+          "ratio": 0.9969804600999627,
+          "workload": "short-a"
+        },
+        {
+          "error_percentage_points": 0.10264781670754619,
+          "model": "qwen3",
+          "personality": "buffered",
+          "predicted_ratio": 0.998434782232891,
+          "ratio": 0.9994612603999664,
+          "workload": "short-a"
+        },
+        {
+          "error_percentage_points": 0.07898145064386686,
+          "model": "qwen3",
+          "personality": "compact",
+          "predicted_ratio": 1.0063418074465247,
+          "ratio": 1.0071316219529634,
+          "workload": "short-b"
+        },
+        {
+          "error_percentage_points": 0.0622427906616263,
+          "model": "qwen3",
+          "personality": "compute",
+          "predicted_ratio": 0.9975473019019792,
+          "ratio": 0.9969248739953629,
+          "workload": "short-b"
+        },
+        {
+          "error_percentage_points": 0.09670889523489823,
+          "model": "qwen3",
+          "personality": "buffered",
+          "predicted_ratio": 0.998434782232891,
+          "ratio": 0.9994018711852399,
+          "workload": "short-b"
+        },
+        {
+          "error_percentage_points": 0.2323518824024151,
+          "model": "qwen3",
+          "personality": "compute",
+          "predicted_ratio": 0.9975473019019792,
+          "ratio": 0.9998708207260033,
+          "workload": "axi-stress"
+        }
+      ],
+      "speedup_mae_percentage_points": 0.10193874882352841
+    },
+    {
+      "estimates": {
+        "balanced": 1.0,
+        "buffered": 0.9991169489616487,
+        "compact": 1.007968095433803,
+        "compute": 0.9975473019019792
+      },
+      "excluded_model": "qwen35",
+      "samples": [
+        {
+          "error_percentage_points": 0.4153591341522267,
+          "model": "qwen35",
+          "personality": "compact",
+          "predicted_ratio": 1.007968095433803,
+          "ratio": 1.0038145040922808,
+          "workload": "short-a"
+        },
+        {
+          "error_percentage_points": 2.737528840274228,
+          "model": "qwen35",
+          "personality": "compute",
+          "predicted_ratio": 0.9975473019019792,
+          "ratio": 0.9701720134992369,
+          "workload": "short-a"
+        },
+        {
+          "error_percentage_points": 0.09407140229201749,
+          "model": "qwen35",
+          "personality": "buffered",
+          "predicted_ratio": 0.9991169489616487,
+          "ratio": 0.9981762349387285,
+          "workload": "short-a"
+        },
+        {
+          "error_percentage_points": 0.4039321702708598,
+          "model": "qwen35",
+          "personality": "compact",
+          "predicted_ratio": 1.007968095433803,
+          "ratio": 1.0039287737310945,
+          "workload": "short-b"
+        },
+        {
+          "error_percentage_points": 2.295198690511191,
+          "model": "qwen35",
+          "personality": "compute",
+          "predicted_ratio": 0.9975473019019792,
+          "ratio": 0.9745953149968672,
+          "workload": "short-b"
+        },
+        {
+          "error_percentage_points": 0.09642512538936554,
+          "model": "qwen35",
+          "personality": "buffered",
+          "predicted_ratio": 0.9991169489616487,
+          "ratio": 0.998152697707755,
+          "workload": "short-b"
+        },
+        {
+          "error_percentage_points": 0.14538112569471018,
+          "model": "qwen35",
+          "personality": "compute",
+          "predicted_ratio": 0.9975473019019792,
+          "ratio": 0.9990011131589263,
+          "workload": "axi-stress"
+        }
+      ],
+      "speedup_mae_percentage_points": 0.8839852126549427
+    },
+    {
+      "estimates": {
+        "balanced": 1.0,
+        "buffered": 0.9987890530619843,
+        "compact": 1.0055301978420288,
+        "compute": 0.9969526670476627
+      },
+      "excluded_model": "lfm",
+      "samples": [
+        {
+          "error_percentage_points": 0.3255362607719636,
+          "model": "lfm",
+          "personality": "compact",
+          "predicted_ratio": 1.0055301978420288,
+          "ratio": 1.0087855604497484,
+          "workload": "short-a"
+        },
+        {
+          "error_percentage_points": 0.07199024566107992,
+          "model": "lfm",
+          "personality": "compute",
+          "predicted_ratio": 0.9969526670476627,
+          "ratio": 0.9976725695042735,
+          "workload": "short-a"
+        },
+        {
+          "error_percentage_points": 0.004297367607319913,
+          "model": "lfm",
+          "personality": "buffered",
+          "predicted_ratio": 0.9987890530619843,
+          "ratio": 0.9988320267380575,
+          "workload": "short-a"
+        },
+        {
+          "error_percentage_points": 0.32246433199258906,
+          "model": "lfm",
+          "personality": "compact",
+          "predicted_ratio": 1.0055301978420288,
+          "ratio": 1.0087548411619547,
+          "workload": "short-b"
+        },
+        {
+          "error_percentage_points": 0.04693672520221792,
+          "model": "lfm",
+          "personality": "compute",
+          "predicted_ratio": 0.9969526670476627,
+          "ratio": 0.9974220342996849,
+          "workload": "short-b"
+        },
+        {
+          "error_percentage_points": 0.00957235349309249,
+          "model": "lfm",
+          "personality": "buffered",
+          "predicted_ratio": 0.9987890530619843,
+          "ratio": 0.9986933295270534,
+          "workload": "short-b"
+        },
+        {
+          "error_percentage_points": 0.23423829489321868,
+          "model": "lfm",
+          "personality": "compute",
+          "predicted_ratio": 0.9969526670476627,
+          "ratio": 0.9992950499965949,
+          "workload": "axi-stress"
+        }
+      ],
+      "speedup_mae_percentage_points": 0.1450050828030688
+    }
+  ],
+  "independent_evaluation": false,
+  "provenance": "exploratory-consumed-data-cross-validation",
+  "schema_version": 1
+}

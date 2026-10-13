@@ -25,12 +25,16 @@ def digest(path):
 
 def main():
     p=argparse.ArgumentParser(); p.add_argument('--destination',default='build/models')
+    p.add_argument('--only',choices=tuple(repo.split('/')[-1] for repo in MODELS),
+        help='download one approved model instead of all three')
     p.add_argument('--include-qwen3-verifier',action='store_true',
         help='explicitly download the optional Qwen3-1.7B CUDA verifier; never used by inference')
     a=p.parse_args(); root=Path(a.destination).resolve(); root.mkdir(parents=True,exist_ok=True)
     api=HfApi(token=False)
     pins=json.loads((Path(__file__).resolve().parents[1]/'docs/model-revisions.json').read_text())['models']
-    repos=MODELS+((VERIFIER,) if a.include_qwen3_verifier else ())
+    repos=tuple(repo for repo in MODELS
+                if a.only is None or repo.split('/')[-1]==a.only)
+    if a.include_qwen3_verifier: repos+=(VERIFIER,)
     for repo in repos:
         # The verifier is optional and resolves upstream only after this explicit
         # flag; the resolved immutable commit is written into its local manifest.

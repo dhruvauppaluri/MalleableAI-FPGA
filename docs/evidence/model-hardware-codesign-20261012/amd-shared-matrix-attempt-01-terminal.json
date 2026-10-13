@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "attempt_id": "amd-shared-matrix-20261012-01",
+  "state": "consumed_completed",
+  "provenance": "User-pasted Radeon Cloud terminal output and complete JSON report; files published without rerunning the attempt.",
+  "source_branch": "codex/policy-correction",
+  "source_commit": "unverified_from_terminal",
+  "command": "python tools/run_amd_shared_matrix_diagnostic.py --output /workspace/amd-shared-matrix-20261012-01.json",
+  "output_path_on_gpu_instance": "/workspace/amd-shared-matrix-20261012-01.json",
+  "synthetic_seeds": {
+    "teacher_init": 411,
+    "teacher_train": 4101,
+    "student_init": 417,
+    "student_train": 4202,
+    "validation": 4303
+  },
+  "environment_reported": {
+    "gpu": "AMD Radeon Graphics",
+    "pytorch": "2.9.1+gitff65f5b",
+    "hip": "7.2.53211-e1a6bc5663",
+    "gpu_memory_gib": 48,
+    "transformers": "4.57.6"
+  },
+  "terminal_result": {
+    "ordinary_nll": 0.4944560335528466,
+    "shared_nll": 0.4975506278776353,
+    "shared_teacher_agreement": 0.8823084677419355,
+    "isa_bit_exact": true,
+    "passed_diagnostic_gate": false
+  },
+  "rules": {
+    "shared_nll_at_most_105_percent_of_ordinary": true,
+    "shared_teacher_agreement_at_least_90_percent": true,
+    "isa_layout_outputs_bit_exact": true
+  },
+  "interpretation": "Frozen 90% teacher-agreement condition failed. Shared agreement 88.2308% exceeded ordinary agreement 87.3488% by 0.8821 percentage points; sharing did not cause the absolute agreement shortfall in this comparison. Shared NLL was 0.6259% above ordinary, within the 5% condition. ISA outputs were bit-exact.",
+  "automatic_switching_allowed": false,
+  "repeat_policy": "Do not rerun this attempt or reuse its seed set.",
+  "full_report": "docs/evidence/model-hardware-codesign-20261012/amd-shared-matrix-attempt-01.json"
+}

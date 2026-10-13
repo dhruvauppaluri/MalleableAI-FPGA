@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "campaign_id": "policy-correction-20261008",
+  "status": "draft-not-dispatched",
+  "claims": [],
+  "prior_quality_consumption_ledger": "docs/evidence/controller-quality-continuation-20261006/consumed-ledger.json",
+  "excluded_performance_evidence": "feature-audit.json:evidence_ids",
+  "existing_performance_rows_are_development_only": true,
+  "automatic_switching_allowed": false,
+  "blockers": [
+    "Freeze canonical new workload identities and source/compiler lineage",
+    "Implement canonical exclusion validation and published dispatch integration",
+    "Provide RTL runtime for new performance collection",
+    "Provide physical transition measurements before policy promotion"
+  ]
+}

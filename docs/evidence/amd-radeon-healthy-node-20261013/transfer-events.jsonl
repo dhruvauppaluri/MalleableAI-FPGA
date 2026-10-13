@@ -1,0 +1,7 @@
+{"phase": "importing_torch", "elapsed_seconds": 0.001, "max_rss_kib": 16384, "hsa_enable_sdma": "unset"}
+{"phase": "torch_imported", "elapsed_seconds": 1.154, "max_rss_kib": 638976, "torch": "2.9.1+gitff65f5b", "hip": "7.2.53211-e1a6bc5663"}
+{"phase": "gpu_detected", "elapsed_seconds": 1.357, "max_rss_kib": 650372, "gpu": "AMD Radeon Graphics", "gpu_total_bytes": 51522830336}
+{"phase": "tiny_copy_started", "elapsed_seconds": 1.357, "max_rss_kib": 650372}
+{"phase": "tiny_copy_completed", "elapsed_seconds": 1.588, "max_rss_kib": 831792, "bytes": 4}
+{"phase": "bulk_copy_started", "elapsed_seconds": 1.594, "max_rss_kib": 898352, "size_mib": 64}
+{"phase": "bulk_copy_completed", "elapsed_seconds": 1.604, "max_rss_kib": 915252, "bytes": 67108864}

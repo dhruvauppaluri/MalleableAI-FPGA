@@ -1,0 +1,8 @@
+{
+  "kind": "amd-qwen-load-probe",
+  "model_path": "/workspace/shared-models-01/Qwen3-0.6B",
+  "source_script_sha256": "0594e1eecef3a08e26f55b4f61fdb4ec5042a5bdfef76e7dbaedd015e2461544",
+  "heldout_opened": false,
+  "release_quality_claim": false,
+  "automatic_switching_allowed": false
+}

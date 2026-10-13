@@ -1,0 +1,367 @@
+{
+  "automatic_switching_allowed": false,
+  "baseline_mean_relative_costs": {
+    "deterministic": 1.0,
+    "oracle": 1.0,
+    "predictor": 1.0
+  },
+  "independent_evaluation": false,
+  "new_rtl_runs": 0,
+  "physical_transition_costs": false,
+  "provenance": "exploratory-reuse-of-consumed-published-RTL",
+  "schema_version": 1,
+  "scoring_episode_count": 6,
+  "training_episode_count": 12,
+  "training_seeds": [
+    {
+      "checkpoint_id": "511794f051c547559a762121541fe23db29f01611b34eed6e4f25eab87e147c0",
+      "executed_switch_count": 0,
+      "mean_relative_cost": 1.0,
+      "proposal_count": 960,
+      "rejection_count": 888,
+      "score_paths": [
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ]
+      ],
+      "seed": 0
+    },
+    {
+      "checkpoint_id": "6e87727aaf1408b0ab95c4cb70d753080263381ca7d6275edd3457b1c1ff61cd",
+      "executed_switch_count": 0,
+      "mean_relative_cost": 1.0,
+      "proposal_count": 960,
+      "rejection_count": 878,
+      "score_paths": [
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ]
+      ],
+      "seed": 1
+    },
+    {
+      "checkpoint_id": "8030fd0dba2955ff875a4e14f2de51de710aa3f2ed6c5c19f45f8fd71bf5b2f0",
+      "executed_switch_count": 0,
+      "mean_relative_cost": 1.0,
+      "proposal_count": 960,
+      "rejection_count": 883,
+      "score_paths": [
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ]
+      ],
+      "seed": 2
+    },
+    {
+      "checkpoint_id": "07283faba9cad113904ef48a893f956e8d2d7b6655ebdb1ae7c8a2b25d8eba2a",
+      "executed_switch_count": 0,
+      "mean_relative_cost": 1.0,
+      "proposal_count": 960,
+      "rejection_count": 870,
+      "score_paths": [
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ]
+      ],
+      "seed": 3
+    },
+    {
+      "checkpoint_id": "21c5c485b8b31ee233d69e9a2004fb256abb4430120614b89b289911d762ef15",
+      "executed_switch_count": 0,
+      "mean_relative_cost": 1.0,
+      "proposal_count": 960,
+      "rejection_count": 871,
+      "score_paths": [
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ],
+        [
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced",
+          "balanced"
+        ]
+      ],
+      "seed": 4
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+Command: timeout --signal=INT --kill-after=10s 2m python -u -
+Model: /workspace/shared-models-01/Qwen3-0.6B
+Load: AutoModelForCausalLM.from_pretrained(path, local_files_only=True, trust_remote_code=False, dtype=torch.float32)
+Transfer: model.to("cuda"); torch.cuda.synchronize()
+Forward: model(input_ids=torch.tensor([[1, 2, 3, 4]], device="cuda"), use_cache=False).logits
+
+CPU load started
+CPU load finished: 1.47 seconds
+GPU transfer started
+GPU transfer finished: 1.7 seconds
+Forward pass started
+Forward pass finished: 2.72 seconds; shape: (1, 4, 151936)
+load_check_exit_status=0

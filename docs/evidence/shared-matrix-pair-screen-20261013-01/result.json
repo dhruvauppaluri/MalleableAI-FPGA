@@ -1,0 +1,293 @@
+{
+  "schema_version": 1,
+  "kind": "qwen3-adjacent-gate-up-copy-development-screen-result",
+  "claim_sha256": "d9059da15b382a4150f539e5d7e261953b3da531c34ac344e6adc5df31b0bada",
+  "baseline": {
+    "nll": 3.724158264696598,
+    "next_token_accuracy": 0.389404296875,
+    "teacher_agreement": 1.0,
+    "targets": 4096
+  },
+  "pairs_by_nll": [
+    {
+      "source_layer": 12,
+      "target_layer": 13,
+      "nll": 3.824098616838455,
+      "next_token_accuracy": 0.3720703125,
+      "teacher_agreement": 0.823974609375,
+      "targets": 4096,
+      "nll_change_percent": 2.683568877543374,
+      "accuracy_change_points": -1.7333984375
+    },
+    {
+      "source_layer": 13,
+      "target_layer": 14,
+      "nll": 3.8261901512742043,
+      "next_token_accuracy": 0.3740234375,
+      "teacher_agreement": 0.8232421875,
+      "targets": 4096,
+      "nll_change_percent": 2.7397301437166233,
+      "accuracy_change_points": -1.5380859375
+    },
+    {
+      "source_layer": 11,
+      "target_layer": 12,
+      "nll": 3.8332388028502464,
+      "next_token_accuracy": 0.375,
+      "teacher_agreement": 0.814208984375,
+      "targets": 4096,
+      "nll_change_percent": 2.928998458193477,
+      "accuracy_change_points": -1.4404296875
+    },
+    {
+      "source_layer": 14,
+      "target_layer": 15,
+      "nll": 3.8494349271059036,
+      "next_token_accuracy": 0.37158203125,
+      "teacher_agreement": 0.81494140625,
+      "targets": 4096,
+      "nll_change_percent": 3.3638920127770477,
+      "accuracy_change_points": -1.7822265625
+    },
+    {
+      "source_layer": 8,
+      "target_layer": 9,
+      "nll": 3.928298443555832,
+      "next_token_accuracy": 0.36376953125,
+      "teacher_agreement": 0.7666015625,
+      "targets": 4096,
+      "nll_change_percent": 5.4815119108764465,
+      "accuracy_change_points": -2.5634765625
+    },
+    {
+      "source_layer": 10,
+      "target_layer": 11,
+      "nll": 3.9387066438794136,
+      "next_token_accuracy": 0.365478515625,
+      "teacher_agreement": 0.779541015625,
+      "targets": 4096,
+      "nll_change_percent": 5.7609898380700075,
+      "accuracy_change_points": -2.392578125
+    },
+    {
+      "source_layer": 9,
+      "target_layer": 10,
+      "nll": 3.9395691603422165,
+      "next_token_accuracy": 0.358642578125,
+      "teacher_agreement": 0.752197265625,
+      "targets": 4096,
+      "nll_change_percent": 5.784149875895994,
+      "accuracy_change_points": -3.076171875
+    },
+    {
+      "source_layer": 17,
+      "target_layer": 18,
+      "nll": 3.982086218893528,
+      "next_token_accuracy": 0.335205078125,
+      "teacher_agreement": 0.721923828125,
+      "targets": 4096,
+      "nll_change_percent": 6.9258053998933145,
+      "accuracy_change_points": -5.419921875
+    },
+    {
+      "source_layer": 23,
+      "target_layer": 24,
+      "nll": 4.0194810181856155,
+      "next_token_accuracy": 0.34765625,
+      "teacher_agreement": 0.77294921875,
+      "targets": 4096,
+      "nll_change_percent": 7.929919528086349,
+      "accuracy_change_points": -4.1748046875
+    },
+    {
+      "source_layer": 18,
+      "target_layer": 19,
+      "nll": 4.026745967566967,
+      "next_token_accuracy": 0.3427734375,
+      "teacher_agreement": 0.70849609375,
+      "targets": 4096,
+      "nll_change_percent": 8.124995807475987,
+      "accuracy_change_points": -4.6630859375
+    },
+    {
+      "source_layer": 15,
+      "target_layer": 16,
+      "nll": 4.027500919997692,
+      "next_token_accuracy": 0.337646484375,
+      "teacher_agreement": 0.7275390625,
+      "targets": 4096,
+      "nll_change_percent": 8.145267567617909,
+      "accuracy_change_points": -5.17578125
+    },
+    {
+      "source_layer": 16,
+      "target_layer": 17,
+      "nll": 4.030085876584053,
+      "next_token_accuracy": 0.343994140625,
+      "teacher_agreement": 0.72607421875,
+      "targets": 4096,
+      "nll_change_percent": 8.214678059939494,
+      "accuracy_change_points": -4.541015625
+    },
+    {
+      "source_layer": 24,
+      "target_layer": 25,
+      "nll": 4.039279751479626,
+      "next_token_accuracy": 0.354736328125,
+      "teacher_agreement": 0.785888671875,
+      "targets": 4096,
+      "nll_change_percent": 8.46154927867171,
+      "accuracy_change_points": -3.466796875
+    },
+    {
+      "source_layer": 20,
+      "target_layer": 21,
+      "nll": 4.085002459585667,
+      "next_token_accuracy": 0.34033203125,
+      "teacher_agreement": 0.74462890625,
+      "targets": 4096,
+      "nll_change_percent": 9.68928195962333,
+      "accuracy_change_points": -4.9072265625
+    },
+    {
+      "source_layer": 22,
+      "target_layer": 23,
+      "nll": 4.096090339124203,
+      "next_token_accuracy": 0.33056640625,
+      "teacher_agreement": 0.748291015625,
+      "targets": 4096,
+      "nll_change_percent": 9.987010432756293,
+      "accuracy_change_points": -5.8837890625
+    },
+    {
+      "source_layer": 6,
+      "target_layer": 7,
+      "nll": 4.096534684300423,
+      "next_token_accuracy": 0.342529296875,
+      "teacher_agreement": 0.70166015625,
+      "targets": 4096,
+      "nll_change_percent": 9.998941858454069,
+      "accuracy_change_points": -4.6875
+    },
+    {
+      "source_layer": 7,
+      "target_layer": 8,
+      "nll": 4.108632862567902,
+      "next_token_accuracy": 0.34423828125,
+      "teacher_agreement": 0.6953125,
+      "targets": 4096,
+      "nll_change_percent": 10.323798575263442,
+      "accuracy_change_points": -4.5166015625
+    },
+    {
+      "source_layer": 25,
+      "target_layer": 26,
+      "nll": 4.13591356575489,
+      "next_token_accuracy": 0.348388671875,
+      "teacher_agreement": 0.697998046875,
+      "targets": 4096,
+      "nll_change_percent": 11.056331976048227,
+      "accuracy_change_points": -4.1015625
+    },
+    {
+      "source_layer": 21,
+      "target_layer": 22,
+      "nll": 4.14329968392849,
+      "next_token_accuracy": 0.34326171875,
+      "teacher_agreement": 0.74609375,
+      "targets": 4096,
+      "nll_change_percent": 11.254661844131864,
+      "accuracy_change_points": -4.6142578125
+    },
+    {
+      "source_layer": 5,
+      "target_layer": 6,
+      "nll": 4.24259365350008,
+      "next_token_accuracy": 0.32763671875,
+      "teacher_agreement": 0.65869140625,
+      "targets": 4096,
+      "nll_change_percent": 13.920874247424564,
+      "accuracy_change_points": -6.1767578125
+    },
+    {
+      "source_layer": 19,
+      "target_layer": 20,
+      "nll": 4.244796849787235,
+      "next_token_accuracy": 0.32666015625,
+      "teacher_agreement": 0.705810546875,
+      "targets": 4096,
+      "nll_change_percent": 13.980033824718596,
+      "accuracy_change_points": -6.2744140625
+    },
+    {
+      "source_layer": 4,
+      "target_layer": 5,
+      "nll": 4.462596237659454,
+      "next_token_accuracy": 0.3095703125,
+      "teacher_agreement": 0.607177734375,
+      "targets": 4096,
+      "nll_change_percent": 19.828318789857224,
+      "accuracy_change_points": -7.9833984375
+    },
+    {
+      "source_layer": 2,
+      "target_layer": 3,
+      "nll": 4.63748125731945,
+      "next_token_accuracy": 0.28955078125,
+      "teacher_agreement": 0.5751953125,
+      "targets": 4096,
+      "nll_change_percent": 24.52427978909375,
+      "accuracy_change_points": -9.9853515625
+    },
+    {
+      "source_layer": 26,
+      "target_layer": 27,
+      "nll": 4.7155047953128815,
+      "next_token_accuracy": 0.330810546875,
+      "teacher_agreement": 0.626708984375,
+      "targets": 4096,
+      "nll_change_percent": 26.619344833269242,
+      "accuracy_change_points": -5.859375
+    },
+    {
+      "source_layer": 3,
+      "target_layer": 4,
+      "nll": 4.966921627521515,
+      "next_token_accuracy": 0.2626953125,
+      "teacher_agreement": 0.50244140625,
+      "targets": 4096,
+      "nll_change_percent": 33.37031550473495,
+      "accuracy_change_points": -12.6708984375
+    },
+    {
+      "source_layer": 1,
+      "target_layer": 2,
+      "nll": 9.703533306717873,
+      "next_token_accuracy": 0.08837890625,
+      "teacher_agreement": 0.138427734375,
+      "targets": 4096,
+      "nll_change_percent": 160.55641616263068,
+      "accuracy_change_points": -30.1025390625
+    },
+    {
+      "source_layer": 0,
+      "target_layer": 1,
+      "nll": 13.227331817150116,
+      "next_token_accuracy": 0.02197265625,
+      "teacher_agreement": 0.031982421875,
+      "targets": 4096,
+      "nll_change_percent": 255.17641509866732,
+      "accuracy_change_points": -36.7431640625
+    }
+  ],
+  "wall_seconds": 33.8436220921576,
+  "gpu": "AMD Radeon Graphics",
+  "heldout_opened": false,
+  "release_quality_claim": false,
+  "automatic_switching_allowed": false,
+  "limitations": [
+    "Zero-step copied weights only; no shared-model training or quality approval.",
+    "Ranking uses development data and cannot serve as a release held-out result.",
+    "No FPGA implementation, timing, or switching costs were measured."
+  ]
+}
