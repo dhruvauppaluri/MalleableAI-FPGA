@@ -1,5 +1,23 @@
 # Status
 
+## Shared-matrix real-text development attempt 03 completed and failed (2026-10-13)
+
+A fresh Radeon Cloud notebook passed the default four-byte/64 MiB host-to-GPU
+copies and loaded/transferred/ran a Qwen3-0.6B forward pass in 2.72 seconds.
+The checks are published in `docs/evidence/amd-radeon-healthy-node-20261013/`.
+The pinned WikiText development corpus reproduced the earlier train/dev file
+hashes. Fresh freeze and attempt 03 completed 40 matched training steps and
+development scoring in 16.393 seconds. The full result and immutable claim are
+published in `docs/evidence/shared-matrix-real-text-20261013-attempt03/`.
+Shared NLL was 7.375570 versus ordinary 6.732002 (+9.56%); shared accuracy
+was 12.2559% versus ordinary 15.4785% (-3.223 points). Both missed the
+untouched teacher's 3.724158 NLL and 38.9404% accuracy by a wide margin.
+The frozen development gate failed. Copying layer-0 gate/up into layer 1 for
+both students is a plausible major source of damage, pending a zero-step
+baseline and layer-pair screen. No release held-out test, RTL benchmark, or
+physical F2 run occurred. Attempts 01, 02 and 03 remain consumed; automatic
+switching stays gated.
+
 ## Shared-matrix real-text pilot interrupted (2026-10-12)
 
 The Radeon Cloud fresh-seed tiny diagnostic is published in
