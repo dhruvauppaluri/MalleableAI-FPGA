@@ -90,6 +90,12 @@ when both students are damaged. The result will still be developmental because
 pair 12→13 was selected on this same corpus. It cannot approve a checkpoint
 or automatic switching.
 
+Attempt 04 finished in 15.903 seconds. Shared NLL 3.618630 was close to
+ordinary 3.591713 and below teacher 3.724158. Its teacher top-token agreement
+was 81.8604%, so the predeclared 90% teacher anchor and combined development
+gate failed. See `docs/evidence/shared-matrix-real-text-20261013-attempt04/`.
+Do not open release held-out data for this candidate or reuse attempt 04.
+
 ## Bounded Radeon Cloud procedure
 
 Run these commands in the notebook terminal, one at a time. The model
