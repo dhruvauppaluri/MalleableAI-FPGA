@@ -1,15 +1,23 @@
 # Status
 
-## Screen-selected 12→13 development follow-up prepared (2026-10-13)
+## Screen-selected 12→13 development follow-up failed teacher agreement (2026-10-13)
 
 The completed 27-pair development screen selected 12→13 by lowest NLL.
 `tools/run_shared_matrix_finetune.py` now supports a fresh 12→13 freeze with
 the same 40-step paired ordinary/shared recipe. Its development gate requires
 both the matched-control checks and shared NLL <=105% of the untouched teacher
 plus >=90% teacher next-token agreement. Three focused gate/selection tests
-pass. Fresh freeze/attempt 04 is prepared but has not run or claimed an output
-root. The selection corpus is reused only for development. No release held-out
-suite, hardware benchmark, or automatic switching approval is implied.
+pass. Fresh freeze/attempt 04 completed all 40 steps and development scoring
+in 15.903 seconds. Shared NLL 3.618630 versus ordinary 3.591713 (+0.749%),
+and accuracy 38.9404% versus 39.1846% (-0.244 points), passed the matched
+control check. Shared NLL was 2.834% below the teacher, but teacher agreement
+was only 81.8604%, failing the predeclared 90% anchor. The ordinary control
+also had 81.8115% agreement. The combined development gate failed. The claim,
+freeze, result and progress are published in
+`docs/evidence/shared-matrix-real-text-20261013-attempt04/`. Attempts 01–04
+and the pair screen are consumed. The selection corpus was reused only for
+development. No release held-out suite, hardware benchmark, or automatic
+switching approval follows.
 
 ## Shared-matrix real-text development attempt 03 completed and failed (2026-10-13)
 
