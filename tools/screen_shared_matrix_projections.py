@@ -5,7 +5,6 @@ release held-out suite, or repeat the earlier both-projection pair screen.
 """
 
 import argparse
-import hashlib
 import json
 import os
 from pathlib import Path
