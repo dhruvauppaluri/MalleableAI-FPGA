@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "shared-matrix-real-text-development-corpus",
+  "repository": "Salesforce/wikitext",
+  "configuration": "wikitext-2-raw-v1",
+  "revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+  "files": {
+    "train.jsonl": {
+      "sha256": "4cf6174cc08f496e544530db2d3250919ba718688d9d50fb7cc8a91e9f4f6851",
+      "records": 4096,
+      "duplicates_skipped": 0
+    },
+    "dev.jsonl": {
+      "sha256": "ec4a17fa316b6b6dbdb4448aa3681ee6779f79bfbbb3ba090a2b5155cd52ff12",
+      "records": 1024,
+      "duplicates_skipped": 0
+    }
+  },
+  "splits_loaded": [
+    "train",
+    "validation"
+  ],
+  "test_scored": false,
+  "release_heldout": false,
+  "limitations": [
+    "WikiText-2 is public and may overlap pretrained-model data.",
+    "This bounded subset is for a development pilot only."
+  ]
+}
