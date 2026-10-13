@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "kind": "qwen3-pair-shared-real-text-development-pilot",
+  "source_script_sha256": "2fca9d20ece86f5b94f0b8b34b8d76012f4c5f5b8a5feb0b14f373d53e28a45a",
+  "model_path": "/workspace/shared-models-01/Qwen3-0.6B",
+  "model_files_sha256": {
+    "config.json": "660db3b73d788119c04535e48cf9be5f55bc3100841a718637ae695b442f27dd",
+    "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+    "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+    "model.safetensors": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b"
+  },
+  "train_path": "/workspace/shared-text-03/train.jsonl",
+  "dev_path": "/workspace/shared-text-03/dev.jsonl",
+  "train_file_sha256": "4cf6174cc08f496e544530db2d3250919ba718688d9d50fb7cc8a91e9f4f6851",
+  "dev_file_sha256": "ec4a17fa316b6b6dbdb4448aa3681ee6779f79bfbbb3ba090a2b5155cd52ff12",
+  "recipe": {
+    "model": "Qwen3-0.6B",
+    "source_layer": 12,
+    "target_layer": 13,
+    "projections": [
+      "gate_proj",
+      "up_proj"
+    ],
+    "sequence_length": 128,
+    "train_sequences": 128,
+    "dev_sequences": 32,
+    "batch_size": 1,
+    "steps": 40,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.01,
+    "distillation_temperature": 2.0,
+    "cross_entropy_fraction": 0.5,
+    "seed": 20261013,
+    "max_wall_minutes": 20,
+    "dev_nll_relative_limit": 1.05,
+    "dev_accuracy_drop_limit": 0.01,
+    "dev_teacher_nll_relative_limit": 1.05,
+    "dev_teacher_agreement_min": 0.9
+  },
+  "release_quality_claim": false,
+  "automatic_switching_allowed": false,
+  "heldout_opened": false,
+  "compiler_selective_pair_layout_supported": false,
+  "corpus_manifest_path": "/workspace/shared-text-03/corpus-manifest.json",
+  "corpus_manifest_sha256": "b3ec89b44bbf5df8b193e74af9e8684c2a78e137390e9a7a06d226851023e35c",
+  "train_token_sha256": "f29de73c5e81633b6fde6da04600c8acbeb5b6348892e53e990dd250ae8409f7",
+  "dev_token_sha256": "927d7b5d36ac9540b37f952f6ad3fbb03d304f19bb0739b7d276d52f057ab536"
+}
