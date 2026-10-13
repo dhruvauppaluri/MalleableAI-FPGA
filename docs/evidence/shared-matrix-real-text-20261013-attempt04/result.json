@@ -1,0 +1,260 @@
+{
+  "schema_version": 1,
+  "kind": "qwen3-pair-shared-real-text-development-result",
+  "freeze_sha256": "b0d7625ed8653072a4e6caf0d92766104348e6f34a316623f9515144b3ee161a",
+  "source_script_sha256": "2fca9d20ece86f5b94f0b8b34b8d76012f4c5f5b8a5feb0b14f373d53e28a45a",
+  "model_files_sha256": {
+    "config.json": "660db3b73d788119c04535e48cf9be5f55bc3100841a718637ae695b442f27dd",
+    "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+    "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+    "model.safetensors": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b"
+  },
+  "train_file_sha256": "4cf6174cc08f496e544530db2d3250919ba718688d9d50fb7cc8a91e9f4f6851",
+  "dev_file_sha256": "ec4a17fa316b6b6dbdb4448aa3681ee6779f79bfbbb3ba090a2b5155cd52ff12",
+  "train_token_sha256": "f29de73c5e81633b6fde6da04600c8acbeb5b6348892e53e990dd250ae8409f7",
+  "dev_token_sha256": "927d7b5d36ac9540b37f952f6ad3fbb03d304f19bb0739b7d276d52f057ab536",
+  "software": {
+    "torch": "2.9.1+gitff65f5b",
+    "transformers": "4.57.6",
+    "hip": "7.2.53211-e1a6bc5663",
+    "gpu": "AMD Radeon Graphics",
+    "bf16_autocast": true
+  },
+  "recipe": {
+    "model": "Qwen3-0.6B",
+    "source_layer": 12,
+    "target_layer": 13,
+    "projections": [
+      "gate_proj",
+      "up_proj"
+    ],
+    "sequence_length": 128,
+    "train_sequences": 128,
+    "dev_sequences": 32,
+    "batch_size": 1,
+    "steps": 40,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.01,
+    "distillation_temperature": 2.0,
+    "cross_entropy_fraction": 0.5,
+    "seed": 20261013,
+    "max_wall_minutes": 20,
+    "dev_nll_relative_limit": 1.05,
+    "dev_accuracy_drop_limit": 0.01,
+    "dev_teacher_nll_relative_limit": 1.05,
+    "dev_teacher_agreement_min": 0.9
+  },
+  "trainable_parameters": {
+    "ordinary": 12582912,
+    "shared": 6291456
+  },
+  "paired_initial_weights_equal": true,
+  "shared_parameter_identity_verified": true,
+  "training_losses": [
+    [
+      2.50272536277771,
+      2.50272536277771
+    ],
+    [
+      2.362527847290039,
+      2.367645025253296
+    ],
+    [
+      1.8336269855499268,
+      1.838095784187317
+    ],
+    [
+      2.500744342803955,
+      2.518852472305298
+    ],
+    [
+      2.2152976989746094,
+      2.2211153507232666
+    ],
+    [
+      1.7997336387634277,
+      1.8075686693191528
+    ],
+    [
+      2.2951409816741943,
+      2.3054215908050537
+    ],
+    [
+      2.27109956741333,
+      2.277764320373535
+    ],
+    [
+      1.971386194229126,
+      1.9776533842086792
+    ],
+    [
+      2.133289337158203,
+      2.134361505508423
+    ],
+    [
+      2.464280843734741,
+      2.4903757572174072
+    ],
+    [
+      2.304938793182373,
+      2.3141732215881348
+    ],
+    [
+      2.330544948577881,
+      2.3284451961517334
+    ],
+    [
+      2.136542320251465,
+      2.159775733947754
+    ],
+    [
+      1.9709116220474243,
+      1.9716458320617676
+    ],
+    [
+      2.1570494174957275,
+      2.169046640396118
+    ],
+    [
+      2.1512537002563477,
+      2.165532350540161
+    ],
+    [
+      2.375533103942871,
+      2.4007041454315186
+    ],
+    [
+      2.1848981380462646,
+      2.1935620307922363
+    ],
+    [
+      1.8600211143493652,
+      1.8751145601272583
+    ],
+    [
+      1.965257167816162,
+      1.9875776767730713
+    ],
+    [
+      2.027456521987915,
+      2.0459842681884766
+    ],
+    [
+      1.6300749778747559,
+      1.6459983587265015
+    ],
+    [
+      1.8399842977523804,
+      1.845932960510254
+    ],
+    [
+      2.3217973709106445,
+      2.3325843811035156
+    ],
+    [
+      1.8870222568511963,
+      1.8928824663162231
+    ],
+    [
+      2.0345447063446045,
+      2.0454907417297363
+    ],
+    [
+      1.5995266437530518,
+      1.6181821823120117
+    ],
+    [
+      2.0678000450134277,
+      2.090161085128784
+    ],
+    [
+      2.240839958190918,
+      2.2675819396972656
+    ],
+    [
+      1.907886028289795,
+      1.9282251596450806
+    ],
+    [
+      2.1709728240966797,
+      2.203082323074341
+    ],
+    [
+      1.8576472997665405,
+      1.8807443380355835
+    ],
+    [
+      1.9654241800308228,
+      1.965750813484192
+    ],
+    [
+      1.7668042182922363,
+      1.7867754697799683
+    ],
+    [
+      2.151864528656006,
+      2.1565940380096436
+    ],
+    [
+      2.274799108505249,
+      2.3067548274993896
+    ],
+    [
+      1.9889007806777954,
+      1.9985886812210083
+    ],
+    [
+      2.2842981815338135,
+      2.299677848815918
+    ],
+    [
+      1.636059284210205,
+      1.639804720878601
+    ]
+  ],
+  "development": {
+    "teacher": {
+      "nll": 3.724158264696598,
+      "next_token_accuracy": 0.389404296875,
+      "teacher_agreement": 1.0,
+      "agreement_when_teacher_correct": 1.0,
+      "agreement_when_teacher_wrong": 1.0,
+      "correct_when_teacher_wrong": 0.0,
+      "targets": 4096
+    },
+    "ordinary": {
+      "nll": 3.5917129814624786,
+      "next_token_accuracy": 0.391845703125,
+      "teacher_agreement": 0.818115234375,
+      "agreement_when_teacher_correct": 0.9253918495297806,
+      "agreement_when_teacher_wrong": 0.7497001199520192,
+      "correct_when_teacher_wrong": 0.05157936825269892,
+      "targets": 4096
+    },
+    "shared": {
+      "nll": 3.6186299547553062,
+      "next_token_accuracy": 0.389404296875,
+      "teacher_agreement": 0.818603515625,
+      "agreement_when_teacher_correct": 0.9235109717868338,
+      "agreement_when_teacher_wrong": 0.7516993202718912,
+      "correct_when_teacher_wrong": 0.04878048780487805,
+      "targets": 4096
+    }
+  },
+  "development_gate_checks": {
+    "matched_control": true,
+    "teacher_anchor": false,
+    "passed": false
+  },
+  "passed_development_gate": false,
+  "projection_delta_sha256": {
+    "ordinary": "f2cf707494c036872df43fe5c3db7ca6ab92b81ad421bc33fd5f5e8d799b5e54",
+    "shared": "4a1aacc653ede708ade84a9df59d7256b5928d15e47e8c004d7294791585ff40"
+  },
+  "wall_seconds": 15.90282047726214,
+  "peak_gpu_memory_bytes": 9092103680,
+  "release_quality_claim": false,
+  "heldout_opened": false,
+  "automatic_switching_allowed": false,
+  "compiler_selective_pair_layout_supported": false
+}
