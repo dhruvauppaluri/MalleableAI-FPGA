@@ -17,6 +17,10 @@ both students is a plausible major source of damage, pending a zero-step
 baseline and layer-pair screen. No release held-out test, RTL benchmark, or
 physical F2 run occurred. Attempts 01, 02 and 03 remain consumed; automatic
 switching stays gated.
+`tools/screen_shared_matrix_pairs.py` and `docs/shared-matrix-pair-screen.md`
+now define a bounded, exclusive zero-step development screen of all 27
+adjacent pairs. Its execution/result remains pending; no new quality claim
+follows from the prepared code.
 
 ## Shared-matrix real-text pilot interrupted (2026-10-12)
 
