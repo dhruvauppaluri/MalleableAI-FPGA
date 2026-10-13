@@ -68,12 +68,25 @@ limit is checked between operations, so it is not a hard process deadline.
 Use an external timeout around any new paid attempt and inspect its progress
 file before deciding whether another attempt is justified.
 
+Attempt 03 completed on a fresh, healthy Radeon notebook in 16.393 seconds.
+It failed the frozen development gate: shared NLL 7.375570 versus ordinary
+6.732002 (+9.56%), and shared next-token accuracy 12.2559% versus ordinary
+15.4785% (-3.223 percentage points). Both students were far below the
+unchanged teacher (NLL 3.724158, accuracy 38.9404%). See
+`docs/evidence/shared-matrix-real-text-20261013-attempt03/` for the freeze,
+claim, progress, result, and projection hashes. Do not repeat attempts 01–03.
+The next diagnostic should record pretraining quality immediately after
+copying a candidate pair, and screen layer pairs on development data before
+another full tied-training attempt. Automatic switching remains gated.
+
 ## Bounded Radeon Cloud procedure
 
 Run these commands in the notebook terminal, one at a time. The model
 download is explicit and limited to Qwen3-0.6B; keep it outside git. Check
 remaining credits before launch and destroy the Radeon instance after saving
 the small JSON result. Downloading and preparation also consume instance time.
+Replace `NEXT` below with a fresh attempt identifier after reviewing the
+attempt-03 failure; the existing attempt directories cannot be reused.
 
 ```sh
 git clone --depth 1 --branch codex/policy-correction https://github.com/dhruvauppaluri/MalleableAI-FPGA.git
@@ -85,12 +98,12 @@ python tools/run_shared_matrix_finetune.py freeze \
   --model /workspace/shared-models-01/Qwen3-0.6B \
   --train-jsonl /workspace/shared-text-01/train.jsonl \
   --dev-jsonl /workspace/shared-text-01/dev.jsonl \
-  --output /workspace/shared-pair-freeze-02.json
+  --output /workspace/shared-pair-freeze-NEXT.json
 timeout --signal=INT --kill-after=30s 25m \
   python -u tools/run_shared_matrix_finetune.py run \
-  --freeze /workspace/shared-pair-freeze-02.json \
-  --output-dir /workspace/shared-pair-attempt-02
-cat /workspace/shared-pair-attempt-02/result.json
+  --freeze /workspace/shared-pair-freeze-NEXT.json \
+  --output-dir /workspace/shared-pair-attempt-NEXT
+cat /workspace/shared-pair-attempt-NEXT/result.json
 ```
 
 If a command fails, preserve its output and any `failure.json`; do not
