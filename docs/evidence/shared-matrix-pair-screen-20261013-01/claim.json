@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "kind": "qwen3-adjacent-gate-up-copy-development-screen",
+  "source_script_sha256": "8ee37c02213ab7f30f2a1748d3f2c3e5685b5969f0aafa0f587233f9a5ad8057",
+  "input_freeze_sha256": "5c6846e15fcae9c317b1a4eacc34bc31108d62e134eca3b0c067f50f3e8d611b",
+  "dev_file_sha256": "ec4a17fa316b6b6dbdb4448aa3681ee6779f79bfbbb3ba090a2b5155cd52ff12",
+  "dev_token_sha256": "927d7b5d36ac9540b37f952f6ad3fbb03d304f19bb0739b7d276d52f057ab536",
+  "pairs": [
+    {
+      "source_layer": 0,
+      "target_layer": 1
+    },
+    {
+      "source_layer": 1,
+      "target_layer": 2
+    },
+    {
+      "source_layer": 2,
+      "target_layer": 3
+    },
+    {
+      "source_layer": 3,
+      "target_layer": 4
+    },
+    {
+      "source_layer": 4,
+      "target_layer": 5
+    },
+    {
+      "source_layer": 5,
+      "target_layer": 6
+    },
+    {
+      "source_layer": 6,
+      "target_layer": 7
+    },
+    {
+      "source_layer": 7,
+      "target_layer": 8
+    },
+    {
+      "source_layer": 8,
+      "target_layer": 9
+    },
+    {
+      "source_layer": 9,
+      "target_layer": 10
+    },
+    {
+      "source_layer": 10,
+      "target_layer": 11
+    },
+    {
+      "source_layer": 11,
+      "target_layer": 12
+    },
+    {
+      "source_layer": 12,
+      "target_layer": 13
+    },
+    {
+      "source_layer": 13,
+      "target_layer": 14
+    },
+    {
+      "source_layer": 14,
+      "target_layer": 15
+    },
+    {
+      "source_layer": 15,
+      "target_layer": 16
+    },
+    {
+      "source_layer": 16,
+      "target_layer": 17
+    },
+    {
+      "source_layer": 17,
+      "target_layer": 18
+    },
+    {
+      "source_layer": 18,
+      "target_layer": 19
+    },
+    {
+      "source_layer": 19,
+      "target_layer": 20
+    },
+    {
+      "source_layer": 20,
+      "target_layer": 21
+    },
+    {
+      "source_layer": 21,
+      "target_layer": 22
+    },
+    {
+      "source_layer": 22,
+      "target_layer": 23
+    },
+    {
+      "source_layer": 23,
+      "target_layer": 24
+    },
+    {
+      "source_layer": 24,
+      "target_layer": 25
+    },
+    {
+      "source_layer": 25,
+      "target_layer": 26
+    },
+    {
+      "source_layer": 26,
+      "target_layer": 27
+    }
+  ],
+  "projections": [
+    "gate_proj",
+    "up_proj"
+  ],
+  "max_wall_seconds": 300,
+  "heldout_opened": false,
+  "release_quality_claim": false,
+  "automatic_switching_allowed": false
+}
