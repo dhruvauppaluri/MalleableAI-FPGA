@@ -34,6 +34,14 @@ RECIPE = {
     "dev_nll_relative_limit": 1.05,
     "dev_accuracy_drop_limit": 0.01,
 }
+SCREEN_SELECTED_PAIR = (12, 13)
+SCREEN_SELECTED_RECIPE = {
+    **RECIPE,
+    "source_layer": SCREEN_SELECTED_PAIR[0],
+    "target_layer": SCREEN_SELECTED_PAIR[1],
+    "dev_teacher_nll_relative_limit": 1.05,
+    "dev_teacher_agreement_min": 0.90,
+}
 IDENTITY_FILES = (
     "config.json", "tokenizer.json", "tokenizer_config.json",
     "model.safetensors.index.json", "download-manifest.json",
@@ -46,6 +54,33 @@ def digest(path):
         for block in iter(lambda: stream.read(1024 * 1024), b""):
             h.update(block)
     return h.hexdigest()
+
+
+def recipe_for_pair(source_layer, target_layer):
+    pair = (source_layer, target_layer)
+    if pair == (RECIPE["source_layer"], RECIPE["target_layer"]):
+        return copy.deepcopy(RECIPE)
+    if pair == SCREEN_SELECTED_PAIR:
+        return copy.deepcopy(SCREEN_SELECTED_RECIPE)
+    raise ValueError("pair must be original 0:1 or screened 12:13")
+
+
+def development_gate(metrics, recipe):
+    teacher = metrics["teacher"]
+    ordinary = metrics["ordinary"]
+    shared = metrics["shared"]
+    matched_control = (
+        shared["nll"] <= recipe["dev_nll_relative_limit"] * ordinary["nll"]
+        and shared["next_token_accuracy"] >=
+        ordinary["next_token_accuracy"] - recipe["dev_accuracy_drop_limit"])
+    teacher_anchor = (
+        shared["nll"] <= recipe.get("dev_teacher_nll_relative_limit", float("inf"))
+        * teacher["nll"]
+        and shared["teacher_agreement"] >=
+        recipe.get("dev_teacher_agreement_min", 0.0))
+    return {"matched_control": matched_control,
+            "teacher_anchor": teacher_anchor,
+            "passed": matched_control and teacher_anchor}
 
 
 def write_new(path, obj):
@@ -149,11 +184,12 @@ def freeze_inputs(args):
     import transformers
     if not hasattr(transformers, "Qwen3ForCausalLM"):
         raise RuntimeError("installed Transformers lacks Qwen3ForCausalLM")
-    recipe = copy.deepcopy(RECIPE)
+    recipe = recipe_for_pair(args.source_layer, args.target_layer)
     model_path = Path(args.model).resolve(strict=True)
     config = transformers.AutoConfig.from_pretrained(
         str(model_path), local_files_only=True, trust_remote_code=False)
-    if config.model_type != "qwen3" or config.num_hidden_layers < 2:
+    if (config.model_type != "qwen3" or
+            config.num_hidden_layers <= recipe["target_layer"]):
         raise ValueError("this frozen recipe requires a multi-layer Qwen3 model")
     train_path = Path(args.train_jsonl).resolve(strict=True)
     dev_path = Path(args.dev_jsonl).resolve(strict=True)
@@ -323,7 +359,8 @@ def run(args):
     if freeze["kind"] != "qwen3-pair-shared-real-text-development-pilot":
         raise ValueError("wrong freeze kind")
     recipe = freeze["recipe"]
-    if recipe != RECIPE:
+    if recipe != recipe_for_pair(recipe["source_layer"],
+                                 recipe["target_layer"]):
         raise ValueError("recipe changed since freeze")
     if "train_token_sha256" not in freeze or "dev_token_sha256" not in freeze:
         raise ValueError("incomplete frozen token identities")
@@ -427,11 +464,8 @@ def run(args):
                                amp, deadline)
         progress("scoring_completed")
         ordinary_metrics, shared_metrics = metrics["ordinary"], metrics["shared"]
-        gate = (shared_metrics["nll"] <=
-                recipe["dev_nll_relative_limit"] * ordinary_metrics["nll"] and
-                shared_metrics["next_token_accuracy"] >=
-                ordinary_metrics["next_token_accuracy"] -
-                recipe["dev_accuracy_drop_limit"])
+        gate_checks = development_gate(metrics, recipe)
+        gate = gate_checks["passed"]
         ordinary_delta = out / "ordinary-projections.safetensors"
         shared_delta = out / "shared-projections.safetensors"
         ordinary_sha = save_projection_delta(ordinary, recipe, ordinary_delta)
@@ -459,6 +493,7 @@ def run(args):
             "shared_parameter_identity_verified": True,
             "training_losses": losses,
             "development": metrics,
+            "development_gate_checks": gate_checks,
             "passed_development_gate": gate,
             "projection_delta_sha256": {"ordinary": ordinary_sha,
                                         "shared": shared_sha},
@@ -499,6 +534,8 @@ def main():
     freeze_parser.add_argument("--train-jsonl", required=True)
     freeze_parser.add_argument("--dev-jsonl", required=True)
     freeze_parser.add_argument("--output", required=True)
+    freeze_parser.add_argument("--source-layer", type=int, default=0)
+    freeze_parser.add_argument("--target-layer", type=int, default=1)
     run_parser = sub.add_parser("run")
     run_parser.add_argument("--freeze", required=True)
     run_parser.add_argument("--output-dir", required=True)
