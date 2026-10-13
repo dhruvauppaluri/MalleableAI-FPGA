@@ -40,3 +40,10 @@ or `failure.json`, and the console output. Do not repeat a claimed screen
 root. The next training candidate must use a separate prospective recipe and
 fresh attempt root. Passing a development screen would not approve matrix
 sharing or permit automatic program switching.
+
+Screen 01 completed all 27 pairs in 33.844 seconds. The full immutable
+result is in `docs/evidence/shared-matrix-pair-screen-20261013-01/`. Pair
+0→1 caused +255.18% NLL and -36.743 points accuracy immediately after copy.
+The best pair by NLL was 12→13 at +2.684% NLL and -1.733 points accuracy.
+This screen is consumed development evidence; do not rerun it as an
+independent confirmation.
