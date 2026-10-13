@@ -1,5 +1,18 @@
 # Status
 
+## Zephyrus single-projection screen ready (2026-10-12 PT)
+
+`tools/screen_shared_matrix_projections.py` prospectively freezes a CUDA-only
+development comparison of gate-only and up-only layer-12→13 copies. It checks
+the pinned Qwen3 checkpoint and the exact earlier WikiText development file
+and token hashes, claims a fresh output root once, and requires >=90% teacher
+agreement and <=5% NLL increase to select a panel. It does not rerun the
+consumed both-projection scan or open release held-out data. Four focused
+selection/gate tests pass. The operator's Windows/WSL procedure is in
+`docs/zephyrus-shared-matrix-projection-screen.md`. No local CUDA result is
+recorded yet; no further Radeon training recipe is selected. Automatic
+switching remains gated.
+
 ## Screen-selected 12→13 development follow-up failed teacher agreement (2026-10-13)
 
 The completed 27-pair development screen selected 12→13 by lowest NLL.
