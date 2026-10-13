@@ -17,10 +17,17 @@ both students is a plausible major source of damage, pending a zero-step
 baseline and layer-pair screen. No release held-out test, RTL benchmark, or
 physical F2 run occurred. Attempts 01, 02 and 03 remain consumed; automatic
 switching stays gated.
-`tools/screen_shared_matrix_pairs.py` and `docs/shared-matrix-pair-screen.md`
-now define a bounded, exclusive zero-step development screen of all 27
-adjacent pairs. Its execution/result remains pending; no new quality claim
-follows from the prepared code.
+`tools/screen_shared_matrix_pairs.py` completed an exclusive zero-step
+development screen of all 27 adjacent pairs in 33.844 seconds. The direct
+0→1 copy caused +255.18% NLL and -36.743 accuracy points before training,
+confirming a major cause of attempt 03's common regression. The least damaging
+pair by NLL was 12→13 at +2.684% NLL and -1.733 accuracy points. Full
+claim/results are published in
+`docs/evidence/shared-matrix-pair-screen-20261013-01/`. No pair met both a
+5% NLL and one-point accuracy descriptive comparison with the untouched model.
+This is development selection evidence only; a new prospective training
+recipe and later independent quality suite are still required. Automatic
+switching remains gated.
 
 ## Shared-matrix real-text pilot interrupted (2026-10-12)
 
