@@ -1,0 +1,1057 @@
+{
+ "schema_version": 1,
+ "source": "4c7bad23f88373baf2bd71bead863dd5ca081e80",
+ "yosys": "Yosys 0.33 (git sha1 2584903a060)",
+ "max_dim": 64,
+ "max_layers": 4,
+ "area_provenance": "estimated:yosys-0.33-generic-mapping(abc -fast) (not a target fit; no Vivado/Quartus numbers)",
+ "simulation_provenance": "measured:rtl-simulation(icarus)",
+ "failures": {},
+ "builds": [
+  {
+   "lanes": 1,
+   "area": {
+    "cells": 65135,
+    "logic_gates": 64518,
+    "flip_flops": 602,
+    "memory_bits": 150936,
+    "memory_read_ports": 1313,
+    "provenance": "estimated:yosys-0.33-generic-mapping(abc -fast) (not a target fit; no Vivado/Quartus numbers)"
+   },
+   "top_gate": {
+    "cells": 65135,
+    "logic_gates": 64518,
+    "flip_flops": 602,
+    "memory_cells": 15,
+    "gate_types": {
+     "$_AND_": 22286,
+     "$_MUX_": 2383,
+     "$_NAND_": 5765,
+     "$_NOR_": 10082,
+     "$_NOT_": 2855,
+     "$_OR_": 14539,
+     "$_SDFFE_PP0P_": 338,
+     "$_SDFFE_PP1P_": 1,
+     "$_SDFF_PP0_": 263,
+     "$_XNOR_": 3717,
+     "$_XOR_": 2891,
+     "$mem_v2": 15
+    },
+    "memories": [
+     {
+      "name": "\\activation_bank_a",
+      "width": 8,
+      "depth": 64,
+      "bits": 512,
+      "read_ports": 2,
+      "write_ports": 2
+     },
+     {
+      "name": "\\activation_bank_b",
+      "width": 8,
+      "depth": 64,
+      "bits": 512,
+      "read_ports": 2,
+      "write_ports": 1
+     },
+     {
+      "name": "\\bias_memory",
+      "width": 32,
+      "depth": 256,
+      "bits": 8192,
+      "read_ports": 1,
+      "write_ports": 1
+     },
+     {
+      "name": "\\bias_valid",
+      "width": 1,
+      "depth": 256,
+      "bits": 256,
+      "read_ports": 256,
+      "write_ports": 257
+     },
+     {
+      "name": "\\descriptor_input_count",
+      "width": 16,
+      "depth": 4,
+      "bits": 64,
+      "read_ports": 5,
+      "write_ports": 1
+     },
+     {
+      "name": "\\descriptor_output_count",
+      "width": 16,
+      "depth": 4,
+      "bits": 64,
+      "read_ports": 5,
+      "write_ports": 1
+     },
+     {
+      "name": "\\descriptor_param_base",
+      "width": 32,
+      "depth": 4,
+      "bits": 128,
+      "read_ports": 5,
+      "write_ports": 1
+     },
+     {
+      "name": "\\descriptor_relu",
+      "width": 1,
+      "depth": 4,
+      "bits": 4,
+      "read_ports": 1,
+      "write_ports": 1
+     },
+     {
+      "name": "\\descriptor_valid",
+      "width": 5,
+      "depth": 4,
+      "bits": 20,
+      "read_ports": 4,
+      "write_ports": 5
+     },
+     {
+      "name": "\\descriptor_weight_base",
+      "width": 32,
+      "depth": 4,
+      "bits": 128,
+      "read_ports": 5,
+      "write_ports": 1
+     },
+     {
+      "name": "\\multiplier_memory",
+      "width": 31,
+      "depth": 256,
+      "bits": 7936,
+      "read_ports": 257,
+      "write_ports": 1
+     },
+     {
+      "name": "\\multiplier_valid",
+      "width": 1,
+      "depth": 256,
+      "bits": 256,
+      "read_ports": 256,
+      "write_ports": 257
+     },
+     {
+      "name": "\\shift_memory",
+      "width": 6,
+      "depth": 256,
+      "bits": 1536,
+      "read_ports": 257,
+      "write_ports": 1
+     },
+     {
+      "name": "\\shift_valid",
+      "width": 1,
+      "depth": 256,
+      "bits": 256,
+      "read_ports": 256,
+      "write_ports": 257
+     },
+     {
+      "name": "\\weight_memory",
+      "width": 8,
+      "depth": 16384,
+      "bits": 131072,
+      "read_ports": 1,
+      "write_ports": 1
+     }
+    ],
+    "memory_bits": 150936,
+    "memory_read_ports": 1313,
+    "seconds": 168.1042163510001
+   },
+   "top_coarse": {
+    "cells": 14819,
+    "macc_cells": 7,
+    "alu_cells": 2379,
+    "mux_cells": 2643,
+    "seconds": 36.031797836999885
+   },
+   "datapath_gate": {
+    "cells": 900,
+    "logic_gates": 797,
+    "flip_flops": 103,
+    "memory_cells": 0,
+    "gate_types": {
+     "$_AND_": 197,
+     "$_MUX_": 1,
+     "$_NAND_": 63,
+     "$_NOR_": 34,
+     "$_NOT_": 75,
+     "$_OR_": 212,
+     "$_SDFFE_PP0P_": 99,
+     "$_SDFF_PP0_": 4,
+     "$_XNOR_": 79,
+     "$_XOR_": 136
+    },
+    "seconds": 0.4046483470001476
+   },
+   "digits": {
+    "requests": 360,
+    "bit_exact": true,
+    "provenance": "measured:rtl-simulation(icarus)",
+    "cycles": 4862,
+    "compute_cycles": 2368,
+    "controller_cycles": 2494,
+    "tiles": 2368,
+    "useful_macs": 2368,
+    "util_accept": 1.0,
+    "util_wall": 0.4870423693953106,
+    "roofline": {
+     "achieved_macs_per_cycle": 0.4870423693953106,
+     "accept_ceiling": 1,
+     "tile_ceiling": 0.5,
+     "fraction_of_tile_ceiling": 0.9740847387906212,
+     "gap_cycles_to_accept_ceiling": 2494.0,
+     "gap_share": {
+      "padding": 0.0,
+      "accumulator_serialization": 0.9494787489975942,
+      "controller_overhead": 0.05052125100240577
+     },
+     "controller_other_cycles": 126,
+     "per_output_controller_cycles": 3.0,
+     "provenance": "derived:counters+stage4-calibration(2 cycles/tile)"
+    }
+   }
+  },
+  {
+   "lanes": 2,
+   "area": {
+    "cells": 66473,
+    "logic_gates": 65856,
+    "flip_flops": 602,
+    "memory_bits": 150936,
+    "memory_read_ports": 1316,
+    "provenance": "estimated:yosys-0.33-generic-mapping(abc -fast) (not a target fit; no Vivado/Quartus numbers)"
+   },
+   "top_gate": {
+    "cells": 66473,
+    "logic_gates": 65856,
+    "flip_flops": 602,
+    "memory_cells": 15,
+    "gate_types": {
+     "$_AND_": 22559,
+     "$_MUX_": 2391,
+     "$_NAND_": 5799,
+     "$_NOR_": 10308,
+     "$_NOT_": 3046,
+     "$_OR_": 14782,
+     "$_SDFFE_PP0P_": 338,
+     "$_SDFFE_PP1P_": 1,
+     "$_SDFF_PP0_": 263,
+     "$_XNOR_": 3811,
+     "$_XOR_": 3160,
+     "$mem_v2": 15
+    },
+    "memories": [
+     {
+      "name": "\\activation_bank_a",
+      "width": 8,
+      "depth": 64,
+      "bits": 512,
+      "read_ports": 3,
+      "write_ports": 2
+     },
+     {
+      "name": "\\activation_bank_b",
+      "width": 8,
+      "depth": 64,
+      "bits": 512,
+      "read_ports": 3,
+      "write_ports": 1
+     },
+     {
+      "name": "\\bias_memory",
+      "width": 32,
+      "depth": 256,
+      "bits": 8192,
+      "read_ports": 1,
+      "write_ports": 1
+     },
+     {
+      "name": "\\bias_valid",
+      "width": 1,
+      "depth": 256,
+      "bits": 256,
+      "read_ports": 256,
+      "write_ports": 257
+     },
+     {
+      "name": "\\descriptor_input_count",
+      "width": 16,
+      "depth": 4,
+      "bits": 64,
+      "read_ports": 5,
+      "write_ports": 1
+     },
+     {
+      "name": "\\descriptor_output_count",
+      "width": 16,
+      "depth": 4,
+      "bits": 64,
+      "read_ports": 5,
+      "write_ports": 1
+     },
+     {
+      "name": "\\descriptor_param_base",
+      "width": 32,
+      "depth": 4,
+      "bits": 128,
+      "read_ports": 5,
+      "write_ports": 1
+     },
+     {
+      "name": "\\descriptor_relu",
+      "width": 1,
+      "depth": 4,
+      "bits": 4,
+      "read_ports": 1,
+      "write_ports": 1
+     },
+     {
+      "name": "\\descriptor_valid",
+      "width": 5,
+      "depth": 4,
+      "bits": 20,
+      "read_ports": 4,
+      "write_ports": 5
+     },
+     {
+      "name": "\\descriptor_weight_base",
+      "width": 32,
+      "depth": 4,
+      "bits": 128,
+      "read_ports": 5,
+      "write_ports": 1
+     },
+     {
+      "name": "\\multiplier_memory",
+      "width": 31,
+      "depth": 256,
+      "bits": 7936,
+      "read_ports": 257,
+      "write_ports": 1
+     },
+     {
+      "name": "\\multiplier_valid",
+      "width": 1,
+      "depth": 256,
+      "bits": 256,
+      "read_ports": 256,
+      "write_ports": 257
+     },
+     {
+      "name": "\\shift_memory",
+      "width": 6,
+      "depth": 256,
+      "bits": 1536,
+      "read_ports": 257,
+      "write_ports": 1
+     },
+     {
+      "name": "\\shift_valid",
+      "width": 1,
+      "depth": 256,
+      "bits": 256,
+      "read_ports": 256,
+      "write_ports": 257
+     },
+     {
+      "name": "\\weight_memory",
+      "width": 8,
+      "depth": 16384,
+      "bits": 131072,
+      "read_ports": 2,
+      "write_ports": 1
+     }
+    ],
+    "memory_bits": 150936,
+    "memory_read_ports": 1316,
+    "seconds": 179.72396640499983
+   },
+   "top_coarse": {
+    "cells": 14842,
+    "macc_cells": 9,
+    "alu_cells": 2384,
+    "mux_cells": 2648,
+    "seconds": 34.67056394300016
+   },
+   "datapath_gate": {
+    "cells": 1625,
+    "logic_gates": 1522,
+    "flip_flops": 103,
+    "memory_cells": 0,
+    "gate_types": {
+     "$_AND_": 366,
+     "$_MUX_": 1,
+     "$_NAND_": 82,
+     "$_NOR_": 97,
+     "$_NOT_": 129,
+     "$_OR_": 420,
+     "$_SDFFE_PP0P_": 99,
+     "$_SDFF_PP0_": 4,
+     "$_XNOR_": 199,
+     "$_XOR_": 228
+    },
+    "seconds": 0.7061945830000695
+   },
+   "digits": {
+    "requests": 360,
+    "bit_exact": true,
+    "provenance": "measured:rtl-simulation(icarus)",
+    "cycles": 2494,
+    "compute_cycles": 1184,
+    "controller_cycles": 1310,
+    "tiles": 1184,
+    "useful_macs": 2368,
+    "util_accept": 1.0,
+    "util_wall": 0.4747393744987971,
+    "roofline": {
+     "achieved_macs_per_cycle": 0.9494787489975942,
+     "accept_ceiling": 2,
+     "tile_ceiling": 1.0,
+     "fraction_of_tile_ceiling": 0.9494787489975942,
+     "gap_cycles_to_accept_ceiling": 1310.0,
+     "gap_share": {
+      "padding": 0.0,
+      "accumulator_serialization": 0.9038167938931297,
+      "controller_overhead": 0.09618320610687023
+     },
+     "controller_other_cycles": 126,
+     "per_output_controller_cycles": 3.0,
+     "provenance": "derived:counters+stage4-calibration(2 cycles/tile)"
+    }
+   }
+  },
+  {
+   "lanes": 4,
+   "area": {
+    "cells": 68844,
+    "logic_gates": 68227,
+    "flip_flops": 602,
+    "memory_bits": 150936,
+    "memory_read_ports": 1322,
+    "provenance": "estimated:yosys-0.33-generic-mapping(abc -fast) (not a target fit; no Vivado/Quartus numbers)"
+   },
+   "top_gate": {
+    "cells": 68844,
+    "logic_gates": 68227,
+    "flip_flops": 602,
+    "memory_cells": 15,
+    "gate_types": {
+     "$_AND_": 23246,
+     "$_MUX_": 2408,
+     "$_NAND_": 5833,
+     "$_NOR_": 10508,
+     "$_NOT_": 3300,
+     "$_OR_": 15313,
+     "$_SDFFE_PP0P_": 338,
+     "$_SDFFE_PP1P_": 1,
+     "$_SDFF_PP0_": 263,
+     "$_XNOR_": 4104,
+     "$_XOR_": 3515,
+     "$mem_v2": 15
+    },
+    "memories": [
+     {
+      "name": "\\activation_bank_a",
+      "width": 8,
+      "depth": 64,
+      "bits": 512,
+      "read_ports": 5,
+      "write_ports": 2
+     },
+     {
+      "name": "\\activation_bank_b",
+      "width": 8,
+      "depth": 64,
+      "bits": 512,
+      "read_ports": 5,
+      "write_ports": 1
+     },
+     {
+      "name": "\\bias_memory",
+      "width": 32,
+      "depth": 256,
+      "bits": 8192,
+      "read_ports": 1,
+      "write_ports": 1
+     },
+     {
+      "name": "\\bias_valid",
+      "width": 1,
+      "depth": 256,
+      "bits": 256,
+      "read_ports": 256,
+      "write_ports": 257
+     },
+     {
+      "name": "\\descriptor_input_count",
+      "width": 16,
+      "depth": 4,
+      "bits": 64,
+      "read_ports": 5,
+      "write_ports": 1
+     },
+     {
+      "name": "\\descriptor_output_count",
+      "width": 16,
+      "depth": 4,
+      "bits": 64,
+      "read_ports": 5,
+      "write_ports": 1
+     },
+     {
+      "name": "\\descriptor_param_base",
+      "width": 32,
+      "depth": 4,
+      "bits": 128,
+      "read_ports": 5,
+      "write_ports": 1
+     },
+     {
+      "name": "\\descriptor_relu",
+      "width": 1,
+      "depth": 4,
+      "bits": 4,
+      "read_ports": 1,
+      "write_ports": 1
+     },
+     {
+      "name": "\\descriptor_valid",
+      "width": 5,
+      "depth": 4,
+      "bits": 20,
+      "read_ports": 4,
+      "write_ports": 5
+     },
+     {
+      "name": "\\descriptor_weight_base",
+      "width": 32,
+      "depth": 4,
+      "bits": 128,
+      "read_ports": 5,
+      "write_ports": 1
+     },
+     {
+      "name": "\\multiplier_memory",
+      "width": 31,
+      "depth": 256,
+      "bits": 7936,
+      "read_ports": 257,
+      "write_ports": 1
+     },
+     {
+      "name": "\\multiplier_valid",
+      "width": 1,
+      "depth": 256,
+      "bits": 256,
+      "read_ports": 256,
+      "write_ports": 257
+     },
+     {
+      "name": "\\shift_memory",
+      "width": 6,
+      "depth": 256,
+      "bits": 1536,
+      "read_ports": 257,
+      "write_ports": 1
+     },
+     {
+      "name": "\\shift_valid",
+      "width": 1,
+      "depth": 256,
+      "bits": 256,
+      "read_ports": 256,
+      "write_ports": 257
+     },
+     {
+      "name": "\\weight_memory",
+      "width": 8,
+      "depth": 16384,
+      "bits": 131072,
+      "read_ports": 4,
+      "write_ports": 1
+     }
+    ],
+    "memory_bits": 150936,
+    "memory_read_ports": 1322,
+    "seconds": 182.9237335429998
+   },
+   "top_coarse": {
+    "cells": 14868,
+    "macc_cells": 11,
+    "alu_cells": 2391,
+    "mux_cells": 2658,
+    "seconds": 35.894947470999796
+   },
+   "datapath_gate": {
+    "cells": 3075,
+    "logic_gates": 2972,
+    "flip_flops": 103,
+    "memory_cells": 0,
+    "gate_types": {
+     "$_AND_": 702,
+     "$_MUX_": 1,
+     "$_NAND_": 128,
+     "$_NOR_": 223,
+     "$_NOT_": 227,
+     "$_OR_": 836,
+     "$_SDFFE_PP0P_": 99,
+     "$_SDFF_PP0_": 4,
+     "$_XNOR_": 440,
+     "$_XOR_": 415
+    },
+    "seconds": 1.2685857659998874
+   },
+   "digits": {
+    "requests": 360,
+    "bit_exact": true,
+    "provenance": "measured:rtl-simulation(icarus)",
+    "cycles": 1310,
+    "compute_cycles": 592,
+    "controller_cycles": 718,
+    "tiles": 592,
+    "useful_macs": 2368,
+    "util_accept": 1.0,
+    "util_wall": 0.45190839694656487,
+    "roofline": {
+     "achieved_macs_per_cycle": 1.8076335877862595,
+     "accept_ceiling": 4,
+     "tile_ceiling": 2.0,
+     "fraction_of_tile_ceiling": 0.9038167938931297,
+     "gap_cycles_to_accept_ceiling": 718.0,
+     "gap_share": {
+      "padding": 0.0,
+      "accumulator_serialization": 0.8245125348189415,
+      "controller_overhead": 0.17548746518105848
+     },
+     "controller_other_cycles": 126,
+     "per_output_controller_cycles": 3.0,
+     "provenance": "derived:counters+stage4-calibration(2 cycles/tile)"
+    }
+   }
+  },
+  {
+   "lanes": 8,
+   "area": {
+    "cells": 73340,
+    "logic_gates": 72723,
+    "flip_flops": 602,
+    "memory_bits": 150936,
+    "memory_read_ports": 1334,
+    "provenance": "estimated:yosys-0.33-generic-mapping(abc -fast) (not a target fit; no Vivado/Quartus numbers)"
+   },
+   "top_gate": {
+    "cells": 73340,
+    "logic_gates": 72723,
+    "flip_flops": 602,
+    "memory_cells": 15,
+    "gate_types": {
+     "$_AND_": 24429,
+     "$_MUX_": 2441,
+     "$_NAND_": 5918,
+     "$_NOR_": 11085,
+     "$_NOT_": 3738,
+     "$_OR_": 16288,
+     "$_SDFFE_PP0P_": 338,
+     "$_SDFFE_PP1P_": 1,
+     "$_SDFF_PP0_": 263,
+     "$_XNOR_": 4565,
+     "$_XOR_": 4259,
+     "$mem_v2": 15
+    },
+    "memories": [
+     {
+      "name": "\\activation_bank_a",
+      "width": 8,
+      "depth": 64,
+      "bits": 512,
+      "read_ports": 9,
+      "write_ports": 2
+     },
+     {
+      "name": "\\activation_bank_b",
+      "width": 8,
+      "depth": 64,
+      "bits": 512,
+      "read_ports": 9,
+      "write_ports": 1
+     },
+     {
+      "name": "\\bias_memory",
+      "width": 32,
+      "depth": 256,
+      "bits": 8192,
+      "read_ports": 1,
+      "write_ports": 1
+     },
+     {
+      "name": "\\bias_valid",
+      "width": 1,
+      "depth": 256,
+      "bits": 256,
+      "read_ports": 256,
+      "write_ports": 257
+     },
+     {
+      "name": "\\descriptor_input_count",
+      "width": 16,
+      "depth": 4,
+      "bits": 64,
+      "read_ports": 5,
+      "write_ports": 1
+     },
+     {
+      "name": "\\descriptor_output_count",
+      "width": 16,
+      "depth": 4,
+      "bits": 64,
+      "read_ports": 5,
+      "write_ports": 1
+     },
+     {
+      "name": "\\descriptor_param_base",
+      "width": 32,
+      "depth": 4,
+      "bits": 128,
+      "read_ports": 5,
+      "write_ports": 1
+     },
+     {
+      "name": "\\descriptor_relu",
+      "width": 1,
+      "depth": 4,
+      "bits": 4,
+      "read_ports": 1,
+      "write_ports": 1
+     },
+     {
+      "name": "\\descriptor_valid",
+      "width": 5,
+      "depth": 4,
+      "bits": 20,
+      "read_ports": 4,
+      "write_ports": 5
+     },
+     {
+      "name": "\\descriptor_weight_base",
+      "width": 32,
+      "depth": 4,
+      "bits": 128,
+      "read_ports": 5,
+      "write_ports": 1
+     },
+     {
+      "name": "\\multiplier_memory",
+      "width": 31,
+      "depth": 256,
+      "bits": 7936,
+      "read_ports": 257,
+      "write_ports": 1
+     },
+     {
+      "name": "\\multiplier_valid",
+      "width": 1,
+      "depth": 256,
+      "bits": 256,
+      "read_ports": 256,
+      "write_ports": 257
+     },
+     {
+      "name": "\\shift_memory",
+      "width": 6,
+      "depth": 256,
+      "bits": 1536,
+      "read_ports": 257,
+      "write_ports": 1
+     },
+     {
+      "name": "\\shift_valid",
+      "width": 1,
+      "depth": 256,
+      "bits": 256,
+      "read_ports": 256,
+      "write_ports": 257
+     },
+     {
+      "name": "\\weight_memory",
+      "width": 8,
+      "depth": 16384,
+      "bits": 131072,
+      "read_ports": 8,
+      "write_ports": 1
+     }
+    ],
+    "memory_bits": 150936,
+    "memory_read_ports": 1334,
+    "seconds": 190.70767199400007
+   },
+   "top_coarse": {
+    "cells": 14938,
+    "macc_cells": 15,
+    "alu_cells": 2408,
+    "mux_cells": 2678,
+    "seconds": 37.09641388199998
+   },
+   "datapath_gate": {
+    "cells": 6038,
+    "logic_gates": 5935,
+    "flip_flops": 103,
+    "memory_cells": 0,
+    "gate_types": {
+     "$_AND_": 1390,
+     "$_MUX_": 1,
+     "$_NAND_": 216,
+     "$_NOR_": 480,
+     "$_NOT_": 424,
+     "$_OR_": 1705,
+     "$_SDFFE_PP0P_": 99,
+     "$_SDFF_PP0_": 4,
+     "$_XNOR_": 919,
+     "$_XOR_": 800
+    },
+    "seconds": 2.4839123380002093
+   },
+   "digits": {
+    "requests": 360,
+    "bit_exact": true,
+    "provenance": "measured:rtl-simulation(icarus)",
+    "cycles": 718,
+    "compute_cycles": 296,
+    "controller_cycles": 422,
+    "tiles": 296,
+    "useful_macs": 2368,
+    "util_accept": 1.0,
+    "util_wall": 0.41225626740947074,
+    "roofline": {
+     "achieved_macs_per_cycle": 3.298050139275766,
+     "accept_ceiling": 8,
+     "tile_ceiling": 4.0,
+     "fraction_of_tile_ceiling": 0.8245125348189415,
+     "gap_cycles_to_accept_ceiling": 422.0,
+     "gap_share": {
+      "padding": 0.0,
+      "accumulator_serialization": 0.7014218009478673,
+      "controller_overhead": 0.2985781990521327
+     },
+     "controller_other_cycles": 126,
+     "per_output_controller_cycles": 3.0,
+     "provenance": "derived:counters+stage4-calibration(2 cycles/tile)"
+    }
+   }
+  },
+  {
+   "lanes": 16,
+   "area": {
+    "cells": 81847,
+    "logic_gates": 81230,
+    "flip_flops": 602,
+    "memory_bits": 150936,
+    "memory_read_ports": 1358,
+    "provenance": "estimated:yosys-0.33-generic-mapping(abc -fast) (not a target fit; no Vivado/Quartus numbers)"
+   },
+   "top_gate": {
+    "cells": 81847,
+    "logic_gates": 81230,
+    "flip_flops": 602,
+    "memory_cells": 15,
+    "gate_types": {
+     "$_AND_": 26641,
+     "$_MUX_": 2520,
+     "$_NAND_": 6183,
+     "$_NOR_": 12321,
+     "$_NOT_": 4653,
+     "$_OR_": 17929,
+     "$_SDFFE_PP0P_": 338,
+     "$_SDFFE_PP1P_": 1,
+     "$_SDFF_PP0_": 263,
+     "$_XNOR_": 5565,
+     "$_XOR_": 5418,
+     "$mem_v2": 15
+    },
+    "memories": [
+     {
+      "name": "\\activation_bank_a",
+      "width": 8,
+      "depth": 64,
+      "bits": 512,
+      "read_ports": 17,
+      "write_ports": 2
+     },
+     {
+      "name": "\\activation_bank_b",
+      "width": 8,
+      "depth": 64,
+      "bits": 512,
+      "read_ports": 17,
+      "write_ports": 1
+     },
+     {
+      "name": "\\bias_memory",
+      "width": 32,
+      "depth": 256,
+      "bits": 8192,
+      "read_ports": 1,
+      "write_ports": 1
+     },
+     {
+      "name": "\\bias_valid",
+      "width": 1,
+      "depth": 256,
+      "bits": 256,
+      "read_ports": 256,
+      "write_ports": 257
+     },
+     {
+      "name": "\\descriptor_input_count",
+      "width": 16,
+      "depth": 4,
+      "bits": 64,
+      "read_ports": 5,
+      "write_ports": 1
+     },
+     {
+      "name": "\\descriptor_output_count",
+      "width": 16,
+      "depth": 4,
+      "bits": 64,
+      "read_ports": 5,
+      "write_ports": 1
+     },
+     {
+      "name": "\\descriptor_param_base",
+      "width": 32,
+      "depth": 4,
+      "bits": 128,
+      "read_ports": 5,
+      "write_ports": 1
+     },
+     {
+      "name": "\\descriptor_relu",
+      "width": 1,
+      "depth": 4,
+      "bits": 4,
+      "read_ports": 1,
+      "write_ports": 1
+     },
+     {
+      "name": "\\descriptor_valid",
+      "width": 5,
+      "depth": 4,
+      "bits": 20,
+      "read_ports": 4,
+      "write_ports": 5
+     },
+     {
+      "name": "\\descriptor_weight_base",
+      "width": 32,
+      "depth": 4,
+      "bits": 128,
+      "read_ports": 5,
+      "write_ports": 1
+     },
+     {
+      "name": "\\multiplier_memory",
+      "width": 31,
+      "depth": 256,
+      "bits": 7936,
+      "read_ports": 257,
+      "write_ports": 1
+     },
+     {
+      "name": "\\multiplier_valid",
+      "width": 1,
+      "depth": 256,
+      "bits": 256,
+      "read_ports": 256,
+      "write_ports": 257
+     },
+     {
+      "name": "\\shift_memory",
+      "width": 6,
+      "depth": 256,
+      "bits": 1536,
+      "read_ports": 257,
+      "write_ports": 1
+     },
+     {
+      "name": "\\shift_valid",
+      "width": 1,
+      "depth": 256,
+      "bits": 256,
+      "read_ports": 256,
+      "write_ports": 257
+     },
+     {
+      "name": "\\weight_memory",
+      "width": 8,
+      "depth": 16384,
+      "bits": 131072,
+      "read_ports": 16,
+      "write_ports": 1
+     }
+    ],
+    "memory_bits": 150936,
+    "memory_read_ports": 1358,
+    "seconds": 201.18905720800012
+   },
+   "top_coarse": {
+    "cells": 15066,
+    "macc_cells": 23,
+    "alu_cells": 2440,
+    "mux_cells": 2718,
+    "seconds": 36.642540636000376
+   },
+   "datapath_gate": {
+    "cells": 11965,
+    "logic_gates": 11862,
+    "flip_flops": 103,
+    "memory_cells": 0,
+    "gate_types": {
+     "$_AND_": 2766,
+     "$_MUX_": 1,
+     "$_NAND_": 394,
+     "$_NOR_": 980,
+     "$_NOT_": 815,
+     "$_OR_": 3443,
+     "$_SDFFE_PP0P_": 99,
+     "$_SDFF_PP0_": 4,
+     "$_XNOR_": 1899,
+     "$_XOR_": 1564
+    },
+    "seconds": 5.838859449000211
+   },
+   "digits": {
+    "requests": 360,
+    "bit_exact": true,
+    "provenance": "measured:rtl-simulation(icarus)",
+    "cycles": 422,
+    "compute_cycles": 148,
+    "controller_cycles": 274,
+    "tiles": 148,
+    "useful_macs": 2368,
+    "util_accept": 1.0,
+    "util_wall": 0.35071090047393366,
+    "roofline": {
+     "achieved_macs_per_cycle": 5.611374407582939,
+     "accept_ceiling": 16,
+     "tile_ceiling": 8.0,
+     "fraction_of_tile_ceiling": 0.7014218009478673,
+     "gap_cycles_to_accept_ceiling": 274.0,
+     "gap_share": {
+      "padding": 0.0,
+      "accumulator_serialization": 0.5401459854014599,
+      "controller_overhead": 0.45985401459854014
+     },
+     "controller_other_cycles": 126,
+     "per_output_controller_cycles": 3.0,
+     "provenance": "derived:counters+stage4-calibration(2 cycles/tile)"
+    }
+   }
+  }
+ ]
+}

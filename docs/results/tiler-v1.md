@@ -129,8 +129,12 @@ cycles. Example (digits, budget 1310 cycles):
 | 15 | 506 | yes | 16.91 % | unavailable | unavailable:no-stage5-synthesis-for-this-build |
 | 16 | 422 | yes | 0.00 % | unavailable | unavailable:no-stage5-synthesis-for-this-build |
 
-Area is `unavailable` here because Stage 5 had not run yet. Stage 5 fills it
-in for LANES ∈ {1, 2, 4, 8, 16}.
+Area showed as `unavailable` when this example was first rendered, before
+Stage 5 had run. The committed `tiler-sample-report.json` and
+`data/tiler-sample-reports.md` were regenerated after Stage 5. They carry
+ESTIMATED area for LANES ∈ {1, 2, 4, 8, 16} and keep `unavailable` for every
+other build. See `measurement-pack.md` for why the area differences between
+builds are small on this RTL.
 
 ## Changes outside the tiler
 
