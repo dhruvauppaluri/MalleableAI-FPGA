@@ -205,5 +205,20 @@ class QuantizeModelIntegration(unittest.TestCase):
         self.assertEqual(out, [0, 0])
 
 
+    def test_quantized_bn_model_is_bit_exact_in_rtl(self):
+        """A quantized model (with folded BN) runs bit-exactly on the Icarus RTL."""
+        import shutil
+        if shutil.which('iverilog') is None:
+            self.skipTest('iverilog not installed')
+        from malleable.backend import RTLBackend
+        from malleable.records import ExecutionConfig
+        rng = random.Random(7)
+        layers = random_float_model(rng, [9, 6, 3], bn_layers=(0, 1))
+        q = quantize_model(layers, [[rng.gauss(0, 1) for _ in range(9)] for _ in range(64)])
+        inputs = [q.quantize_input([rng.gauss(0, 1) for _ in range(9)]) for _ in range(4)]
+        # RTLBackend.run raises on any RTL/golden mismatch.
+        run = RTLBackend().run(q.artifact, inputs, ExecutionConfig(4, 4))
+        self.assertEqual(run['outputs'], [reference(q.artifact, x, 4)[0] for x in inputs])
+
 if __name__ == '__main__':
     unittest.main()

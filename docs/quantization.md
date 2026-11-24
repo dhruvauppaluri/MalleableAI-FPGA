@@ -7,6 +7,13 @@ integer requantization always goes through `model.requantize()`.
 
 ## Method
 
+The scheme follows Jacob et al., "Quantization and Training of Neural Networks
+for Efficient Integer-Arithmetic-Only Inference" (CVPR 2018). The real ratio
+`s_in * s_w / s_out` becomes an integer multiplier and right shift (§2.2), and
+batch normalization is folded into the weights and bias in float before
+quantization (§3.2). This uses the symmetric, zero-point-0 subset that contract
+v0.2 permits.
+
 1. **Batch-norm folding (float, first).** For `BN(Wx + b)`,
    `s = gamma / sqrt(var + eps)`, `W' = s * W` per row and
    `b' = s * (b - mean) + beta`. All later scales are computed on `W'` and `b'`.
