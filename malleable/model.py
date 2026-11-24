@@ -30,7 +30,9 @@ def requantize(acc, bias, multiplier, shift, relu):
 
 
 def reference(model, inputs, active_lanes=4):
-    integer(active_lanes,1,8)
+    # Validation only: any lane grouping 1..MAX_DIM is meaningful (builds up to
+    # LANES=16 are simulated by the tiler). Arithmetic below is unchanged.
+    integer(active_lanes,1,64)
     if len(inputs) != len(model.layers[0]['weights'][0]):
         raise ValueError('Input shape mismatch')
     for x in inputs:
