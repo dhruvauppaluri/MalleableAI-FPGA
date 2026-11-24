@@ -1,0 +1,46 @@
+{
+ "schema_version": 1,
+ "model_id": "8833c1d9c5425e2189b288509006abb0f9d049cb08b5f2c85379f3225fe3ab78",
+ "fp32_test_accuracy": {
+  "value": 0.9666666666666667,
+  "provenance": "measured:host-fp32"
+ },
+ "int8_test_accuracy": {
+  "value": 0.9638888888888889,
+  "provenance": "measured:golden-model(model.reference)"
+ },
+ "int8_rtl_test_accuracy": {
+  "value": 0.9638888888888889,
+  "provenance": "measured:rtl-simulation(icarus)"
+ },
+ "fp32_int8_prediction_agreement": 0.9944444444444445,
+ "int8_argmax_ties": 1,
+ "reference_overflow": false,
+ "test_count": 360,
+ "clipped_biases": 0,
+ "rtl": {
+  "lanes": 4,
+  "active_lanes": 4,
+  "bit_exact": true,
+  "mismatching_samples": [],
+  "error": null,
+  "counters_identical_across_requests": true,
+  "per_request_counters": {
+   "cycles": 1310,
+   "tiles": 592,
+   "macs": 2368,
+   "compute": 592,
+   "overhead": 718,
+   "configuration_writes": 2570,
+   "result_reads": 0
+  },
+  "util_accept": 1.0,
+  "util_wall": 0.45190839694656487,
+  "provenance": "measured:rtl-simulation(icarus)",
+  "build_hash": "887b8d0345c5cd4964d8f65fc368d44b8544fe8171e01c218d167a9ee8c95e62",
+  "tool": "Icarus Verilog version 12.0 (stable) ()",
+  "host_wall_seconds": 9.212290778999886
+ },
+ "source": "28173e4d87f53e63bcdd39dca0fdd3d96c1d1e3e",
+ "artifact_identity": "72a1a748279950e927e3e33474befb09c6634eafa50cf18d530facb1f1e98c47"
+}
