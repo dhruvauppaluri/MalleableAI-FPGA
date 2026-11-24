@@ -1,0 +1,14 @@
+{
+ "coefficients": {
+  "tiles": 2.0,
+  "outputs": 2.9999999999999885,
+  "layers": 5.069144109972364e-13,
+  "constant": -4.80467856173382e-13
+ },
+ "samples": 216,
+ "max_abs_residual": 1.8189894035458565e-12,
+ "rmse": 5.973735818032583e-13,
+ "source": "docs/results/data/lane-oracle.json (Stage 3, Icarus RTL simulation, builds LANES 4 and 8)",
+ "source_commit": "dc66bf0aeb5b74ccb44bfa6596351ec6434c099d",
+ "provenance": "estimated:least-squares-on-rtl-simulation"
+}

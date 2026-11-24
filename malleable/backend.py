@@ -32,10 +32,19 @@ class RTLBackend:
         self.build_dir = Path(build_dir or ROOT / 'build' / 'experiments')
         self.build_dir.mkdir(parents=True, exist_ok=True)
 
-    def run(self, model, inputs, config, models=None):
-        """Each input is a request; reuse actually avoids repeated model writes."""
+    def run(self, model, inputs, config, models=None, stream=None):
+        """Each input is a request; reuse actually avoids repeated model writes.
+
+        ``stream``: an externally emitted configuration-write list (kind, addr,
+        data), e.g. from :func:`malleable.tiler.emit`. When given, it replaces
+        the backend-generated model writes and lane write of the first request,
+        so the RTL is driven by exactly that stream. It requires a single
+        resident model with reuse.
+        """
         if not inputs:
             raise ValueError('Empty request stream')
+        if stream is not None and (models is not None or not config.reuse):
+            raise ValueError('An external stream needs one resident model with reuse')
         models = models or [model]*len(inputs)
         if len(models) != len(inputs):
             raise ValueError('Model/request count mismatch')
@@ -48,10 +57,13 @@ class RTLBackend:
                             for k, a, v in entries)
         resident = None
         for request_id, (item, values) in enumerate(zip(models,inputs)):
-            if item.model_id != resident or not config.reuse:
-                emit(writes(item))
+            if stream is not None and request_id == 0:
+                emit(stream)
+            else:
+                if item.model_id != resident or not config.reuse:
+                    emit(writes(item))
+                emit([(6, 0, config.active_lanes)])
             resident = item.model_id
-            emit([(6, 0, config.active_lanes)])
             emit([(1, i, v) for i, v in enumerate(values)])
             commands.append('start_job();')
             commands.append(f'$display("C {request_id} %0d %0d %0d %0d %0d %0d %0d", '
