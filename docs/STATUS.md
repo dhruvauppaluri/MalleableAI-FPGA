@@ -1,5 +1,7 @@
 # Status
 
+Dense-accelerator software stack (quantizer, digits end to end, tiler v1, folding measurements; simulation and estimated area only): see [software-stack-results.md](software-stack-results.md).
+
 ## Benchmark collection complete (2026-10-03)
 
 All 20 Qwen3/Qwen3.5 indices verified; LFM ten preserved: 30 total. Final evidence delta: docs/evidence/benchmarks-20261003-complete (base snapshot benchmarks-20261003-14of20). Both complete reports exported, all workers stopped, and 20-minute monitor DELETED at user request. Do not restart benchmarks or consumed held-out evaluations. Next: complete controller quality coverage and predictor/policy evaluation with Qwen3/Qwen3.5 training and LFM held out; then browser, CUDA/hybrid and final release verification per continuation plan. Choose run mode before new heavy work. No full-release pass claimed.

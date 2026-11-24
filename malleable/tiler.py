@@ -6,7 +6,7 @@ fixed build can never reduce cycles. Stage 3 measured this: 0 of 13,136
 per-layer mixes beat all-lanes (docs/results/lane-oracle.md). The lever is
 therefore the *build*. As in FINN's PE/SIMD folding (Umuroglu et al., FPGA
 2017; FINN-R, TRETS 2018) and DNNBuilder's parallelism search (Zhang et al.,
-FPGA 2018), the tiler enumerates LANES builds, predicts cycles for each, and
+ICCAD 2018), the tiler enumerates LANES builds, predicts cycles for each, and
 picks the smallest build that meets a cycle budget. A smaller build trades
 throughput for area. The tiler then emits the configuration-write stream for
 that build from its hardware parameters, following the Gemmini pattern (Genc

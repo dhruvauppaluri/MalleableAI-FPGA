@@ -12,7 +12,7 @@ Stage 3 showed that runtime lane reduction on one build never reduces cycles.
 The tiler therefore folds at **build time**: it treats LANES as a synthesis
 parameter that trades area for throughput. This follows FINN's PE/SIMD folding
 (Umuroglu et al., FPGA 2017; FINN-R, TRETS 2018) and DNNBuilder's
-parallelism-factor search (Zhang et al., FPGA 2018). Given a quantized model, a
+parallelism-factor search (Zhang et al., ICCAD 2018). Given a quantized model, a
 cycle budget and a LANES range (default 1..16), `plan_build`:
 
 1. **fit-checks** each build against the RTL's `MAX_LAYERS`, `MAX_DIM`,
